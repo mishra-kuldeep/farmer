@@ -4,7 +4,8 @@ import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalOffer } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
-import Search from "../homepage/Search";
+import Search from "../reusableComponent/search/Search";
+import Category from "../reusableComponent/category/Category";
 
 const HeaderForMobile = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -47,7 +48,6 @@ const HeaderForMobile = () => {
               <p>Cart</p>
             </div>
           </div>
-      
         </div>
       </div>
       {/* ////////////////////////////// category list ///////////////////////////////// */}
@@ -68,28 +68,18 @@ const HeaderForMobile = () => {
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body">
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
-          <p>cat 1</p>
+        <div class="offcanvas-body"> 
+            <Category /> 
         </div>
 
         {/* /////////////////////// saerch div /////////////////////// */}
-      
       </div>
       {searchOpen && (
-          <div className="searchBarForMobile">
-            <Search />
-            <p onClick={() => setSearchOpen(false)}>❌</p>
-          </div>
-        )}
+        <div className="searchBarForMobile">
+          <Search />
+          <p onClick={() => setSearchOpen(false)}>❌</p>
+        </div>
+      )}
     </>
   );
 };

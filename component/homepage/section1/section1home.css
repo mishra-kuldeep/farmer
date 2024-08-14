@@ -1,0 +1,97 @@
+.bestSellerWrapper {
+  background-color: var(--light);
+  padding: 10px;
+  margin-top: 20px;
+}
+.headerbestSeller {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.arrowBtn_bestSeller {
+  display: flex;
+  gap: 10px;
+}
+.next_btn_bestSeller {
+  background-color: var(--white);
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.next_btn_bestSeller:hover {
+  box-shadow: 5px 5px 5px #bbbbbb;
+}
+.Show_More_bestSeller {
+  text-decoration: underline;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+.dd {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+.bestseller_cards {
+  background-color: var(--white);
+  width: 100%; /* Set the width of the outer div */
+  padding: 8px;
+}
+
+.bestseller_cards .image_div {
+  background-color: var(--light);
+  width: 100%;
+  padding-bottom: 70%;
+  position: relative;
+}
+
+.bestseller_cards .image_div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.rating_wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.rating_wrap .rating {
+  background-color: #d8e9b8;
+  color: green;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 10px;
+}
+.rating_unit {
+  font-size: 12px;
+}
+.bookmark_btn {
+  border: none;
+  outline: none;
+  background-color: var(--light);
+  padding: 5px;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+.bookmark_btn:hover {
+  border-radius: 10px;
+}
+.addtoCart_btn {
+  border: none;
+  outline: none;
+  background-color: var(--mainColor2);
+  color: #fff;
+  padding: 0px 30px;
+  font-size: 14px;
+}
+.addtoCart_btn:hover {
+  border-radius: 4px;
+  box-shadow: 3px 3px 5px #afafaf;
+}

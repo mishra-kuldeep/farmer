@@ -36,6 +36,7 @@
 import { Inter, Roboto_Slab } from 'next/font/google';
 import "./globals.css";
 import Header from "@/component/header/Header";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });

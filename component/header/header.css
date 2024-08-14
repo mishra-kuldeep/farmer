@@ -120,6 +120,7 @@ header {
   bottom: 0;
   box-shadow: 1px 1px 20px grey;
   margin-bottom: -3px;
+  z-index: 1000;
 }
 .mobile_tabs{
   display: flex;
@@ -141,6 +142,7 @@ header {
   width: 100%;
   height: 50px;
   box-shadow: 1px 1px 20px grey;
+  z-index: 1000;
 }
 .tabsMobilesearch{
   width: 15%;

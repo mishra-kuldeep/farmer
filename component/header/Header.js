@@ -7,7 +7,8 @@ import { MdOutlineLocalOffer } from "react-icons/md";
 import { isMobile } from "react-device-detect";
 import HeaderForMobile from "./HeaderForMobile";
 import HeaderTopForMobile from "./HeaderTopForMobile";
-import Search from "../homepage/Search";
+import Search from "../reusableComponent/search/Search";
+import Category from "../reusableComponent/category/Category";
 
 
 function Header() {
@@ -37,7 +38,7 @@ function Header() {
       {!isMobile ? (
         <div className="mainHeaderWrapper">
           <header className={`${cls} d-block`}>
-            <div style={{ backgroundColor: "#ddd", padding: "10px" }}>
+            <div style={{ backgroundColor: "var(--light)", padding: "10px" }}>
               <div className="container">
                 <div className="row w-100 m-0">
                   <div className="col-md-2 d-flex align-items-center p-0">
@@ -76,33 +77,15 @@ function Header() {
                       </button>
 
                       <ul className="dropdown-menu">
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Action
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Another action
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Something else here
-                          </a>
-                        </li>
+                        <Category/>
                       </ul>
                     </div>
                   </div>
                   <div className="col-md-9 p-0">
                     <div className="category_inline_header">
-                      <p>Exotic Fruit</p>
-                      <p>Tee</p>
-                      <p>Ghee</p>
-                      <p>Milk</p>
-                      <p>Fresh Vegetables</p>
-                      <p>Meat</p>
-                      <p>Egg</p>
+                      <p>Formers</p>
+                      <p>Buyers</p>
+                      <p>Transporters</p>
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
@@ -137,21 +120,7 @@ function Header() {
                     </button>
 
                     <ul className="dropdown-menu">
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Action
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Another action
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Something else here
-                        </a>
-                      </li>
+                     <Category/>
                     </ul>
                   </div>
                 </div>
