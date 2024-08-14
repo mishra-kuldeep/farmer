@@ -9,6 +9,7 @@ import HeaderForMobile from "./HeaderForMobile";
 import HeaderTopForMobile from "./HeaderTopForMobile";
 import Search from "../homepage/Search";
 
+
 function Header() {
   const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
