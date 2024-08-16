@@ -4,7 +4,7 @@ import "./search.css"
 const Search = () => {
   const[open,setOpen] = useState(false)
   const handleSearch = (e) => {
-    if(e.target.value.length>3){
+    if(e.target.value.length>=2){
       setOpen(true)
     }else{
       setOpen(false)
@@ -19,12 +19,27 @@ const Search = () => {
         placeholder="Search for Products ..."
       />
      {open&&<div className="search_list_wrapper">
-        <p>fgfhhmghjgh</p>
-        <p>fgfh</p>
-        <p>fgfh</p>
-        <p>fgfh</p>
-        <p>fgfh</p>
-        <p>fgfh</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
+        <p>farmer market</p>
       </div>}
     </div>
   );

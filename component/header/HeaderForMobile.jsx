@@ -6,14 +6,16 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import Search from "../reusableComponent/search/Search";
 import Category from "../reusableComponent/category/Category";
+import { useRouter } from "next/navigation";
 
 const HeaderForMobile = () => {
+  const router = useRouter()
   const [searchOpen, setSearchOpen] = useState(false);
   return (
     <>
       <div className="mobile_navbar">
         <div className="mobile_tabs">
-          <div className="tabsMobile">
+          <div className="tabsMobile" onClick={()=>router.push("/")}>
             <div>
               <IoHomeSharp size={20} color="var(--mainColor)" />
               <p>Home</p>
@@ -22,8 +24,8 @@ const HeaderForMobile = () => {
           <div
             className="tabsMobile"
             data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample"
+            data-bs-target="#offcanvasExample1"
+            aria-controls="offcanvasExample1"
           >
             <div>
               <BiSolidCategory size={20} color="var(--mainColor)" />
@@ -52,28 +54,29 @@ const HeaderForMobile = () => {
       </div>
       {/* ////////////////////////////// category list ///////////////////////////////// */}
       <div
-        class="offcanvas offcanvas-start w-75"
-        tabindex="-1"
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel"
+        className="offcanvas offcanvas-start w-75"
+        tabIndex="-1"
+        id="offcanvasExample1"
+        aria-labelledby="offcanvasExampleLabel1"
+        style={{backgroundColor:"var(--mainColor)"}}
       >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title text-light" id="offcanvasExampleLabel1">
             All Category
           </h5>
           <button
             type="button"
-            class="btn-close text-reset"
+            className="btn-close text-reset"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body"> 
-            <Category /> 
+        <div className="offcanvas-body">
+          <Category />
         </div>
-
+        </div>
         {/* /////////////////////// saerch div /////////////////////// */}
-      </div>
+    
       {searchOpen && (
         <div className="searchBarForMobile">
           <Search />

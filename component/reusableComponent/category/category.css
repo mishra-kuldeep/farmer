@@ -1,4 +1,16 @@
 .cat_list{
     padding: 5px 10px;
     border-bottom: 0.5px solid #ddd;
+    cursor: pointer;
+    font-size: 14px;
 }
+.cat_list:hover{
+   font-weight: bold;
+}
+@media only screen and (max-width: 600px) {
+    .cat_list{
+     color: #fff;
+     border:none;
+    }
+  }
+  

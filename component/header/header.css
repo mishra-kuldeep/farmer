@@ -25,8 +25,8 @@ header {
 }
 
 .logoImage {
-  height: 30px;
-  width: 40px;
+  height: 40px;
+  width: 50px;
   border-radius: 50px;
 }
 .logoImage_title span {
@@ -58,22 +58,22 @@ header {
   font-weight: 500;
 }
 .dropdown-toggle {
-  background-color: var(--mainColor);
-  color: var(--white);
-  padding: 4px 20px;
-  font-size: 12px;
+  background-color: var(--mainColor) !important;
+  color: var(--white) !important;
+  padding: 4px 20px !important;
+  font-size: 12px !important;
 }
 .dropdown-toggle:hover {
-  background-color: var(--mainColor);
+  background-color: var(--mainColor) !important;
 }
 .dropdown-toggle:focus {
-  background-color: var(--mainColor2);
+  background-color: var(--mainColor2) !important;
 }
 .category_inline_header {
   display: flex;
 }
 .category_inline_header p {
-  padding: 0px 30px;
+  padding: 0px 20px;
   font-weight: 400;
   line-height: 30px;
   position: relative;
@@ -120,7 +120,7 @@ header {
   bottom: 0;
   box-shadow: 1px 1px 20px grey;
   margin-bottom: -3px;
-  z-index: 1000;
+  z-index: 998;
 }
 .mobile_tabs{
   display: flex;
@@ -142,7 +142,7 @@ header {
   width: 100%;
   height: 50px;
   box-shadow: 1px 1px 20px grey;
-  z-index: 1000;
+  z-index: 999;
 }
 .tabsMobilesearch{
   width: 15%;
@@ -160,9 +160,14 @@ header {
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  z-index: 100;
+  z-index: 999;
   box-shadow: 0px 10px 10px grey;
   background-color: var(--white);
   padding: 10px;
   gap: 10px;
+}
+.custom-dropdown-menu{
+  position: absolute !important;
+  top: 10px !important;
+  left: -14px !important;
 }

@@ -6,6 +6,8 @@
     border-radius: 5px;
     top: 40px;
     z-index: 99;
+    height: 60vh;
+    overflow: auto;
 }
 .search_list_wrapper p{
     padding:5px 10px;

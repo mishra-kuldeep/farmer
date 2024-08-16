@@ -118,8 +118,8 @@ const Section1Home = () => {
 
   return (
     <div className="container">
-      <div className="bestSellerWrapper">
-        <div className="headerbestSeller">
+      <div className="bestSellerWrapper p-md-3 p-0">
+        <div className="headerbestSeller p-2">
           <h5>Best Sellers</h5>
           <div className="arrowBtn_bestSeller">
             <p className="Show_More_bestSeller">Show More</p>
@@ -139,11 +139,11 @@ const Section1Home = () => {
           </div>
         </div>
         <div
-          className="bestseller_cards_wrap dd row m-0"
+          className="bestseller_cards_wrap overflowscrollhidden row m-0"
           ref={scrollContainerRef}
         >
           {array.map((ele) => (
-            <div className="col-md-3 p-2 col-6" key={ele}>
+            <div className="col-md-3 px-2 col-6" key={ele}>
               <div className="bestseller_cards">
                 <div className="image_div">
                   <img src={product1.src} alt="product image" />
@@ -156,21 +156,20 @@ const Section1Home = () => {
                   </p>
                   <span className="rating_unit">210 Ratings</span>
                 </div>
-                <h5>{ele}</h5>
-                <h5 className="mt-2 fw-bold">
+                <h5 className="mt-2 fw-bold fs-6">
                   ₹ 199
                   <sub>
                     <del className="text-secondary fw-light">₹299</del>
                   </sub>
                 </h5>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-center">
                   <button
                     className="bookmark_btn"
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Save for Later"
                   >
-                    <FaRegBookmark />
+                    <FaRegBookmark size={15}/>
                   </button>
                   <button
                     className="addtoCart_btn"

@@ -1,6 +1,5 @@
 .bestSellerWrapper {
   background-color: var(--light);
-  padding: 10px;
   margin-top: 20px;
 }
 .headerbestSeller {
@@ -29,19 +28,19 @@
   font-size: 15px;
   cursor: pointer;
 }
-.dd {
+.overflowscrollhidden {
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;
     scroll-behavior: smooth;
+    padding-bottom: 10px;
 }
 .bestseller_cards {
   background-color: var(--white);
   width: 100%; /* Set the width of the outer div */
   padding: 8px;
 }
-
 .bestseller_cards .image_div {
   background-color: var(--light);
   width: 100%;
@@ -76,7 +75,7 @@
   border: none;
   outline: none;
   background-color: var(--light);
-  padding: 5px;
+  padding:0px 5px;
   border-radius: 4px;
   transition: 0.5s;
 }
@@ -88,10 +87,25 @@
   outline: none;
   background-color: var(--mainColor2);
   color: #fff;
-  padding: 0px 30px;
+  padding: 5px 30px;
   font-size: 14px;
 }
 .addtoCart_btn:hover {
   border-radius: 4px;
   box-shadow: 3px 3px 5px #afafaf;
 }
+
+@media only screen and (max-width: 600px) {
+  .addtoCart_btn {
+    border: none;
+    outline: none;
+    background-color: var(--mainColor2);
+    color: #fff;
+    padding: 2px 20px;
+    font-size: 12px;
+  }
+  .bestseller_cards h6{
+    font-size: 14px;
+  }
+}
+

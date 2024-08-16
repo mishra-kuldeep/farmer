@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import "./header.css";
-import logo from "../../public/header/logo.jpg";
+import logo from "../../public/header/logo1.jpg";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { isMobile } from "react-device-detect";
@@ -9,7 +9,7 @@ import HeaderForMobile from "./HeaderForMobile";
 import HeaderTopForMobile from "./HeaderTopForMobile";
 import Search from "../reusableComponent/search/Search";
 import Category from "../reusableComponent/category/Category";
-
+import Auth from "../auth/Auth";
 
 function Header() {
   const [position, setPosition] = useState(0);
@@ -49,11 +49,11 @@ function Header() {
                     </h6>
                   </div>
                   <div className="col-md-6 p-0 px-4">
-                  <Search />
+                    <Search />
                   </div>
                   <div className="col-md-4 p-0">
-                    <div className="d-flex justify-content-end gap-3">
-                      <button className="login_btn">login / Signup</button>
+                    <div className="d-flex justify-content-end gap-3">                     
+                      <Auth/>
                       <button className="cart_login_btn">
                         <FaShoppingCart size={18} />
                       </button>
@@ -77,15 +77,19 @@ function Header() {
                       </button>
 
                       <ul className="dropdown-menu">
-                        <Category/>
+                        <Category />
                       </ul>
                     </div>
                   </div>
                   <div className="col-md-9 p-0">
                     <div className="category_inline_header">
-                      <p>Formers</p>
+                      <p>Farmers</p>
                       <p>Buyers</p>
-                      <p>Transporters</p>
+                      <p>Transportation</p>
+                      <p>Employee</p>
+                      <p>Vendors</p>
+                      <p>Educational Resources</p>
+                      <p>Customer Care</p>
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
@@ -120,12 +124,12 @@ function Header() {
                     </button>
 
                     <ul className="dropdown-menu">
-                     <Category/>
+                      <Category />
                     </ul>
                   </div>
                 </div>
                 <div className="col-md-7">
-                <Search />
+                  <Search />
                 </div>
                 <div className="col-md-1 p-0">
                   <button className="cart_login_btn w-100">

@@ -27,7 +27,12 @@ a {
 .marginEveryPage {
   margin-top: 115px;
 }
-
+.shadowcss{
+  box-shadow: 3px 3px 10px #b4b4b4;
+}
+.cursor{
+  cursor: pointer;
+}
 .centerAllDiv {
   display: flex;
   justify-content: center;
@@ -44,9 +49,34 @@ input.form-control:focus {
   outline: none;
 }
 
+.custom-select {
+  border: 1px solid #ddd !important; 
+  color: #495057 !important; 
+}
+
+.custom-select:focus {
+  border-color: var(--mainColor) !important; 
+  box-shadow: none !important; 
+  outline: none !important;
+}
+
+.custom-select option:focus {
+  color: #923434 !important; 
+  background-color: red !important;
+}
+
+.widthautoforAuth{
+  width: 30% !important;
+  z-index: 1000;
+}
+
 @media only screen and (max-width: 600px) {
   .marginEveryPage {
     margin-top: 50px;
     margin-bottom: 50px;
+  }
+  .widthautoforAuth{
+    width: 100% !important;
+    z-index: 1000;
   }
 }

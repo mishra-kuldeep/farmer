@@ -5,9 +5,6 @@ const Category = () => {
   return (
     <>
       <p className="cat_list">Food Grains</p>
-      <p className="cat_list">Food Grains</p>
-      <p className="cat_list">Food Grains</p>
-      <p className="cat_list">Food Grains</p>
       <p className="cat_list">Fruits</p>
       <p className="cat_list">Vegitables</p>
       <p className="cat_list">Spices</p>
