@@ -1,0 +1,44 @@
+.productWhyChoosWrap{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow: auto;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+.productWhyChoosWrap .productChose{
+    background-color: var(--light);
+    width: 25%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.aboutProductWrapper{
+    border-radius: 5px;
+    border: 2px solid #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+    .productWhyChoosWrap{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        width: 240%;
+        overflow: auto;
+        gap: 20px;
+    }
+    .productWhyChoosWrap .productChose{
+        background-color: var(--light);
+        width: 60%;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+    
+  }

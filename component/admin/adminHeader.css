@@ -1,0 +1,48 @@
+.adminHeaderWrapper{
+    display: flex;
+    align-items: center;
+    background-color: var(--adminMainColor);
+    height: 60px;
+    line-height: 60px;
+    padding: 0px 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* /////////////////////////////////////////// adminSidebar css /////////////////////////////////////////////////// */
+
+.adminSIdebarWrapper{
+    box-shadow: 1px 1px 10px grey;
+    background-color: var(--light);
+    height: calc(100vh - 70px);
+    width: 100%;
+}
+.sidebarListItems{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    /* border-radius: 8px; */
+    color: var(--adminwhite);
+    background-color: var(--adminMainColor);
+    margin: 5px;
+    cursor: pointer;
+}
+.sidebarListItemsActive{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    /* border-radius: 8px; */
+    background-color: var(--white);
+    margin: 5px;
+    cursor: pointer;
+}

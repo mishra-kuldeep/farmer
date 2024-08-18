@@ -71,6 +71,13 @@
 .rating_unit {
   font-size: 12px;
 }
+.kisanName{
+  font-size: 13px;
+  color: grey;
+}
+.kisanNamelocation{
+  font-size: 13px;
+}
 .bookmark_btn {
   border: none;
   outline: none;

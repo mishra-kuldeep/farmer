@@ -10,8 +10,10 @@ import HeaderTopForMobile from "./HeaderTopForMobile";
 import Search from "../reusableComponent/search/Search";
 import Category from "../reusableComponent/category/Category";
 import Auth from "../auth/Auth";
+import { usePathname } from "next/navigation";
 
 function Header() {
+  const pathname = usePathname()
   const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -143,7 +145,7 @@ function Header() {
       ) : (
         <>
           <HeaderTopForMobile />
-          <HeaderForMobile />
+          {!pathname.includes("/product")&&<HeaderForMobile />}
         </>
       )}
     </>
