@@ -27,8 +27,8 @@ const Product = () => {
 
       <div className="product_basic_detail">
         <div className="product_imageList">
-          {imagelist.map((image) => (
-            <img src={image.src} alt="image" />
+          {imagelist.map((image,i) => (
+            <img src={image.src} alt="image" key={i}/>
           ))}
         </div>
         <div className="product_singleImage">

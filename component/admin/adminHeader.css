@@ -5,6 +5,11 @@
     height: 60px;
     line-height: 60px;
     padding: 0px 20px;
+    box-shadow: 1px 1px 10px grey;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 
@@ -21,8 +26,11 @@
 
 .adminSIdebarWrapper{
     box-shadow: 1px 1px 10px grey;
-    background-color: var(--light);
-    height: calc(100vh - 70px);
+    /* background-color: var(--light); */
+    height: calc(100vh - 60px);
+    width: 100%;
+    position: sticky;
+    top: 60px;
     width: 100%;
 }
 .sidebarListItems{
@@ -35,6 +43,7 @@
     background-color: var(--adminMainColor);
     margin: 5px;
     cursor: pointer;
+    border-bottom: 1px solid #ddd;
 }
 .sidebarListItemsActive{
     display: flex;
@@ -43,6 +52,10 @@
     padding: 10px;
     /* border-radius: 8px; */
     background-color: var(--white);
-    margin: 5px;
+    border: 1px solid #ddd;
     cursor: pointer;
+}
+.sidebarListItemsActive:hover{
+    /* background-color: var(--light); */
+    font-weight: bold;
 }

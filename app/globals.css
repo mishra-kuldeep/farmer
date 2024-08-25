@@ -11,6 +11,7 @@
 
   --adminwhite: #ffffff;
   --adminMainColor: #476f00;
+  --adminMainColor2: maroon;
 }
 
 * {
@@ -40,7 +41,7 @@ a {
   box-shadow: 3px 3px 10px #b4b4b4;
 }
 .cursor {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .centerAllDiv {
   display: flex;
@@ -57,7 +58,9 @@ input.form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0);
   outline: none;
 }
-
+.m20{
+  margin-left: 15px;
+}
 .custom-select {
   border: 1px solid #ddd !important;
   color: #495057 !important;
@@ -77,6 +80,51 @@ input.form-control:focus {
 .widthautoforAuth {
   width: 30% !important;
   z-index: 1000;
+}
+.adminPaperWrap{
+  background-color: #ffffff;
+  box-shadow: 1px 1px 10px grey;
+  border-radius: 10px;
+  border-top: 4px solid var(--adminMainColor);
+}
+.adjustLabel{
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--adminMainColor);
+  background-color: #ffffff;
+  padding: 0px 5px;
+}
+.adjustLabel_input{
+  margin-top: -10px;
+  margin-left: -10px;
+  color: #555 !important;
+  box-shadow: 0px 0px 5px #c9c9c9;
+  background-color: rgba(255, 255, 255, 0.685) !important;
+}
+.adminPageTitle{
+  text-align: center;
+  color: var(--adminMainColor);
+  font-weight: bold;
+  border-bottom: 2px solid var(--adminMainColor);
+  padding: 10px;
+  margin: 0px 50px;
+}
+.admin_btn {
+  background-color: var(--adminMainColor);
+  color: var(--white);
+  border: none;
+  outline: none;
+  padding: 8px 50px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+table thead tr th{
+  background-color: var(--adminMainColor) !important;
+  color: var(--adminwhite) !important;
+}
+table tbody tr td{
+background-color: transparent !important;
 }
 
 @media only screen and (max-width: 600px) {

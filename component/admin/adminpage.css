@@ -1,0 +1,34 @@
+.categorySearch{
+    width: 60%;
+}
+.arrwleft{
+    background-color: var(--adminMainColor);
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.arrwleftdisable{
+    background-color: var(--light);
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.paginationWrapper{
+    display: flex;
+    justify-content: flex-end;
+    justify-self: flex-end;
+    width: 50%;
+    gap: 20px;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    margin-left: 45%;
+}

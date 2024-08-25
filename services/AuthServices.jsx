@@ -9,15 +9,17 @@ export default class AuthService {
     return axios.post(url, data);
   }
   static async login(data) {
-    console.log(data)
     const url = `${BASE_URL}/user/login`;
     return axios.post(url, data);
   }
   static async getUserInfo() {
     const token = getCookie("token")
-    console.log(data)
     const url = `${BASE_URL}/user/info`;
-    return axios.get(url, data);
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}` // Set the token in the Authorization header
+      }
+    });
   }
   
 }

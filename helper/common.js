@@ -14,3 +14,8 @@ export function getCookie(cookiename) {
     date.setTime(date.getTime() + 8 * 60 * 60 * 1000); // FIXME: 240mins
     document.cookie = `token=${token};expires=${date.toUTCString()};path=/`;
   }
+
+  export function deleteCookie(cookieName) {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+  }
+  

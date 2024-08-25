@@ -10,10 +10,16 @@ import HeaderTopForMobile from "./HeaderTopForMobile";
 import Search from "../reusableComponent/search/Search";
 import Category from "../reusableComponent/category/Category";
 import Auth from "../auth/Auth";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser, fetchUserInfo } from "@/redux/auth/authSlice";
+import { deleteCookie } from "@/helper/common";
 
 function Header() {
-  const pathname = usePathname()
+  const user = useSelector((state) => state.auth);
+  const pathname = usePathname();
+  const router = useRouter()
+  const dispatch = useDispatch();
   const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -31,6 +37,19 @@ function Header() {
       };
     }
   }, [position]);
+
+  useEffect(() => {
+    if (!user.isLoggedIn && dispatch && !user.isLoading) {
+      dispatch(fetchUserInfo());
+    }
+  }, [user.isLoggedIn]);
+  console.log(user);
+
+  const handleLogout = () => {
+    deleteCookie('token');
+    dispatch(clearUser()); // Action to clear user data in Redux
+    router.push('/'); // Redirect to the login page
+  };
 
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
@@ -54,8 +73,35 @@ function Header() {
                     <Search />
                   </div>
                   <div className="col-md-4 p-0">
-                    <div className="d-flex justify-content-end gap-3">                     
-                      <Auth/>
+                    <div className="d-flex justify-content-end gap-3 align-items-center">
+                      {user.profile === null ? (
+                        <Auth />
+                      ) : (
+                        <>
+                          {/* <button
+                              className="btn btn-secondary btn-sm dropdown-toggle px=2"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              shop by category &ensp; &ensp;
+                            </button> */}
+                            <h6 className="mt-1">{user?.profile?.name}</h6>
+                          <div
+                            className="avtar"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                              {user?.profile?.name?.substring(0,1)}
+                          </div>
+                          <ul className="dropdown-menu p-0" style={{right:"0%",width:"300px",top:"10px"}}>
+                          <p className="cat_list">My Account</p>
+                          <p className="cat_list">My Profile</p>
+                          <p className="cat_list" onClick={()=>router.push("/basket")}>My Basket (0) item</p>
+                          <p className="cat_list" onClick={handleLogout}>logout</p>
+                          </ul>
+                        </>
+                      )}
                       <button className="cart_login_btn">
                         <FaShoppingCart size={18} />
                       </button>
@@ -145,7 +191,7 @@ function Header() {
       ) : (
         <>
           <HeaderTopForMobile />
-          {!pathname.includes("/product")&&<HeaderForMobile />}
+          {!pathname.includes("/product") && <HeaderForMobile />}
         </>
       )}
     </>

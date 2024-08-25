@@ -93,7 +93,7 @@ const Section1Home = () => {
           ref={scrollContainerRef}
         >
           {array.map((ele) => (
-            <div className="col-md-3 px-2 col-6" key={ele}>
+            <div className="col-md-3 px-2 col-6" key={ele.id}>
               <div className="bestseller_cards">
                 <Link
                   href={`/product/${ele.id}/${ele.title.split(" ").join("-")}`}

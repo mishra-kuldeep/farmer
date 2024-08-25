@@ -14,8 +14,8 @@ const AdminLayout = ({ children }) => {
     <>
       <AdminHeader toggleidebar={toggleidebar} />
       <div className="d-flex">
-        <div><AdminSidebar sideOpen={sideOpen} /></div>
-        <div className="p-md-3 p-2 d-flex"  style={{ flexGrow: 1 }}>{children}</div>
+        <div><AdminSidebar sideOpen={sideOpen} toggleidebar={toggleidebar} /></div>
+      <div className="p-md-3 p-2"  style={{ flexGrow: 1 }}>{children}</div>
       </div>
     </>
   );

@@ -1,0 +1,57 @@
+.productlistWrapper {
+  background-color: rgba(137, 43, 226, 0.096);
+  height: 1000vh;
+  margin-top: 10px;
+}
+.detailWrapper {
+  background-color: rgba(165, 42, 42, 0.205);
+  height: 40vh;
+  position: sticky;
+  top: 125px;
+}
+.cardBasket {
+  display: flex;
+  gap: 30px;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  background-color: aliceblue;
+}
+.cardBasket img {
+  height: 100px;
+  width: 100px;
+  object-fit: fill;
+}
+.cardBasket .quantitywrap {
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+}
+.cardBasket .quantitywrap:hover{
+    border-color: #b4b4b4;
+}
+.cardBasket .quantitywrap span {
+  font-size: 20px;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.cardBasket .quantitywrap .minus:hover {
+  background-color: var(--mainColor2);
+  color: #fff;
+}
+.cardBasket .quantitywrap .plus:hover {
+  background-color: var(--mainColor2);
+  color: #fff;
+}
+.cartBaketDetail{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

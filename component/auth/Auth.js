@@ -2,23 +2,31 @@ import React, { useEffect, useRef, useState } from "react";
 import LoginPage from "./Login";
 import RegisterPage from "./Register";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Auth = () => {
   const [loginState, setLoginState] = useState(true);
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.auth);
   const closeButtonRef = useRef(null);
-  console.log(auth)
 
   useEffect(() => {
     if (auth.success) {
       if (closeButtonRef.current) {
         closeButtonRef.current.click();
       }
-      setLoginState(true)
-      toast.success(auth.message)
+      setLoginState(true);
+      if (auth.message) {
+        toast(auth.message, {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+      }
     }
-  }, [auth.success]); 
+  }, [auth.success]);
 
   return (
     <>
@@ -42,7 +50,7 @@ const Auth = () => {
           style={{ backgroundColor: "var(--mainColor)" }}
         >
           <h5 className="offcanvas-title text-light" id="offcanvasExampleLabel">
-          {loginState?"Login":"Register"}
+            {loginState ? "Login" : "Register"}
           </h5>
           <button
             type="button"
@@ -54,11 +62,19 @@ const Auth = () => {
         </div>
         <div className="offcanvas-body">
           {loginState ? <LoginPage /> : <RegisterPage />}
-        <p className="fw-bold text-danger text-center mt-4">{auth.error}</p>
+          <p className="fw-bold text-danger text-center mt-4">{auth.error}</p>
         </div>
-        <div className="position-absolute w-100 me-5 cursor" style={{bottom:20}} onClick={()=>setLoginState(!loginState)}>
-        <p className="text-center"><u>{loginState?"Create a new account":"Already have an account"}</u></p>
-      </div>
+        <div
+          className="position-absolute w-100 me-5 cursor"
+          style={{ bottom: 20 }}
+          onClick={() => setLoginState(!loginState)}
+        >
+          <p className="text-center">
+            <u>
+              {loginState ? "Create a new account" : "Already have an account"}
+            </u>
+          </p>
+        </div>
       </div>
     </>
   );

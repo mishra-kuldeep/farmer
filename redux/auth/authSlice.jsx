@@ -54,33 +54,50 @@ export const fetchUserInfo = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers:{
+    clearUser: (state) => {
+      return {}; // or reset to initial state
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Handling login actions
       .addCase(login.pending, (state) => {
-        // console.log("pending",action.payload)
         state.isLoading = true;
         state.error = "";
         state.success = "";
       })
-      .addCase(login.fulfilled, async(state, action) => {
-        console.log(action)
+      .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.success = action.payload.success;
         state.profile = action.payload.user;
-        state.message = action.payload.message;
+        state.message = action.payload.msg;
         state.isLoggedIn = true;
-        await setToken(action?.payload?.token)
-
-        // Dispatching fetchUserInfo after login
-        fetchUserInfo();
+        setToken(action?.payload?.token);
       })
       .addCase(login.rejected, (state, action) => {
-        // console.log("rejected",action.payload)
         state.isLoading = false;
         state.profile = null;
         state.error = action?.payload?.error || "Login failed";
         state.success = action?.payload?.success;
+      })
+
+      // Handling fetchUserInfo actions
+      .addCase(fetchUserInfo.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = "";
+        state.success = "";
+      })
+      .addCase(fetchUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.success = action.payload.success;
+        state.profile = action.payload.user;
+        state.isLoggedIn = true;
+      })
+      .addCase(fetchUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.profile = null;
+        state.success = false;
       })
 
       // Handling registration actions
@@ -92,7 +109,7 @@ export const authSlice = createSlice({
       .addCase(registration.fulfilled, (state, action) => {
         state.isLoading = false;
         state.success = action.payload.success;
-        state.profile = action.payload.user;
+        // state.profile = action.payload.user;
         state.message = action.payload.message;
         state.isLoggedIn = true;
       })
@@ -105,4 +122,5 @@ export const authSlice = createSlice({
   },
 });
 
+export const { clearUser } = authSlice.actions;
 export default authSlice.reducer;

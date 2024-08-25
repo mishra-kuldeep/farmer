@@ -1,0 +1,66 @@
+.addproductwrap {
+  min-height: calc(100vh - 95px);
+  background: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../../../public/header/logo1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50% 80%;
+}
+.selectCat{
+  display: flex;
+  gap: 10px;
+  margin: 20px 10px 0px 10px;
+  border-bottom: 3px solid var(--adminMainColor);
+}
+.selectCat button{
+  border: none;
+  outline: none;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+.selectedCat{
+  background-color: var(--adminMainColor);
+  color: var(--white);
+  position: relative;
+}
+.selectedCat::after{
+  content: '';
+  height: 20px;
+  width: 20px;
+  background-color: var(--adminMainColor);
+  position: absolute;
+  bottom: -12px;
+  transform: rotate(45deg);
+  left: 45%;
+  z-index: 1;
+}
+.form-check-label{
+  color: var(--adminMainColor);
+  font-weight: bold;
+  font-size: 12px;
+}
+/* Change the background and border color when the checkbox is checked */
+.custom-checkbox:checked {
+  background-color: var(--adminMainColor); /* Set your desired color */
+  border-color: var(--adminMainColor); /* Ensure border matches the background */
+}
+
+/* Ensure the toggle knob color matches the new background */
+.custom-checkbox:checked + .form-check-label::before {
+  background-color: var(--adminMainColor); /* Matching color for the knob */
+  border-color: var(--adminMainColor); /* Ensure border matches the background */
+}
+.custom-checkbox {
+  transform: scale(1.5); /* Adjust the scale value as needed */
+  -webkit-transform: scale(1.5); /* For Safari */
+  margin-right: 10px; /* Space between checkbox and label */
+}
+.custom-checkbox:focus {
+  outline: none; /* Remove the focus outline */
+  box-shadow: none; /* Remove any focus-related box shadow */
+}
+.error_input_text{
+  color: red;
+  font-weight: 500;
+  font-size: 12px;
+}
+
