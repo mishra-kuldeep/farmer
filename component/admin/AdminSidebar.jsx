@@ -10,7 +10,7 @@ import { isMobile } from "react-device-detect";
 const sidebarArray = [
   {
     id: 1,
-    title: "dashboard",
+    title: "Dashboard",
     url: "/admin",
     icon: <MdOutlineDashboard size={25} />,
   },
