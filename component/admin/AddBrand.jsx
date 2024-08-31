@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
@@ -8,9 +8,18 @@ const AddBrand = () => {
   const [values, setValues] = useState({
     brandName: "",
     description: "",
+    subCategory: "",
     status: false,
   });
+  const [subCategoryList, setsubCategoryList] = useState([]);
   const [errors, setErrors] = useState({});
+
+
+  const initApi = async () => {
+    const subCategoryList = await CategoryServices.getSubCategory();
+    setsubCategoryList(subCategoryList?.data?.data);;
+  };
+
 
   const onChangeHandeler = (e) => {
     const { value, name } = e.target;
@@ -22,6 +31,11 @@ const AddBrand = () => {
     setValues((pre) => ({ ...pre, status: e.target.checked }));
   };
 
+  useEffect(() => {
+    initApi();
+  }, []);
+
+
   const onSubmitHandeler = () => {
     CategoryServices.addBrand(values)
       .then((data) => {
@@ -29,6 +43,7 @@ const AddBrand = () => {
         setValues({
           brandName: "",
           description: "",
+          subCategory: "",
           status: false,
         });
         toast("brand added successfully!", {
@@ -76,6 +91,26 @@ const AddBrand = () => {
         />
         {errors.description && (
           <span className="error_input_text">{errors.description}</span>
+        )}
+      </div>
+      <div className="col-md-4 mb-3">
+        <label className="adjustLabel">Sub Category *</label>
+        <select
+          className="form-select custom-select adjustLabel_input"
+          aria-label="Default select example"
+          name="subCategory"
+          value={values?.subCategory}
+          onChange={onChangeHandeler}
+        >
+          <option value="" className="d-none"></option>
+          {subCategoryList?.map((item) => (
+            <option value={item?.subcategoryId} key={item?.subcategoryId}>
+              {item?.subcategoryName}
+            </option>
+          ))}
+        </select>
+        {errors?.subCategory && (
+          <span className="error_input_text">{errors?.subCategory}</span>
         )}
       </div>
       <div className="col-md-4 mb-3 d-flex align-items-center mt-3">
