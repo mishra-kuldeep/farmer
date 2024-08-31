@@ -10,13 +10,14 @@ const Auth = () => {
   const closeButtonRef = useRef(null);
 
   useEffect(() => {
-    if (auth.success) {
+    if (auth?.success) {
       if (closeButtonRef.current) {
         closeButtonRef.current.click();
       }
       setLoginState(true);
-      if (auth.message) {
-        toast(auth.message, {
+      if (auth?.success&&auth?.message) {
+        console.log(auth.message)
+        toast(auth?.message, {
           icon: "👏",
           style: {
             borderRadius: "10px",

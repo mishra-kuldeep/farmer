@@ -39,11 +39,12 @@ function Header() {
   }, [position]);
 
   useEffect(() => {
-    if (!user.isLoggedIn && dispatch && !user.isLoading) {
+    // if (!user.isLoggedIn && dispatch && !user.isLoading) {
+      if (!user.isLoggedIn && dispatch && !user.isLoading) {
       dispatch(fetchUserInfo());
     }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.isLoggedIn]);
-  console.log(user);
 
   const handleLogout = () => {
     deleteCookie('token');
@@ -95,8 +96,9 @@ function Header() {
                               {user?.profile?.name?.substring(0,1)}
                           </div>
                           <ul className="dropdown-menu p-0" style={{right:"0%",width:"300px",top:"10px"}}>
-                          <p className="cat_list">My Account</p>
-                          <p className="cat_list">My Profile</p>
+                            {user?.profile?.role ===2&& <p className="cat_list" onClick={()=>router.push("/addProduct")}>Add Product</p>}
+                          <p className="cat_list" onClick={()=>router.push("/myAccount")}>My Account</p>
+                          <p className="cat_list" onClick={()=>router.push("/myAccount/myProfile")}>My Profile</p>
                           <p className="cat_list" onClick={()=>router.push("/basket")}>My Basket (0) item</p>
                           <p className="cat_list" onClick={handleLogout}>logout</p>
                           </ul>

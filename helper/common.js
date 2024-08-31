@@ -1,4 +1,5 @@
 export const BASE_URL = "http://localhost:5000/api"
+export const Image_URL = BASE_URL.replace('/api', '/uploads');
 
 export function getCookie(cookiename) {
     // Get name followed by anything except a semicolon

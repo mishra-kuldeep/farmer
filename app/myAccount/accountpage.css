@@ -1,0 +1,37 @@
+.imageUrlStyle {
+  border-radius: 50%;
+  height: 180px;
+  width: 180px;
+  position: relative;
+}
+.imageEditIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: white;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid grey;
+  color: green;
+  font-size: 30px;
+  cursor: pointer;
+}
+.imageEditIcon:hover {
+  border: 1px solid #555;
+}
+.accListSide {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.accListSide:hover {
+  background-color: #ddd;
+}
+.accListSide:hover h6 {
+  font-weight: bold;
+}

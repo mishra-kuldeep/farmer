@@ -11,7 +11,7 @@ const RegisterPage = () => {
     Email: "",
     Phone: "",
     Password: "",
-    role: "",
+    Role: null,
   });
 
   const handleValues = (e) => {
@@ -73,21 +73,21 @@ const RegisterPage = () => {
         />
       </div>
       <div className="p-2 m20">
-        <label className="adjustLabel">role *</label>
+        <label className="adjustLabel">Role *</label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
           onChange={handleValues}
-          name="role"
+          name="Role"
         >
-          <option value=""></option>
-          <option value="1">Farmers</option>
-          <option value="2">Buyers</option>
-          <option value="3">Transportation</option>
-          <option value="4">Employee</option>
-          <option value="5">Vendors</option>
-          <option value="6">Educational Resources</option>
-          <option value="7">Customer Care</option>
+          <option value={""}></option>
+          <option value={2}>Farmers</option>
+          <option value={3}>Buyers</option>
+          <option value={4}>Transportation</option>
+          <option value={5}>Employee</option>
+          <option value={6}>Vendors</option>
+          <option value={7}>Educational Resources</option>
+          <option value={8}>Customer Care</option>
         </select>
       </div>
       <div className="p-2 m20">

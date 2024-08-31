@@ -22,7 +22,7 @@
 body {
   font-family: "Roboto Slab" !important;
 }
-p {
+p, h6, h5, h4, h3, h2, h1, hr {
   margin-bottom: 0px !important;
 }
 a {
@@ -57,6 +57,16 @@ input.form-control:focus {
   border-color: var(--mainColor);
   box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0);
   outline: none;
+}
+.form-control:disabled {
+  background-color: #f0f0f0 !important;
+  color: #7e7e7e !important;
+  cursor: not-allowed;
+}
+.form-select:disabled {
+  background-color: #f0f0f0 !important;
+  color: #7e7e7e !important;
+  cursor: not-allowed;
 }
 .m20{
   margin-left: 15px;
