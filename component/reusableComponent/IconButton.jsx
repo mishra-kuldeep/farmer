@@ -1,8 +1,9 @@
 import React from "react";
 
-const IconButton = ({ children ,onClick}) => {
+const IconButton = ({ children ,onClick,tooltip}) => {
   return (
     <div
+    data-bs-toggle="tooltip" data-bs-placement="top" title={tooltip}
       style={{
         backgroundColor: "#ddd",
         padding: "6px",

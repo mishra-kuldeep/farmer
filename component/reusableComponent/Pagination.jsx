@@ -7,7 +7,7 @@ const Pagination = ({
   setPage,
   searchText,
   setSearchText,
-  List,
+  searchShow,
   metaData,
 }) => {
   const handlePage = (direction) => {
@@ -23,16 +23,18 @@ const Pagination = ({
 
   return (
     <div className="paginationWrapper">
-      <input
-        type="search"
-        className="form-control categorySearch"
-        value={searchText}
-        onChange={(e) => {
-          setSearchText(e.target.value);
-          setPage(1); // Reset to page 1 whenever search text changes
-        }}
-        placeholder="Search for Products ..."
-      />
+      {searchShow && (
+        <input
+          type="search"
+          className="form-control categorySearch"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            setPage(1); // Reset to page 1 whenever search text changes
+          }}
+          placeholder="Search for Products ..."
+        />
+      )}
       <h6>
         Page ( {metaData?.currentPage}/{metaData?.totalPages} )
       </h6>

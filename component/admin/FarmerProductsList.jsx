@@ -1,23 +1,20 @@
-
-
 import CategoryServices from "@/services/CategoryServices";
 import React, { useEffect, useState } from "react";
 import "../admin/adminpage.css";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
 import IconButton from "../reusableComponent/IconButton";
-import ConfirmModel from "../reusableComponent/ConfirmModel";
+import { GrOverview } from "react-icons/gr";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Pagination from "../reusableComponent/Pagination";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
+import ProductModal from "../reusableComponent/ProductModal";
 
 const FarmerProductsList = ({ setState }) => {
-  const router = useRouter()
+  const router = useRouter();
   const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("");
   const [catList, setCatList] = useState([]);
   const [metaData, setmetaData] = useState(false);
   const [selectedId, setSelectedId] = useState("");
@@ -27,13 +24,27 @@ const FarmerProductsList = ({ setState }) => {
   const [subCategoryList, setsubCategoryList] = useState([]);
   const [allFarmerProducts, setAllFarmerProducts] = useState([]);
   const [intiapicall, setintiapicall] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState("");
+
   const [values, setValues] = useState({
     FarmerId: "",
     category: "",
     subCategory: "",
-    brand: ""
+    brand: "",
   });
 
+  console.log(allFarmerProducts);
+
+  const handleOpenModal = (data) => {
+    setModalData(data);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const FilterinitApi = async () => {
     const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
@@ -49,15 +60,13 @@ const FarmerProductsList = ({ setState }) => {
   const onchangeHandeler = (e) => {
     const { value, name } = e.target;
     setValues((pre) => ({ ...pre, [name]: value }));
-    setintiapicall(!intiapicall)
+    setintiapicall(!intiapicall);
   };
-
 
   const initApi = async () => {
     const catList = await CategoryServices.getProducts(page, searchText);
     setCatList(catList?.data?.data);
   };
-
 
   useEffect(() => {
     FilterinitApi();
@@ -65,69 +74,38 @@ const FarmerProductsList = ({ setState }) => {
 
   useEffect(() => {
     ProductFarmerServices.getAllproductslistforAdmin({
-      page: page, search: searchText,
+      page: page,
+      search: searchText,
       category: values?.category,
       subCategory: values?.subCategory,
       brand: values?.brand,
-      sellerId: values?.FarmerId
-    }).then(({ data }) => {
-      setAllFarmerProducts(data?.data)
-      setmetaData(data?.meta)
-    }).catch((err) => {
-      console.log(err)
+      sellerId: values?.FarmerId,
     })
+      .then(({ data }) => {
+        setAllFarmerProducts(data?.data);
+        setmetaData(data?.meta);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [intiapicall, page, searchText]);
-
 
   useEffect(() => {
     initApi();
   }, []);
 
-  // const handleDelete = async () => {
-  //   await CategoryServices.deleteProduct(selectedId).then((data) => {
-  //     setCatList(catList.filter((ele) => ele.productId !== selectedId));
-  //     setShowConfirm(false);
-  //     toast("product deleted successfully!", {
-  //       icon: "👏",
-  //       style: {
-  //         borderRadius: "10px",
-  //         background: "green",
-  //         color: "#fff",
-  //       },
-  //     });
-  //   });
-  // };
-
-
-
-  // const handleCancel = () => {
-  //   setShowConfirm(false);
-  // };
-  // const deleteHandeler = (id) => {
-  //   setSelectedId(id);
-  //   setShowConfirm(true);
-  // };
-  // const editHandeler = (id) => {
-  //   setState("2");
-  //   router.push(`/admin/addProduct?editId=${id}`);
-  // };
-  // const statusUpdate = (id, status) => {
-  //   CategoryServices.statusUpdateProduct(id, status).then(({ data }) => {
-  //     toast(data.message, {
-  //       icon: "👏",
-  //       style: {
-  //         borderRadius: "10px",
-  //         background: "green",
-  //         color: "#fff",
-  //       },
-  //     });
-  //   })
-  // }
-
-
   return (
     <div className="p-2">
-      <div className="row mb-3">
+      <Pagination
+        page={page}
+        setPage={setPage}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        List={allFarmerProducts}
+        metaData={metaData}
+        searchShow={true}
+      />
+      <div className="row">
         <div className="col-md-3 mb-3">
           <label className="adjustLabel">Farmer List</label>
           <select
@@ -140,7 +118,7 @@ const FarmerProductsList = ({ setState }) => {
             <option value="" className="d-none"></option>
             {farmerList?.map((item) => (
               <option value={item?.UserId} key={item?.UserId}>
-                {item?.FirstName}  {item?.LastName}
+                {item?.FirstName} {item?.LastName}
               </option>
             ))}
           </select>
@@ -198,7 +176,6 @@ const FarmerProductsList = ({ setState }) => {
         </div>
       </div>
 
-
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
@@ -228,7 +205,9 @@ const FarmerProductsList = ({ setState }) => {
                   <td className="text-center">{item?.price}</td>
                   <td className="text-center">{item?.discount}</td>
                   <td className="d-flex justify-content-center">
-                    <IconButton onClick={() => statusUpdate(item.productId, item.status)}>
+                    <IconButton
+                      onClick={() => statusUpdate(item.productId, item.status)}
+                    >
                       {item.status ? (
                         <IoEye color="green" />
                       ) : (
@@ -238,12 +217,20 @@ const FarmerProductsList = ({ setState }) => {
                   </td>
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
-                      {/* <IconButton onClick={() => deleteHandeler(item.productId)}>
-                        <MdDelete color="red" />
-                      </IconButton>
-                      <IconButton onClick={() => editHandeler(item.productId)}>
-                        <FaRegEdit color="green" />
-                      </IconButton> */}
+                      <div
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        style={{
+                          height: "30px",
+                          width: "30px",
+                          borderRadius: "50%",
+                        }}
+                      >
+                        <IconButton onClick={() => handleOpenModal(item)}>
+                          <GrOverview color="green" size={20} />
+                        </IconButton>
+                      </div>
+                      <ProductModal modalData={modalData} />
                     </div>
                   </td>
                 </tr>
@@ -260,20 +247,6 @@ const FarmerProductsList = ({ setState }) => {
           <h6>No Category Found</h6>
         </div>
       )}
-      <Pagination
-        page={page} 
-        setPage={setPage} 
-        searchText={searchText} 
-        setSearchText={setSearchText}
-        List={allFarmerProducts}
-        metaData={metaData}
-      />
-      {/* <ConfirmModel
-        show={showConfirm}
-        onConfirm={handleDelete}
-        onCancel={handleCancel}
-        message="Are you sure you want to delete this item?"
-      /> */}
     </div>
   );
 };

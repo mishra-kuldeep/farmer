@@ -9,10 +9,15 @@ import { FcApprove, FcDisapprove } from "react-icons/fc";
 import { IoIosArrowBack ,IoIosArrowForward} from "react-icons/io";
 import React, { useEffect, useState } from "react";
 import Pagination from "@/component/reusableComponent/Pagination";
+import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
 
 const ListAddedProduct = () => {
   const [productList, setProductList] = useState([]);
   const [metaData,setMetaData]=useState({})
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
+
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState('');
   const initApi = () => {
@@ -29,7 +34,28 @@ const ListAddedProduct = () => {
     console.log("first");
   };
 
-  console.log(searchText,page)
+  const handleDelete = async () => {
+    await ProductFarmerServices.deleteProductsFarmer(selectedId).then((data) => {
+      setProductList(productList.filter((ele) => ele.productDtlId !== selectedId));
+    setShowConfirm(false);
+    toast("product deleted successfully!", {
+      icon: "👏",
+      style: {
+        borderRadius: "10px",
+        background: "green",
+        color: "#fff",
+      },
+    });
+  });
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
+  const deleteHandeler = (id) => {
+    setSelectedId(id);
+    setShowConfirm(true);
+  };
 
   useEffect(() => {
     initApi();
@@ -43,6 +69,7 @@ const ListAddedProduct = () => {
         setSearchText={setSearchText}
         List={productList}
         metaData={metaData}
+        searchShow = {true}
       />
       <table className="table table-striped table-bordered">
         <thead>
@@ -94,16 +121,12 @@ const ListAddedProduct = () => {
                   </td>
                   <td className="text-center">
                     <div className="d-flex gap-2 justify-content-center">
-                      {/* <IconButton> */}
-
-                      {/* </IconButton> */}
-
                       <IconButton
                         onClick={() => editHandeler(item?.productDtlId)}
                       >
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
-                      <IconButton>
+                      <IconButton  onClick={() => deleteHandeler(item.productDtlId)}>
                         <MdDelete color="red" size={20} />
                       </IconButton>
                     </div>
@@ -114,6 +137,13 @@ const ListAddedProduct = () => {
           </tbody>
         )}
       </table>
+
+      <ConfirmModel
+        show={showConfirm}
+        onConfirm={handleDelete}
+        onCancel={handleCancel}
+        message="Are you sure you want to delete this item?"
+      />
     </div>
   );
 };
