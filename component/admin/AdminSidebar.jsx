@@ -14,12 +14,12 @@ const sidebarArray = [
     url: "/admin",
     icon: <MdOutlineDashboard size={25} />,
   },
-  // {
-  //   id: 2,
-  //   title: "Farmer List",
-  //   url: "/admin/farmerlist",
-  //   icon: <FaRegListAlt size={25} />,
-  // },
+  {
+    id: 2,
+    title: "Farmer Products List",
+    url: "/admin/farmerProductList",
+    icon: <FaRegListAlt size={25} />,
+  },
   {
     id: 3,
     title: "Add Products",

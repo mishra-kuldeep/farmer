@@ -15,7 +15,7 @@ const Pagination = ({
       setPage(page - 1);
     } else if (
       direction === "next" &&
-      metaData.totalPages !== metaData.currentPage
+      metaData?.totalPages !== metaData?.currentPage
     ) {
       setPage(page + 1);
     }
@@ -34,7 +34,7 @@ const Pagination = ({
         placeholder="Search for Products ..."
       />
       <h6>
-        Page ( {metaData.currentPage}/{metaData.totalPages} )
+        Page ( {metaData?.currentPage}/{metaData?.totalPages} )
       </h6>
       <button
         disabled={page <= 1}
@@ -44,9 +44,9 @@ const Pagination = ({
         <IoIosArrowBack color="#fff" size={20} />
       </button>
       <button
-        disabled={page == metaData.totalPages}
+        disabled={page == metaData?.totalPages}
         className={`${
-          page == metaData.totalPages ? "arrwleftdisable" : "arrwleft"
+          page == metaData?.totalPages ? "arrwleftdisable" : "arrwleft"
         }`}
         onClick={() => handlePage("next")} // Prevent clicking on disabled button
       >
