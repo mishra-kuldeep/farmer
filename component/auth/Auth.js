@@ -3,11 +3,15 @@ import LoginPage from "./Login";
 import RegisterPage from "./Register";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Auth = () => {
   const [loginState, setLoginState] = useState(true);
   const auth = useSelector((state) => state.auth);
   const closeButtonRef = useRef(null);
+  const router = useRouter();
+
+  console.log(auth);
 
   useEffect(() => {
     if (auth?.success) {
@@ -15,8 +19,8 @@ const Auth = () => {
         closeButtonRef.current.click();
       }
       setLoginState(true);
-      if (auth?.success&&auth?.message) {
-        console.log(auth.message)
+      if (auth?.success && auth?.message) {
+        console.log(auth.message);
         toast(auth?.message, {
           icon: "👏",
           style: {
@@ -25,6 +29,9 @@ const Auth = () => {
             color: "#fff",
           },
         });
+        if (auth?.message == "Login successfully" && auth?.isAdmin) {
+          router.push("/admin");
+        }
       }
     }
   }, [auth.success]);

@@ -2,8 +2,20 @@ import React from "react";
 import logo from "../../public/header/logo1.jpg";
 import { IoMenu } from "react-icons/io5";
 import Auth from "../auth/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { clearUser } from "@/redux/auth/authSlice";
 
 const HeaderTopForMobile = () => {
+  const user = useSelector((state) => state.auth);
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    deleteCookie('token');
+    dispatch(clearUser()); // Action to clear user data in Redux
+    router.push('/'); // Redirect to the login page
+  };
   return (
     <div className="mobile_Header container">
       <div className="row m-0 align-items-center" style={{ height: "50px" }}>
@@ -33,7 +45,26 @@ const HeaderTopForMobile = () => {
         <div className="col-5 p-0">
           <div className="d-flex justify-content-end">
             {/* <button className="login_btn px-3">login / Signup</button> */}
-            <Auth />
+            {user.profile === null ? (
+                        <Auth />
+                      ) : (
+                        <>
+                            <h6 className="mt-1">{user?.profile?.name}</h6>
+                          <div
+                            className="avtar"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                              {user?.profile?.name?.substring(0,1)}
+                          </div>
+                          <ul className="dropdown-menu p-0" style={{right:"0%",width:"300px",top:"10px"}}>
+                          <p className="cat_list1" onClick={()=>router.push("/myAccount")}>My Account</p>
+                          <p className="cat_list1" onClick={()=>router.push("/myAccount/myProfile")}>My Profile</p>
+                          <p className="cat_list1" onClick={()=>router.push("/basket")}>My Basket (0) item</p>
+                          <p className="cat_list1" onClick={handleLogout}>logout</p>
+                          </ul>
+                        </>
+                      )}
           </div>
         </div>
       </div>

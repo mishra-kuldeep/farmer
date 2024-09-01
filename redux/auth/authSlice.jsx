@@ -68,12 +68,13 @@ export const authSlice = createSlice({
         state.success = "";
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action)
+        console.log(action.payload)
         state.isLoading = false;
         state.success = action.payload.success;
         // state.profile = action.payload.user;
         state.message = action.payload.msg;
         state.isLoggedIn = true;
+        state.isAdmin=action.payload.role ===1&&true;
         setToken(action?.payload?.token);
       })
       .addCase(login.rejected, (state, action) => {

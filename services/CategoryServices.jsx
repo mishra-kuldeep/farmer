@@ -79,6 +79,25 @@ export default class CategoryServices {
 
 
   ////////////////////////////  products  ///////////////////////////////
+
+  static async getProducts(page=1,search="") {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/product/products?page=${page}&search=${search}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async addProductsFormer(data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productDtl/productsDtl`;
+    return axios.post(url,data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
   static async addProduct(data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/product/products`;
@@ -94,28 +113,27 @@ export default class CategoryServices {
     );
   }
   
-  static async getProducts(page, search) {
-    const token = getCookie("token");
-    const url = `${BASE_URL}/product/products?page=${page}&search=${search}`;
-    return axios.get(url,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-        },
-      }
-    );
-  }
   static async getSingeProduct(id) {
+    const token = getCookie("token");
     const url = `${BASE_URL}/product/products/${id}`;
-    return axios.get(url);
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
   }
   static async deleteProduct(id) {
     const url = `${BASE_URL}/product/products/${id}`;
     return axios.delete(url);
   }
   static async editProduct(data, id) {
+    const token = getCookie("token");
     const url = `${BASE_URL}/product/products/${id}`;
-    return axios.put(url, data);
+    return axios.put(url,data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
   }
   static async statusUpdateProduct(id, stat) {
     const url = `${BASE_URL}/product/products/status/${id}`;

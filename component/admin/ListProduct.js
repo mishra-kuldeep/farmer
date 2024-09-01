@@ -95,16 +95,16 @@ const ListProduct = ({setState}) => {
           <tbody>
             {catList?.map((item, i) => {
               return (
-                <tr>
+                <tr key={i}>
                   <td>{i + 1}</td>
-                  <td>{item.productName}</td>
-                  <td className="text-center">{item.Brand.brandName}</td>
-                  <td className="text-center">{item.Category.categoryName}</td>
+                  <td>{item?.productName}</td>
+                  <td className="text-center">{item?.Brand?.brandName}</td>
+                  <td className="text-center">{item?.Category?.categoryName}</td>
                   <td className="text-center">
-                    {item.SubCategory.subcategoryName}
+                    {item?.SubCategory?.subcategoryName}
                   </td>
-                  <td className="text-center">{item.price}</td>
-                  <td className="text-center">{item.discount}</td>
+                  <td className="text-center">{item?.price}</td>
+                  <td className="text-center">{item?.discount}</td>
                   <td className="d-flex justify-content-center">
                     <IconButton onClick={()=>statusUpdate(item.productId,item.status)}>
                       {item.status ? (

@@ -68,6 +68,16 @@ input.form-control:focus {
   color: #7e7e7e !important;
   cursor: not-allowed;
 }
+button:disabled {
+  background-color: #bdbdbd !important;
+  color: #7e7e7e !important;
+  cursor: not-allowed;
+}
+.error_input_text{
+  color: red;
+  font-weight: 500;
+  font-size: 12px;
+}
 .m20{
   margin-left: 15px;
 }

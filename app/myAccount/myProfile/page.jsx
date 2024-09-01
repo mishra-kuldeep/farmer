@@ -4,11 +4,13 @@ import AuthService from "@/services/AuthServices";
 import { useSelector } from "react-redux";
 import { Image_URL } from "@/helper/common";
 import { CgKey } from "react-icons/cg";
+import toast from "react-hot-toast";
 
 const myProfile = () => {
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
-  const [profileData, setProfileData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [Errors, setErrors] = useState([]);
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -32,7 +34,6 @@ const myProfile = () => {
     setisLoading(true);
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
-        setProfileData(data.userProfile);
         setisLoading(false);
         setValues({
           FirstName: data.userProfile.FirstName,
@@ -57,28 +58,46 @@ const myProfile = () => {
       });
     }
   }, [user?.profile?.id]);
-  console.log(values);
 
   const updateProfileHandeler = () => {
+    setLoading(true);
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
       )
     );
-    console.log(filteredObject);
     AuthService.updateUserProfile(filteredObject)
-      .then((data) => {
-        console.log(data);
+      .then(({ data }) => {
+        setErrors({});
+        setLoading(false);
+        toast(data?.message, {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        const errorData = err?.response?.data?.errors || [];
+        const errorObj = errorData.reduce((acc, curr) => {
+          acc[curr.path] = curr.msg;
+          return acc;
+        }, {});
+        setErrors(errorObj);
+        setLoading(false);
+      });
   };
+
+  console.log(Errors);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
-  console.log(values.IdImage)
   return (
     <>
       {/* {isloading ? (
@@ -106,6 +125,9 @@ const myProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none p-2"
           />
+          {Errors.LastName && (
+            <span className="error_input_text">{Errors.LastName}</span>
+          )}
         </div>
         <div className="col-md-4 ">
           <label className="adjustLabel">Email</label>
@@ -127,6 +149,9 @@ const myProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none  p-2"
           />
+          {Errors.Phone && (
+            <span className="error_input_text">{Errors.Phone}</span>
+          )}
         </div>
         <div className="col-md-4">
           <label className="adjustLabel">Role *</label>
@@ -211,6 +236,9 @@ const myProfile = () => {
                 onChange={handleChange}
                 className="form-control adjustLabel_input shadow-none p-2"
               />
+              {Errors.AdharNo && (
+            <span className="error_input_text">{Errors.AdharNo}</span>
+          )}
             </div>
             <div className="col-md-4 ">
               <label className="adjustLabel " style={{ marginLeft: "100px" }}>
@@ -225,10 +253,11 @@ const myProfile = () => {
                 className="form-control adjustLabel_input shadow-none p-2"
               />
             </div>
-            {values.IdImage ? (
+            {values.IdImage&&
+            <>{typeof values.IdImage === "string" ? (
               <div className="col-md-4 ">
                 <img
-                  src={`${Image_URL}${values.IdImage}`}
+                  src={`${Image_URL}/${values.IdImage}`}
                   alt="idImage"
                   style={{ width: "60%", height: "100px", objectFit: "cover" }}
                 />
@@ -241,7 +270,9 @@ const myProfile = () => {
                   style={{ width: "60%", height: "100px", objectFit: "cover" }}
                 />
               </div>
-            )}
+            )}</>
+            }
+            
           </>
         )}
         <div className="col-md-6 ">
@@ -296,9 +327,29 @@ const myProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none p-2"
           />
+          {Errors.Zip && (
+            <span className="error_input_text">{Errors.Zip}</span>
+          )}
+        </div>
+        <div className="col-md-12 d-flex justify-content-center my-3">
+          <button
+            className="login_btn"
+            onClick={updateProfileHandeler}
+            disabled={loading}
+          >
+            {loading && (
+              <div
+                className="spinner-border spinner-border-sm me-3"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            )}
+            submit
+          </button>
         </div>
       </div>
-      <button onClick={updateProfileHandeler}>submit</button>
+
       {/* )} */}
     </>
   );

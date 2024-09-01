@@ -19,23 +19,7 @@ const EditProduct = ({ setState }) => {
     category: "",
     subCategory: "",
     brand: "",
-    price: "",
-    originalPrice: "",
-    discount: "",
-    discountType: "",
-    averageRating: "",
-    numberOfRatings: "",
-    sku: "",
-    weight: "",
-    reorderLevel: "",
-    supplierInfo: "",
-    metaTitle: "",
-    metaDescription: "",
-    quantity: "",
-    unit: "",
-    slug: "",
     status: false,
-    available: true,
   });
 
   const initApi = async () => {
@@ -61,30 +45,6 @@ const EditProduct = ({ setState }) => {
     CategoryServices.editProduct(values,editId)
       .then((data) => {
         setErrors({});
-        // setValues({
-        //   productName: "",
-        //   description: "",
-        //   category: "",
-        //   subCategory: "",
-        //   brand: "",
-        //   price: "",
-        //   originalPrice: "",
-        //   discount: "",
-        //   discountType: "",
-        //   averageRating: "",
-        //   numberOfRatings: "",
-        //   sku: "",
-        //   weight: "",
-        //   reorderLevel: "",
-        //   supplierInfo: "",
-        //   metaTitle: "",
-        //   metaDescription: "",
-        //   quantity: "",
-        //   unit: "",
-        //   slug: "",
-        //   status: false,
-        //   available: false,
-        // });
         toast("product updated successfully!", {
           icon: "👏",
           style: {
@@ -115,24 +75,8 @@ const EditProduct = ({ setState }) => {
                 description: data.description,
                 category: data.category,
                 subCategory: data.subCategory,
-                brand: data.brand,
-                price: data.price,
-                originalPrice: data.originalPrice,
-                discount: data.discount,
-                discountType: data.discountType,
-                averageRating: data.averageRating,
-                numberOfRatings: data.numberOfRatings,
-                sku: data.sku,
-                weight: data.weight,
-                reorderLevel: data.reorderLevel,
-                supplierInfo: data.supplierInfo,
-                metaTitle: data.metaTitle,
-                metaDescription: data.metaDescription,
-                quantity: data.quantity,
-                unit: data.unit,
-                slug: data.slug,
+                brand: data.brand,        
                 status: data.status,
-                available: data.available,
               });
         })
       console.log(editId);
@@ -226,211 +170,6 @@ const EditProduct = ({ setState }) => {
         {errors.brand && (
           <span className="error_input_text">{errors.brand}</span>
         )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Price *</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="price"
-          value={values.price}
-          onChange={onchangeHandeler}
-        />
-          {errors.price && (
-          <span className="error_input_text">{errors.price}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">originalPrice</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="originalPrice"
-          value={values.originalPrice}
-          onChange={onchangeHandeler}
-        />
-      </div>
-
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">discount *</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="discount"
-          value={values.discount}
-          onChange={onchangeHandeler}
-        />
-          {errors.discount && (
-          <span className="error_input_text">{errors.discount}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">discountType *</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="discountType"
-          value={values.discountType}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          <option value="fixed">fixed</option>
-          <option value="percentage">percentage</option>
-        </select>
-        {errors.discountType && (
-          <span className="error_input_text">{errors.discountType}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Quantity *</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="quantity"
-          value={values.quantity}
-          onChange={onchangeHandeler}
-        />
-          {errors.quantity && (
-          <span className="error_input_text">{errors.quantity}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Unit *</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="unit"
-          value={values.unit}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          <option value="kg">kg</option>
-          <option value="g">g</option>
-          <option value="litre">litre</option>
-          <option value="ml">ml</option>
-          <option value="pcs">pcs</option>
-          <option value="pack">pack</option>
-        </select>
-        {errors.unit && (
-          <span className="error_input_text">{errors.unit}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">averageRating</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="averageRating"
-          value={values.averageRating}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">numberOfRatings</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="numberOfRatings"
-          value={values.numberOfRatings}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Stock Keeping Unit</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="sku"
-          value={values.sku}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">weight</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="weight"
-          value={values.weight}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">reorderLevel</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="reorderLevel"
-          value={values.reorderLevel}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">supplierInfo</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="supplierInfo"
-          value={values.supplierInfo}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">metaTitle</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="metaTitle"
-          value={values.metaTitle}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-8 mb-3">
-        <label className="adjustLabel">metaDescription</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="metaDescription"
-          value={values.metaDescription}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Slug *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="slug"
-          value={values.slug}
-          onChange={onchangeHandeler}
-        />
-          {errors.slug && (
-          <span className="error_input_text">{errors.slug}</span>
-        )}
-      </div>
-      <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
-        <div className="form-check">
-          <input
-            className="form-check-input custom-checkbox cursor"
-            type="checkbox"
-            value={values.available}
-            checked={values.available}
-            id="defaultCheck1"
-            onClick={() =>
-              setValues((prev) => ({ ...prev, available: !prev.available }))
-            }
-            readOnly
-          />
-          <label
-            className="form-check-label ms-2 cursor"
-            htmlFor="defaultCheck1"
-            onClick={() =>
-              setValues((prev) => ({ ...prev, available: !prev.available }))
-            }
-          >
-            Available
-          </label>
-        </div>
       </div>
       <div className="col-md-3 my-3 d-flex align-items-center justify-content-center">
         <div className="form-check form-switch ">

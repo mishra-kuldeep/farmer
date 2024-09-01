@@ -62,6 +62,10 @@ header {
   font-size: 12px;
   font-weight: 500;
 }
+.login_btn:hover {
+  background-color: #355203;
+  box-shadow: 1px 1px 10px #000000;
+}
 .cart_login_btn {
   background-color: var(--mainColor2);
   color: var(--white);
