@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import "../../admin/addProduct/addProduct.css"
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const specialCharRegex = /[^a-zA-Z0-9\s-]/;
 
 const AddProductDtl = () => {
+  const router = useRouter()
   const [errors, setErrors] = useState({});
   const [slugError,setSlugError] = useState("")
   const [productList,setProductList] =useState([])
@@ -84,6 +86,7 @@ const AddProductDtl = () => {
             color: "#fff",
           },
         });
+        router.push("/myAccount/listAddedProduct")
       } catch (err) {
         console.log(err);
         const errorData = err?.response?.data?.errors || [];

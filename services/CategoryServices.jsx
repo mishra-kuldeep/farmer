@@ -4,7 +4,6 @@ import axios from "axios";
 // const url = `${BASE_URL}/user/registration`;
 
 export default class CategoryServices {
-
   ////////////////////////////  category  ///////////////////////////////
 
   static async addCategory(data) {
@@ -24,11 +23,10 @@ export default class CategoryServices {
     return axios.delete(url);
   }
   static async editCategory(data, id) {
-    console.log(data, id)
+    console.log(data, id);
     const url = `${BASE_URL}/category/categories/${id}`;
     return axios.put(url, data);
   }
-
 
   ////////////////////////////  sub category  ///////////////////////////////
 
@@ -39,13 +37,11 @@ export default class CategoryServices {
   static async getSubCategory() {
     const token = getCookie("token");
     const url = `${BASE_URL}/subcategory/subcategories`;
-    return axios.get(url,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-        },
-      }
-    );
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
   }
   static async editSubCategory(data, id) {
     const url = `${BASE_URL}/subcategory/subcategories/${id}`;
@@ -55,8 +51,6 @@ export default class CategoryServices {
     const url = `${BASE_URL}/subcategory/subcategories/${id}`;
     return axios.get(url);
   }
-
-
 
   ////////////////////////////  brand  ///////////////////////////////
 
@@ -77,10 +71,9 @@ export default class CategoryServices {
     return axios.put(url, data);
   }
 
-
   ////////////////////////////  products  ///////////////////////////////
 
-  static async getProducts(page=1,search="") {
+  static async getProducts(page = 1, search = "") {
     const token = getCookie("token");
     const url = `${BASE_URL}/product/products?page=${page}&search=${search}`;
     return axios.get(url, {
@@ -92,7 +85,7 @@ export default class CategoryServices {
   static async addProductsFormer(data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/productsDtl`;
-    return axios.post(url,data, {
+    return axios.post(url, data, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
@@ -101,7 +94,7 @@ export default class CategoryServices {
   static async addProduct(data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/product/products`;
-  
+
     return axios.post(
       url,
       data, // Pass the data as the second argument
@@ -112,7 +105,7 @@ export default class CategoryServices {
       }
     );
   }
-  
+
   static async getSingeProduct(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/product/products/${id}`;
@@ -129,7 +122,7 @@ export default class CategoryServices {
   static async editProduct(data, id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/product/products/${id}`;
-    return axios.put(url,data, {
+    return axios.put(url, data, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
@@ -139,5 +132,4 @@ export default class CategoryServices {
     const url = `${BASE_URL}/product/products/status/${id}`;
     return axios.put(url, { status: stat });
   }
-
 }

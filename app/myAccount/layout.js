@@ -4,6 +4,7 @@ import "./accountpage.css";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiProductHuntLine } from "react-icons/ri";
+import { FaListUl } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import UserProfile from "@/component/myaccount/UserProfile";
@@ -30,6 +31,13 @@ const AccountLayout = ({ children }) => {
     },
     {
       id: 3,
+      title: "See Added Product",
+      icon: <FaListUl size={16} />,
+      goesTo: "/myAccount/listAddedProduct",
+      status: user?.profile?.role === 2,
+    },
+    {
+      id: 4,
       title: "My Order",
       icon: <HiOutlineShoppingBag size={22} />,
       goesTo: "/myAccount/myOrder",
@@ -38,10 +46,10 @@ const AccountLayout = ({ children }) => {
   ];
   return (
     <>
-      <div className="container pt-md-4">
-        <div className="row ">
-          <div className="col-md-3">
-            <div className="accountsidebar">
+      <div className=" pt-md-4">
+        <div className="row px-5 m-0">
+          <div className="col-md-2">
+            <div className="accountsidebar pe-md-3">
               <h2> My Account</h2>
               <hr />
               <UserProfile/>
@@ -60,7 +68,7 @@ const AccountLayout = ({ children }) => {
               ))}
             </div>
           </div>
-          <div className="col-md-9">{children}</div>
+          <div className="col-md-10">{children}</div>
         </div>
       </div>
     </>

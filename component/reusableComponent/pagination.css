@@ -1,0 +1,41 @@
+.arrwleft{
+    background-color: var(--adminMainColor);
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+.arrwleftdisable{
+    background-color: var(--light);
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+.paginationWrapper{
+    display: flex;
+    justify-content: flex-end;
+    justify-self: flex-end;
+    width: 50%;
+    gap: 20px;
+    align-items: center;
+    /* position: absolute; */
+    top: 15px;
+    margin-left: 45%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid grey;
+}
+.categorySearch{
+    width: 60%;
+}
