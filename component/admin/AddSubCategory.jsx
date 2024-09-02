@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
+import toast from "react-hot-toast";
 
 const AddSubCategory = ({setState}) => {
   const [values, setValues] = useState({
@@ -10,7 +11,8 @@ const AddSubCategory = ({setState}) => {
     category:"",
     status: false,
   });
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [categoryList, setCategoryList] = useState([]); 
+  const [errors, setErrors] = useState({});
 
   const onChangeHandeler = (e) => {
     const { value, name } = e.target;
@@ -21,6 +23,15 @@ const AddSubCategory = ({setState}) => {
   const statusHandeler = (e) => {
     setValues((pre) => ({ ...pre, status: e.target.checked }));
   };
+
+  const initApi = () => {
+    CategoryServices.getCategory().then(({data})=>{
+      setCategoryList(data?.data)
+    })
+  }
+  useEffect(()=>{
+    initApi()
+  },[])
 
   const onSubmitHandeler = () => {
     CategoryServices.addSubCategory(values)
@@ -43,6 +54,7 @@ const AddSubCategory = ({setState}) => {
         setState("1");
       })
       .catch((err) =>{
+        console.log(err)
         const errorData = err?.response?.data?.errors || [];
         const errorObj = errorData.reduce((acc, curr) => {
           acc[curr.path] = curr.msg;
@@ -89,14 +101,7 @@ const AddSubCategory = ({setState}) => {
           aria-label="Default select example"
           name="category"
         >
-          <option value="" className="d-none"></option>
-          <option value={1}>Farmers</option>
-          <option value={2}>Buyers</option>
-          <option value={3}>Transportation</option>
-          <option value={4}>Employee</option>
-          <option value={5}>Vendors</option>
-          <option value={6}>Educational Resources</option>
-          <option value={7}>Customer Care</option>
+          {categoryList?.map((elem)=><option value={elem.categoryId}>{elem.categoryName}</option>)}
         </select>
         {errors.category && (
           <span className="error_input_text">{errors.category}</span>

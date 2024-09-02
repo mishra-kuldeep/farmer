@@ -38,7 +38,7 @@ const ListSubCategory = ({setState}) => {
           <tbody>
             {catList?.map((item, i) => {
               return (
-                <tr>
+                <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item.subcategoryName}</td>
                   <td style={{ backgroundColor: "transparent" }}>
@@ -55,9 +55,6 @@ const ListSubCategory = ({setState}) => {
                   </td>
                   <td className="text-center">
                     <div className="d-flex justify-content-center gap-2">
-                      <IconButton>
-                        <MdDelete color="red" size={20}/>
-                      </IconButton>
                       <IconButton onClick={() => editHandeler(item.subcategoryId)}>
                         <FaRegEdit color="green" size={20}/>
                       </IconButton>

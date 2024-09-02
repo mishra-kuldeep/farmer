@@ -37,7 +37,7 @@ const ListBrand = ({setState}) => {
           <tbody>
             {catList?.map((item, i) => {
               return (
-                <tr>
+                <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item.brandName}</td>
                   <td style={{ backgroundColor: "transparent" }}>

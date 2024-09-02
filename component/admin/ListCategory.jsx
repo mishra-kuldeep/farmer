@@ -80,7 +80,7 @@ const ListCategory = ({ setState }) => {
           <tbody>
             {catList?.map((item, i) => {
               return (
-                <tr>
+                <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item.categoryName}</td>
                   <td>{item.description}</td>

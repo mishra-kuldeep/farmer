@@ -14,8 +14,6 @@ const EditBrand = ({setState}) => {
   });
   const [errors, setErrors] = useState({});
 
-  console.log(values)
-
   const onChangeHandeler = (e) => {
     const { value, name } = e.target;
     setValues((pre) => ({ ...pre, [name]: value }));
@@ -63,8 +61,7 @@ const EditBrand = ({setState}) => {
           description: data.description,
           status: data.status,
         });
-      });
-      console.log(editId);
+      }).catch((err)=>console.log(err))
     }
   }, [editId]);
 

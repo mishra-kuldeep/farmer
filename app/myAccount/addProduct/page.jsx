@@ -17,13 +17,9 @@ const AddProductDtl = () => {
     description: "",
     productId:"",
     price: "",
-    originalPrice: "",
     discount: "",
     discountType: "",
-    averageRating: "",
-    numberOfRatings: "",
     sku: "",
-    reorderLevel: "",
     metaTitle: "",
     metaDescription: "",
     quantity: "",
@@ -64,13 +60,9 @@ const AddProductDtl = () => {
           productDtl: "",  
           productId:"",
           price: "",
-          originalPrice: "",
           discount: "",
           discountType: "",
-          averageRating: "",
-          numberOfRatings: "",
           sku: "",
-          reorderLevel: "",
           metaTitle: "",
           metaDescription: "",
           quantity: "",
@@ -141,7 +133,7 @@ const AddProductDtl = () => {
         )}
       </div>
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Product Type *</label>
+        <label className="adjustLabel">Product *</label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
@@ -167,17 +159,6 @@ const AddProductDtl = () => {
           <span className="error_input_text">{errors.price}</span>
         )}
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">originalPrice</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="originalPrice"
-          value={values.originalPrice}
-          onChange={onchangeHandeler}
-        />
-      </div>
-
       <div className="col-md-4 mb-3">
         <label className="adjustLabel">discount *</label>
         <input
@@ -241,26 +222,6 @@ const AddProductDtl = () => {
         {errors.unit && <span className="error_input_text">{errors.unit}</span>}
       </div>
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">averageRating</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="averageRating"
-          value={values.averageRating}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">numberOfRatings</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="numberOfRatings"
-          value={values.numberOfRatings}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-4 mb-3">
         <label className="adjustLabel">Stock Keeping Unit</label>
         <input
           type="number"
@@ -270,18 +231,6 @@ const AddProductDtl = () => {
           onChange={onchangeHandeler}
         />
       </div>
-
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">reorderLevel</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="reorderLevel"
-          value={values.reorderLevel}
-          onChange={onchangeHandeler}
-        />
-      </div>
-
       <div className="col-md-4 mb-3">
         <label className="adjustLabel">metaTitle</label>
         <input

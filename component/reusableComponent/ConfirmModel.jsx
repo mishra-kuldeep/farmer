@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const ConfirmModel = ({ show, onConfirm, onCancel, message }) => {
+const ConfirmModel = ({ show, onConfirm, onCancel, message, loading }) => {
   if (!show) return null; // Do not render the popup if show is false
 
   return (
@@ -9,6 +9,9 @@ const ConfirmModel = ({ show, onConfirm, onCancel, message }) => {
         <h6>{message}</h6>
         <div style={styles.buttons}>
           <button onClick={onConfirm} style={styles.confirmButton}>
+            {loading&&<div class="spinner-border me-2" style={{width:"15px",height:"15px"}} role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>}
             Yes
           </button>
           <button onClick={onCancel} style={styles.cancelButton}>
@@ -22,44 +25,43 @@ const ConfirmModel = ({ show, onConfirm, onCancel, message }) => {
 
 const styles = {
   overlay: {
-    position: 'fixed',
+    position: "fixed",
     top: 0,
     left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 1000,
   },
   popup: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    textAlign: 'center',
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    textAlign: "center",
   },
   buttons: {
-    marginTop: '20px',
+    marginTop: "20px",
   },
   confirmButton: {
     backgroundColor: "var(--adminMainColor)",
-    color: '#fff',
-    border: 'none',
-    padding: '2px 20px',
-    marginRight: '10px',
-    borderRadius:"5px",
-    cursor: 'pointer',
+    color: "#fff",
+    border: "none",
+    padding: "2px 20px",
+    marginRight: "10px",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
   cancelButton: {
-    backgroundColor: '#db5858',
-    color: '#fff',
-    border: 'none',
-    padding: '2px 20px',
-    borderRadius:"5px",
-    cursor: 'pointer',
+    backgroundColor: "#db5858",
+    color: "#fff",
+    border: "none",
+    padding: "2px 20px",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
 };
 
 export default ConfirmModel;
-

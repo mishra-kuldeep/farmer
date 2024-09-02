@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 const EditSubCategory = ({ setState }) => {
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
+  const [categoryList, setCategoryList] = useState([]); 
   const [values, setValues] = useState({
     subcategoryName: "",
     description: "",
@@ -15,8 +16,6 @@ const EditSubCategory = ({ setState }) => {
     status: false,
   });
   const [errors, setErrors] = useState({}); // State to hold validation errors
-
-  console.log(values)
 
   const onChangeHandeler = (e) => {
     const { value, name } = e.target;
@@ -53,7 +52,11 @@ const EditSubCategory = ({ setState }) => {
       });
   };
   useEffect(() => {
+   
     if (editId) {
+      CategoryServices.getCategory().then(({data})=>{
+        setCategoryList(data?.data)
+      })
       CategoryServices.getSingesubCategory(editId).then(({ data }) => {
         setValues({
           subcategoryName: data.subcategoryName,
@@ -61,8 +64,7 @@ const EditSubCategory = ({ setState }) => {
           category: data.category,
           status: data.status,
         });
-      });
-      console.log(editId);
+      }).catch((err)=>console.log(err))
     }
   }, [editId]);
 
@@ -103,14 +105,7 @@ const EditSubCategory = ({ setState }) => {
           aria-label="Default select example"
           name="category"
         >
-          <option value="" className="d-none"></option>
-          <option value={1}>Farmers</option>
-          <option value={2}>Buyers</option>
-          <option value={3}>Transportation</option>
-          <option value={4}>Employee</option>
-          <option value={5}>Vendors</option>
-          <option value={6}>Educational Resources</option>
-          <option value={7}>Customer Care</option>
+        {categoryList?.map((elem)=><option value={elem.categoryId}>{elem.categoryName}</option>)}
         </select>
         {errors.category && (
           <span className="error_input_text">{errors.category}</span>

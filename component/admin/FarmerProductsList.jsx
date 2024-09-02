@@ -1,31 +1,23 @@
 import CategoryServices from "@/services/CategoryServices";
 import React, { useEffect, useState } from "react";
 import "../admin/adminpage.css";
-import { IoEye } from "react-icons/io5";
-import { IoMdEyeOff } from "react-icons/io";
 import IconButton from "../reusableComponent/IconButton";
 import { GrOverview } from "react-icons/gr";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import Pagination from "../reusableComponent/Pagination";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import ProductModal from "../reusableComponent/ProductModal";
 
-const FarmerProductsList = ({ setState }) => {
-  const router = useRouter();
+const FarmerProductsList = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [catList, setCatList] = useState([]);
   const [metaData, setmetaData] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setBrandList] = useState([]);
   const [farmerList, setFarmerList] = useState([]);
   const [subCategoryList, setsubCategoryList] = useState([]);
   const [allFarmerProducts, setAllFarmerProducts] = useState([]);
   const [intiapicall, setintiapicall] = useState(false);
-
-  const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState("");
 
   const [values, setValues] = useState({
@@ -35,15 +27,8 @@ const FarmerProductsList = ({ setState }) => {
     brand: "",
   });
 
-  console.log(allFarmerProducts);
-
   const handleOpenModal = (data) => {
     setModalData(data);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
   };
 
   const FilterinitApi = async () => {
@@ -181,12 +166,11 @@ const FarmerProductsList = ({ setState }) => {
           <tr>
             <th>sr no</th>
             <th>product name</th>
-            {/* <th className="text-center">brand name</th>
+            <th className="text-center">brand name</th>
             <th className="text-center">category name</th>
-            <th className="text-center">sub category name</th> */}
+            <th className="text-center">sub category name</th>
             <th className="text-center">price</th>
             <th className="text-center">discount</th>
-            <th className="text-center">status</th>
             <th className="text-center">action</th>
           </tr>
         </thead>
@@ -197,24 +181,31 @@ const FarmerProductsList = ({ setState }) => {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item?.productDtlName}</td>
-                  {/* <td className="text-center">{item?.Brand?.brandName}</td>
-                  <td className="text-center">{item?.Category?.categoryName}</td>
                   <td className="text-center">
-                    {item?.SubCategory?.subcategoryName}
-                  </td> */}
-                  <td className="text-center">{item?.price}</td>
-                  <td className="text-center">{item?.discount}</td>
-                  <td className="d-flex justify-content-center">
-                    <IconButton
-                      onClick={() => statusUpdate(item.productId, item.status)}
-                    >
-                      {item.status ? (
-                        <IoEye color="green" />
-                      ) : (
-                        <IoMdEyeOff color="red" />
-                      )}
-                    </IconButton>
+                    {
+                      brandList.filter(
+                        (elem) => elem.brandId == item?.Product?.brand
+                      )[0]?.brandName
+                    }
                   </td>
+                  <td className="text-center">
+                    {
+                      categoryList.filter(
+                        (elem) => elem.categoryId == item?.Product?.category
+                      )[0]?.categoryName
+                    }
+                  </td>
+                  <td className="text-center">
+                    {
+                      subCategoryList.filter(
+                        (elem) =>
+                          elem.subcategoryId == item?.Product?.subCategory
+                      )[0]?.subcategoryName
+                    }
+                  </td>
+                  <td className="text-center">{item?.price}</td>
+                  <td className="text-center">{item?.discountType=="fixed"&&"₹"} {item?.discount} {item?.discountType=="percentage"&&"%"}</td>
+                
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
                       <div
@@ -230,7 +221,12 @@ const FarmerProductsList = ({ setState }) => {
                           <GrOverview color="green" size={20} />
                         </IconButton>
                       </div>
-                      <ProductModal modalData={modalData} />
+                      <ProductModal
+                        modalData={modalData}
+                        brandList={brandList}
+                        categoryList={categoryList}
+                        subCategoryList={subCategoryList}
+                      />
                     </div>
                   </td>
                 </tr>

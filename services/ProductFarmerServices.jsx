@@ -25,11 +25,18 @@ export default class ProductFarmerServices {
       },
     });
   }
-  static async getAllproductslistforAdmin({ page = 1,  search = "", category = "", subCategory = "", brand = "", sellerId = "" }) {
-    console.log(sellerId)
+  static async getAllproductslistforAdmin({
+    page = 1,
+    search = "",
+    category = "",
+    subCategory = "",
+    brand = "",
+    sellerId = "",
+  }) {
+    console.log(sellerId);
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/products_admin?page=${page}&search=${search}&category=${category}&subCategory=${subCategory}&brand=${brand}&sellerId=${sellerId} `;
-    return axios.get(url,{
+    return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
@@ -39,7 +46,27 @@ export default class ProductFarmerServices {
   static async deleteProductsFarmer(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/products_farmer/${id}`;
-    return axios.delete(url,  {
+    return axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
+  static async approveProductsFarmer(id) {
+    const token = getCookie("token");
+    console.log(token);
+    const url = `${BASE_URL}/productDtl/products/aprove/${id}`;
+    return axios.put(url, "aprove", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async rejectProductsFarmer(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productDtl/products/reject/${id}`;
+    return axios.put(url, "reject", {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },

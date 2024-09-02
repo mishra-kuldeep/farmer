@@ -24,9 +24,6 @@ const EditCategory = ({ setState }) => {
     description: "",
     status: false,
   });
-
-  console.log(values)
-
   const [errors, setErrors] = useState({}); // State to hold validation errors
 
   const onChangeHandler = (e) => {
@@ -70,14 +67,12 @@ const EditCategory = ({ setState }) => {
   useEffect(() => {
     if (editId) {
         CategoryServices.getSingeCategory(editId).then(({data})=>{
-            console.log(data)
             setValues({
                 categoryName: data.categoryName,
                 description: data.description,
                 status: data.status,
             })
-        })
-      console.log(editId);
+        }).catch((err)=>console.log(err))
     }
   }, [editId]);
 
