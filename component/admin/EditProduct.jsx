@@ -69,7 +69,6 @@ const EditProduct = ({ setState }) => {
   useEffect(() => {
     if (editId) {
         CategoryServices.getSingeProduct(editId).then(({data})=>{
-            console.log(data)
             setValues({
                 productName: data.productName,
                 description: data.description,
@@ -79,7 +78,6 @@ const EditProduct = ({ setState }) => {
                 status: data.status,
               });
         })
-      console.log(editId);
     }
   }, [editId]);
 

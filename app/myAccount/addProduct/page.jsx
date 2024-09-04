@@ -35,11 +35,6 @@ const AddProductDtl = () => {
     setSlugError("")
   };
 
-  console.log(values.slug.toLowerCase().replace(/['\s]+/g, "-"));
-  console.log(
-    specialCharRegex.test(values.slug.toLowerCase().replace(/['\s]+/g, "-"))
-  );
-
  const onSubmitHandler = async () => {
     const specialCharRegex = /[^a-zA-Z0-9\s-]/;
     const formattedSlug = values.slug.toLowerCase().replace(/['\s]+/g, "-");
@@ -100,8 +95,6 @@ const AddProductDtl = () => {
   }
 
   useEffect(()=>initApi(),[])
-  console.log(productList)
-
   return (
     <div className="row  m-0 px-3">
        <h4 className="text-secondary mb-3">Add Product</h4>

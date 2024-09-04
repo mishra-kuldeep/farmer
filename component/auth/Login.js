@@ -11,9 +11,7 @@ const [password,setPassword] = useState("")
 
 const handleSubmit = () => {
   dispatch(login({ email, password })).then((result) => {
-    console.log("first")
     if (result.meta.requestStatus === 'fulfilled') {
-      console.log('first2')
       dispatch(fetchUserInfo()); // Fetch user info after successful login
     }
   });

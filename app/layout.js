@@ -3,7 +3,7 @@ import { Inter, Roboto_Slab } from "next/font/google";
 import "./globals.css";
 import Header from "@/component/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { store } from "@/redux/store";
 import { Provider } from "react-redux";
 import { usePathname } from "next/navigation";
@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} ${robotoSlab.className}`}>
+      <Suspense>
         <Provider store={store}>
           {!isAdminRoute && <Header />}
           <div className={`${!isAdminRoute && "marginEveryPage"}`}>
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
           </div>
           <Toaster  position="bottom-center"/>
         </Provider>
+        </Suspense>
       </body>
     </html>
   );

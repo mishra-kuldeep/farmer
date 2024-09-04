@@ -5,7 +5,7 @@ import ListBrand from "@/component/admin/ListBrand";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const page = () => {
+const AddBrands = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
@@ -14,7 +14,7 @@ const page = () => {
     if (state <= 1) {
       router.push(`/admin/addBrand`);
     }
-  }, [state]);
+  }, [state,router]);
   return (
     <div className="adminPaperWrap addproductwrap p-2">
       <div className="selectCat mb-2">
@@ -35,5 +35,5 @@ const page = () => {
   );
 };
 
-export default page;
+export default AddBrands;
 

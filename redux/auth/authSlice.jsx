@@ -68,7 +68,6 @@ export const authSlice = createSlice({
         state.success = "";
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.isLoading = false;
         state.success = action.payload.success;
         // state.profile = action.payload.user;
@@ -116,7 +115,6 @@ export const authSlice = createSlice({
         state.isLoggedIn = true;
       })
       .addCase(registration.rejected, (state, action) => {
-        console.log(action)
         state.isLoading = false;
         state.profile = null;
         state.error = action.payload.error || "Registration failed";

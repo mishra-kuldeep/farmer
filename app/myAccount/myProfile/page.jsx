@@ -6,7 +6,7 @@ import { Image_URL } from "@/helper/common";
 import { CgKey } from "react-icons/cg";
 import toast from "react-hot-toast";
 
-const myProfile = () => {
+const MyProfile = () => {
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -89,8 +89,6 @@ const myProfile = () => {
         setLoading(false);
       });
   };
-
-  console.log(Errors);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -355,4 +353,4 @@ const myProfile = () => {
   );
 };
 
-export default myProfile;
+export default MyProfile;

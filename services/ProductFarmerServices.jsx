@@ -33,7 +33,6 @@ export default class ProductFarmerServices {
     brand = "",
     sellerId = "",
   }) {
-    console.log(sellerId);
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/products_admin?page=${page}&search=${search}&category=${category}&subCategory=${subCategory}&brand=${brand}&sellerId=${sellerId} `;
     return axios.get(url, {
@@ -55,7 +54,6 @@ export default class ProductFarmerServices {
 
   static async approveProductsFarmer(id) {
     const token = getCookie("token");
-    console.log(token);
     const url = `${BASE_URL}/productDtl/products/aprove/${id}`;
     return axios.put(url, "aprove", {
       headers: {

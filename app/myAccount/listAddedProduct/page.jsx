@@ -6,47 +6,40 @@ import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import { FcApprove, FcDisapprove } from "react-icons/fc";
-import { IoIosArrowBack ,IoIosArrowForward} from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import React, { useEffect, useState } from "react";
 import Pagination from "@/component/reusableComponent/Pagination";
 import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
 
 const ListAddedProduct = () => {
   const [productList, setProductList] = useState([]);
-  const [metaData,setMetaData]=useState({})
+  const [metaData, setMetaData] = useState({});
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
   const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState('');
-  const initApi = () => {
-    ProductFarmerServices.getProductsFarmer(page,searchText)
-      .then(({ data }) => {
-        console.log(data);
-        setProductList(data?.data);
-        setMetaData(data?.meta)
-      })
-      .catch((err) => console.log(err));
-  };
+  const [searchText, setSearchText] = useState("");
 
-  const editHandeler = () => {
-    console.log("first");
-  };
+  const editHandeler = () => {};
 
   const handleDelete = async () => {
-    await ProductFarmerServices.deleteProductsFarmer(selectedId).then((data) => {
-      setProductList(productList.filter((ele) => ele.productDtlId !== selectedId));
-    setShowConfirm(false);
-    toast("product deleted successfully!", {
-      icon: "👏",
-      style: {
-        borderRadius: "10px",
-        background: "green",
-        color: "#fff",
-      },
-    });
-  });
+    await ProductFarmerServices.deleteProductsFarmer(selectedId).then(
+      (data) => {
+        setProductList(
+          productList.filter((ele) => ele.productDtlId !== selectedId)
+        );
+        setShowConfirm(false);
+        toast("product deleted successfully!", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+      }
+    );
   };
 
   const handleCancel = () => {
@@ -58,18 +51,23 @@ const ListAddedProduct = () => {
   };
 
   useEffect(() => {
-    initApi();
-  }, [page,searchText]);
+    ProductFarmerServices.getProductsFarmer(page, searchText)
+      .then(({ data }) => {
+        setProductList(data?.data);
+        setMetaData(data?.meta);
+      })
+      .catch((err) => console.log(err));
+  }, [page, searchText]);
   return (
     <div>
       <Pagination
-        page={page} 
-        setPage={setPage} 
-        searchText={searchText} 
+        page={page}
+        setPage={setPage}
+        searchText={searchText}
         setSearchText={setSearchText}
         List={productList}
         metaData={metaData}
-        searchShow = {true}
+        searchShow={true}
       />
       <table className="table table-striped table-bordered">
         <thead>
@@ -126,7 +124,9 @@ const ListAddedProduct = () => {
                       >
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
-                      <IconButton  onClick={() => deleteHandeler(item.productDtlId)}>
+                      <IconButton
+                        onClick={() => deleteHandeler(item.productDtlId)}
+                      >
                         <MdDelete color="red" size={20} />
                       </IconButton>
                     </div>

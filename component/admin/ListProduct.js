@@ -22,12 +22,10 @@ const ListProduct = ({setState}) => {
   const initApi = async () => {
     const catList = await CategoryServices.getProducts(page,searchText);
     setCatList(catList?.data?.data);
-    console.log(catList?.data?.data);
   };
   useEffect(() => {
     initApi();
   }, [page,searchText]);
-  console.log(searchText)
 
   const handlePage = (dir) => {
     if (dir == "prev") {

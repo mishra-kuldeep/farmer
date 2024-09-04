@@ -5,7 +5,7 @@ import ListCategory from "@/component/admin/ListCategory";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const page = () => {
+const AddCategorys = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get('editId');
@@ -14,7 +14,7 @@ const page = () => {
     if (state <= 1) {
       router.push(`/admin/addCategory`);
     }
-  }, [state]);
+  }, [state,router]);
   return (
     <div className="adminPaperWrap addproductwrap p-2 position-relative">
       <div className="selectCat mb-2">
@@ -44,4 +44,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AddCategorys;

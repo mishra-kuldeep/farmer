@@ -35,8 +35,6 @@ const AproveFarmerProductslist = ({ setState }) => {
     brand: "",
   });
 
-  console.log(allFarmerProducts);
-
   const handleOpenModal = (data) => {
     setModalData(data);
     setShowModal(true);

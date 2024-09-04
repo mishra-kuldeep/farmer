@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import "../../../app/admin/addProduct/addProduct.css"
 import "../../../component/admin/adminpage.css";
 import FarmerProductsAlllist from "@/component/admin/FarmerProductsAlllist";
-const page = () => {
+const FarmerProductLists = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
@@ -54,4 +54,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default FarmerProductLists;

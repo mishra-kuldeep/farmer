@@ -11,8 +11,6 @@ const Auth = () => {
   const closeButtonRef = useRef(null);
   const router = useRouter();
 
-  console.log(auth);
-
   useEffect(() => {
     if (auth?.success) {
       if (closeButtonRef.current) {
@@ -20,7 +18,6 @@ const Auth = () => {
       }
       setLoginState(true);
       if (auth?.success && auth?.message) {
-        console.log(auth.message);
         toast(auth?.message, {
           icon: "👏",
           style: {
