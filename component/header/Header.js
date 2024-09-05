@@ -87,7 +87,7 @@ function Header() {
                             >
                               shop by category &ensp; &ensp;
                             </button> */}
-                            <h6 className="mt-1">{user?.profile?.name}</h6>
+                            <h6 className="mt-1" style={{textTransform:"capitalize"}}>{user?.profile?.name}</h6>
                           <div
                             className="avtar"
                             data-bs-toggle="dropdown"
@@ -142,9 +142,9 @@ function Header() {
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
-                    <button className="offerZoneBtn">
+                    <button className="offerZoneBtn centerAllDiv">
                       <MdOutlineLocalOffer size={20} className="me-2" />
-                      offerZone
+                      Offer Zone
                     </button>
                   </div>
                 </div>

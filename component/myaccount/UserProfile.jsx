@@ -43,7 +43,7 @@ const UserProfile = () => {
         delete mergedUserInfo.userInfo;
         setProfileData(mergedUserInfo);
         if (mergedUserInfo.Profile) {
-          setimageurl(`${Image_URL}/${mergedUserInfo.Profile}`);
+          setimageurl(`${Image_URL}/profiles/${mergedUserInfo.Profile}`);
         }
       });
     }

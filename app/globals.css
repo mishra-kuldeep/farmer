@@ -146,7 +146,28 @@ table thead tr th{
 table tbody tr td{
 background-color: transparent !important;
 }
-
+.bgwarning{
+  background-color: #fffc77 !important;
+}
+.bgsuccess{
+  background-color: #ceff95 !important;
+}
+.bgdanger{
+  background-color: #ffadad !important;
+}
+input::placeholder {
+  color: #bebebe !important; /* Placeholder color */
+}
+textarea::placeholder {
+  color: #bebebe !important; /* Placeholder color */
+}
+textarea:focus {
+  border: 1px solid var(--mainColor) !important; /* Placeholder color */
+}
+.helperTextInput{
+  font-size: 12px;
+  opacity: 0.5;
+}
 @media only screen and (max-width: 600px) {
   .marginEveryPage {
     margin-top: 50px;

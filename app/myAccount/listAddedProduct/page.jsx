@@ -5,13 +5,16 @@ import { IoMdEyeOff } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
-import { FcApprove, FcDisapprove } from "react-icons/fc";
+import { FcApprove, FcDisapprove ,FcApproval} from "react-icons/fc";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import React, { useEffect, useState } from "react";
 import Pagination from "@/component/reusableComponent/Pagination";
 import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const ListAddedProduct = () => {
+  const router = useRouter()
   const [productList, setProductList] = useState([]);
   const [metaData, setMetaData] = useState({});
 
@@ -21,16 +24,19 @@ const ListAddedProduct = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
 
-  const editHandeler = () => {};
+  const editHandeler = (id) => {
+    router.push(`/myAccount/editProduct/${id}`)
+  };
 
   const handleDelete = async () => {
     await ProductFarmerServices.deleteProductsFarmer(selectedId).then(
-      (data) => {
+      ({data}) => {
+        console.log(data)
         setProductList(
           productList.filter((ele) => ele.productDtlId !== selectedId)
         );
         setShowConfirm(false);
-        toast("product deleted successfully!", {
+        toast(data.message, {
           icon: "👏",
           style: {
             borderRadius: "10px",
@@ -39,7 +45,7 @@ const ListAddedProduct = () => {
           },
         });
       }
-    );
+    ).catch((err)=>console.log(err))
   };
 
   const handleCancel = () => {
@@ -50,6 +56,8 @@ const ListAddedProduct = () => {
     setShowConfirm(true);
   };
 
+  console.log(productList)
+
   useEffect(() => {
     ProductFarmerServices.getProductsFarmer(page, searchText)
       .then(({ data }) => {
@@ -58,6 +66,7 @@ const ListAddedProduct = () => {
       })
       .catch((err) => console.log(err));
   }, [page, searchText]);
+
   return (
     <div>
       <Pagination
@@ -69,17 +78,24 @@ const ListAddedProduct = () => {
         metaData={metaData}
         searchShow={true}
       />
-      <table className="table table-striped table-bordered">
+       <div className="d-flex gap-4 mb-3 ms-3" style={{marginTop:"-40px"}}>
+        <div className="d-flex gap-2"><div style={{height:"20px",width:"20px",backgroundColor:"#fffb0e",border:"1px solid #ddd",borderRadius:"5px"}}></div><p style={{color:"grey",fontSize:"12px"}}>Pending</p></div>
+        <div className="d-flex gap-2"><div style={{height:"20px",width:"20px",backgroundColor:"#ceff95",border:"1px solid #ddd",borderRadius:"5px"}}></div><p style={{color:"grey",fontSize:"12px"}}>Approved</p></div>
+        <div className="d-flex gap-2"><div style={{height:"20px",width:"20px",backgroundColor:"#ffadad",border:"1px solid #ddd",borderRadius:"5px"}}></div><p style={{color:"grey",fontSize:"12px"}}>Rejected</p></div>
+      </div>
+     <div className="w-100">
+     <div className="w-100 overflow-auto">
+     <table className="table table-striped table-bordered" >
         <thead>
           <tr>
-            <th>sr no</th>
+            <th>SrNo</th>
             <th>Product Name</th>
             <th>Discription</th>
             <th>Product Type</th>
             <th className="text-center">Price</th>
-            <th className="text-center">Discount/Type</th>
+            <th className="text-center">Discount</th>
             <th className="text-center">Quantity/Unit</th>
-            <th className="text-center">action</th>
+            <th className="text-center">Action</th>
           </tr>
         </thead>
         {productList?.length > 0 && (
@@ -87,13 +103,20 @@ const ListAddedProduct = () => {
             {productList?.map((item, i) => {
               return (
                 <tr key={item?.productDtlId}>
-                  <td>
-                    {i + 1}{" "}
-                    {!item?.status ? (
-                      <FcDisapprove color="green" size={30} />
-                    ) : (
-                      <FcApprove color="red" size={30} />
-                    )}
+                  <td className={`${(!item?.isVerify&&!item?.rejected)?"bgwarning":item?.isVerify?"bgsuccess":item?.rejected?"bgdanger":""}`}>
+                    {i + 1}
+                    {/* {(!item?.isVerify&&!item?.rejected) &&(
+                      <FcApprove color="green" size={30} />
+                    ) }
+                    
+                    {item?.isVerify&& (
+                      <FcApproval color="green" size={30} />
+                    ) }
+                    
+                    {item?.rejected&& (
+                      <FcDisapprove color="red" size={30} />
+                    )} */}
+
                   </td>
                   <td>{item?.productDtlName}</td>
                   <td
@@ -124,11 +147,11 @@ const ListAddedProduct = () => {
                       >
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
-                      <IconButton
+                      {!item?.isVerify?<IconButton
                         onClick={() => deleteHandeler(item.productDtlId)}
                       >
                         <MdDelete color="red" size={20} />
-                      </IconButton>
+                      </IconButton>:<IconButton></IconButton>}
                     </div>
                   </td>
                 </tr>
@@ -137,7 +160,9 @@ const ListAddedProduct = () => {
           </tbody>
         )}
       </table>
-
+     </div>
+     </div>
+     
       <ConfirmModel
         show={showConfirm}
         onConfirm={handleDelete}

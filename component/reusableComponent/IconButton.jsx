@@ -5,7 +5,7 @@ const IconButton = ({ children ,onClick,tooltip}) => {
     <div
     data-bs-toggle="tooltip" data-bs-placement="top" title={tooltip}
       style={{
-        backgroundColor: "#ddd",
+        backgroundColor: children?"#ddd":"transparent",
         padding: "6px",
         borderRadius: "50%",
         cursor: "pointer",

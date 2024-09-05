@@ -46,8 +46,8 @@ const AccountLayout = ({ children }) => {
   ];
   return (
     <>
-      <div className=" pt-md-4">
-        <div className="row px-5 m-0">
+      <div className=" pt-3">
+        <div className="row px-md-5 m-0">
           <div className="col-md-2">
             <div className="accountsidebar pe-md-3">
               <h2> My Account</h2>

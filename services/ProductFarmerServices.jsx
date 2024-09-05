@@ -44,9 +44,30 @@ export default class ProductFarmerServices {
 
   static async deleteProductsFarmer(id) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/productDtl/products_farmer/${id}`;
+    const url = `${BASE_URL}/productDtl/productsDtl/${id}`;
     return axios.delete(url, {
       headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async getSingleProductsFarmer(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productDtl/productsDtl/${id}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
+  static async editProductsFormer(id,data) {
+    console.log(data)
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productDtl/productsDtl/${id}`;
+    return axios.put(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });

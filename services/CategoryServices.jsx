@@ -146,6 +146,7 @@ export default class CategoryServices {
     const url = `${BASE_URL}/productDtl/productsDtl`;
     return axios.post(url, data, {
       headers: {
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
