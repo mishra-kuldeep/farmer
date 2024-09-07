@@ -55,6 +55,8 @@ function Header() {
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
 
+ 
+
   return (
     <>
       {!isMobile ? (
@@ -63,7 +65,7 @@ function Header() {
             <div style={{ backgroundColor: "var(--light)", padding: "10px" }}>
               <div className="container">
                 <div className="row w-100 m-0">
-                  <div className="col-md-2 d-flex align-items-center p-0">
+                  <div className="col-md-2 d-flex align-items-center p-0 cursor" onClick={()=>router.push("/")}>
                     <img src={logo.src} alt="logo" className="logoImage" />
                     <h6 className="logoImage_title">
                       <span className="fs-4">F</span>armers
@@ -96,6 +98,7 @@ function Header() {
                               {user?.profile?.name?.substring(0,1)}
                           </div>
                           <ul className="dropdown-menu p-0" style={{right:"0%",width:"300px",top:"10px"}}>
+                         {user?.profile?.role===1&& <p className="cat_list" onClick={()=>router.push("/admin")}>Dashboard</p>}
                           <p className="cat_list" onClick={()=>router.push("/myAccount")}>My Account</p>
                           <p className="cat_list" onClick={()=>router.push("/myAccount/myProfile")}>My Profile</p>
                           <p className="cat_list" onClick={()=>router.push("/basket")}>My Basket (0) item</p>
@@ -122,7 +125,7 @@ function Header() {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        shop by category &ensp; &ensp;
+                        Shop by Category &ensp; &ensp;
                       </button>
 
                       <ul className="dropdown-menu">

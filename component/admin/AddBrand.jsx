@@ -3,23 +3,23 @@ import React, { useEffect, useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
-const AddBrand = () => {
+const AddBrand = ({ setState }) => {
   const [values, setValues] = useState({
     brandName: "",
     description: "",
     subCategory: "",
     status: false,
   });
+  const [loader, setLoader] = useState(false);
   const [subCategoryList, setsubCategoryList] = useState([]);
   const [errors, setErrors] = useState({});
 
-
   const initApi = async () => {
     const subCategoryList = await CategoryServices.getSubCategory();
-    setsubCategoryList(subCategoryList?.data?.data);;
+    setsubCategoryList(subCategoryList?.data?.data);
   };
-
 
   const onChangeHandeler = (e) => {
     const { value, name } = e.target;
@@ -35,11 +35,12 @@ const AddBrand = () => {
     initApi();
   }, []);
 
-
   const onSubmitHandeler = () => {
+    setLoader(true);
     CategoryServices.addBrand(values)
       .then((data) => {
         setErrors({});
+        setLoader(false);
         setValues({
           brandName: "",
           description: "",
@@ -54,6 +55,7 @@ const AddBrand = () => {
             color: "#fff",
           },
         });
+        setState("1");
       })
       .catch((err) => {
         const errorData = err?.response?.data?.errors || [];
@@ -62,13 +64,14 @@ const AddBrand = () => {
           return acc;
         }, {});
         setErrors(errorObj);
+        setLoader(false);
       });
   };
 
   return (
     <div className="row  m-0 p-3">
       <div className="col-md-4 mb-3 ">
-        <label className="adjustLabel">BrandName</label>
+        <label className="adjustLabel">Brand Name</label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -133,7 +136,12 @@ const AddBrand = () => {
         </div>
       </div>
       <div className="col-md-12 mb-3 text-center">
-        <button className="login_btn" onClick={onSubmitHandeler}>
+        <button
+          className="login_btn"
+          onClick={onSubmitHandeler}
+          disabled={loader}
+        >
+          {loader && <MiniLoader />}
           Submit
         </button>
       </div>

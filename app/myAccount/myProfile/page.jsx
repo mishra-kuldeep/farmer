@@ -240,7 +240,7 @@ const MyProfile = () => {
             </div>
             <div className="col-md-4 ">
               <label className="adjustLabel " style={{ marginLeft: "100px" }}>
-                upload Adhar
+                Upload Adhar
               </label>
               <input
                 type="file"

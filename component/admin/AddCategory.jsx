@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
-const AddCategory = ({setState}) => {
+const AddCategory = ({ setState }) => {
+  const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
     categoryName: "",
     description: "",
@@ -24,25 +26,25 @@ const AddCategory = ({setState}) => {
   };
 
   const onSubmitHandler = () => {
+    setLoader(true);
     CategoryServices.addCategory(values)
       .then((data) => {
+        setLoader(false);
         setErrors({});
         setValues({
           categoryName: "",
           description: "",
           status: false,
         });
-        toast('category added successfully!',
-          {
-            icon: '👏',
-            style: {
-              borderRadius: '10px',
-              background: 'green',
-              color: '#fff',
-            },
-          }
-        );
-        setState("1")
+        toast("category added successfully!", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+        setState("1");
       })
       .catch((err) => {
         const errorData = err?.response?.data?.errors || [];
@@ -51,6 +53,7 @@ const AddCategory = ({setState}) => {
           return acc;
         }, {});
         setErrors(errorObj);
+        setLoader(false);
       });
   };
 
@@ -102,7 +105,8 @@ const AddCategory = ({setState}) => {
       </div>
 
       <div className="col-md-12 mb-3 text-center">
-        <button className="admin_btn" onClick={onSubmitHandler}>
+        <button className="admin_btn" onClick={onSubmitHandler}  disabled={loader}>
+          {loader && <MiniLoader/>}
           Submit
         </button>
       </div>

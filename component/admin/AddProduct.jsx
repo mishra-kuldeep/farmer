@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
 
 const AddProduct = ({ setState }) => {
@@ -9,14 +10,14 @@ const AddProduct = ({ setState }) => {
   const [brandList, setBrandList] = useState([]);
   const [subCategoryList, setsubCategoryList] = useState([]);
   const [errors, setErrors] = useState({}); // State to hold validation errors
-
-
+  const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
     productName: "",
     description: "",
     category: "",
     subCategory: "",
-    brand: ""
+    brand: "",
+    status: false, 
   });
 
   const initApi = async () => {
@@ -40,9 +41,11 @@ const AddProduct = ({ setState }) => {
   };
 
   const onSubmitHandler = async () => {
+    setLoader(true);
       try {
         await CategoryServices.addProduct(values);
         setErrors({});
+        setLoader(false);
         setValues({
           productName: "",
           description: "",
@@ -71,6 +74,7 @@ const AddProduct = ({ setState }) => {
           return acc;
         }, {});
         setErrors(errorObj);
+        setLoader(false);
       }
     } 
   
@@ -79,7 +83,7 @@ const AddProduct = ({ setState }) => {
   return (
     <div className="row  m-0 p-3">
       <div className="col-md-4 mb-3 ">
-        <label className="adjustLabel">productName *</label>
+        <label className="adjustLabel">Product Name *</label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -125,7 +129,7 @@ const AddProduct = ({ setState }) => {
         )}
       </div>
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Sub Category *</label>
+        <label className="adjustLabel">Subcategory *</label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
@@ -145,7 +149,7 @@ const AddProduct = ({ setState }) => {
         )}
       </div>
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Brand *</label>
+        <label className="adjustLabel">Brand </label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
@@ -180,12 +184,13 @@ const AddProduct = ({ setState }) => {
             className="form-check-label ms-2 cursor"
             htmlFor="flexSwitchCheckDefault"
           >
-            Status for category
+            Status for Product
           </label>
         </div>
       </div>
       <div className="col-md-3 text-center mt-3">
-        <button className="login_btn" onClick={()=>onSubmitHandler()}>
+        <button className="login_btn" onClick={()=>onSubmitHandler()} disabled={loader}>
+        {loader && <MiniLoader/>}
           Submit
         </button>
       </div>

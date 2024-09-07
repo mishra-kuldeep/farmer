@@ -31,7 +31,7 @@ const AccountLayout = ({ children }) => {
     },
     {
       id: 3,
-      title: "See Added Product",
+      title: "Product List",
       icon: <FaListUl size={16} />,
       goesTo: "/myAccount/listAddedProduct",
       status: user?.profile?.role === 2,

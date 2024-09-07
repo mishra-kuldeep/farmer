@@ -46,10 +46,10 @@ const FarmerProductLists = () => {
           All List
         </button>
       </div>
-      {state == 0 && <FarmerProductsList setState={setState} />}
-      {state == 1 && <AproveFarmerProductslist setState={setState} />}
-      {state == 2 && <ReajectFarmerProductslist setState={setState} />}
-      {state == 3 && <FarmerProductsAlllist setState={setState} />}
+      {state == 0 && <FarmerProductsList setState={setState} state={state}/>}
+      {state == 1 && <AproveFarmerProductslist setState={setState} state={state}/>}
+      {state == 2 && <ReajectFarmerProductslist setState={setState} state={state}/>}
+      {state == 3 && <FarmerProductsAlllist setState={setState} state={state}/>}
     </div>
   );
 };

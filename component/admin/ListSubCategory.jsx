@@ -27,11 +27,12 @@ const ListSubCategory = ({setState}) => {
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th>sr no</th>
-            <th>subcategory name</th>
-            <th>description</th>
-            <th className="text-center">status</th>
-            <th className="text-center">action</th>
+            <th>Sr No</th>
+            <th>Subcategory Name</th>
+            <th>Description</th>
+            <th className="text-center">Category</th>
+            <th className="text-center">Status</th>
+            <th className="text-center">Action</th>
           </tr>
         </thead>
         {catList?.length > 0 && (
@@ -41,8 +42,11 @@ const ListSubCategory = ({setState}) => {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item.subcategoryName}</td>
-                  <td style={{ backgroundColor: "transparent" }}>
-                    {item.description}
+                  <td>
+                    {item?.description}
+                  </td>
+                  <td>
+                    {item?.Category?.categoryName}
                   </td>
                   <td className="d-flex justify-content-center">
                     <IconButton>

@@ -4,11 +4,13 @@ import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
 const EditSubCategory = ({ setState }) => {
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
-  const [categoryList, setCategoryList] = useState([]); 
+  const [loader, setLoader] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
   const [values, setValues] = useState({
     subcategoryName: "",
     description: "",
@@ -28,9 +30,11 @@ const EditSubCategory = ({ setState }) => {
   };
 
   const onSubmitHandeler = () => {
+    setLoader(true);
     CategoryServices.editSubCategory(values, editId)
       .then((data) => {
         setErrors({});
+        setLoader(false);
         setState("1");
         toast("sub category updated successfully!", {
           icon: "👏",
@@ -40,7 +44,6 @@ const EditSubCategory = ({ setState }) => {
             color: "#fff",
           },
         });
-        
       })
       .catch((err) => {
         const errorData = err?.response?.data?.errors || [];
@@ -49,22 +52,24 @@ const EditSubCategory = ({ setState }) => {
           return acc;
         }, {});
         setErrors(errorObj);
+        setLoader(false);
       });
   };
   useEffect(() => {
-   
     if (editId) {
-      CategoryServices.getCategory().then(({data})=>{
-        setCategoryList(data?.data)
-      })
-      CategoryServices.getSingesubCategory(editId).then(({ data }) => {
-        setValues({
-          subcategoryName: data.subcategoryName,
-          description: data.description,
-          category: data.category,
-          status: data.status,
-        });
-      }).catch((err)=>console.log(err))
+      CategoryServices.getCategory().then(({ data }) => {
+        setCategoryList(data?.data);
+      });
+      CategoryServices.getSingesubCategory(editId)
+        .then(({ data }) => {
+          setValues({
+            subcategoryName: data.subcategoryName,
+            description: data.description,
+            category: data.category,
+            status: data.status,
+          });
+        })
+        .catch((err) => console.log(err));
     }
   }, [editId]);
 
@@ -105,7 +110,9 @@ const EditSubCategory = ({ setState }) => {
           aria-label="Default select example"
           name="category"
         >
-        {categoryList?.map((elem)=><option value={elem.categoryId}>{elem.categoryName}</option>)}
+          {categoryList?.map((elem) => (
+            <option value={elem.categoryId} key={elem.categoryId}>{elem.categoryName}</option>
+          ))}
         </select>
         {errors.category && (
           <span className="error_input_text">{errors.category}</span>
@@ -132,7 +139,12 @@ const EditSubCategory = ({ setState }) => {
       </div>
 
       <div className="col-md-4 my-3 text-center">
-        <button className="admin_btn" onClick={onSubmitHandeler}>
+        <button
+          className="admin_btn"
+          onClick={onSubmitHandeler}
+          disabled={loader}
+        >
+          {loader && <MiniLoader />}
           update
         </button>
       </div>

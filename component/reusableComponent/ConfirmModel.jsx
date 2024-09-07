@@ -8,7 +8,7 @@ const ConfirmModel = ({ show, onConfirm, onCancel, message, loading }) => {
       <div style={styles.popup}>
         <h6>{message}</h6>
         <div style={styles.buttons}>
-          <button onClick={onConfirm} style={styles.confirmButton}>
+          <button onClick={onConfirm} style={styles.confirmButton} disabled={loading}>
             {loading&&<div class="spinner-border me-2" style={{width:"15px",height:"15px"}} role="status">
               <span class="visually-hidden">Loading...</span>
             </div>}
@@ -34,7 +34,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 1000,
+    zIndex: 10000,
   },
   popup: {
     backgroundColor: "#fff",

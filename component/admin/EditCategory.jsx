@@ -1,30 +1,20 @@
-// import { useSearchParams } from 'next/navigation';
-// import React from 'react'
-
-// const EditCategory = () => {
-//     const searchParams = useSearchParams();
-//     const editId = searchParams.get('editId');
-//   return (
-//     <div className='m-3 bg-danger'>EditCategory{editId}</div>
-//   )
-// }
-
-// export default EditCategory
 import React, { useEffect, useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
 const EditCategory = ({ setState }) => {
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
+  const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
     categoryName: "",
     description: "",
     status: false,
   });
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [errors, setErrors] = useState({}); 
 
   const onChangeHandler = (e) => {
     const { value, name } = e.target;
@@ -37,8 +27,10 @@ const EditCategory = ({ setState }) => {
   };
 
   const onSubmitHandler = () => {
+    setLoader(true)
     CategoryServices.editCategory(values,editId)
       .then((data) => {
+        setLoader(false)
         setErrors({});
         setValues({
           categoryName: "",
@@ -62,6 +54,7 @@ const EditCategory = ({ setState }) => {
           return acc;
         }, {});
         setErrors(errorObj);
+        setLoader(false)
       });
   };
   useEffect(() => {
@@ -124,7 +117,8 @@ const EditCategory = ({ setState }) => {
       </div>
 
       <div className="col-md-12 mb-3 text-center">
-        <button className="admin_btn" onClick={onSubmitHandler}>
+        <button className="admin_btn" onClick={onSubmitHandler} disabled={loader}>
+        {loader && <MiniLoader/>}
           update
         </button>
       </div>

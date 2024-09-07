@@ -84,7 +84,7 @@ const EditProduct = ({ setState }) => {
   return (
     <div className="row  m-0 p-3">
       <div className="col-md-4 mb-3 ">
-        <label className="adjustLabel">productName *</label>
+        <label className="adjustLabel">Product Name *</label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -130,7 +130,7 @@ const EditProduct = ({ setState }) => {
         )}
       </div>
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Sub Category *</label>
+        <label className="adjustLabel">Subcategory *</label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
@@ -185,7 +185,7 @@ const EditProduct = ({ setState }) => {
             className="form-check-label ms-2 cursor"
             htmlFor="flexSwitchCheckDefault"
           >
-            Status for category
+            Status for Product
           </label>
         </div>
       </div>

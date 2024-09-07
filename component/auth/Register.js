@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import logo from "../../public/header/logo1.jpg";
 import { useDispatch } from "react-redux";
 import { registration } from "@/redux/auth/authSlice";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -22,8 +24,10 @@ const RegisterPage = () => {
     }));
   };
 
-  const submitHandler = () => {
-    dispatch(registration(values));
+  const submitHandler = async() => {
+    setLoader(true);
+   await dispatch(registration(values));
+    setLoader(false);
   };
 
   return (
@@ -100,7 +104,8 @@ const RegisterPage = () => {
         />
       </div>
       <div className="p-2 text-center mt-2 ">
-        <button className="login_btn" onClick={submitHandler}>
+        <button className="login_btn" onClick={submitHandler} disabled={loader}>
+        {loader && <MiniLoader/>}
           Register
         </button>
       </div>

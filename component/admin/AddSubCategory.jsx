@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
 const AddSubCategory = ({setState}) => {
   const [values, setValues] = useState({
@@ -11,6 +12,7 @@ const AddSubCategory = ({setState}) => {
     category:"",
     status: false,
   });
+  const [loader, setLoader] = useState(false);
   const [categoryList, setCategoryList] = useState([]); 
   const [errors, setErrors] = useState({});
 
@@ -34,9 +36,11 @@ const AddSubCategory = ({setState}) => {
   },[])
 
   const onSubmitHandeler = () => {
+    setLoader(true);
     CategoryServices.addSubCategory(values)
       .then((data) => {
         setErrors({});
+        setLoader(false);
         setValues({
           subcategoryName: "",
           description: "",
@@ -61,6 +65,7 @@ const AddSubCategory = ({setState}) => {
           return acc;
         }, {});
         setErrors(errorObj)
+        setLoader(false);
       });
   };
 
@@ -101,7 +106,8 @@ const AddSubCategory = ({setState}) => {
           aria-label="Default select example"
           name="category"
         >
-          {categoryList?.map((elem)=><option value={elem.categoryId}>{elem.categoryName}</option>)}
+          <option value=""></option>
+          {categoryList?.map((elem)=><option key={elem.categoryId} value={elem.categoryId}>{elem.categoryName}</option>)}
         </select>
         {errors.category && (
           <span className="error_input_text">{errors.category}</span>
@@ -126,7 +132,8 @@ const AddSubCategory = ({setState}) => {
       </div>
 
       <div className="col-md-4 my-3 text-center">
-        <button className="admin_btn" onClick={onSubmitHandeler}>
+        <button className="admin_btn" onClick={onSubmitHandeler} disabled={loader}>
+        {loader && <MiniLoader/>}
           Submit
         </button>
       </div>

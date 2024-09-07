@@ -18,12 +18,15 @@ const ListCategory = ({ setState }) => {
   const [page, setPage] = useState(1);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const handleDelete = async () => {
+    setLoader(true)
     await CategoryServices.deleteCategory(selectedId).then((data) => {
       setCatList(catList.filter((ele) => ele.categoryId !== selectedId));
     });
     setShowConfirm(false);
+    setLoader(false)
     toast("category deleted successfully!", {
       icon: "👏",
       style: {
@@ -69,11 +72,11 @@ const ListCategory = ({ setState }) => {
       <table className="table table-striped table-bordered ">
         <thead>
           <tr>
-            <th>sr no</th>
-            <th>category name</th>
-            <th>description</th>
-            <th className="text-center">status</th>
-            <th className="text-center">action</th>
+            <th>Sr No</th>
+            <th>Category Name</th>
+            <th>Description</th>
+            <th className="text-center">Status</th>
+            <th className="text-center">Action</th>
           </tr>
         </thead>
         {catList?.length > 0 && (
@@ -95,11 +98,11 @@ const ListCategory = ({ setState }) => {
                   </td>
                   <td>
                     <div className="d-flex justify-content-center gap-2">
-                      <IconButton
+                      {/* <IconButton
                         onClick={() => deleteHandeler(item.categoryId)}
                       >
                         <MdDelete color="red" size={20} />
-                      </IconButton>
+                      </IconButton> */}
                       <IconButton onClick={() => editHandeler(item.categoryId)}>
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
@@ -139,6 +142,7 @@ const ListCategory = ({ setState }) => {
         onConfirm={handleDelete}
         onCancel={handleCancel}
         message="Are you sure you want to delete this item?"
+        loading={loader}
       />
     </div>
   );

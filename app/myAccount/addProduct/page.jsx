@@ -366,6 +366,7 @@ import "../../admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import MiniLoader from "@/component/reusableComponent/MiniLoader";
 
 const AddProductDtl = () => {
   const router = useRouter();
@@ -374,6 +375,7 @@ const AddProductDtl = () => {
   const [productList, setProductList] = useState([]);
   const [imageErrors, setImageErrors] = useState([]); // Array for storing invalid images with errors
   const [validImageNames, setValidImageNames] = useState([]);
+  const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
     productDtlName: "",
 
@@ -442,6 +444,7 @@ const AddProductDtl = () => {
   console.log(values);
 
 const onSubmitHandler = async () => {
+  setLoader(true);
     const specialCharRegex = /[^a-zA-Z0-9\s-]/;
     const formattedSlug = values.slug.toLowerCase().replace(/['\s]+/g, "-");
 
@@ -482,6 +485,7 @@ const onSubmitHandler = async () => {
           grade: "",
           available: false,
         });
+        setLoader(false);
         toast("Product added successfully!", {
           icon: "👏",
           style: {
@@ -499,6 +503,7 @@ const onSubmitHandler = async () => {
           return acc;
         }, {});
         setErrors(errorObj);
+        setLoader(false);
       }
     } else {
       setSlugError("Do not contain any special characters in the slug field");
@@ -779,7 +784,9 @@ const onSubmitHandler = async () => {
         </div>
       </div>
       <div className="col-md-3 text-center mt-3">
-        <button className="login_btn" onClick={onSubmitHandler}>
+        <button className="login_btn" onClick={onSubmitHandler}   disabled={loader}
+        >
+          {loader && <MiniLoader />}
           Submit
         </button>
       </div>

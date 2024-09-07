@@ -41,4 +41,16 @@ export default class AuthService {
       },
     });
   }
+
+  static async AllUserProfileAdmin(role) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/user/userList/${role}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
+  
 }

@@ -3,7 +3,7 @@ import { MdCategory } from "react-icons/md";
 import { FaProductHunt } from "react-icons/fa6";
 import { MdOutlineDashboard } from "react-icons/md";
 import { SiBrandfolder } from "react-icons/si";
-import { FaRegListAlt } from "react-icons/fa";
+import { FaRegListAlt,FaListUl } from "react-icons/fa";
 import { usePathname, useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
 
@@ -34,7 +34,7 @@ const sidebarArray = [
   },
   {
     id: 5,
-    title: "Add subCategory",
+    title: "Add Subcategory",
     url: "/admin/addSubCategory",
     icon: <FaRegListAlt size={25} />,
   },
@@ -43,6 +43,12 @@ const sidebarArray = [
     title: "Add Brands",
     url: "/admin/addBrand",
     icon: <SiBrandfolder size={25} />,
+  },
+  {
+    id: 7,
+    title: "Users List",
+    url: "/admin/users",
+    icon: <FaListUl size={22} className="me-1"/>,
   },
 ];
 

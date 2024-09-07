@@ -1,32 +1,24 @@
 import CategoryServices from "@/services/CategoryServices";
 import React, { useEffect, useState } from "react";
 import "../admin/adminpage.css";
-import { IoEye } from "react-icons/io5";
-import { IoMdEyeOff } from "react-icons/io";
 import IconButton from "../reusableComponent/IconButton";
 import { GrOverview } from "react-icons/gr";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import Pagination from "../reusableComponent/Pagination";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import ProductModal from "../reusableComponent/ProductModal";
 
-const AproveFarmerProductslist = ({ setState }) => {
-  const router = useRouter();
+const AproveFarmerProductslist = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [catList, setCatList] = useState([]);
   const [metaData, setmetaData] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setBrandList] = useState([]);
   const [farmerList, setFarmerList] = useState([]);
   const [subCategoryList, setsubCategoryList] = useState([]);
   const [allFarmerProducts, setAllFarmerProducts] = useState([]);
   const [intiapicall, setintiapicall] = useState(false);
-
-  const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState("");
+  const [actionPerformed, setActionPerformed] = useState(false)
 
   const [values, setValues] = useState({
     FarmerId: "",
@@ -34,16 +26,6 @@ const AproveFarmerProductslist = ({ setState }) => {
     subCategory: "",
     brand: "",
   });
-
-  const handleOpenModal = (data) => {
-    setModalData(data);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const FilterinitApi = async () => {
     const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
     setFarmerList(farmerlist?.data?.userProfile);
@@ -61,36 +43,31 @@ const AproveFarmerProductslist = ({ setState }) => {
     setintiapicall(!intiapicall);
   };
 
-  const initApi = async () => {
-    const catList = await CategoryServices.getProducts(page, searchText);
-    setCatList(catList?.data?.data);
-  };
-
   useEffect(() => {
     FilterinitApi();
   }, []);
 
   useEffect(() => {
-    ProductFarmerServices.getAllproductslistforAdmin({
+    ProductFarmerServices.getAllproductsAdmin({
+      name:"isApproved",
       page: page,
       search: searchText,
       category: values?.category,
       subCategory: values?.subCategory,
       brand: values?.brand,
       sellerId: values?.FarmerId,
+      
     })
       .then(({ data }) => {
+        console.log(data)
         setAllFarmerProducts(data?.data);
         setmetaData(data?.meta);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [intiapicall, page, searchText]);
+  }, [intiapicall, page, searchText,actionPerformed]);
 
-  useEffect(() => {
-    initApi();
-  }, []);
 
   return (
     <div className="p-2">
@@ -230,7 +207,7 @@ const AproveFarmerProductslist = ({ setState }) => {
                           borderRadius: "50%",
                         }}
                       >
-                        <IconButton onClick={() => handleOpenModal(item)}>
+                        <IconButton onClick={() => setModalData(item)}>
                           <GrOverview color="green" size={20} />
                         </IconButton>
                       </div>
@@ -239,6 +216,7 @@ const AproveFarmerProductslist = ({ setState }) => {
                         brandList={brandList}
                         categoryList={categoryList}
                         subCategoryList={subCategoryList}
+                        setActionPerformed={setActionPerformed}
                       />
                     </div>
                   </td>
@@ -248,12 +226,12 @@ const AproveFarmerProductslist = ({ setState }) => {
           </tbody>
         )}
       </table>
-      {catList?.length == 0 && (
+      {allFarmerProducts?.length == 0 && (
         <div
           className=" centerAllDiv fs-5 text-secondary "
           style={{ height: "50vh" }}
         >
-          <h6>No Category Found</h6>
+          <h6>No Products Found</h6>
         </div>
       )}
     </div>

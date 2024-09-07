@@ -10,7 +10,6 @@ import ProductModal from "../reusableComponent/ProductModal";
 const FarmerProductsList = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [catList, setCatList] = useState([]);
   const [metaData, setmetaData] = useState(false);
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setBrandList] = useState([]);
@@ -19,6 +18,7 @@ const FarmerProductsList = () => {
   const [allFarmerProducts, setAllFarmerProducts] = useState([]);
   const [intiapicall, setintiapicall] = useState(false);
   const [modalData, setModalData] = useState("");
+  const [actionPerformed, setActionPerformed] = useState(false);
 
   const [values, setValues] = useState({
     FarmerId: "",
@@ -27,10 +27,7 @@ const FarmerProductsList = () => {
     brand: "",
   });
 
-  const handleOpenModal = (data) => {
-    setModalData(data);
-  };
-
+  console.log(allFarmerProducts);
   const FilterinitApi = async () => {
     const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
     setFarmerList(farmerlist?.data?.userProfile);
@@ -48,17 +45,14 @@ const FarmerProductsList = () => {
     setintiapicall(!intiapicall);
   };
 
-  const initApi = async () => {
-    const catList = await CategoryServices.getProducts(page, searchText);
-    setCatList(catList?.data?.data);
-  };
-
   useEffect(() => {
     FilterinitApi();
   }, []);
 
   useEffect(() => {
-    ProductFarmerServices.getAllproductslistforAdmin({
+    console.log(searchText);
+    ProductFarmerServices.getAllproductsAdmin({
+      name: "isPending",
       page: page,
       search: searchText,
       category: values?.category,
@@ -73,11 +67,7 @@ const FarmerProductsList = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [intiapicall, page, searchText]);
-
-  useEffect(() => {
-    initApi();
-  }, []);
+  }, [intiapicall, page, searchText, actionPerformed]);
 
   return (
     <div className="p-2">
@@ -204,8 +194,11 @@ const FarmerProductsList = () => {
                     }
                   </td>
                   <td className="text-center">{item?.price}</td>
-                  <td className="text-center">{item?.discountType=="fixed"&&"₹"} {item?.discount} {item?.discountType=="percentage"&&"%"}</td>
-                
+                  <td className="text-center">
+                    {item?.discountType == "fixed" && "₹"} {item?.discount}{" "}
+                    {item?.discountType == "percentage" && "%"}
+                  </td>
+
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
                       <div
@@ -217,7 +210,7 @@ const FarmerProductsList = () => {
                           borderRadius: "50%",
                         }}
                       >
-                        <IconButton onClick={() => handleOpenModal(item)}>
+                        <IconButton onClick={() => setModalData(item)}>
                           <GrOverview color="green" size={20} />
                         </IconButton>
                       </div>
@@ -226,6 +219,7 @@ const FarmerProductsList = () => {
                         brandList={brandList}
                         categoryList={categoryList}
                         subCategoryList={subCategoryList}
+                        setActionPerformed={setActionPerformed}
                       />
                     </div>
                   </td>
@@ -235,12 +229,12 @@ const FarmerProductsList = () => {
           </tbody>
         )}
       </table>
-      {catList?.length == 0 && (
+      {allFarmerProducts?.length == 0 && (
         <div
           className=" centerAllDiv fs-5 text-secondary "
           style={{ height: "50vh" }}
         >
-          <h6>No Category Found</h6>
+          <h6>No Products Found</h6>
         </div>
       )}
     </div>

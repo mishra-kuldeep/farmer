@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import logo from "../../public/header/logo1.jpg";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchUserInfo, login } from "@/redux/auth/authSlice";
+import MiniLoader from "../reusableComponent/MiniLoader";
 
 const LoginPage = () => {
-  const user = useSelector(state=>state.auth)
-  const dispatch = useDispatch()
-const [email,setEmail] = useState("")
-const [password,setPassword] = useState("")
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState(false);
 
-const handleSubmit = () => {
-  dispatch(login({ email, password })).then((result) => {
-    if (result.meta.requestStatus === 'fulfilled') {
-      dispatch(fetchUserInfo()); // Fetch user info after successful login
-    }
-  });
-}
+  const handleSubmit = () => {
+    setLoader(true);
+    dispatch(login({ email, password })).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        dispatch(fetchUserInfo()); // Fetch user info after successful login
+        setLoader(false);
+      }
+    });
+  };
 
   return (
     <div>
@@ -28,27 +31,29 @@ const handleSubmit = () => {
         />
       </div>
       <div className="p-2 m20">
-      <label className="adjustLabel">User Id *</label>
+        <label className="adjustLabel">User Id *</label>
         <input
           type="email"
           className="form-control adjustLabel_input p-2"
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           name="email"
         />
       </div>
       <div className="p-2 m20">
-      <label className="adjustLabel">password *</label>
+        <label className="adjustLabel">password *</label>
         <input
           type="text"
           className="form-control adjustLabel_input p-2"
-           onChange={(e)=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           name="password"
         />
       </div>
       <div className="p-2 text-center mt-4">
-        <button className="login_btn" onClick={handleSubmit}>login</button>
+        <button className="login_btn" onClick={handleSubmit} disabled={loader}>
+        {loader && <MiniLoader/>}
+          login
+        </button>
       </div>
-     
     </div>
   );
 };

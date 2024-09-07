@@ -1,36 +1,35 @@
-import React, { useState } from "react";
-import palakImage from "../../public/product/palak.jpg";
-import palakImage1 from "../../public/product/palak1.jpg";
+import React, { useEffect, useRef, useState } from "react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "../../app/product/[...slug]/productPage.css";
 import ConfirmModel from "./ConfirmModel";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import toast from "react-hot-toast";
+import { Image_URL } from "@/helper/common";
+import IconButton from "./IconButton";
 
 const ProductModal = ({
   modalData,
   brandList,
   categoryList,
   subCategoryList,
+  setActionPerformed,
 }) => {
+  const imageContainerRef = useRef(null);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState("");
   const [actionType, setActionType] = useState("");
+  const [ImageList, setImageList] = useState("");
   const [loading, setloading] = useState(false);
-  const imagelist = [
-    palakImage,
-    palakImage,
-    palakImage,
-    palakImage,
-    palakImage,
-  ];
+  const [Index, setIndex] = useState(0);
 
   const onConfirmHandeler = () => {
     if (actionType == "approve") {
       setloading(true);
       ProductFarmerServices.approveProductsFarmer(modalData?.productDtlId)
-        .then(({data}) => {
+        .then(({ data }) => {
           setloading(false);
           setConfirm(false);
+          setActionPerformed(true);
           toast(data?.message, {
             icon: "👏",
             style: {
@@ -48,7 +47,7 @@ const ProductModal = ({
     if (actionType == "reject") {
       setloading(true);
       ProductFarmerServices.rejectProductsFarmer(modalData?.productDtlId)
-        .then(({data}) => {
+        .then(({ data }) => {
           toast(data?.message, {
             icon: "👏",
             style: {
@@ -59,6 +58,7 @@ const ProductModal = ({
           });
           setloading(false);
           setConfirm(false);
+          setActionPerformed(true);
         })
         .catch((err) => {
           console.log(err);
@@ -70,18 +70,38 @@ const ProductModal = ({
     setConfirm(false);
   };
 
+  const scrollHandeler = (direction) => {
+    const scrollAmount = 120; // Scroll amount is 120px
+    if (imageContainerRef.current) {
+      if (direction === "up") {
+        imageContainerRef.current.scrollBy({
+          top: -scrollAmount,
+          behavior: "smooth",
+        });
+      } else if (direction === "down") {
+        imageContainerRef.current.scrollBy({
+          top: scrollAmount,
+          behavior: "smooth",
+        });
+      }
+    }
+  }
+
+  useEffect(() => {
+    setImageList([])
+    if (modalData?.productDtlId) {
+      ProductFarmerServices.getAllImage(modalData?.productDtlId).then(
+        ({ data }) => {
+          setImageList(data?.images);
+        }
+      );
+    }
+  }, [modalData?.productDtlId]);
+
   return (
     <>
-      <div
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-xl">
+      <div className="modal fade" id="exampleModal" tabIndex="-1">
+        <div className="modal-dialog modal-fullscreen">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
@@ -98,12 +118,28 @@ const ProductModal = ({
               <div>
                 <div className="product_basic_detail">
                   <div className="product_imageList">
-                    {imagelist.map((image, i) => (
-                      <img src={image.src} alt="image" key={i} />
-                    ))}
+                    <div
+                    style={{flexDirection: "column", height: "75vh", overflowY: "auto" }}
+                      className="d-flex align-items-center py-2"
+                    >
+                      {ImageList?.length > 0 &&
+                        ImageList?.map((image, i) => (
+                          <img
+                            src={`${Image_URL}/Products/${image.url}`}
+                            alt="image"
+                            key={i}
+                            onClick={() => setIndex(i)}
+                            className="cursor"
+                          />
+                        ))}
+                    </div>
                   </div>
                   <div className="product_singleImage">
-                    <img src={palakImage1.src} alt="image" />
+                    <img
+                      src={`${Image_URL}/Products/${ImageList[Index]?.url}`}
+                      alt="image"
+                      style={{ objectFit: "fill" }}
+                    />
                   </div>
                   <div className="product_details">
                     <table className="table table-bordered table-striped">
@@ -118,9 +154,7 @@ const ProductModal = ({
                           <td>
                             <h6>Product Dicription</h6>
                           </td>
-                          <td>
-                            {modalData?.productDtl}
-                          </td>
+                          <td>{modalData?.productDtl}</td>
                         </tr>
                         <tr>
                           <td>
@@ -130,18 +164,19 @@ const ProductModal = ({
                         </tr>
                         <tr>
                           <td>
-                            <h6>Product Quantity</h6>
-                          </td>
-                          <td>{modalData?.quantity}</td>
-                        </tr>
-                        <tr>
-                          <td>
                             <h6>Discount</h6>
                           </td>
                           <td>
                             {modalData?.discount} {modalData?.discountType}
                           </td>
                         </tr>
+                        <tr>
+                          <td>
+                            <h6>Product Quantity</h6>
+                          </td>
+                          <td>{modalData?.quantity}</td>
+                        </tr>
+                     
                         <tr>
                           <td>
                             <h6>Unit</h6>

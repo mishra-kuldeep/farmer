@@ -42,6 +42,21 @@ const Search = () => {
   useEffect(() => {
     handleGetProduct(queryes)
   }, [queryes])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setOpen(false);
+      setquery("")
+    };
+
+    // Add scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   
 
   return (

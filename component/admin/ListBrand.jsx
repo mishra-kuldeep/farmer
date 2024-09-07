@@ -26,11 +26,12 @@ const ListBrand = ({setState}) => {
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th>sr no</th>
-            <th>subcategory name</th>
-            <th>description</th>
-            <th className="text-center">status</th>
-            <th className="text-center">action</th>
+            <th>Sr No</th>
+            <th>Brand Name</th>
+            <th>Description</th>
+            <th className="text-center">Subcategory</th>
+            <th className="text-center">Status</th>
+            <th className="text-center">Action</th>
           </tr>
         </thead>
         {catList?.length > 0 && (
@@ -41,7 +42,10 @@ const ListBrand = ({setState}) => {
                   <td>{i + 1}</td>
                   <td>{item.brandName}</td>
                   <td style={{ backgroundColor: "transparent" }}>
-                    {item.description}
+                    {item?.description}
+                  </td>
+                  <td style={{ backgroundColor: "transparent" }}>
+                    {item?.SubCategory?.subcategoryName}
                   </td>
                   <td className="d-flex justify-content-center">
                     <IconButton>
@@ -54,9 +58,9 @@ const ListBrand = ({setState}) => {
                   </td>
                   <td className="text-center">
                     <div className="d-flex gap-2 justify-content-center">
-                      <IconButton>
+                      {/* <IconButton>
                         <MdDelete color="red" size={20}/>
-                      </IconButton>
+                      </IconButton> */}
                       <IconButton onClick={() => editHandeler(item.brandId)}>
                         <FaRegEdit color="green" size={20}/>
                       </IconButton>

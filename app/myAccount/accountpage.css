@@ -43,6 +43,15 @@
   background-color: #ddd;
   font-weight: bold;
 }
+.imageofProductaddbyFarmer{
+  height: calc(100vh / 2);
+  width: 400px;
+  object-fit: contain;
+  margin: 10px;
+  background-color: #ddd;
+}
+
+
 @media only screen and (max-width: 600px) {
   .accountsidebar{
     border-right: none;

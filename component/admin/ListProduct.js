@@ -78,15 +78,13 @@ const ListProduct = ({setState}) => {
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th>sr no</th>
-            <th>product name</th>
-            <th className="text-center">brand name</th>
-            <th className="text-center">category name</th>
-            <th className="text-center">sub category name</th>
-            <th className="text-center">price</th>
-            <th className="text-center">discount</th>
-            <th className="text-center">status</th>
-            <th className="text-center">action</th>
+            <th>Sr No</th>
+            <th>Product Name</th>
+            <th className="text-center">Brand Name</th>
+            <th className="text-center">Category Name</th>
+            <th className="text-center">Subcategory Name</th>
+            <th className="text-center">Status</th>
+            <th className="text-center">Action</th>
           </tr>
         </thead>
         {catList?.length > 0 && (
@@ -96,13 +94,11 @@ const ListProduct = ({setState}) => {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item?.productName}</td>
-                  <td className="text-center">{item?.Brand?.brandName}</td>
+                  <td className="text-center">{item?.Brand?.brandName ? item?.Brand?.brandName:"----"}</td>
                   <td className="text-center">{item?.Category?.categoryName}</td>
                   <td className="text-center">
                     {item?.SubCategory?.subcategoryName}
                   </td>
-                  <td className="text-center">{item?.price}</td>
-                  <td className="text-center">{item?.discount}</td>
                   <td className="d-flex justify-content-center">
                     <IconButton onClick={()=>statusUpdate(item.productId,item.status)}>
                       {item.status ? (
