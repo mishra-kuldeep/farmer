@@ -51,8 +51,6 @@ const Section1Home = () => {
     }
   };
 
-  console.log(Products);
-
   return (
     <div className="container">
       <div className="bestSellerWrapper p-md-3 p-0">

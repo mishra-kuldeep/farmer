@@ -51,8 +51,6 @@ const EditProductFarmer = ({params}) => {
       };
       try {
      const dataa =    await ProductFarmerServices.editProductsFormer(params?.id,updatedValues);
-     console.log(dataa)
-  
         // Reset errors and form values after successful service call
         setErrors({});
         setValues({

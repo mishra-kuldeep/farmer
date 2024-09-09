@@ -13,7 +13,6 @@ const UsersListForAdmin = () => {
   useEffect(() => {
     AuthService.AllUserProfileAdmin(role)
       .then(({ data }) => {
-        console.log(data?.userProfile);
         setUserList(data?.userProfile);
       })
       .catch((err) => console.log(err));

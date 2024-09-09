@@ -79,7 +79,6 @@ const AddProductDtl = () => {
     }
   };
   
-  console.log(values);
 
 const onSubmitHandler = async () => {
   setLoader(true);

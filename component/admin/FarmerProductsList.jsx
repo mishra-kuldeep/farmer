@@ -27,7 +27,6 @@ const FarmerProductsList = () => {
     brand: "",
   });
 
-  console.log(allFarmerProducts);
   const FilterinitApi = async () => {
     const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
     setFarmerList(farmerlist?.data?.userProfile);
@@ -50,7 +49,6 @@ const FarmerProductsList = () => {
   }, []);
 
   useEffect(() => {
-    console.log(searchText);
     ProductFarmerServices.getAllproductsAdmin({
       name: "isPending",
       page: page,

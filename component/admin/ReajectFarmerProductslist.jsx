@@ -31,7 +31,6 @@ const ReajectFarmerProductslist = () => {
   const handleOpenModal = (data) => {
     setModalData(data);
   };
-console.log(allFarmerProducts)
   const FilterinitApi = async () => {
     const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
     setFarmerList(farmerlist?.data?.userProfile);

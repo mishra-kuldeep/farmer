@@ -62,7 +62,6 @@ export default class ProductFarmerServices {
   }
 
   static async editProductsFormer(id, data) {
-    console.log(data);
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/productsDtl/${id}`;
     return axios.put(url, data, {
@@ -111,7 +110,6 @@ export default class ProductFarmerServices {
     brand = "",
     sellerId = "",
   }) {
-    console.log(search);
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/products_admin/${name}?page=${page}&search=${search}&category=${category}&subCategory=${subCategory}&brand=${brand}&sellerId=${sellerId} `;
     return axios.get(url, {

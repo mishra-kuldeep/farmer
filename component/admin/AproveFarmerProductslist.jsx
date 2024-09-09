@@ -59,7 +59,6 @@ const AproveFarmerProductslist = () => {
       
     })
       .then(({ data }) => {
-        console.log(data)
         setAllFarmerProducts(data?.data);
         setmetaData(data?.meta);
       })

@@ -27,7 +27,6 @@ const FarmerProductsAlllist = () => {
     brand: "",
   });
 
-  console.log(allFarmerProducts);
   const FilterinitApi = async () => {
     const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
     setFarmerList(farmerlist?.data?.userProfile);

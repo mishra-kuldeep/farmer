@@ -55,8 +55,6 @@ const ListAddedProduct = () => {
     setShowConfirm(true);
   };
 
-  console.log(productList);
-
   const getImage = (id) => {
     setImageList([])
     ProductFarmerServices.getAllImage(id)

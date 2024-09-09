@@ -18,7 +18,6 @@ const Product = () => {
   const [sigleSearchProduct, setsigleSearchProduct] = useState({});
   const [Index, setIndex] = useState(0);
 
-  console.log(slug);
   const handleGetProduct = async () => {
     try {
       const singleProducthResult =
@@ -41,17 +40,14 @@ const Product = () => {
         },
       });
     }else{
-      console.log("first")
     }
   };
-  console.log(user);
 
   useEffect(() => {
     handleGetProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
-  console.log(sigleSearchProduct);
   return (
     <div className="container">
       <div className="w-100 overflow-auto">
