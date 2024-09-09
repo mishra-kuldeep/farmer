@@ -18,8 +18,9 @@
 }
 @media only screen and (max-width: 600px) {
     .cat_list{
-     color: #fff;
+     color: #d1d1d1 !important;
      border:none;
+     font-size: 16px;
     }
   }
   

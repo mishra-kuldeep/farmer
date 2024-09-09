@@ -16,12 +16,12 @@ header {
 .visible {
   top: 0;
   width: 100%;
-  transition: top 0.4s ease-out;
+  /* transition: top 0.4s ease-out; */
 }
 .hidden {
   width: 100%;
   top: -100px;
-  transition: top 0.4s ease-out;
+  /* transition: top 0.4s ease-out; */
 }
 
 .logoImage {
@@ -189,4 +189,10 @@ header {
   position: absolute !important;
   top: 10px !important;
   left: -14px !important;
+}
+.regiDiv{
+  background: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../../public/header/logo1.jpg");
+  background-size: 100% 50%;
+  background-repeat: no-repeat;
+  background-position: center;
 }

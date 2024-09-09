@@ -54,11 +54,11 @@ const HeaderForMobile = () => {
       </div>
       {/* ////////////////////////////// category list ///////////////////////////////// */}
       <div
-        className="offcanvas offcanvas-start w-75"
+        className="offcanvas offcanvas-start"
         tabIndex="-1"
         id="offcanvasExample1"
         aria-labelledby="offcanvasExampleLabel1"
-        style={{backgroundColor:"var(--mainColor)"}}
+        style={{backgroundColor:"var(--mainColor)",width:"90%"}}
       >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title text-light" id="offcanvasExampleLabel1">
@@ -71,7 +71,7 @@ const HeaderForMobile = () => {
             aria-label="Close"
           ></button>
         </div>
-        <div className="offcanvas-body">
+        <div className="offcanvas-body p-2">
           <Category />
         </div>
         </div>

@@ -24,6 +24,16 @@ export default class CategoryServices {
       },
     });
   }
+  static async getCategorySubCategory() {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/category/category/subcategory/list`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  
   static async getSingeCategory(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/category/categories/${id}`;

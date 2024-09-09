@@ -45,10 +45,11 @@ const Auth = () => {
       </button>
 
       <div
-        className="offcanvas offcanvas-end widthautoforAuth"
+        className="offcanvas offcanvas-end widthautoforAuth regiDiv"
         tabIndex="-1"
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
+        
       >
         <div
           className="offcanvas-header"
@@ -66,17 +67,17 @@ const Auth = () => {
           ></button>
         </div>
         <div className="offcanvas-body">
-          {loginState ? <LoginPage /> : <RegisterPage />}
-          <p className="fw-bold text-danger text-center mt-4">{auth.error}</p>
+        <p className="fw-bold text-danger text-center">{auth.error}</p>
+        {loginState ? <LoginPage /> : <RegisterPage />}
         </div>
         <div
           className="position-absolute w-100 me-5 cursor"
-          style={{ bottom: 20 }}
-          onClick={() => setLoginState(!loginState)}
+          style={{ bottom: 0 }}
+         
         >
-          <p className="text-center">
-            <u>
-              {loginState ? "Create a new account" : "Already have an account"}
+          <p className="text-center bg-light p-2">
+            <u  onClick={() => setLoginState(!loginState)}>
+              <span>{loginState ? "Create a new account" : "Already have an account"}</span>
             </u>
           </p>
         </div>

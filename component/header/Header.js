@@ -27,11 +27,18 @@ function Header() {
     if (typeof window !== "undefined") {
       const handleScroll = () => {
         let moving = window.pageYOffset;
-        setVisible(position > moving);
-        setPosition(moving);
+        // Show the header when at the top (position === 0), otherwise hide it
+        if (moving < 80) {
+          setVisible(true); // Show the header
+        } else {
+          setVisible(false); // Toggle visibility based on scrolling direction
+        }
+  
+        setPosition(moving); // Update position state
       };
-
+  
       window.addEventListener("scroll", handleScroll);
+  
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
@@ -72,10 +79,10 @@ function Header() {
                       <span className="fs-4">M</span>arket
                     </h6>
                   </div>
-                  <div className="col-md-6 p-0 px-4">
+                  <div className="col-md-8 p-0 px-4">
                     <Search />
                   </div>
-                  <div className="col-md-4 p-0">
+                  <div className="col-md-2 p-0">
                     <div className="d-flex justify-content-end gap-3 align-items-center">
                       {user.profile === null ? (
                         <Auth />

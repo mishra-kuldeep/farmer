@@ -7,6 +7,10 @@ export default class AuthService {
     const url = `${BASE_URL}/user/registration`;
     return axios.post(url, data);
   }
+  static async getCountryList() {
+    const url = `${BASE_URL}/country/countries`;
+    return axios.get(url);
+  }
   static async login(data) {
     const url = `${BASE_URL}/user/login`;
     return axios.post(url, data);
@@ -36,7 +40,7 @@ export default class AuthService {
     const url = `${BASE_URL}/user/editprofile`;
     return axios.put(url, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
@@ -51,6 +55,4 @@ export default class AuthService {
       },
     });
   }
-
-  
 }

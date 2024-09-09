@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./section1home.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
@@ -10,47 +10,31 @@ import { isMobile } from "react-device-detect";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { IoIosPerson } from "react-icons/io";
 import Link from "next/link";
+import ProductsDtlServices from "@/services/ProductsDtlServices";
+import { Image_URL } from "@/helper/common";
+import { useRouter } from "next/navigation";
 
 const Section1Home = () => {
+  const router = useRouter()
   const scrollContainerRef = useRef(null);
-  const array = [
-    {
-      id: "111",
-      title: "Seasonal Fruit Vegetable 111",
-    },
-    {
-      id: "112",
-      title: "Seasonal Fruit Vegetable 112",
-    },
-    {
-      id: "113",
-      title: "Seasonal Fruit Vegetable 113",
-    },
-    {
-      id: "121",
-      title: "Seasonal Fruit Vegetable 121",
-    },
-    {
-      id: "122",
-      title: "Seasonal Fruit Vegetable 122",
-    },
-    {
-      id: "123",
-      title: "Seasonal Fruit Vegetable 123",
-    },
-    {
-      id: "131",
-      title: "Seasonal Fruit Vegetable 131",
-    },
-    {
-      id: "132",
-      title: "Seasonal Fruit Vegetable 132",
-    },
-    {
-      id: "133",
-      title: "Seasonal Fruit Vegetable 133",
-    },
-  ];
+  const [Products, setProducts] = useState([]);
+
+  const initApi = async () => {
+    try {
+      const searchResult = await ProductsDtlServices.getProductsDtl({
+        page: 1,
+        search: "",
+      });
+      setProducts(searchResult?.data?.data || []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setProducts([]);
+    }
+  };
+
+  useEffect(() => {
+    initApi();
+  }, []);
 
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
@@ -66,6 +50,8 @@ const Section1Home = () => {
       }
     }
   };
+
+  console.log(Products);
 
   return (
     <div className="container">
@@ -92,41 +78,47 @@ const Section1Home = () => {
           className="bestseller_cards_wrap overflowscrollhidden row m-0"
           ref={scrollContainerRef}
         >
-          {array.map((ele) => (
-            <div className="col-md-3 px-2 col-6" key={ele.id}>
+          {Products.map((ele) => (
+            <div className="col-md-3 px-2 " key={ele.productDtlId}>
               <div className="bestseller_cards">
-                <Link
-                  href={`/product/${ele.id}/${ele.title.split(" ").join("-")}`}
-                  className="custom-link"
-                >
+                <div onClick={() => router.push(`/product/${ele.slug}`)}>
                   <div className="image_div">
-                    <img src={product1.src} alt="product image" />
+                    <img
+                      src={`${Image_URL}/Products/${ele.ProductsImages[0].url}`}
+                      alt="product image"
+                    />
                   </div>
-                  <h6 className="mt-2 mb-0">Seasonal Fruit Vegetable</h6>
+                  <h6 className="mt-2 mb-0">{ele.productDtlName}</h6>
                   <div className="d-flex my-2 justify-content-between kisanNamelocation">
                     <p>
                       <IoIosPerson size={15} />
-                      <span className="ms-1">jai kisan bahadur</span>
+                      <span className="ms-1">{ele.User.FirstName}</span>
                     </p>
                     <p>
                       <MdOutlineLocationOn size={20} />
-                      <span className="ms-1">Ghazipur</span>
+                      <span className="ms-1">{ele.User.userInfo.City}</span>
                     </p>
                   </div>
                   <div className="rating_wrap">
                     <p className="centerAllDiv rating">
-                      <span className="fw-bold">4.2</span>
+                      <span className="fw-bold">{ele.averageRating}.0</span>
                       <FaStar size={10} className="ms-1" />
                     </p>
-                    <span className="rating_unit">210 Ratings</span>
+                    <span className="rating_unit">
+                      {ele.averageRating} Ratings
+                    </span>
                   </div>
                   <h5 className="mt-2 fw-bold fs-6">
-                    ₹ 199
-                    <sub>
-                      <del className="text-secondary fw-light">₹299</del>
-                    </sub>
+                    ₹ {ele.price - ele.discount}
+                    {ele.discount !== 0 && (
+                      <sub className="ms-1">
+                        <del className="text-secondary fw-light">
+                          ₹{ele.price}
+                        </del>
+                      </sub>
+                    )}
                   </h5>
-                </Link>
+                </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <button
                     className="bookmark_btn"

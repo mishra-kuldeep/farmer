@@ -8,7 +8,6 @@
   --light: #ddd;
   --black: #000000;
 
-
   --adminwhite: #ffffff;
   --adminMainColor: #476f00;
   --adminMainColor2: maroon;
@@ -22,7 +21,14 @@
 body {
   font-family: "Roboto Slab" !important;
 }
-p, h6, h5, h4, h3, h2, h1, hr {
+p,
+h6,
+h5,
+h4,
+h3,
+h2,
+h1,
+hr {
   margin-bottom: 0px !important;
 }
 a {
@@ -73,12 +79,12 @@ button:disabled {
   color: #7e7e7e !important;
   cursor: not-allowed;
 }
-.error_input_text{
+.error_input_text {
   color: red;
   font-weight: 500;
   font-size: 12px;
 }
-.m20{
+.m20 {
   margin-left: 15px;
 }
 .custom-select {
@@ -101,27 +107,27 @@ button:disabled {
   width: 30% !important;
   z-index: 1000;
 }
-.adminPaperWrap{
+.adminPaperWrap {
   background-color: #ffffff;
   box-shadow: 1px 1px 10px grey;
   border-radius: 10px;
   border-top: 4px solid var(--adminMainColor);
 }
-.adjustLabel{
+.adjustLabel {
   font-size: 12px;
   font-weight: bold;
   color: var(--adminMainColor);
   background-color: #ffffff;
   padding: 0px 5px;
 }
-.adjustLabel_input{
+.adjustLabel_input {
   margin-top: -10px;
   margin-left: -10px;
   color: #555 !important;
   box-shadow: 0px 0px 5px #c9c9c9;
   background-color: rgba(255, 255, 255, 0.685) !important;
 }
-.adminPageTitle{
+.adminPageTitle {
   text-align: center;
   color: var(--adminMainColor);
   font-weight: bold;
@@ -139,20 +145,20 @@ button:disabled {
   font-size: 12px;
   font-weight: 500;
 }
-table thead tr th{
+table thead tr th {
   background-color: var(--adminMainColor) !important;
   color: var(--adminwhite) !important;
 }
-table tbody tr td{
-background-color: transparent !important;
+table tbody tr td {
+  background-color: transparent !important;
 }
-.bgwarning{
+.bgwarning {
   background-color: #fffc77 !important;
 }
-.bgsuccess{
+.bgsuccess {
   background-color: #ceff95 !important;
 }
-.bgdanger{
+.bgdanger {
   background-color: #ffadad !important;
 }
 input::placeholder {
@@ -164,9 +170,22 @@ textarea::placeholder {
 textarea:focus {
   border: 1px solid var(--mainColor) !important; /* Placeholder color */
 }
-.helperTextInput{
+.helperTextInput {
   font-size: 12px;
   opacity: 0.5;
+}
+.scrollThumbStyle::-webkit-scrollbar {
+  width: 3px;
+}
+.scrollThumbStyle::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.scrollThumbStyle::-webkit-scrollbar-thumb {
+  background: #afafaf;
+  border-radius: 10px;
+}
+.scrollThumbStyle::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 @media only screen and (max-width: 600px) {
   .marginEveryPage {

@@ -245,8 +245,9 @@ const ListAddedProduct = () => {
         </div>
         <div className="offcanvas-body">
          <div style={{display:"flex",flexDirection:"column"}}>
-         {imageList?.map((val) => (
+         {imageList?.map((val,i) => (
             <img
+            key={i}
               src={`${Image_URL}/products/${val.url}`}
               alt={val.url}
               className="imageofProductaddbyFarmer"

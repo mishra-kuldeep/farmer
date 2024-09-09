@@ -22,6 +22,7 @@ const UserProfile = () => {
       const formData = new FormData();
       formData.append("FirstName", profileData.FirstName);
       formData.append("Role", profileData.Role);
+      formData.append("CountryID",profileData.CountryID)
       formData.append("Profile", file);
 
       AuthService.updateUserProfile(formData)

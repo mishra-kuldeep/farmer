@@ -16,7 +16,7 @@ const LoginPage = () => {
       if (result.meta.requestStatus === "fulfilled") {
         dispatch(fetchUserInfo()); // Fetch user info after successful login
         setLoader(false);
-      }
+      }else setLoader(false);
     });
   };
 

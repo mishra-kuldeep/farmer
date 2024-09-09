@@ -1,20 +1,74 @@
-import React from "react";
-import "./category.css"
+import React, { useEffect, useState } from "react";
+import "./category.css";
+import { IoIosArrowDown ,IoIosArrowUp} from "react-icons/io";
+import CategoryServices from "@/services/CategoryServices";
 
 const Category = () => {
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [openCategory, setOpenCategory] = useState(null);
+
+  const toggleCategory = (categoryName) => {
+    if (openCategory === categoryName) {
+      setOpenCategory(null);
+    } else {
+      setOpenCategory(categoryName);
+    }
+  };
+  useEffect(() => {
+    CategoryServices.getCategorySubCategory().then(({ data }) => {
+      setCategoryList(data?.categorySubCatList);
+    });
+  }, []);
+
   return (
     <>
-      <p className="cat_list">Food Grains</p>
-      <p className="cat_list">Fruits</p>
-      <p className="cat_list">Vegitables</p>
-      <p className="cat_list">Spices</p>
-      <p className="cat_list">Dairy</p>
-      <p className="cat_list">Beverages</p>
-      <p className="cat_list">Meat & Fish</p>
-      <p className="cat_list">Farm Equipments</p>
-      <p className="cat_list">Organic Fertipzers</p>
+      <div
+        style={{ width: "600px", display: "flex" }}
+        className="d-none d-md-flex"
+      >
+        <div style={{ width: "300px", backgroundColor: "#555" }}>
+          {categoryList?.map((ele) => (
+            <p
+              className="cat_list text-white"
+              onMouseEnter={() => setSubCategoryList(ele?.SubCategories)}
+            >
+              {ele?.categoryName}
+            </p>
+          ))}
+        </div>
+        <div style={{ width: "300px", backgroundColor: "#ddd" }}>
+          {subCategoryList?.map((ele) => (
+            <p className="cat_list text-dark">{ele?.subcategoryName}</p>
+          ))}
+        </div>
+      </div>
+
+      <div className="d-md-none d-block">
+      {categoryList?.map((ele) => (
+        <div key={ele?.categoryName}>
+          <p
+            className="cat_list text-white d-flex justify-content-between"
+            onClick={() => toggleCategory(ele?.categoryName)}
+          >
+            <span style={{width:"90%"}}>{ele?.categoryName}</span>
+            <span style={{width:"10%",textAlign:"center"}}>
+              {openCategory === ele?.categoryName ? <IoIosArrowUp /> : <IoIosArrowDown />}
+            </span>
+          </p>
+          {openCategory === ele?.categoryName && (
+            <div>
+              {ele?.SubCategories?.map((val) => (
+                <p key={val?.subcategoryName} className="cat_list text-white ms-3">
+                  {val?.subcategoryName}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
     </>
   );
 };
-
 export default Category;
