@@ -2,51 +2,102 @@
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "./productPage.css";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaMinus, FaPlus } from "react-icons/fa";
 import WhyProducthoose from "@/component/productCompo/WhyProducthoose";
 import AboutTheProduct from "@/component/productCompo/AboutTheProduct";
 import ProductsDtlServices from "@/services/ProductsDtlServices";
 import { Image_URL } from "@/helper/common";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
+import { addToCart, getCart, updateCart } from "@/redux/cart/cartSlice";
+import MiniLoader from "@/component/reusableComponent/MiniLoader";
 
 const Product = () => {
   const user = useSelector((state) => state.auth);
+  const cart = useSelector((state) => state.cart);
   const { slug } = useParams();
-  const [sigleSearchProduct, setsigleSearchProduct] = useState({});
-  const [Index, setIndex] = useState(0);
+  const [singleProduct, setSingleProduct] = useState({});
+  const [index, setIndex] = useState(0);
+  const [loadingProductId, setLoadingProductId] = useState(null); // Track the product being updated
+  const [loadingAction, setLoadingAction] = useState(null); // Track the action ('increment' or 'decrement')
+  const dispatch = useDispatch();
 
+  // Fetch product details
   const handleGetProduct = async () => {
     try {
-      const singleProducthResult =
-        await ProductsDtlServices.getsingleProductsDtl(slug);
-      setsigleSearchProduct(singleProducthResult?.data?.singleproduct);
+      const singleProductResult = await ProductsDtlServices.getsingleProductsDtl(slug);
+      setSingleProduct(singleProductResult?.data?.singleproduct);
     } catch (error) {
-      console.error("Error fetching products:", error);
-      setsigleSearchProduct({});
+      console.error("Error fetching product:", error);
+      setSingleProduct({});
     }
   };
 
-  const addCartHandeler = () => {
+  // Fetch cart data when user is logged in
+  useEffect(() => {
+    if (user?.isLoggedIn) {
+      dispatch(getCart(user?.profile?.id));
+    }
+  }, [user?.isLoggedIn]);
+
+  // Add product to cart
+  const addCartHandler = () => {
     if (!user?.isLoggedIn) {
-      toast("Please login to add products in cart!", {
+      toast("Please login to add products to the cart!", {
         icon: "😢",
-        style: {
-          borderRadius: "10px",
-          background: "red",
-          color: "#fff",
-        },
+        style: { borderRadius: "10px", background: "red", color: "#fff" },
       });
-    }else{
+    } else {
+      const cartObj = {
+        buyerId: user?.profile?.id,
+        productDtlId: singleProduct?.productDtlId,
+        quantity: 1,
+      };
+      dispatch(addToCart(cartObj));
+    }
+  };
+
+  // Update product quantity in the cart
+  const updateCartQuantity = (productDtlId, newQuantity, action) => {
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === productDtlId);
+    if (cartItem) {
+      const updatedCart = {
+        buyerId: user?.profile?.id,
+        quantity: newQuantity,
+        productDtlId,
+      };
+      setLoadingProductId(productDtlId); // Set loading state for this product
+      setLoadingAction(action); // Set loading action (increment or decrement)
+      dispatch(updateCart({ cartId: cartItem.cartId, data: updatedCart })).finally(() => {
+        setLoadingProductId(null); // Reset loading state after update is done
+        setLoadingAction(null); // Reset the action after update is done
+      });
+    }
+  };
+
+  // Handle quantity increase
+  const increaseQuantity = () => {
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === singleProduct?.productDtlId);
+    if (cartItem) {
+      updateCartQuantity(singleProduct?.productDtlId, cartItem.quantity + 1, 'increment');
+    }
+  };
+
+  // Handle quantity decrease
+  const decreaseQuantity = () => {
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === singleProduct?.productDtlId);
+    if (cartItem && cartItem.quantity > 1) {
+      updateCartQuantity(singleProduct?.productDtlId, cartItem.quantity - 1, 'decrement');
     }
   };
 
   useEffect(() => {
     handleGetProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
+
+  const cartItem = cart?.cart?.find((item) => item.productDtlId === singleProduct?.productDtlId);
 
   return (
     <div className="container">
@@ -55,83 +106,94 @@ const Product = () => {
           <FaHome />
           <span className="cursor">Home</span>
           <span>/</span>
-          <span className="cursor">{sigleSearchProduct?.productDtlName}</span>
+          <span className="cursor">{singleProduct?.productDtlName}</span>
         </div>
       </div>
 
       <div className="product_basic_detail">
-        <div
-          style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}
-          className="scrollThumbStyle px-2"
-        >
-          <div className="product_imageList ">
-            {sigleSearchProduct?.ProductsImages?.map((image, i) => (
+        <div style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }} className="scrollThumbStyle px-2">
+          <div className="product_imageList">
+            {singleProduct?.ProductsImages?.map((image, i) => (
               <img
                 src={`${Image_URL}/products/${image?.url}`}
                 alt="image"
                 key={i}
                 onClick={() => setIndex(i)}
-                className={`${
-                  Index == i ? "cursor imageborderedGreen" : "cursor"
-                }`}
+                className={index === i ? "cursor imageborderedGreen" : "cursor"}
               />
             ))}
           </div>
         </div>
         <div className="product_singleImage">
-          {sigleSearchProduct?.ProductsImages?.length > 0 && (
+          {singleProduct?.ProductsImages?.length > 0 && (
             <img
-              src={`${Image_URL}/products/${sigleSearchProduct?.ProductsImages[Index]?.url}`}
+              src={`${Image_URL}/products/${singleProduct?.ProductsImages[index]?.url}`}
               alt="image"
             />
           )}
         </div>
         <div className="product_details">
-          <h3 className="mb-3">{sigleSearchProduct?.productDtlName}</h3>
+          <h3 className="mb-3">{singleProduct?.productDtlName}</h3>
           <p className="mb-3">
-            MRP: <del>₹{sigleSearchProduct?.price}.00</del>
+            MRP: <del>₹{singleProduct?.price}.00</del>
           </p>
           <h6 className="fw-bold  mb-3">
-            Price: ₹{sigleSearchProduct?.price}{" "}
-            <sub>
-              (₹{sigleSearchProduct?.price}/{sigleSearchProduct?.unit})
-            </sub>
+            Price: ₹{singleProduct?.price}{" "}
+            <sub>(₹{singleProduct?.price}/{singleProduct?.unit})</sub>
           </h6>
           <h6 className="fw-bold text-success">
-            You Save : {sigleSearchProduct?.discountType == "fixed" && "₹"}
-            {sigleSearchProduct?.discount}
-            {sigleSearchProduct?.discountType == "percentage" && "%"} OFF
+            You Save : {singleProduct?.discountType === "fixed" && "₹"}
+            {singleProduct?.discount}
+            {singleProduct?.discountType === "percentage" && "%"} OFF
           </h6>
           <p className="text-secondary mb-5">(inclusive of all taxes)</p>
           <p>
             <IoIosPerson size={15} />
-            <span className="fw-bold">
-              {sigleSearchProduct?.User?.FirstName}
-            </span>
+            <span className="fw-bold">{singleProduct?.User?.FirstName}</span>
           </p>
           <p>
             <MdOutlineLocationOn size={20} />
-            {sigleSearchProduct?.User?.userInfo.City}
+            {singleProduct?.User?.userInfo.City}
           </p>
 
           <div className="d-flex my-md-5 d-none d-md-block">
-            <button className="addtocartProductBtn" onClick={addCartHandeler}>
-              {sigleSearchProduct?.available ? "Add to basket" : "Out of stock"}
-            </button>
-            <button className="saveforLaterProductBtn">Save for Later</button>
+            {cartItem ? (
+              <div className="quantitywrap">
+                <span className="minus" onClick={decreaseQuantity}>
+                  {loadingProductId === singleProduct?.productDtlId && loadingAction === 'decrement' 
+                    ? <MiniLoader /> 
+                    : <FaMinus size={15} />}
+                </span>
+                <span>{cartItem?.quantity}</span>
+                <span className="plus" onClick={increaseQuantity}>
+                  {loadingProductId === singleProduct?.productDtlId && loadingAction === 'increment' 
+                    ? <MiniLoader /> 
+                    : <FaPlus size={15} />}
+                </span>
+              </div>
+            ) : (
+              <button
+                className="addtocartProductBtn"
+                onClick={addCartHandler}
+                disabled={!singleProduct?.available}
+              >
+                {singleProduct?.available ? "Add to basket" : "Out of stock"}
+              </button>
+            )}
+            <button className="saveforLaterProductBtn" disabled={!singleProduct}>Save for Later</button>
           </div>
         </div>
       </div>
-      <div className="d-flex my-3 addandlaterbuttonfixed  d-block d-md-none">
-        <button className="addtocartProductBtn" onClick={addCartHandeler}>
-          {sigleSearchProduct?.available ? "Add to basket" : "Out of stock"}
+      <div className="d-flex my-3 addandlaterbuttonfixed d-block d-md-none">
+        <button className="addtocartProductBtn" onClick={addCartHandler}>
+          {singleProduct?.available ? "Add to basket" : "Out of stock"}
         </button>
         <button className="saveforLaterProductBtn">Save for Later</button>
       </div>
       <hr />
       <WhyProducthoose />
       <h6 className="mt-3">{slug[1]}</h6>
-      <AboutTheProduct about={sigleSearchProduct?.productDtl} />
+      <AboutTheProduct about={singleProduct?.productDtl} />
     </div>
   );
 };
