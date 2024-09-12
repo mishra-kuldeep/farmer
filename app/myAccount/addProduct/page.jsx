@@ -260,7 +260,8 @@ const onSubmitHandler = async () => {
         >
           <option value="" className="d-none"></option>
           <option value="kg">kg</option>
-          <option value="g">g</option>
+          <option value="ton">ton</option>
+          <option value="grms">grms</option>
           <option value="litre">litre</option>
           <option value="ml">ml</option>
           <option value="pcs">pcs</option>

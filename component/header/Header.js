@@ -14,15 +14,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, fetchUserInfo } from "@/redux/auth/authSlice";
 import { deleteCookie } from "@/helper/common";
+import { getCart } from "@/redux/cart/cartSlice";
 
 function Header() {
   const user = useSelector((state) => state.auth);
   const pathname = usePathname();
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useDispatch();
   const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
-
+  const cart = useSelector((state) => state.cart);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleScroll = () => {
@@ -33,12 +34,12 @@ function Header() {
         } else {
           setVisible(false); // Toggle visibility based on scrolling direction
         }
-  
+
         setPosition(moving); // Update position state
       };
-  
+
       window.addEventListener("scroll", handleScroll);
-  
+
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
@@ -47,22 +48,22 @@ function Header() {
 
   useEffect(() => {
     // if (!user.isLoggedIn && dispatch && !user.isLoading) {
-      if (!user.isLoggedIn && dispatch && !user.isLoading) {
-      dispatch(fetchUserInfo());
+    if (!user.isLoggedIn && dispatch && !user.isLoading) {
+      dispatch(fetchUserInfo());   
+    }else{
+      dispatch(getCart(user?.profile?.id))
     }
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.isLoggedIn]);
 
   const handleLogout = () => {
-    deleteCookie('token');
+    deleteCookie("token");
     dispatch(clearUser()); // Action to clear user data in Redux
-    router.push('/'); // Redirect to the login page
+    router.push("/"); // Redirect to the login page
   };
 
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
-
- 
 
   return (
     <>
@@ -72,7 +73,10 @@ function Header() {
             <div style={{ backgroundColor: "var(--light)", padding: "10px" }}>
               <div className="container">
                 <div className="row w-100 m-0">
-                  <div className="col-md-2 d-flex align-items-center p-0 cursor" onClick={()=>router.push("/")}>
+                  <div
+                    className="col-md-2 d-flex align-items-center p-0 cursor"
+                    onClick={() => router.push("/")}
+                  >
                     <img src={logo.src} alt="logo" className="logoImage" />
                     <h6 className="logoImage_title">
                       <span className="fs-4">F</span>armers
@@ -96,25 +100,62 @@ function Header() {
                             >
                               shop by category &ensp; &ensp;
                             </button> */}
-                            <h6 className="mt-1" style={{textTransform:"capitalize"}}>{user?.profile?.name}</h6>
+                          <h6
+                            className="mt-1"
+                            style={{ textTransform: "capitalize" }}
+                          >
+                            {user?.profile?.name}
+                          </h6>
                           <div
                             className="avtar"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
-                              {user?.profile?.name?.substring(0,1)}
+                            {user?.profile?.name?.substring(0, 1)}
                           </div>
-                          <ul className="dropdown-menu p-0" style={{right:"0%",width:"300px",top:"10px"}}>
-                         {user?.profile?.role===1&& <p className="cat_list" onClick={()=>router.push("/admin")}>Dashboard</p>}
-                          <p className="cat_list" onClick={()=>router.push("/myAccount")}>My Account</p>
-                          <p className="cat_list" onClick={()=>router.push("/myAccount/myProfile")}>My Profile</p>
-                          <p className="cat_list" onClick={()=>router.push("/basket")}>My Basket (0) item</p>
-                          <p className="cat_list" onClick={handleLogout}>logout</p>
+                          <ul
+                            className="dropdown-menu p-0"
+                            style={{ right: "0%", width: "300px", top: "10px" }}
+                          >
+                            {user?.profile?.role === 1 && (
+                              <p
+                                className="cat_list"
+                                onClick={() => router.push("/admin")}
+                              >
+                                Dashboard
+                              </p>
+                            )}
+                            <p
+                              className="cat_list"
+                              onClick={() => router.push("/myAccount")}
+                            >
+                              My Account
+                            </p>
+                            <p
+                              className="cat_list"
+                              onClick={() =>
+                                router.push("/myAccount/myProfile")
+                              }
+                            >
+                              My Profile
+                            </p>
+                            <p
+                              className="cat_list"
+                              onClick={() => router.push("/basket")}
+                            >
+                              My Basket (0) item
+                            </p>
+                            <p className="cat_list" onClick={handleLogout}>
+                              logout
+                            </p>
                           </ul>
                         </>
                       )}
                       <button className="cart_login_btn">
                         <FaShoppingCart size={18} />
+                        {cart?.cart?.length > 0 && (
+                          <span className="cart-count">{cart?.cart?.length}</span>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -192,7 +233,10 @@ function Header() {
                 </div>
                 <div className="col-md-1 p-0">
                   <button className="cart_login_btn w-100">
-                    <FaShoppingCart size={18} className="me-2" />0 items
+                    <FaShoppingCart size={18} className="me-2" />
+                    {cart?.cart?.length > 0 && (
+                          <span className="">{cart?.cart?.length}</span>
+                        )} items
                   </button>
                 </div>
               </div>

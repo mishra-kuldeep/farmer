@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
-import { addToCart, getCart, updateCart } from "@/redux/cart/cartSlice";
+import { addToCart, deleteCart, getCart, updateCart } from "@/redux/cart/cartSlice";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 
 const Product = () => {
@@ -20,10 +20,11 @@ const Product = () => {
   const { slug } = useParams();
   const [singleProduct, setSingleProduct] = useState({});
   const [index, setIndex] = useState(0);
-  const [loadingProductId, setLoadingProductId] = useState(null); // Track the product being updated
+  const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null); // Track the action ('increment' or 'decrement')
   const dispatch = useDispatch();
-
+  // Access messages and errors from the Redux store
+  const { message, error } = useSelector((state) => state.cart);
   // Fetch product details
   const handleGetProduct = async () => {
     try {
@@ -34,6 +35,7 @@ const Product = () => {
       setSingleProduct({});
     }
   };
+console.log(cart);
 
   // Fetch cart data when user is logged in
   useEffect(() => {
@@ -58,7 +60,15 @@ const Product = () => {
       dispatch(addToCart(cartObj));
     }
   };
-
+ // Show messages or errors using toast
+ useEffect(() => {
+  if (message) {
+    toast.success(message);
+  }
+  if (error) {
+    toast.error(error);
+  }
+}, [message, error]); 
   // Update product quantity in the cart
   const updateCartQuantity = (productDtlId, newQuantity, action) => {
     const cartItem = cart?.cart?.find((item) => item.productDtlId === productDtlId);
@@ -68,11 +78,11 @@ const Product = () => {
         quantity: newQuantity,
         productDtlId,
       };
-      setLoadingProductId(productDtlId); // Set loading state for this product
-      setLoadingAction(action); // Set loading action (increment or decrement)
+      setLoadingProductId(productDtlId);
+      setLoadingAction(action); 
       dispatch(updateCart({ cartId: cartItem.cartId, data: updatedCart })).finally(() => {
-        setLoadingProductId(null); // Reset loading state after update is done
-        setLoadingAction(null); // Reset the action after update is done
+        setLoadingProductId(null); 
+        setLoadingAction(null); 
       });
     }
   };
@@ -90,6 +100,8 @@ const Product = () => {
     const cartItem = cart?.cart?.find((item) => item.productDtlId === singleProduct?.productDtlId);
     if (cartItem && cartItem.quantity > 1) {
       updateCartQuantity(singleProduct?.productDtlId, cartItem.quantity - 1, 'decrement');
+    }else if(cartItem.quantity ==1){
+      // dispatch(deleteCart)
     }
   };
 

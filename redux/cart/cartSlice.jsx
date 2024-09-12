@@ -87,7 +87,7 @@ export const addToCart = createAsyncThunk(
           state.isLoading = false;
           state.success = true;
           state.message = "Item added to cart successfully!";
-          state.cart = action.payload.newCartItem;
+          state.cart = [...state.cart,action.payload.newCartItem];
         })
         .addCase(addToCart.rejected, (state, action) => {
           state.isLoading = false;
@@ -128,6 +128,7 @@ export const addToCart = createAsyncThunk(
         .addCase(getCart.pending, (state) => {
           state.isLoading = true;
           state.error = null;
+          state.message="";
           state.success = false;
         })
         .addCase(getCart.fulfilled, (state, action) => {
@@ -137,7 +138,7 @@ export const addToCart = createAsyncThunk(
         })
         .addCase(getCart.rejected, (state, action) => {
           state.isLoading = false;
-          state.error = action.payload.error || "Failed to fetch cart";
+          state.error = action?.payload?.error || "Failed to fetch cart";
           state.cart = null;
         })
   
