@@ -1,6 +1,6 @@
 .productlistWrapper {
   background-color: rgba(137, 43, 226, 0.096);
-  height: 1000vh;
+  height: auto;
   margin-top: 10px;
 }
 .detailWrapper {
@@ -54,4 +54,16 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.CheckoutBtn {
+  background-color: var(--mainColor2);
+  outline: none;
+  border: none;
+  width: calc(50% + 15px);
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  /* margin-left: -20px; */
 }
