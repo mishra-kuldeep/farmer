@@ -66,7 +66,7 @@ export default class ProductFarmerServices {
     const url = `${BASE_URL}/productDtl/productsDtl/${id}`;
     return axios.put(url, data, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });

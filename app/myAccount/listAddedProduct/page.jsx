@@ -68,6 +68,7 @@ const ListAddedProduct = () => {
   useEffect(() => {
     ProductFarmerServices.getProductsFarmer(page, searchText)
       .then(({ data }) => {
+        console.log(data)
         setProductList(data?.data);
         setMetaData(data?.meta);
       })
@@ -176,7 +177,7 @@ const ListAddedProduct = () => {
                         {item?.discountType == "percentage" && "%"}
                       </td>
                       <td className="text-center">
-                        {item?.quantity}/{item?.unit}
+                        {item?.quantity}/{item?.ProductUnit?.unitName}
                       </td>
                       <td className="text-center">
                         <div className="d-flex gap-2 justify-content-center">

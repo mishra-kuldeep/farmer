@@ -5,33 +5,37 @@ import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
+import ProductgradeServices from "@/services/ProductgradeServices";
+import ProductUnitServices from "@/services/ProductUnitServices";
 const specialCharRegex = /[^a-zA-Z0-9\s-]/;
 
-const EditProductFarmer = ({params}) => {
+const EditProductFarmer = ({ params }) => {
   const router = useRouter()
   const [errors, setErrors] = useState({});
-  const [slugError,setSlugError] = useState("")
-  const [productList,setProductList] =useState([])
+  const [slugError, setSlugError] = useState("")
+  const [productList, setProductList] = useState([])
+  const [unitlist, setUnitlist] = useState([]);
+  const [gradelist, setgradelist] = useState([])
 
   const [values, setValues] = useState({
     productDtlName: "",
     description: "",
-    productId:"",
+    productId: "",
     price: "",
     discount: "",
     discountType: "",
-    producType:"",
-    grade:"",
+    producType: "",
+    gradeId: "",
     sku: "",
     metaTitle: "",
     metaDescription: "",
     quantity: "",
-    unit: "",
+    unitId: "",
     slug: "",
     available: true,
-    isEdit:true
+    isEdit: true
   });
- 
+
   const onchangeHandeler = (e) => {
     const { value, name } = e.target;
     setValues((pre) => ({ ...pre, [name]: value }));
@@ -39,24 +43,25 @@ const EditProductFarmer = ({params}) => {
     setSlugError("")
   };
 
- const onSubmitHandler = async () => {
+  const onSubmitHandler = async () => {
     const specialCharRegex = /[^a-zA-Z0-9\s-]/;
     const formattedSlug = values.slug.toLowerCase().replace(/['\s]+/g, "-");
-  
+
     if (!specialCharRegex.test(formattedSlug)) {
       // Directly update the slug in the values object before calling the service
       const updatedValues = {
         ...values,
         slug: formattedSlug,
       };
+      console.log(updatedValues)
       try {
-     const dataa =    await ProductFarmerServices.editProductsFormer(params?.id,updatedValues);
+        const dataa = await ProductFarmerServices.editProductsFormer(params?.id, updatedValues);
         // Reset errors and form values after successful service call
         setErrors({});
         setValues({
           productDtlName: "",
-          productDtl: "",  
-          productId:"",
+          productDtl: "",
+          productId: "",
           price: "",
           discount: "",
           discountType: "",
@@ -64,10 +69,10 @@ const EditProductFarmer = ({params}) => {
           metaTitle: "",
           metaDescription: "",
           quantity: "",
-          unit: "",
+          unitId: "",
           slug: "",
-          producType:"",
-          grade:"",
+          producType: "",
+          gradeId: "",
           available: false,
         });
         toast(dataa?.data?.message, {
@@ -94,41 +99,51 @@ const EditProductFarmer = ({params}) => {
   };
 
   const initApi = () => {
-    CategoryServices.getProducts().then(({data})=>{
+    CategoryServices.getProducts().then(({ data }) => {
       setProductList(data?.data)
-    }).catch((err)=>console.log(err))
+    }).catch((err) => console.log(err))
+
+    ProductUnitServices.getProductUnit()
+      .then(({ data }) => {
+        setUnitlist(data);
+      }).catch((err) => console.log(err));
+
+    ProductgradeServices.getProductgrades()
+      .then(({ data }) => {
+        setgradelist(data);
+      }).catch((err) => console.log(err));
   }
 
-  useEffect(()=>initApi(),[])
+  useEffect(() => initApi(), [])
   useEffect(() => {
     if (params?.id) {
-      ProductFarmerServices.getSingleProductsFarmer(params?.id).then(({data})=>{
+      ProductFarmerServices.getSingleProductsFarmer(params?.id).then(({ data }) => {
         console.log(data)
         const valuess = data?.product
         setValues({
-          productDtlName:valuess.productDtlName,
-          productDtl: valuess.productDtl,
-          productId:valuess.productId,
-          price: valuess.price,
-          discount: valuess.discount,
-          discountType: valuess.discountType,
-          sku: valuess.sku,
-          metaTitle: valuess.metaTitle,
-          metaDescription: valuess.metaDescription,
-          quantity: valuess.quantity,
-          unit: valuess.unit,
-          slug: valuess.slug,
-          producType:valuess.producType,
-          grade:valuess.grade,
-          available: valuess.available,
+          productDtlName: valuess?.productDtlName,
+          productDtl: valuess?.productDtl,
+          productId: valuess?.productId,
+          price: valuess?.price,
+          discount: valuess?.discount,
+          discountType: valuess?.discountType,
+          sku: valuess?.sku,
+          metaTitle: valuess?.metaTitle,
+          metaDescription: valuess?.metaDescription,
+          quantity: valuess?.quantity,
+          unitId: valuess?.unitId,
+          slug: valuess?.slug,
+          producType: valuess?.productType,
+          gradeId: valuess?.gradeId,
+          available: valuess?.available,
         });
-      }).catch((err)=>console.log(err))
+      }).catch((err) => console.log(err))
     }
   }, [params?.id]);
   return (
     <div className="row  m-0 px-3">
-       <h4 className="text-secondary mb-3">Edit Product</h4>
-        <hr />
+      <h4 className="text-secondary mb-3">Edit Product</h4>
+      <hr />
       <div className="col-md-4 mb-3 ">
         <label className="adjustLabel">Product Name *</label>
         <input
@@ -165,7 +180,7 @@ const EditProductFarmer = ({params}) => {
           onChange={onchangeHandeler}
         >
           <option value="" className="d-none"></option>
-          {productList?.map((ele)=><option key={ele.productId} value={ele.productId}>{ele.productName}</option>)}
+          {productList?.map((ele) => <option key={ele.productId} value={ele.productId}>{ele.productName}</option>)}
         </select>
         {errors.productId && <span className="error_input_text">{errors.productId}</span>}
       </div>
@@ -230,17 +245,16 @@ const EditProductFarmer = ({params}) => {
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
-          name="unit"
-          value={values.unit}
+          name="unitId"
+          value={values.unitId}
           onChange={onchangeHandeler}
         >
           <option value="" className="d-none"></option>
-          <option value="kg">kg</option>
-          <option value="g">g</option>
-          <option value="litre">litre</option>
-          <option value="ml">ml</option>
-          <option value="pcs">pcs</option>
-          <option value="pack">pack</option>
+          {unitlist?.map((ele) => (
+            <option key={ele?.unitId} value={ele?.unitId}>
+              {ele?.unitName}
+            </option>
+          ))}
         </select>
         {errors.unit && <span className="error_input_text">{errors.unit}</span>}
       </div>
@@ -249,15 +263,16 @@ const EditProductFarmer = ({params}) => {
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
-          name="grade"
-          value={values.grade}
+          name="gradeId"
+          value={values.gradeId}
           onChange={onchangeHandeler}
         >
           <option value="" className="d-none"></option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
+          {gradelist?.map((ele) => (
+            <option key={ele?.gradeId} value={ele?.gradeId}>
+              {ele?.gradeName}
+            </option>
+          ))}
         </select>
       </div>
       <div className="col-md-4 mb-3">
@@ -315,7 +330,7 @@ const EditProductFarmer = ({params}) => {
         />
         {errors.slug && <span className="error_input_text">{errors.slug}</span>}
         {slugError && <span className="error_input_text">{slugError}</span>}
-        
+
       </div>
       <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
         <div className="form-check">

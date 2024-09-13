@@ -5,12 +5,16 @@ import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
+import ProductUnitServices from "@/services/ProductUnitServices";
+import ProductgradeServices from "@/services/ProductgradeServices";
 
 const AddProductDtl = () => {
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [slugError, setSlugError] = useState("");
   const [productList, setProductList] = useState([]);
+  const [unitlist, setUnitlist] = useState([]);
+  const [gradelist, setgradelist] = useState([]);
   const [imageErrors, setImageErrors] = useState([]); // Array for storing invalid images with errors
   const [validImageNames, setValidImageNames] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -24,12 +28,12 @@ const AddProductDtl = () => {
     discount: 0,
     discountType: "fixed",
     productType: "Inorganic",
-    grade: "A",
+    gradeId: "A",
     sku: "",
     metaTitle: "",
     metaDescription: "",
     quantity: "",
-    unit: "",
+    unitId: "",
     slug: "",
     available: true,
     isEdit: false,
@@ -154,6 +158,17 @@ const onSubmitHandler = async () => {
         setProductList(data?.data);
       })
       .catch((err) => console.log(err));
+    ProductUnitServices.getProductUnit()
+      .then(({ data }) => {
+        setUnitlist(data);
+      })
+      .catch((err) => console.log(err));
+    ProductgradeServices.getProductgrades()
+      .then(({ data }) => {
+        console.log(data)
+        setgradelist(data);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => initApi(), []);
@@ -254,18 +269,16 @@ const onSubmitHandler = async () => {
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
-          name="unit"
-          value={values.unit}
+          name="unitId"
+          // value={values.unitId}
           onChange={onchangeHandeler}
         >
           <option value="" className="d-none"></option>
-          <option value="kg">kg</option>
-          <option value="ton">ton</option>
-          <option value="grms">grms</option>
-          <option value="litre">litre</option>
-          <option value="ml">ml</option>
-          <option value="pcs">pcs</option>
-          <option value="pack">pack</option>
+          {unitlist?.map((ele) => (
+            <option key={ele?.unitId} value={ele?.unitId}>
+              {ele?.unitName}
+            </option>
+          ))}
         </select>
         {errors.unit && <span className="error_input_text">{errors.unit}</span>}
       </div>
@@ -274,15 +287,16 @@ const onSubmitHandler = async () => {
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
-          name="grade"
+          name="gradeId"
           // value={values.grade}
           onChange={onchangeHandeler}
         >
           <option value="" className="d-none"></option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
+           {gradelist?.map((ele) => (
+            <option key={ele?.gradeId} value={ele?.gradeId}>
+              {ele?.gradeName}
+            </option>
+          ))}
         </select>
       </div>
       <div className="col-md-4 mb-3 ms-md-0 ms-2">
