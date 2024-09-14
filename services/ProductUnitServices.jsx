@@ -17,52 +17,53 @@ export default class ProductUnitServices {
     });
   }
 
-//   static async addCategory(data) {
-//     const token = getCookie("token");
-//     const url = `${BASE_URL}/category/categories`;
-//     return axios.post(url, data, {
-//       headers: {
-//         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-//       },
-//     });
-//   }
+  static async addUnit(data) {
+    console.log(data)
+    const token = getCookie("token");
+    const url = `${BASE_URL}/unit/units`;
+    return axios.post(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
-//   static async getCategory(page, search) {
-//     const token = getCookie("token");
-//     const url = `${BASE_URL}/category/categories?page=${page}`;
-//     return axios.get(url, {
-//       headers: {
-//         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-//       },
-//     });
-//   }
+  static async getunit(page, search) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/unit/UnitsforAdmin?page=${page}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
   
-//   static async getSingeCategory(id) {
-//     const token = getCookie("token");
-//     const url = `${BASE_URL}/category/categories/${id}`;
-//     return axios.get(url, {
-//       headers: {
-//         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-//       },
-//     });
-//   }
-//   static async deleteCategory(id) {
-//     const token = getCookie("token");
-//     const url = `${BASE_URL}/category/categories/${id}`;
-//     return axios.delete(url, {
-//       headers: {
-//         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-//       },
-//     });
-//   }
-//   static async editCategory(data, id) {
-//     const token = getCookie("token");
-//     const url = `${BASE_URL}/category/categories/${id}`;
-//     return axios.put(url, data, {
-//       headers: {
-//         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-//       },
-//     });
-//   }
+  static async getSingeUnit(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/unit/units/${id}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async editUnit(data, id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/unit/units/${id}`;
+    return axios.put(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async EditunitStatus( id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/unit/unitStatus/${id}`;
+    return axios.put(url, "data", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 }

@@ -4,6 +4,8 @@ import { FaProductHunt } from "react-icons/fa6";
 import { MdOutlineDashboard } from "react-icons/md";
 import { SiBrandfolder } from "react-icons/si";
 import { FaRegListAlt,FaListUl } from "react-icons/fa";
+import { SiUnpkg } from "react-icons/si";
+import { GiUpgrade } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
 
@@ -43,6 +45,18 @@ const sidebarArray = [
     title: "Add Brands",
     url: "/admin/addBrand",
     icon: <SiBrandfolder size={25} />,
+  },
+  {
+    id: 6,
+    title: "Add Unit",
+    url: "/admin/addUnits",
+    icon: <SiUnpkg size={25} />,
+  },
+  {
+    id: 6,
+    title: "Add Grade",
+    url: "/admin/addGrade",
+    icon: <GiUpgrade size={25} />,
   },
   {
     id: 7,
