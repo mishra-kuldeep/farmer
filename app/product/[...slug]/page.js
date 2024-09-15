@@ -21,7 +21,7 @@ const Product = () => {
   const [singleProduct, setSingleProduct] = useState({});
   const [index, setIndex] = useState(0);
   const [loadingProductId, setLoadingProductId] = useState(null);
-  const [loadingAction, setLoadingAction] = useState(null); // Track the action ('increment' or 'decrement')
+  const [loadingAction, setLoadingAction] = useState(null); 
   const dispatch = useDispatch();
   // Access messages and errors from the Redux store
   const { message, error } = useSelector((state) => state.cart);
@@ -35,14 +35,13 @@ const Product = () => {
       setSingleProduct({});
     }
   };
-console.log(cart);
 
   // Fetch cart data when user is logged in
   useEffect(() => {
-    if (user?.isLoggedIn) {
+    if (user?.isLoggedIn && user?.profile) {
       dispatch(getCart(user?.profile?.id));
     }
-  }, [user?.isLoggedIn]);
+  }, [user?.isLoggedIn,user?.profile]);
 
   // Add product to cart
   const addCartHandler = () => {
@@ -101,7 +100,7 @@ console.log(cart);
     if (cartItem && cartItem.quantity > 1) {
       updateCartQuantity(singleProduct?.productDtlId, cartItem.quantity - 1, 'decrement');
     }else if(cartItem.quantity ==1){
-      // dispatch(deleteCart)
+      dispatch(deleteCart(cartItem?.cartId))
     }
   };
 

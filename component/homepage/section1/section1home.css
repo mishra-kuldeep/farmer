@@ -119,3 +119,33 @@
   }
 }
 
+.quantitywrap {
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 40%;
+  border-radius: 5px;
+}
+ .quantitywrap:hover{
+    border-color: #b4b4b4;
+}
+ .quantitywrap span {
+  font-size: 20px;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+ .quantitywrap .minus:hover {
+  background-color: var(--mainColor2);
+  color: #fff;
+}
+ .quantitywrap .plus:hover {
+  background-color: var(--mainColor2);
+  color: #fff;
+}

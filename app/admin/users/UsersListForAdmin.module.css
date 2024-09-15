@@ -64,7 +64,7 @@
 }
 
 .accordion-collapse.show {
-  max-height: 300px;
+  max-height: 450px;
   padding: 15px 24px;
   border-top: 1px solid #eaeaea;
 }

@@ -10,7 +10,7 @@ const MyProfile = () => {
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [Errors, setErrors] = useState([]);
+  const [Errors, setErrors] = useState({});
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",

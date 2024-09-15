@@ -50,11 +50,11 @@ function Header() {
     // if (!user.isLoggedIn && dispatch && !user.isLoading) {
     if (!user.isLoggedIn && dispatch && !user.isLoading) {
       dispatch(fetchUserInfo());   
-    }else{
+    }else if(user.isLoggedIn && user?.profile){
       dispatch(getCart(user?.profile?.id))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.isLoggedIn]);
+  }, [user.isLoggedIn,user?.profile]);
 
   const handleLogout = () => {
     deleteCookie("token");
@@ -151,7 +151,7 @@ function Header() {
                           </ul>
                         </>
                       )}
-                      <button className="cart_login_btn">
+                      <button className="cart_login_btn" onClick={()=>router.push('/basket') }>
                         <FaShoppingCart size={18} />
                         {cart?.cart?.length > 0 && (
                           <span className="cart-count">{cart?.cart?.length}</span>
@@ -232,8 +232,8 @@ function Header() {
                   <Search />
                 </div>
                 <div className="col-md-1 p-0">
-                  <button className="cart_login_btn w-100">
-                    <FaShoppingCart size={18} className="me-2" />
+                  <button className="cart_login_btn w-100" onClick={()=>router.push('/basket') }>
+                    <FaShoppingCart size={18} className="me-2"  />
                     {cart?.cart?.length > 0 && (
                           <span className="">{cart?.cart?.length}</span>
                         )} items

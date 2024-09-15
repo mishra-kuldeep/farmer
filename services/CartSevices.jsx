@@ -17,7 +17,7 @@ export default class CartService {
     const url = `${BASE_URL}/cart/cart/${cartId}`;
     return axios.put(url,data, {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+        Authorization: `Bearer ${token}`,
       },
     });
   }
@@ -25,9 +25,9 @@ export default class CartService {
   static async RemoveFromCart(cartId) {
     const token = getCookie("token");
     const url = `${BASE_URL}/cart/cart/${cartId}`;
-    return axios.del(url, {
+    return axios.delete(url, {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
   }

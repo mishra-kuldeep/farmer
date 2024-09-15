@@ -33,8 +33,26 @@ export default class AuthService {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
+    
   }
-
+  static async ApproveUser(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/user/approveFarmer/${id}`;
+    return axios.put(url,"data", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async RejectedUser(id,data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/user/rejectFarmer/${id}`;
+    return axios.put(url,data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
   static async updateUserProfile(data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/user/editprofile`;

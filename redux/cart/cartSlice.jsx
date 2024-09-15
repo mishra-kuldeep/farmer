@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import CartService from "@/services/CartSevices";
 
 const initialState = {
-    cart: null,
+    cart:null,
     isLoading: false,
     error: null,
     success: false,
@@ -54,7 +54,7 @@ export const addToCart = createAsyncThunk(
   export const deleteCart = createAsyncThunk(
     "cart/deleteCart",
     async (cartId, { rejectWithValue }) => {
-      try {
+      try { 
         const response = await CartService.RemoveFromCart(cartId);
         return response.data;
       } catch (error) {
@@ -87,7 +87,7 @@ export const addToCart = createAsyncThunk(
           state.isLoading = false;
           state.success = true;
           state.message = "Item added to cart successfully!";
-          state.cart = [...state.cart,action.payload.newCartItem];
+          state.cart =  !state.cart?[action.payload.newCartItem]:[...state.cart,action.payload.newCartItem];
         })
         .addCase(addToCart.rejected, (state, action) => {
           state.isLoading = false;
@@ -152,11 +152,11 @@ export const addToCart = createAsyncThunk(
           state.isLoading = false;
           state.success = true;
           state.message = "Item removed from cart successfully!";
-          state.cart = action.payload.cart;
+          state.cart = state?.cart?.filter((val)=>val?.cartId !==action.payload.cartId)
         })
         .addCase(deleteCart.rejected, (state, action) => {
           state.isLoading = false;
-          state.error = action.payload.error || "Failed to remove item from cart";
+          state.error = action?.payload?.error || "Failed to remove item from cart";
         });
     },
   });

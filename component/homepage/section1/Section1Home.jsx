@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./section1home.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaStar } from "react-icons/fa";
+import { FaMinus, FaPlus, FaStar } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import product1 from "../../../public/product/apple.jpg";
 import { isMobile } from "react-device-detect";
@@ -13,12 +13,19 @@ import Link from "next/link";
 import ProductsDtlServices from "@/services/ProductsDtlServices";
 import { Image_URL } from "@/helper/common";
 import { useRouter } from "next/navigation";
+import { useSelector,useDispatch } from "react-redux";
+import MiniLoader from "@/component/reusableComponent/MiniLoader";
+import { addToCart, deleteCart, updateCart } from "@/redux/cart/cartSlice";
 
 const Section1Home = () => {
-  const router = useRouter()
+  const router = useRouter();
   const scrollContainerRef = useRef(null);
   const [Products, setProducts] = useState([]);
-
+  const [loadingProductId, setLoadingProductId] = useState(null);
+  const [loadingAction, setLoadingAction] = useState(null);
+  const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.auth);
+  const dispatch = useDispatch()
   const initApi = async () => {
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({
@@ -48,6 +55,73 @@ const Section1Home = () => {
           ? containerWidth
           : (containerWidth * 50) / 100;
       }
+    }
+  };
+ // Add product to cart
+ const addCartHandler = (id) => {
+  if (!user?.isLoggedIn) {
+    toast("Please login to add products to the cart!", {
+      icon: "😢",
+      style: { borderRadius: "10px", background: "red", color: "#fff" },
+    });
+  } else {
+    const cartObj = {
+      buyerId: user?.profile?.id,
+      productDtlId: id,
+      quantity: 1,
+    };
+    dispatch(addToCart(cartObj));
+  }
+};
+  // Update product quantity in the cart
+  const updateCartQuantity = (productDtlId, newQuantity, action) => {
+    const cartItem = cart?.cart?.find(
+      (item) => item.productDtlId === productDtlId
+    );
+    if (cartItem) {
+      const updatedCart = {
+        buyerId: user?.profile?.id,
+        quantity: newQuantity,
+        productDtlId,
+      };
+      setLoadingProductId(productDtlId);
+      setLoadingAction(action);
+      dispatch(
+        updateCart({ cartId: cartItem.cartId, data: updatedCart })
+      ).finally(() => {
+        setLoadingProductId(null);
+        setLoadingAction(null);
+      });
+    }
+  };
+
+  // Handle quantity increase
+  const increaseQuantity = (id) => {
+    const cartItem = cart?.cart?.find(
+      (item) => item.productDtlId === id
+    );
+    if (cartItem) {
+      updateCartQuantity(
+         id,
+        cartItem.quantity + 1,
+        "increment"
+      );
+    }
+  };
+
+  // Handle quantity decrease
+  const decreaseQuantity = (id) => {
+    const cartItem = cart?.cart?.find(
+      (item) => item.productDtlId === id
+    );
+    if (cartItem && cartItem.quantity > 1) {
+      updateCartQuantity(
+        id,
+        cartItem.quantity - 1,
+        "decrement"
+      );
+    } else if (cartItem.quantity == 1) {
+       dispatch(deleteCart(cartItem?.cartId))
     }
   };
 
@@ -126,14 +200,45 @@ const Section1Home = () => {
                   >
                     <FaRegBookmark size={15} />
                   </button>
-                  <button
-                    className="addtoCart_btn"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Add to Cart"
-                  >
-                    Add
-                  </button>
+                  {cart?.cart?.find(
+                    (item) => item.productDtlId === ele.productDtlId
+                  ) ? (
+                    <div className="quantitywrap">
+                      <span className="minus" onClick={()=>decreaseQuantity(ele.productDtlId)}>
+                        {loadingProductId === ele.productDtlId &&
+                        loadingAction === "decrement" ? (
+                          <MiniLoader />
+                        ) : (
+                          <FaMinus size={15} />
+                        )}
+                      </span>
+                      <span>
+                        {
+                          cart?.cart?.find(
+                            (item) => item.productDtlId === ele.productDtlId
+                          )?.quantity
+                        }
+                      </span>
+                      <span className="plus" onClick={()=>increaseQuantity(ele.productDtlId)}>
+                        {loadingProductId === ele.productDtlId &&
+                        loadingAction === "increment" ? (
+                          <MiniLoader />
+                        ) : (
+                          <FaPlus size={15} />
+                        )}
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      className="addtoCart_btn"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Add to Cart"
+                      onClick={()=>addCartHandler(ele.productDtlId)}
+                    >
+                      Add
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
