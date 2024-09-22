@@ -26,7 +26,7 @@ const AddProductDtl = () => {
     Product: [],
     price: "",
     discount: 0,
-    discountType: "fixed",
+    discountType:"fixed",
     productType: "Inorganic",
     gradeId: "A",
     sku: "",
@@ -250,7 +250,21 @@ const onSubmitHandler = async () => {
           <span className="error_input_text">{errors.discount}</span>
         )}
       </div>
-
+      <div className="col-md-4 mb-3 ms-md-0 ms-2">
+        <label className="adjustLabel">Discount Type</label>
+        <select
+          className="form-select custom-select adjustLabel_input"
+          aria-label="Default select example"
+          name="discountType"
+          // value={values.unitId}
+          onChange={onchangeHandeler}
+        >
+          <option value="" className="d-none"></option>
+          <option value="fixed">Fixed</option>
+          <option value="percentage">Percentage</option>
+        </select>
+        {/* {errors.unit && <span className="error_input_text">{errors.unit}</span>} */}
+      </div>
       <div className="col-md-4 mb-3 ms-md-0 ms-2">
         <label className="adjustLabel">Quantity *</label>
         <input

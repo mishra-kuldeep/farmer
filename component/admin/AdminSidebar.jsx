@@ -5,6 +5,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { SiBrandfolder } from "react-icons/si";
 import { FaRegListAlt,FaListUl } from "react-icons/fa";
 import { SiUnpkg } from "react-icons/si";
+import { MdProductionQuantityLimits } from "react-icons/md";
 import { GiUpgrade } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
@@ -21,6 +22,12 @@ const sidebarArray = [
     title: "Farmer Products List",
     url: "/admin/farmerProductList",
     icon: <FaRegListAlt size={25} />,
+  },
+  {
+    id: 8,
+    title: "Order List",
+    url: "/admin/orders",
+    icon: <MdProductionQuantityLimits size={22} className="me-1"/>,
   },
   {
     id: 3,

@@ -33,7 +33,6 @@ const EditProductFarmer = ({ params }) => {
     unitId: "",
     slug: "",
     available: true,
-    isEdit: true
   });
 
   const onchangeHandeler = (e) => {
@@ -52,6 +51,7 @@ const EditProductFarmer = ({ params }) => {
       const updatedValues = {
         ...values,
         slug: formattedSlug,
+        isEdit: true
       };
       console.log(updatedValues)
       try {
@@ -74,6 +74,7 @@ const EditProductFarmer = ({ params }) => {
           producType: "",
           gradeId: "",
           available: false,
+          isEdit: true
         });
         toast(dataa?.data?.message, {
           icon: "👏",

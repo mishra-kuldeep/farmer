@@ -32,7 +32,7 @@ const Pagination = ({
             setSearchText(e.target.value);
             setPage(1); // Reset to page 1 whenever search text changes
           }}
-          placeholder="Search for Products ..."
+          placeholder="Search ..."
         />
       )}
       <h6>

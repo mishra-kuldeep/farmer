@@ -114,7 +114,7 @@ export const addToCart = createAsyncThunk(
           );
           if (index !== -1) {
             // Replace the old item with the updated one
-            state.cart[index] = updatedCartItem;
+            state.cart[index].quantity = updatedCartItem?.quantity;
           } else {
             state.cart.push(updatedCartItem);
           }
