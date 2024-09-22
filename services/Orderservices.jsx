@@ -27,12 +27,30 @@ export default class OrderService {
       },
     });
   }
-  static async getOrderDetailAdmin({
-    cartId
-  }) {
+  static async getOrderDetailAdmin(orderId) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/order/orderDetailadmin/${cartId}`;
+    const url = `${BASE_URL}/order/orderDetailadmin/${orderId}`;
     return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async AdminApproveOrder(orderId,data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/order/approve/${orderId}`;
+    return axios.put(url,data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async AdminRejectOrder(orderId,data) {
+    console.log(data);
+    
+    const token = getCookie("token");
+    const url = `${BASE_URL}/order/reject/${orderId}`;
+    return axios.put(url,{adminReviewComment:data}, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },

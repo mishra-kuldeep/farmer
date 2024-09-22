@@ -13,7 +13,7 @@ const PendingOrder = () => {
   const [searchText, setSearchText] = useState("");
   const [metaData, setmetaData] = useState(false);
   const [allPendingOrder, setAllPendingOrders] = useState([]);
-
+  
   const [modalData, setModalData] = useState("");
   const [actionPerformed, setActionPerformed] = useState(false);
 
@@ -24,15 +24,13 @@ const PendingOrder = () => {
       search: searchText,
     })
       .then(({ data }) => {
-        console.log(data);
-        
         setAllPendingOrders(data?.data);
         setmetaData(data?.meta);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [ page, searchText, actionPerformed]);
+  }, [ page, searchText,actionPerformed]);
 
   return (
     <div className="p-2">
@@ -94,7 +92,7 @@ const PendingOrder = () => {
                           borderRadius: "50%",
                         }}
                       >
-                        <IconButton onClick={() => setModalData(item?.cartId)}>
+                        <IconButton onClick={() => setModalData(item?.orderId)}>
                           <GrOverview color="green" size={20} />
                         </IconButton>
                       </div>
@@ -102,7 +100,7 @@ const PendingOrder = () => {
                         modalData={modalData}
                         // brandList={brandList}
                         // categoryList={categoryList}
-                        // subCategoryList={subCategoryList}
+                        // setOrderId={setOrderId}
                         setActionPerformed={setActionPerformed}
                       />
                     </div>
