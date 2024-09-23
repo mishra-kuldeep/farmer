@@ -31,6 +31,15 @@ export default class CartService {
       },
     });
   }
+  static async DeleteCartBuyer(buyerId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/cart/cartdelete/${buyerId}`;
+    return axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+  }
 
   static async getCartItems(buyerId) {
     const token = getCookie("token");

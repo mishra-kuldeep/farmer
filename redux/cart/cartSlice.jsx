@@ -62,6 +62,19 @@ export const addToCart = createAsyncThunk(
       }
     }
   );
+
+    // Async thunk for deleting cart item
+    export const deleteCartBuyer = createAsyncThunk(
+      "cart/deleteCartBuyer",
+      async (buyerId, { rejectWithValue }) => {       
+        try { 
+          const response = await CartService.DeleteCartBuyer(buyerId);
+          return response.data;
+        } catch (error) {
+          return rejectWithValue(error.response.data);
+        }
+      }
+    );
   
   export const cartSlice = createSlice({
     name: "cart",
@@ -157,7 +170,25 @@ export const addToCart = createAsyncThunk(
         .addCase(deleteCart.rejected, (state, action) => {
           state.isLoading = false;
           state.error = action?.payload?.error || "Failed to remove item from cart";
+        })
+        //delete cart for buyer
+        .addCase(deleteCartBuyer.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+          state.success = false;
+        })
+        .addCase(deleteCartBuyer.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.success = true;
+          state.message = "Cart Clear succcessfully";
+          state.cart = null
+        })
+        .addCase(deleteCartBuyer.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action?.payload?.error || "Failed to Cart Clear";
         });
+
+        
     },
   });
   
