@@ -84,7 +84,7 @@ const Search = () => {
                   <span className="productNameSearch">{ele?.productDtlName}</span>
                 </div>
                 <div><span className="searchDeatailUnit">1 {ele.unit}</span></div>
-                <div><span className="searchDeatailprice">₹{ele.price}</span></div>
+                <div><span className="searchDeatailprice">₹{ele.price}</span>/<span className="searchDeatailprice">{ele?.ProductUnit?.unitName}</span></div>
                 <div>
                  <span className="searchDeatailOfer"> {ele.discountType === "fixed" && "₹"}
                   {ele.discount}

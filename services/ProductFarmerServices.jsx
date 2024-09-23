@@ -72,19 +72,19 @@ export default class ProductFarmerServices {
     });
   }
 
-  static async approveProductsFarmer(id) {
+  static async approveProductsFarmer(id,data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/products/aprove/${id}`;
-    return axios.put(url, "aprove", {
+    return axios.put(url, data, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
   }
-  static async rejectProductsFarmer(id) {
+  static async rejectProductsFarmer(id,data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/products/reject/${id}`;
-    return axios.put(url, "reject", {
+    return axios.put(url, data, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },

@@ -153,11 +153,11 @@ const AproveFarmerProductslist = () => {
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th>sr no</th>
-            <th>product name</th>
-            <th className="text-center">brand name</th>
-            <th className="text-center">category name</th>
-            <th className="text-center">sub category name</th>
+            <th style={{whiteSpace:"nowrap"}}>sr no</th>
+            <th style={{whiteSpace:"nowrap"}}>product name</th>
+            <th style={{whiteSpace:"nowrap"}} className="text-center">brand name</th>
+            <th style={{whiteSpace:"nowrap"}} className="text-center">category name</th>
+            <th style={{whiteSpace:"nowrap"}} className="text-center">sub category name</th>
             <th className="text-center">price</th>
             <th className="text-center">discount</th>
             <th className="text-center">action</th>

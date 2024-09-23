@@ -163,9 +163,9 @@ const ListAddedProduct = () => {
                         data-bs-placement="bottom"
                         title={item?.productDtl}
                       >
-                        {item?.productDtl?.length < 30
+                        {item?.productDtl?.length < 100
                           ? item?.productDtl
-                          : `${item?.productDtl.substring(0, 30)}...`}
+                          : `${item?.productDtl.substring(0, 100)}...`}
                       </td>
                       <td style={{ backgroundColor: "transparent" }}>
                         {item?.Product.productName}

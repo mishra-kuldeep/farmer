@@ -13,9 +13,10 @@ import Link from "next/link";
 import ProductsDtlServices from "@/services/ProductsDtlServices";
 import { Image_URL } from "@/helper/common";
 import { useRouter } from "next/navigation";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { addToCart, deleteCart, updateCart } from "@/redux/cart/cartSlice";
+import toast from "react-hot-toast";
 
 const Section1Home = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const Section1Home = () => {
   const [loadingAction, setLoadingAction] = useState(null);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const initApi = async () => {
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({
@@ -57,22 +58,22 @@ const Section1Home = () => {
       }
     }
   };
- // Add product to cart
- const addCartHandler = (id) => {
-  if (!user?.isLoggedIn) {
-    toast("Please login to add products to the cart!", {
-      icon: "😢",
-      style: { borderRadius: "10px", background: "red", color: "#fff" },
-    });
-  } else {
-    const cartObj = {
-      buyerId: user?.profile?.id,
-      productDtlId: id,
-      quantity: 1,
-    };
-    dispatch(addToCart(cartObj));
-  }
-};
+  // Add product to cart
+  const addCartHandler = (id) => {
+    if (!user?.isLoggedIn) {
+      toast("Please login to add products to the cart!", {
+        icon: "😢",
+        style: { borderRadius: "10px", background: "red", color: "#fff" },
+      });
+    } else {
+      const cartObj = {
+        buyerId: user?.profile?.id,
+        productDtlId: id,
+        quantity: 1,
+      };
+      dispatch(addToCart(cartObj));
+    }
+  };
   // Update product quantity in the cart
   const updateCartQuantity = (productDtlId, newQuantity, action) => {
     const cartItem = cart?.cart?.find(
@@ -97,33 +98,23 @@ const Section1Home = () => {
 
   // Handle quantity increase
   const increaseQuantity = (id) => {
-    const cartItem = cart?.cart?.find(
-      (item) => item.productDtlId === id
-    );
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === id);
     if (cartItem) {
-      updateCartQuantity(
-         id,
-        cartItem.quantity + 1,
-        "increment"
-      );
+      updateCartQuantity(id, cartItem.quantity + 1, "increment");
     }
   };
 
   // Handle quantity decrease
   const decreaseQuantity = (id) => {
-    const cartItem = cart?.cart?.find(
-      (item) => item.productDtlId === id
-    );
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === id);
     if (cartItem && cartItem.quantity > 1) {
-      updateCartQuantity(
-        id,
-        cartItem.quantity - 1,
-        "decrement"
-      );
+      updateCartQuantity(id, cartItem.quantity - 1, "decrement");
     } else if (cartItem.quantity == 1) {
-       dispatch(deleteCart(cartItem?.cartId))
+      dispatch(deleteCart(cartItem?.cartId));
     }
   };
+
+  console.log(Products);
 
   return (
     <div className="container">
@@ -171,21 +162,30 @@ const Section1Home = () => {
                       <span className="ms-1">{ele.User.userInfo.City}</span>
                     </p>
                   </div>
-                  <div className="rating_wrap">
-                    <p className="centerAllDiv rating">
-                      <span className="fw-bold">{ele.averageRating}.0</span>
-                      <FaStar size={10} className="ms-1" />
-                    </p>
+                  <div className="d-flex justify-content-between">
+                    <div className="rating_wrap">
+                      <p className="centerAllDiv rating">
+                        <span className="fw-bold">{ele.averageRating}.0</span>
+                        <FaStar size={10} className="ms-1" />
+                      </p>
+                      <span className="rating_unit">
+                        {ele.averageRating} Ratings
+                      </span>
+                    </div>
                     <span className="rating_unit">
-                      {ele.averageRating} Ratings
+                      {ele?.ProductGrade?.gradeName} grade
                     </span>
                   </div>
                   <h5 className="mt-2 fw-bold fs-6">
-                    ₹ {ele.price - ele.discount}
+                    ₹{" "}
+                    {ele.discountType == "percentage"
+                      ? ele.price - (ele.price * ele.discount) / 100
+                      : ele.price - ele.discount}
+                    /{ele?.ProductUnit?.unitName}
                     {ele.discount !== 0 && (
                       <sub className="ms-1">
                         <del className="text-secondary fw-light">
-                          ₹{ele.price}
+                          ₹{ele.price}/{ele?.ProductUnit?.unitName}
                         </del>
                       </sub>
                     )}
@@ -203,8 +203,11 @@ const Section1Home = () => {
                   {cart?.cart?.find(
                     (item) => item.productDtlId === ele.productDtlId
                   ) ? (
-                    <div className="quantitywrap">
-                      <span className="minus" onClick={()=>decreaseQuantity(ele.productDtlId)}>
+                    <button className="quantitywrap p-0">
+                      <span
+                        className="minus"
+                        onClick={() => decreaseQuantity(ele.productDtlId)}
+                      >
                         {loadingProductId === ele.productDtlId &&
                         loadingAction === "decrement" ? (
                           <MiniLoader />
@@ -219,7 +222,10 @@ const Section1Home = () => {
                           )?.quantity
                         }
                       </span>
-                      <span className="plus" onClick={()=>increaseQuantity(ele.productDtlId)}>
+                      <span
+                        className="plus"
+                        onClick={() => increaseQuantity(ele.productDtlId)}
+                      >
                         {loadingProductId === ele.productDtlId &&
                         loadingAction === "increment" ? (
                           <MiniLoader />
@@ -227,14 +233,14 @@ const Section1Home = () => {
                           <FaPlus size={15} />
                         )}
                       </span>
-                    </div>
+                    </button>
                   ) : (
                     <button
                       className="addtoCart_btn"
                       data-bs-toggle="tooltip"
                       data-bs-placement="bottom"
                       title="Add to Cart"
-                      onClick={()=>addCartHandler(ele.productDtlId)}
+                      onClick={() => addCartHandler(ele.productDtlId)}
                     >
                       Add
                     </button>

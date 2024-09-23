@@ -61,6 +61,7 @@ const FarmerProductsList = () => {
       .then(({ data }) => {
         setAllFarmerProducts(data?.data);
         setmetaData(data?.meta);
+        setActionPerformed(false)
       })
       .catch((err) => {
         console.log(err);

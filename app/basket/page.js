@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import {
   addToCart,
+  clearCart,
   deleteCart,
   deleteCartBuyer,
   getCart,
@@ -16,10 +17,12 @@ import {
 import { Image_URL } from "@/helper/common";
 import CartService from "@/services/CartSevices";
 import OrderService from "@/services/Orderservices";
+import { useRouter } from "next/navigation";
 
 const Basket = () => {
   const user = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
+  const router =useRouter()
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -132,6 +135,7 @@ const Basket = () => {
       const response = await OrderService.checkoutCart(checkoutData);
       const res = await CartService.DeleteCartBuyer(user?.profile?.id);
       toast.success("Your Order is Placed for review successful!");
+      dispatch(clearCart()); 
     } catch (error) {
       toast.error("Checkout failed. Please try again.");
       console.error("Checkout Error:", error.message);
@@ -143,24 +147,22 @@ const Basket = () => {
 
   return (
     <div className="container">
-      <div>
-        <h4>Your Basket</h4>
-      </div>
       {cart?.cart?.length > 0 ? (
         <div className="row">
+          <div>
+            <h4>Your Basket</h4>
+          </div>
           <div className="col-md-9">
             <div className="row ">
               <div className="cardBasket">
                 <div className="col-md-4 text-center">
-                  Items ({cart.isLoading ? <MiniLoader /> : cart?.cart?.length}{" "}
-                  item)
+                  Items {cart?.cart?.length}
                 </div>
                 <div className="col-md-4 text-center">Quantity</div>
 
                 <div className="col-md-4 text-center">Sub-total</div>
               </div>
             </div>
-            {cart.isLoading && <MiniLoader />}
             <div className="productlistWrapper">
               {cart?.cart?.map((val) => (
                 <div className="cardBasket" key={val.productDtlId}>
@@ -294,9 +296,18 @@ const Basket = () => {
           </div>
         </div>
       ) : (
-       <div>
-        your cart is empty
-       </div>
+        <div  style={{ height: "80vh",display:"flex",justifyContent:"center" }}>
+          <div style={{ height: "50vh", width: "50vh", textAlign: "center" }}>
+            <img
+              // src="https://cdn-icons-png.flaticon.com/512/11010/11010851.png"
+              src="https://static.vecteezy.com/system/resources/previews/005/006/007/non_2x/no-item-in-the-shopping-cart-click-to-go-shopping-now-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
+              height="100%"
+              width="100%"
+            />
+            <h6 className="mb-4 text-secondary">Your cart is empty!</h6>
+            <button className="gohomeforshop" onClick={()=>router.push("/")}>Shop Now</button>
+          </div>
+        </div>
       )}
     </div>
   );

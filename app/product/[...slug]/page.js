@@ -146,11 +146,13 @@ const Product = () => {
         <div className="product_details">
           <h3 className="mb-3">{singleProduct?.productDtlName}</h3>
           <p className="mb-3">
-            MRP: <del>₹{singleProduct?.price}.00</del>
+            MRP: <del>₹{singleProduct?.price}.00/{singleProduct?.ProductUnit?.unitName}</del>
           </p>
           <h6 className="fw-bold  mb-3">
-            Price: ₹{singleProduct?.price}{" "}
-            <sub>(₹{singleProduct?.price}/{singleProduct?.unit})</sub>
+            Price:
+            ₹ {singleProduct.discountType=="percentage"?singleProduct.price-(singleProduct.price*singleProduct.discount)/100: singleProduct.price - singleProduct.discount}/{singleProduct?.ProductUnit?.unitName}
+
+            {/* <sub>(₹{singleProduct?.price}/{singleProduct?.ProductUnit?.unitName})</sub> */}
           </h6>
           <h6 className="fw-bold text-success">
             You Save : {singleProduct?.discountType === "fixed" && "₹"}
@@ -167,9 +169,9 @@ const Product = () => {
             {singleProduct?.User?.userInfo.City}
           </p>
 
-          <div className="d-flex my-md-5 d-none d-md-block">
+          <div className="d-flex my-md-5 d-none d-md-flex w-100">
             {cartItem ? (
-              <div className="quantitywrap">
+              <button className="quantitywrap w-50">
                 <span className="minus" onClick={decreaseQuantity}>
                   {loadingProductId === singleProduct?.productDtlId && loadingAction === 'decrement' 
                     ? <MiniLoader /> 
@@ -181,17 +183,17 @@ const Product = () => {
                     ? <MiniLoader /> 
                     : <FaPlus size={15} />}
                 </span>
-              </div>
+              </button>
             ) : (
               <button
-                className="addtocartProductBtn"
+                className="addtocartProductBtn w-50"
                 onClick={addCartHandler}
                 disabled={!singleProduct?.available}
               >
                 {singleProduct?.available ? "Add to basket" : "Out of stock"}
               </button>
             )}
-            <button className="saveforLaterProductBtn" disabled={!singleProduct}>Save for Later</button>
+            <button className="saveforLaterProductBtn w-50" disabled={!singleProduct}>Save for Later</button>
           </div>
         </div>
       </div>

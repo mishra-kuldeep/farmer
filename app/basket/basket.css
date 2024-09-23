@@ -67,3 +67,13 @@
   border-radius: 5px;
   /* margin-left: -20px; */
 }
+
+.gohomeforshop {
+  background-color: var(--mainColor2);
+  outline: none;
+  border: none;
+  width: 60%;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}

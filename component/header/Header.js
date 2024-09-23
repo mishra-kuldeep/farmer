@@ -14,7 +14,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, fetchUserInfo } from "@/redux/auth/authSlice";
 import { deleteCookie } from "@/helper/common";
-import { getCart } from "@/redux/cart/cartSlice";
+import { clearCart, getCart } from "@/redux/cart/cartSlice";
 
 function Header() {
   const user = useSelector((state) => state.auth);
@@ -59,6 +59,7 @@ function Header() {
   const handleLogout = () => {
     deleteCookie("token");
     dispatch(clearUser()); // Action to clear user data in Redux
+    dispatch(clearCart()); // Action to clear user cart in Redux
     router.push("/"); // Redirect to the login page
   };
 
@@ -151,11 +152,11 @@ function Header() {
                           </ul>
                         </>
                       )}
-                      <button className="cart_login_btn" onClick={()=>router.push('/basket') }>
+                      <button className="cart_login_btn " onClick={()=>router.push('/basket') }>
                         <FaShoppingCart size={18} />
-                        {cart?.cart?.length > 0 && (
+                        {cart?.cart?.length > 0 ? (
                           <span className="cart-count">{cart?.cart?.length}</span>
-                        )}
+                        ):<span className="cart-count">0</span>}
                       </button>
                     </div>
                   </div>
@@ -234,9 +235,9 @@ function Header() {
                 <div className="col-md-1 p-0">
                   <button className="cart_login_btn w-100" onClick={()=>router.push('/basket') }>
                     <FaShoppingCart size={18} className="me-2"  />
-                    {cart?.cart?.length > 0 && (
+                    {cart?.cart?.length > 0 ? (
                           <span className="">{cart?.cart?.length}</span>
-                        )} items
+                        ):0} items
                   </button>
                 </div>
               </div>
