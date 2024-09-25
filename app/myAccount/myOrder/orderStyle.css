@@ -1,0 +1,27 @@
+.orderItemWrap{
+    padding: 10px;
+    border: 1px solid #dadada;
+    margin-bottom: 10px;
+}
+.orderItemWrap:hover{
+    box-shadow: 0px 0px 10px #ddd;
+    border: 1px solid transparent;
+}
+.orderstatuscircle{
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: green;
+}
+.ordardetailWrapper{
+    border: 1px solid #dadada;
+    background-color: #f3f3f3;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.productorderbox{
+    padding: 10px;
+}
+.productorderbox:not(:last-child) {
+    border-bottom: 2px solid #ddd;
+  }
