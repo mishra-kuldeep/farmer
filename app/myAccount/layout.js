@@ -4,7 +4,8 @@ import "./accountpage.css";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiProductHuntLine } from "react-icons/ri";
-import { FaListUl } from "react-icons/fa";
+import { MdFormatListBulleted } from "react-icons/md";
+import { PiVan } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import UserProfile from "@/component/myaccount/UserProfile";
@@ -32,7 +33,7 @@ const AccountLayout = ({ children }) => {
     {
       id: 3,
       title: "Product List",
-      icon: <FaListUl size={16} />,
+      icon: <MdFormatListBulleted size={22} />,
       goesTo: "/myAccount/listAddedProduct",
       status: user?.profile?.role === 2,
     },
@@ -43,11 +44,18 @@ const AccountLayout = ({ children }) => {
       goesTo: "/myAccount/myOrder",
       status: true,
     },
+    {
+      id: 3,
+      title: "Ordered Product",
+      icon: <PiVan size={22} />,
+      goesTo: "/myAccount/orderedProduct",
+      status: user?.profile?.role === 2,
+    },
   ];
   return (
     <>
       <div className=" pt-3">
-        <div className="row px-md-5 m-0">
+        <div className="row px-md-3 m-0">
           <div className="col-md-2">
             <div className="accountsidebar pe-md-3">
               <h2> My Account</h2>

@@ -106,42 +106,43 @@ const Basket = () => {
   const deliveryCharges = finalTotal > 1000 ? 0 : 40;
 
   const handleCheckout = async () => {
-    if (!user?.isLoggedIn) {
-      toast("Please login to proceed with the checkout!", {
-        icon: "😢",
-        style: { borderRadius: "10px", background: "red", color: "#fff" },
-      });
-      return;
-    }
-    const deliveryCharges = finalTotal > 1000 ? 0 : 40;
-    const totalAmount = finalTotal + deliveryCharges;
+    router.push("/basket/placeOrder")
+    // if (!user?.isLoggedIn) {
+    //   toast("Please login to proceed with the checkout!", {
+    //     icon: "😢",
+    //     style: { borderRadius: "10px", background: "red", color: "#fff" },
+    //   });
+    //   return;
+    // }
+    // const deliveryCharges = finalTotal > 1000 ? 0 : 40;
+    // const totalAmount = finalTotal + deliveryCharges;
 
-    const products = cart.cart.map((item) => ({
-      productDtlId: item.productDtlId,
-      quantity: item.quantity,
-      price: item.productDetail.price,
-      discount: item.productDetail.discount,
-      discountType: item.productDetail.discountType,
-    }));
+    // const products = cart.cart.map((item) => ({
+    //   productDtlId: item.productDtlId,
+    //   quantity: item.quantity,
+    //   price: item.productDetail.price,
+    //   discount: item.productDetail.discount,
+    //   discountType: item.productDetail.discountType,
+    // }));
 
-    const checkoutData = {
-      buyerId: user?.profile?.id,
-      totalAmount,
-      products,
-    };
+    // const checkoutData = {
+    //   buyerId: user?.profile?.id,
+    //   totalAmount,
+    //   products,
+    // };
 
-    try {
-      setIsCheckingOut(true);
-      const response = await OrderService.checkoutCart(checkoutData);
-      const res = await CartService.DeleteCartBuyer(user?.profile?.id);
-      toast.success("Your Order is Placed for review successful!");
-      dispatch(clearCart()); 
-    } catch (error) {
-      toast.error("Checkout failed. Please try again.");
-      console.error("Checkout Error:", error.message);
-    } finally {
-      setIsCheckingOut(false);
-    }
+    // try {
+    //   setIsCheckingOut(true);
+    //   const response = await OrderService.checkoutCart(checkoutData);
+    //   const res = await CartService.DeleteCartBuyer(user?.profile?.id);
+    //   toast.success("Your Order is Placed for review successful!");
+    //   dispatch(clearCart()); 
+    // } catch (error) {
+    //   toast.error("Checkout failed. Please try again.");
+    //   console.error("Checkout Error:", error.message);
+    // } finally {
+    //   setIsCheckingOut(false);
+    // }
   };
   console.log();
 
@@ -253,7 +254,7 @@ const Basket = () => {
           <div className="col-md-3">
             <div className="detailWrapper border p-3 rounded shadow">
               <h5 className="mb-4">Price Details</h5>
-              <table className="table table-borderless">
+              <table className="table table-bordered">
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
@@ -289,7 +290,7 @@ const Basket = () => {
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
               >
-                {isCheckingOut ? <MiniLoader /> : "Checkout"}
+                {isCheckingOut ? <MiniLoader /> : "Place Order"}
               </button>
               {/* <button className="CheckoutBtn w-100 mt-3">Checkout</button> */}
             </div>

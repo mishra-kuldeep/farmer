@@ -187,8 +187,9 @@ function Header() {
                       <p>Farmers</p>
                       <p>Buyers</p>
                       <p>Transportation</p>
-                      <p>Employee</p>
-                      <p>Vendors</p>
+                      {/* <p>Employee</p>
+                      <p>Vendors</p> */}
+                      <p>Farm Lands</p>
                       <p>Educational Resources</p>
                       <p>Customer Care</p>
                     </div>

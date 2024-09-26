@@ -1,0 +1,94 @@
+.order-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 20px 0 0 0;
+  }
+  
+  .step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+  }
+  
+  .step-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto;
+    transition: background-color 0.3s ease;
+  }
+  
+  .step.active .step-circle {
+    background-color: #198754; /* Active step color (green) */
+  }
+  
+  .step-label {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .step::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ccc;
+    top: 12px;
+    left: 50%;
+    z-index: -1;
+    transition: background-color 0.3s ease;
+  }
+  
+  .step.active::before {
+    background-color: #198754; /* Active step line color */
+  }
+  
+  .step:last-child::before {
+    display: none; /* No line after the last step */
+  }
+  
+  /* Media query for mobile view */
+  @media (max-width: 768px) {
+    .step-circle {
+        width: 15px;
+        height: 15px;
+        font-size: 10px;
+    }
+    .order-tracker {
+      flex-direction: column; /* Stack steps vertically */
+    }
+  
+    .step {
+      margin-bottom: 20px; /* Space between steps */
+    }
+  
+    .step::before {
+      width: 2px; /* Vertical line between steps */
+      height: 20px;
+      top: 30px;
+      left: 48%;
+      transform: translate(-50% -50%);
+    }
+  
+    .step-label {
+      margin-top: 0px; /* Adjust label margin for vertical view */
+      font-size: 10px;
+    }
+  
+    .step:last-child::before {
+      display: none; /* No line after the last step */
+    }
+    .step:last-child {
+       margin-bottom: 0px;
+      }
+  }
+  

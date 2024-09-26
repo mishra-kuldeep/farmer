@@ -58,6 +58,7 @@ export default class OrderService {
   }
 
   static async BuyerOrderList(status,page) {    
+    console.log("status,page",status,page)
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderbuyer/${status}?page=${page}`;
     return axios.get(url, {
@@ -71,6 +72,17 @@ export default class OrderService {
     console.log(orderId);
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderDetailadmin/${orderId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
+  static async getOrderedConfirmToSeller(status) {
+    console.log(status);
+    const token = getCookie("token");
+    const url = `${BASE_URL}/order/orderfarmer/${status}`;
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header

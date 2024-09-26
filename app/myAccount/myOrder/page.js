@@ -175,7 +175,7 @@ const MyOrder = () => {
         </div>
       </div>
       {loading ? (
-        <div style={{ height: "80vh" }} className="centerAllDiv">
+        <div style={{ height: "70vh" }} className="centerAllDiv">
           <MiniLoader />
           Loading ...
         </div>

@@ -4,8 +4,8 @@
   margin-top: 10px;
 }
 .detailWrapper {
-  background-color: rgba(165, 42, 42, 0.205);
-  height: 40vh;
+  background-color: #fff !important;
+  /* height: 40vh; */
   position: sticky;
   top: 125px;
 }
@@ -57,10 +57,10 @@
 }
 
 .CheckoutBtn {
-  background-color: var(--mainColor2);
+  background-color: var(--mainColor);
   outline: none;
   border: none;
-  width: calc(50% + 15px);
+  /* width: calc(50% + 15px); */
   padding: 10px;
   color: white;
   font-weight: bold;
@@ -76,4 +76,20 @@
   padding: 10px;
   color: white;
   font-weight: bold;
+}
+
+
+.addressWrapper{
+  background-color: #ffffff;
+  display: flex;
+  cursor: pointer;
+  align-items: baseline;
+  border-bottom: 1px solid #dadada;
+  padding: 10px;
+}
+.addAddresswrap{
+  background-color: #ffffff;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: 1px solid #dadada;
 }

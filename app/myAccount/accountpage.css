@@ -1,4 +1,4 @@
-.accountsidebar{
+.accountsidebar {
   border-right: 1px solid rgb(158, 158, 158);
   height: calc(100vh - 150px);
 }
@@ -39,24 +39,60 @@
 .accListSide:hover h6 {
   font-weight: bold;
 }
-.accListSideActive{
+.accListSideActive {
   background-color: #ddd;
   font-weight: bold;
 }
-.imageofProductaddbyFarmer{
+.imageofProductaddbyFarmer {
   height: calc(100vh / 2);
   width: 400px;
   object-fit: contain;
   margin: 10px;
   background-color: #ddd;
 }
-
+.orderedWrapper {
+  position: relative;
+  border: 1px solid #dadada;
+  margin-bottom: 10px;
+border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  & img {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+  }
+}
+.highlight {
+  background-color: rgb(217, 253, 217);
+  padding: 5px;
+  margin: 5px;
+  font-weight: bold;
+}
+.customeraddress {
+  background-color: #f1f1f1;
+  padding: 10px;
+  color: grey;
+  font-size: 13px;
+  margin-top: 15px;
+}
 
 @media only screen and (max-width: 600px) {
-  .accountsidebar{
+  .accountsidebar {
     border-right: none;
     height: auto;
     border-bottom: 1px solid rgb(158, 158, 158);
     margin-bottom: 20px;
+  }
+  .orderedWrapper {
+    border: 1px solid #dadada;
+    margin-bottom: 10px;
+    flex-direction: column;
+    padding: 10px;
+    & img {
+      width: 100%;
+      height: auto;
+    }
   }
 }
