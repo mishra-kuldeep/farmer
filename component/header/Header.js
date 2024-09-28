@@ -49,12 +49,12 @@ function Header() {
   useEffect(() => {
     // if (!user.isLoggedIn && dispatch && !user.isLoading) {
     if (!user.isLoggedIn && dispatch && !user.isLoading) {
-      dispatch(fetchUserInfo());   
-    }else if(user.isLoggedIn && user?.profile){
-      dispatch(getCart(user?.profile?.id))
+      dispatch(fetchUserInfo());
+    } else if (user.isLoggedIn && user?.profile) {
+      dispatch(getCart(user?.profile?.id));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.isLoggedIn,user?.profile]);
+  }, [user.isLoggedIn, user?.profile]);
 
   const handleLogout = () => {
     deleteCookie("token");
@@ -63,6 +63,79 @@ function Header() {
     router.push("/"); // Redirect to the login page
   };
 
+  const HeaderMenu = [
+    {
+      id: 1,
+      title: "Farmers",
+      goesTo: "/myAccount/myProfile",
+      status: user?.profile?.role === 2,
+    },
+    {
+      id: 1,
+      title: "Farm Lands",
+      goesTo: "/myAccount/myProfile",
+      status: user?.profile?.role == 2 || user?.profile?.role ==3,
+      subMenu: [
+        {
+          id: 11,
+          title: "Agricultural lands",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role === 2,
+        },
+        {
+          id: 12,
+          title: "Plots",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role === 2,
+        },
+        {
+          id: 12,
+          title: "Farm Lands",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role === 2,
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "Buyer",
+      goesTo: "/myAccount/addProduct",
+      status: user?.profile?.role === 3,
+    },
+    {
+      id: 3,
+      title: "Transportation",
+      goesTo: "/myAccount/listAddedProduct",
+      status: user?.profile?.role == 4,
+      subMenu: [
+        {
+          id: 31,
+          title: "Tractor",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role ==4 ,
+        },
+        {
+          id: 32,
+          title: "Mini Truck(Lorry)",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role == 4,
+        },
+        {
+          id: 33,
+          title: "Trucks",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role ==4,
+        },
+        {
+          id: 34,
+          title: "Shipping container",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role ==4,
+        }
+      ],
+    },
+   
+  ];
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
 
@@ -152,11 +225,18 @@ function Header() {
                           </ul>
                         </>
                       )}
-                      <button className="cart_login_btn " onClick={()=>router.push('/basket') }>
+                      <button
+                        className="cart_login_btn "
+                        onClick={() => router.push("/basket")}
+                      >
                         <FaShoppingCart size={18} />
                         {cart?.cart?.length > 0 ? (
-                          <span className="cart-count">{cart?.cart?.length}</span>
-                        ):<span className="cart-count">0</span>}
+                          <span className="cart-count">
+                            {cart?.cart?.length}
+                          </span>
+                        ) : (
+                          <span className="cart-count">0</span>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -187,11 +267,11 @@ function Header() {
                       <p>Farmers</p>
                       <p>Buyers</p>
                       <p>Transportation</p>
-                      {/* <p>Employee</p>
-                      <p>Vendors</p> */}
-                      <p>Farm Lands</p>
+                      {/* <p>Employee</p> */}
+                      <p>Vendors</p>
+                      <p>Fertilizers & Pesticides</p>
                       <p>Educational Resources</p>
-                      <p>Customer Care</p>
+                      {/* <p>Customer Care</p> */}
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
@@ -234,11 +314,17 @@ function Header() {
                   <Search />
                 </div>
                 <div className="col-md-1 p-0">
-                  <button className="cart_login_btn w-100" onClick={()=>router.push('/basket') }>
-                    <FaShoppingCart size={18} className="me-2"  />
+                  <button
+                    className="cart_login_btn w-100"
+                    onClick={() => router.push("/basket")}
+                  >
+                    <FaShoppingCart size={18} className="me-2" />
                     {cart?.cart?.length > 0 ? (
-                          <span className="">{cart?.cart?.length}</span>
-                        ):0} items
+                      <span className="">{cart?.cart?.length}</span>
+                    ) : (
+                      0
+                    )}{" "}
+                    items
                   </button>
                 </div>
               </div>
