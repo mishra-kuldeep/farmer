@@ -14,7 +14,7 @@ const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
   const pathname = usePathname();
   const router = useRouter();
-
+console.log(user?.profile?.role)
   const SideBarList = [
     {
       id: 1,
@@ -45,11 +45,25 @@ const AccountLayout = ({ children }) => {
       status: true,
     },
     {
-      id: 3,
+      id: 5,
       title: "Ordered Product",
       icon: <PiVan size={22} />,
       goesTo: "/myAccount/orderedProduct",
       status: user?.profile?.role === 2,
+    },
+    {
+      id: 6,
+      title: "Add Vehicles",
+      icon: <PiVan size={22} />,
+      goesTo: "/myAccount/addVehicle",
+      status: user?.profile?.role === 4,
+    },
+    {
+      id: 7,
+      title: "Vehicles List",
+      icon: <PiVan size={22} />,
+      goesTo: "/myAccount/vehicleList",
+      status: user?.profile?.role === 4,
     },
   ];
   return (

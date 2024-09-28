@@ -9,6 +9,7 @@ import { MdProductionQuantityLimits } from "react-icons/md";
 import { GiUpgrade } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
+import { AiFillTruck } from "react-icons/ai";
 
 const sidebarArray = [
   {
@@ -24,52 +25,58 @@ const sidebarArray = [
     icon: <FaRegListAlt size={25} />,
   },
   {
-    id: 8,
+    id: 3,
     title: "Order List",
     url: "/admin/orders",
     icon: <MdProductionQuantityLimits size={22} className="me-1"/>,
   },
   {
-    id: 3,
+    id: 4,
     title: "Add Products",
     url: "/admin/addProduct",
     icon: <FaProductHunt size={25} />,
   },
   {
-    id: 4,
+    id: 5,
     title: "Add Category",
     url: "/admin/addCategory",
     icon: <MdCategory size={25} />,
   },
   {
-    id: 5,
+    id: 6,
     title: "Add Subcategory",
     url: "/admin/addSubCategory",
     icon: <FaRegListAlt size={25} />,
   },
   {
-    id: 6,
+    id: 7,
     title: "Add Brands",
     url: "/admin/addBrand",
     icon: <SiBrandfolder size={25} />,
   },
   {
-    id: 6,
+    id: 8,
     title: "Add Unit",
     url: "/admin/addUnits",
     icon: <SiUnpkg size={25} />,
   },
   {
-    id: 6,
+    id: 9,
     title: "Add Grade",
     url: "/admin/addGrade",
     icon: <GiUpgrade size={25} />,
   },
   {
-    id: 7,
+    id: 10,
     title: "Users List",
     url: "/admin/users",
-    icon: <FaListUl size={22} className="me-1"/>,
+    icon: <FaListUl size={20} className="me-1"/>,
+  },
+  {
+    id: 10,
+    title: "Add Vehicle",
+    url: "/admin/addVehicle",
+    icon: <AiFillTruck  size={28} className="me-1"/>,
   },
 ];
 
