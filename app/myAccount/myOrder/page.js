@@ -74,7 +74,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import IconButton from "@/component/reusableComponent/IconButton";
 import { Image_URL } from "@/helper/common";
 import Pagination from "@/component/reusableComponent/Pagination";
-
+import { TbTruckDelivery } from "react-icons/tb";
+import VehicleServices from "@/services/VehicleServices";
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
@@ -84,10 +85,12 @@ const MyOrder = () => {
   const [openIndex, setOpenIndex] = useState(null); // State to track the open div index
   const [loading, setloading] = useState(false);
   const [miniloading, setMiniloading] = useState(false);
+  const [transpoterlist, setTranspoterlist] = useState([]);
+  const [Errrors, setErrror] = useState([]);
 
   useEffect(() => {
     setloading(true);
-    OrderService.BuyerOrderList(status,page)
+    OrderService.BuyerOrderList(status, page)
       .then(({ data }) => {
         setOrderList(data?.data);
         setmetaData(data?.meta);
@@ -97,7 +100,7 @@ const MyOrder = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [status,page]);
+  }, [status, page]);
 
   const toggleDiv = (index, orderId) => {
     setOpenIndex(openIndex === index ? null : index); // Toggle div open/close
@@ -107,6 +110,10 @@ const MyOrder = () => {
     setPage(1)
     setStatus(value);
     setOpenIndex(null);
+  };
+  const handleOncloses = (value) => {
+    setErrror("")
+    setTranspoterlist([])
   };
 
   const showfullProductList = (orderId) => {
@@ -120,8 +127,19 @@ const MyOrder = () => {
         console.log(err);
       });
   };
-
-  console.log(productList);
+  const getTranspoter = (location) => {
+    // setMiniloading(true);
+    VehicleServices.getTranspoterForBuyer("231002")
+      .then(({ data }) => {
+        console.log(data)
+        setTranspoterlist(data?.data);
+        setMiniloading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrror(err?.response?.data?.message)
+      });
+  };
 
   return (
     <div className="orderPage">
@@ -234,6 +252,7 @@ const MyOrder = () => {
                         />
                       </IconButton>
                     </div>
+
                   </div>
                 </div>
 
@@ -251,7 +270,7 @@ const MyOrder = () => {
                           return (
                             <div className="productorderbox">
                               <div className="row">
-                                <div className="col-md-5">
+                                <div className="col-md-8">
                                   <div className="d-flex gap-3">
                                     <img
                                       src={`${Image_URL}/products/${ele?.productDetail?.ProductsImages[0]?.url}`}
@@ -301,8 +320,18 @@ const MyOrder = () => {
                                     </div>
                                   </div>
                                 </div>
-                                {/* <div className="col-md-4">fg;lj</div>
-                                <div className="col-md-3">fg;lj</div> */}
+                                <div className="col-md-2">-----</div>
+                                <div className="col-md-2"
+                                  //  className="rounded-5"
+                                  data-bs-toggle="offcanvas"
+                                  data-bs-target="#offcanvasRight"
+                                  aria-controls="offcanvasRight"
+                                  onClick={() => getTranspoter(ele?.User?.userInfo?.Zip)}
+                                >
+                                  <p className="text-secondary transporter-text">
+                                    Select Transports
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           );
@@ -316,6 +345,97 @@ const MyOrder = () => {
           })}
         </div>
       )}
+      <div
+        className="offcanvas offcanvas-end"
+        style={{ width: "1000px" }}
+        tabIndex="-1"
+        id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel"
+      >
+        <div className="offcanvas-header">
+          <h5 id="offcanvasRightLabel">List of Transports</h5>
+          <button
+            type="button"
+            className="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            onClick={handleOncloses}
+          ></button>
+        </div>
+        <div className="offcanvas-body">
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {transpoterlist?.map((val, i) => (
+              <div
+                className="orderItemWrap"
+                style={{ backgroundColor: "#f3f3f3" }}
+              >
+                <div className="row m-0 align-items-center">
+                  <div className="col-md-3">
+                    <h6 className="text-secondary">
+                      {val?.TransportVehicle.type}
+                    </h6>
+                  </div>
+                  <div className="col-md-3">
+                    <h6 className="text-secondary">
+                      Capacity in Ton: {val?.TransportVehicle.capacity}
+                    </h6>
+                  </div>
+                  <div className="col-md-3">
+                    <p className="text-secondary">
+                      Charge Per Km : {val?.chargePerKm}
+                    </p>
+                    <p style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      color: "green",
+                    }}>
+                      You Save :{" "}{val?.availableOffers ?
+                        <p className="text-secondary mt-2">
+                          {val?.availableOffers}{" "}OFF
+                        </p>
+                        : "0 OFF"
+                      }
+                    </p>
+                  </div>
+                  {/* <div className="col-md-3" >
+
+                  </div> */}
+                  <div className="col-md-3 d-flex justify-content-between align-items-center">
+                    <div className="d-flex gap-2">
+                      <p
+                        className="orderstatuscircle mt-2"
+                      // style={{backgroundColor:"orange"}}
+                      ></p>
+                      <div>
+                        <p className="text-secondary">
+                          {val?.vehicleAvailabilityStatus}
+                        </p>
+                        <p className="text-secondary">
+
+                        </p>
+                      </div>
+                    </div>
+                    <IconButton
+                    // onClick={() => toggleDiv(index, ele?.orderId)}
+                    >
+                      <label className="cursor">
+                        <input
+                          type="checkbox"
+                          // value="All"
+                          // checked={status == "All"}
+                          checked
+                        />
+                      </label>
+                    </IconButton>
+                  </div>
+
+                </div>
+              </div>
+            ))}
+            <p>{Errrors}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -10,10 +10,13 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Image_URL } from "@/helper/common";
 import "../../admin/addProduct/addProduct.css";
+import VehicleServices from "@/services/VehicleServices";
+import { useSelector } from "react-redux";
 
 const vehicleList = () => {
   const router = useRouter();
-  const [productList, setProductList] = useState([]);
+  const user = useSelector((state) => state.auth);
+  const [VehicleList, setVehicleList] = useState([]);
   const [imageList, setImageList] = useState([]);
   const [metaData, setMetaData] = useState({});
 
@@ -24,15 +27,15 @@ const vehicleList = () => {
   const [searchText, setSearchText] = useState("");
 
   const editHandeler = (id) => {
-    router.push(`/myAccount/editProduct/${id}`);
+    router.push(`/myAccount/editVehicle/${id}`);
   };
 
   const handleDelete = async () => {
-    await ProductFarmerServices.deleteProductsFarmer(selectedId)
+    await VehicleServices.deleteTranspoterVehicle(selectedId)
       .then(({ data }) => {
         console.log(data);
-        setProductList(
-          productList.filter((ele) => ele.productDtlId !== selectedId)
+        setVehicleList(
+          VehicleList.filter((ele) => ele?.transVehicalId!== selectedId)
         );
         setShowConfirm(false);
         toast(data.message, {
@@ -55,21 +58,22 @@ const vehicleList = () => {
     setShowConfirm(true);
   };
 
-  const getImage = (id) => {
-    setImageList([])
-    ProductFarmerServices.getAllImage(id)
-      .then(({ data }) => {
-        console.log(data?.images);
-        setImageList(data?.images);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getImage = (id) => {
+  //   setImageList([])
+  //   ProductFarmerServices.getAllImage(id)
+  //     .then(({ data }) => {
+  //       console.log(data?.images);
+  //       setImageList(data?.images);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
 
   useEffect(() => {
-    ProductFarmerServices.getProductsFarmer(page, searchText)
+    VehicleServices.getAllVehicle(user?.profile?.id,page, searchText)
       .then(({ data }) => {
         console.log(data)
-        setProductList(data?.data);
+        setVehicleList(data?.rows);
         setMetaData(data?.meta);
       })
       .catch((err) => console.log(err));
@@ -82,7 +86,7 @@ const vehicleList = () => {
         setPage={setPage}
         searchText={searchText}
         setSearchText={setSearchText}
-        List={productList}
+        List={VehicleList}
         metaData={metaData}
         searchShow={true}
       />
@@ -130,58 +134,62 @@ const vehicleList = () => {
             <thead>
               <tr>
                 <th>SrNo</th>
-                <th>Product Name</th>
-                <th>Discription</th>
-                <th>Product Type</th>
-                <th className="text-center">Price</th>
+                <th>Vehicle Name</th>
+                <th>Vehicle Number</th>
+                <th>Driver Name</th>
+                <th>Contact No.</th>
+                <th className="text-center">vehicle Status</th>
                 <th className="text-center">Discount</th>
-                <th className="text-center">Quantity/Unit</th>
+                <th className="text-center">Vehicle Capacity</th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>
-            {productList?.length > 0 && (
+            {VehicleList?.length > 0 && (
               <tbody>
-                {productList?.map((item, i) => {
+                {VehicleList?.map((item, i) => {
                   return (
                     <tr key={item?.productDtlId}>
                       <td
                         className={`${
-                          !item?.isVerify && !item?.rejected
+                          item?.adminReview =="Pending"
                             ? "bgwarning"
-                            : item?.isVerify
+                            : item?.adminReview =="Approved"
                             ? "bgsuccess"
-                            : item?.rejected
+                            : item?.adminReview =="Rejected"
                             ? "bgdanger"
                             : ""
                         }`}
                       >
                         {i + 1}
                       </td>
-                      <td>{item?.productDtlName}</td>
+                      <td>{item?.TransportVehicle?.type}</td>
                       <td
                         data-bs-toggle="tooltip"
                         data-bs-placement="bottom"
-                        title={item?.productDtl}
+                        title={item?.vehicleNumber}
                       >
-                        {item?.productDtl?.length < 100
-                          ? item?.productDtl
-                          : `${item?.productDtl.substring(0, 100)}...`}
+                        {item?.vehicleNumber?.length < 100
+                          ? item?.vehicleNumber
+                          : `${item?.vehicleNumber.substring(0, 100)}...`}
                       </td>
                       <td style={{ backgroundColor: "transparent" }}>
-                        {item?.Product.productName}
+                        {item?.driverName}
                       </td>
-                      <td className="text-center">{item?.price}</td>
+                      <td style={{ backgroundColor: "transparent" }}>
+                        {item?.driverContact}
+                      </td>
+                      <td className="text-center">{item?.vehicleAvailabilityStatus}</td>
                       <td className="text-center">
-                        {item?.discountType == "fixed" && "₹"}
-                        {item?.discount}
-                        {item?.discountType == "percentage" && "%"}
+                        {/* {item?.discountType == "fixed" && "₹"} */}
+                        {item?.availableOffers?item?.availableOffers:"----"}
+                        {/* {item?.discountType == "percentage" && "%"} */}
                       </td>
                       <td className="text-center">
-                        {item?.quantity}/{item?.ProductUnit?.unitName}
+                        {item?.TransportVehicle?.capacity}
                       </td>
                       <td className="text-center">
                         <div className="d-flex gap-2 justify-content-center">
-                          <div
+                          {/* <div
                             className="rounded-5"
                             data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasRight"
@@ -191,18 +199,18 @@ const vehicleList = () => {
                             <IconButton tooltip="view images">
                               <FaRegImages color="darkblue" size={20} />
                             </IconButton>
-                          </div>
+                          </div> */}
 
                           <IconButton
                             tooltip="edit"
-                            onClick={() => editHandeler(item?.productDtlId)}
+                            onClick={() => editHandeler(item?.transVehicalId)}
                           >
                             <FaRegEdit color="green" size={20} />
                           </IconButton>
-                          {!item?.isVerify ? (
+                          {item?.adminReview =="Pending" ? (
                             <IconButton
                               tooltip="delete"
-                              onClick={() => deleteHandeler(item.productDtlId)}
+                              onClick={() => deleteHandeler(item.transVehicalId)}
                             >
                               <MdDelete color="red" size={20} />
                             </IconButton>
