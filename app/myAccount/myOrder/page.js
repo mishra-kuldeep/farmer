@@ -86,6 +86,12 @@ const MyOrder = () => {
   const [loading, setloading] = useState(false);
   const [miniloading, setMiniloading] = useState(false);
   const [transpoterlist, setTranspoterlist] = useState([]);
+  const [SelectTranspoterlist, setSelectTranspoterlist] = useState([]);
+  const [orderDetailId, setorderDetailId] = useState(null);
+  const [productDtlId, setProductDtlId] = useState(null);
+  const [deliveryAddressId, setdeliveryAddressId] = useState(null);
+  const [selectTransVehicalId, setSelectTransVehicalId] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
 
   useEffect(() => {
@@ -120,16 +126,23 @@ const MyOrder = () => {
     setMiniloading(true);
     OrderService.BuyerOrderSingleList(orderId)
       .then(({ data }) => {
+        console.log(data)
         setProductList(data?.data);
+        setSelectTranspoterlist(data?.data.map((ele) => ele.transVehicalId));
         setMiniloading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const getTranspoter = (location) => {
+  const getTranspoter = (location, OrderDetailId, productDtlId, UserId, addressId, selectTransVehical) => {
     // setMiniloading(true);
-    VehicleServices.getTranspoterForBuyer("231002")
+    setorderDetailId(OrderDetailId)
+    setProductDtlId(productDtlId)
+    setUserId(UserId)
+    setdeliveryAddressId(addressId)
+    setSelectTransVehicalId(selectTransVehical)
+    VehicleServices.getTranspoterForBuyer(location)
       .then(({ data }) => {
         console.log(data)
         setTranspoterlist(data?.data);
@@ -141,6 +154,62 @@ const MyOrder = () => {
       });
   };
 
+
+
+  const hendleSelectTranspot = (transVehicalId, transporterId) => {
+    // setMiniloading(true);
+    const data = {
+      transVehicalId,
+      transporterId,
+      orderDetailId: orderDetailId,
+      productDtlId: productDtlId,
+      deliveryAddressId: deliveryAddressId,
+      sellerId: userId,
+    }
+    console.log(productList);
+    console.log(orderDetailId);
+
+    
+   
+    VehicleServices.selectTranspoterForOrderProduct(data)
+      .then(({ data }) => {
+        // console.log(data)
+        setSelectTransVehicalId(data?.newDetail?.transVehicalId)
+        // setSelectTranspoterlist((pre) => pre, ...data?.newDetail?.transVehicalId);
+        const index =  productList.map((val)=>(val?.orderDetailId)).indexOf(orderDetailId)
+        const selectedOrder = productList[index]
+        selectedOrder.transVehicalId = data?.newDetail?.transVehicalId
+       setProductList(productList)
+        setSelectTranspoterlist(data?.newDetail);
+        setMiniloading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrror(err?.response?.data?.message)
+      });
+  };
+  // const hendleChengeTranspot = (transVehicalId, transporterId) => {
+  //   // setMiniloading(true);
+  //   const data = {
+  //     transVehicalId,
+  //     transporterId,
+  //     orderDetailId: orderDetailId,
+  //     productDtlId: productDtlId,
+  //     deliveryAddressId: deliveryAddressId,
+  //     sellerId: userId,
+  //   }
+  //   VehicleServices.chengeTranspoterForOrderProduct(data)
+  //     .then(({ data }) => {
+  //       console.log(data)
+  //       setSelectTranspoterlist((pre) => pre, ...data?.data.transVehicalId);
+  //       setMiniloading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setErrror(err?.response?.data?.message)
+  //     });
+  // };
+  console.log(SelectTranspoterlist)
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -321,16 +390,27 @@ const MyOrder = () => {
                                   </div>
                                 </div>
                                 <div className="col-md-2">-----</div>
-                                <div className="col-md-2"
-                                  //  className="rounded-5"
+
+                                <div
+                                  className="col-md-2"
                                   data-bs-toggle="offcanvas"
                                   data-bs-target="#offcanvasRight"
                                   aria-controls="offcanvasRight"
-                                  onClick={() => getTranspoter(ele?.User?.userInfo?.Zip)}
+                                  onClick={() =>
+                                    getTranspoter(
+                                      ele?.User?.userInfo?.Zip,
+                                      ele.orderDetailId,
+                                      ele.productDtlId,
+                                      ele?.User?.UserId,
+                                      ele?.addressId,
+                                      ele?.transVehicalId
+                                    )
+                                  }
                                 >
-                                  <p className="text-secondary transporter-text">
-                                    Select Transports
-                                  </p>
+                                  { ele?.transVehicalId == null  ? (
+                                    <p className="text-secondary transporter-text">Select Transports</p>)
+                                    :
+                                    (<p className="text-secondary transporter-text">Change Transports</p>)}
                                 </div>
                               </div>
                             </div>
@@ -415,20 +495,37 @@ const MyOrder = () => {
                         </p>
                       </div>
                     </div>
-                    <IconButton
-                    // onClick={() => toggleDiv(index, ele?.orderId)}
-                    >
-                      <label className="cursor">
-                        <input
-                          type="checkbox"
-                          // value="All"
-                          // checked={status == "All"}
-                          checked
-                        />
-                      </label>
-                    </IconButton>
+                    {val?.vehicleId == selectTransVehicalId ?
+                      <IconButton
+                        onClick={() => hendleChengeTranspot(val?.vehicleId, val?.transporterId)}
+                      // onClick={() => hendleSelectTranspot(val?.vehicleId, val?.transporterId)}
+                      >
+                        <label className="cursor">
+                          <input
+                            key={i}
+                            type="checkbox"
+                            // value="All"
+                            checked={val?.vehicleId == selectTransVehicalId}
+                          />
+                        </label>
+                      </IconButton>
+                      :
+                      <IconButton
+                        onClick={() => hendleSelectTranspot(val?.vehicleId, val?.transporterId)}
+                      >
+                        <label className="cursor">
+                          <input
+                            className="cursor"
+                            key={i}
+                            type="radio"
+                            value={val?.vehicleId}
+                            checked={val?.vehicleId == selectTransVehicalId}
+                          />
+                        </label>
+                      </IconButton>
+                    }
                   </div>
-
+                  {/* hendleChengeTranspot */}
                 </div>
               </div>
             ))}

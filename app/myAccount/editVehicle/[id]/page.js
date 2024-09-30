@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "../../admin/addProduct/addProduct.css";
+// import "../../admin/addProduct/addProduct.css";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";;
@@ -24,7 +24,6 @@ const EditVehicle = ({ params }) => {
         estimatedDeliveryTime: null,
         notes: "",
     });
-    console.log(values)
     const onchangeHandeler = (e) => {
         const { name, files } = e.target;
         if (name == "vehicleNumber") {
@@ -39,7 +38,7 @@ const EditVehicle = ({ params }) => {
     const onSubmitHandler = async () => {
         setLoader(true);
         try {
-            await VehicleServices?.addTranspoterVehicle(values);
+            await VehicleServices?.EditTranspoterVehicle(params?.id,values);
             setErrors({});
             setValues({
                 vehicleId: "",
@@ -90,8 +89,7 @@ const EditVehicle = ({ params }) => {
     useEffect(() => {
         if (params?.id) {
             VehicleServices.getSingleTranspoterVehicle(params?.id).then(({ data }) => {
-                console.log(data)
-                const valuess = data?.product
+                const valuess = data
                 setValues({
                     vehicleId: valuess?.vehicleId,
                     vehicleNumber: valuess?.vehicleNumber,
@@ -111,7 +109,7 @@ const EditVehicle = ({ params }) => {
 
     return (
         <div className="row  m-0 px-md-3 mb-4">
-            <h4 className="text-secondary mb-3">Add Vehicle</h4>
+            <h4 className="text-secondary mb-3">Edit Vehicle</h4>
             <hr />
             {/* Form content */}
 
@@ -163,7 +161,6 @@ const EditVehicle = ({ params }) => {
                     <span className="error_input_text">{errors.chargePerKm}</span>
                 )}
             </div>
-
             <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
                 <label className="adjustLabel">Available Offers </label>
                 <input
@@ -177,7 +174,6 @@ const EditVehicle = ({ params }) => {
                     <span className="error_input_text">{errors.availableOffers}</span>
                 )}
             </div>
-
             <div className="col-md-4 mb-3 ms-md-0 ms-2">
                 <label className="adjustLabel">Min Delivery Distance</label>
                 <input
@@ -191,7 +187,6 @@ const EditVehicle = ({ params }) => {
                     <span className="error_input_text">{errors.minDeliveryDistance}</span>
                 )}
             </div>
-
             <div className="col-md-4 mb-3 ms-md-0 ms-2">
                 <label className="adjustLabel">Max Delivery Distance</label>
                 <input
@@ -261,30 +256,6 @@ const EditVehicle = ({ params }) => {
                     onChange={onchangeHandeler}
                 />
             </div>
-            {/* <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
-                <div className="form-check">
-                    <input
-                        className="form-check-input custom-checkbox cursor"
-                        type="checkbox"
-                        value={values.available}
-                        checked={values.available}
-                        id="defaultCheck1"
-                        onClick={() =>
-                            setValues((prev) => ({ ...prev, available: !prev.available }))
-                        }
-                        readOnly
-                    />
-                    <label
-                        className="form-check-label ms-2 cursor"
-                        htmlFor="defaultCheck1"
-                        onClick={() =>
-                            setValues((prev) => ({ ...prev, available: !prev.available }))
-                        }
-                    >
-                        Available
-                    </label>
-                </div>
-            </div> */}
             <div className="col-md-3 text-center mt-3">
                 <button
                     className="login_btn"

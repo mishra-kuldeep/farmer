@@ -58,17 +58,6 @@ const vehicleList = () => {
     setShowConfirm(true);
   };
 
-  // const getImage = (id) => {
-  //   setImageList([])
-  //   ProductFarmerServices.getAllImage(id)
-  //     .then(({ data }) => {
-  //       console.log(data?.images);
-  //       setImageList(data?.images);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-
   useEffect(() => {
     VehicleServices.getAllVehicle(user?.profile?.id,page, searchText)
       .then(({ data }) => {
@@ -140,7 +129,7 @@ const vehicleList = () => {
                 <th>Contact No.</th>
                 <th className="text-center">vehicle Status</th>
                 <th className="text-center">Discount</th>
-                <th className="text-center">Vehicle Capacity</th>
+                <th className="text-center"> Capacity /{" "}Ton</th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>

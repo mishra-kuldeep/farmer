@@ -20,7 +20,7 @@ export default class VehicleServices {
         const url = `${BASE_URL}/transpoter/transpoter/${id}?page=${page}&search=${search}`;
         return axios.get(url, {
             headers: {
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
             },
         });
     }
@@ -29,7 +29,7 @@ export default class VehicleServices {
         const url = `${BASE_URL}/transpoter/${id}`;
         return axios.get(url, {
             headers: {
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
             },
         });
     }
@@ -38,7 +38,7 @@ export default class VehicleServices {
         const url = `${BASE_URL}/transpoter/transpoterForBuyer/${location}`;
         return axios.get(url, {
             headers: {
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
             },
         });
     }
@@ -49,7 +49,17 @@ export default class VehicleServices {
         return axios.post(url, data, {
             headers: {
                 // 'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async EditTranspoterVehicle(id, data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoter/${id}`;
+        return axios.put(url, data, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
     }
@@ -58,9 +68,33 @@ export default class VehicleServices {
         const token = getCookie("token");
         const url = `${BASE_URL}/transpoter/${id}`;
         return axios.delete(url, {
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
-      }
+    }
+
+
+    static async selectTranspoterForOrderProduct(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoterDelivery/`;
+        return axios.post(url, data, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+    }
+
+    static async chengeTranspoterForOrderProduct(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoterDelivery/`;
+        return axios.put(url, data, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
 }
