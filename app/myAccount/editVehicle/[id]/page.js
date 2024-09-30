@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "../../admin/addProduct/addProduct.css";
+// import "../../admin/addProduct/addProduct.css";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";;

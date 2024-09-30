@@ -161,6 +161,9 @@ table tbody tr td {
 .bgdanger {
   background-color: #ffadad !important;
 }
+.bgsecondary{
+  background-color: #dadada !important;
+}
 input::placeholder {
   color: #bebebe !important; /* Placeholder color */
 }
