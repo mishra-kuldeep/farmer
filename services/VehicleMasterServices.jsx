@@ -35,4 +35,44 @@ export default class VehicleMasterServices {
             },
         });
     }
+
+    static async getAllTransporterVehicleAdmin(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoter/admin/${id}`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
+
+    static async TransporterVehicleAdminApprove(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoter/approve/${id}`;
+        return axios.put(url,"data", {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
+
+    static async TransporterVehicleAdminReject(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoter/rejected/${id}`;
+        return axios.put(url,"data", {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
+
+    static async CustomerOrderToTranspoterList() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoterDelivery`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
 }

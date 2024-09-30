@@ -73,9 +73,15 @@ const sidebarArray = [
     icon: <FaListUl size={20} className="me-1"/>,
   },
   {
-    id: 10,
+    id: 11,
     title: "Add Vehicle",
     url: "/admin/addVehicle",
+    icon: <AiFillTruck  size={28} className="me-1"/>,
+  },
+  {
+    id: 12,
+    title: "Transporter Vehicle List",
+    url: "/admin/transportList",
     icon: <AiFillTruck  size={28} className="me-1"/>,
   },
 ];

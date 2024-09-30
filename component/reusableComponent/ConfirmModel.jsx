@@ -9,8 +9,8 @@ const ConfirmModel = ({ show, onConfirm, onCancel, message, loading }) => {
         <h6>{message}</h6>
         <div style={styles.buttons}>
           <button onClick={onConfirm} style={styles.confirmButton} disabled={loading}>
-            {loading&&<div class="spinner-border me-2" style={{width:"15px",height:"15px"}} role="status">
-              <span class="visually-hidden">Loading...</span>
+            {loading&&<div className="spinner-border me-2" style={{width:"15px",height:"15px"}} role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>}
             Yes
           </button>

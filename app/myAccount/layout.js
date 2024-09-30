@@ -65,6 +65,13 @@ console.log(user?.profile?.role)
       goesTo: "/myAccount/vehicleList",
       status: user?.profile?.role === 4,
     },
+    {
+      id: 8,
+      title: "Customer Order",
+      icon: <HiOutlineShoppingBag size={22} />,
+      goesTo: "/myAccount/customerOrder",
+      status: user?.profile?.role === 4,
+    },
   ];
   return (
     <>
