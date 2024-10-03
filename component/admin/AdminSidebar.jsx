@@ -10,6 +10,8 @@ import { GiUpgrade } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
 import { AiFillTruck } from "react-icons/ai";
+import { MdOutlineEmojiTransportation } from "react-icons/md";
+
 
 const sidebarArray = [
   {
@@ -83,6 +85,12 @@ const sidebarArray = [
     title: "Transporter Vehicle List",
     url: "/admin/transportList",
     icon: <AiFillTruck  size={28} className="me-1"/>,
+  },
+  {
+    id: 13,
+    title: "Transportation Status",
+    url: "/admin/transportationStatus",
+    icon: <MdOutlineEmojiTransportation  size={28} className="me-1"/>,
   },
 ];
 

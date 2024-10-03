@@ -75,4 +75,13 @@ export default class VehicleMasterServices {
             },
         });
     }
+    static async CustomerOrderToTranspoter() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoterDelivery/admin`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
 }
