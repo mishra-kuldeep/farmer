@@ -1,0 +1,43 @@
+.ordermainWrapper{
+    border: 1px solid #dadada;
+    margin-bottom: 20px;
+}
+.ordermainWrapper:hover{
+    border: 1px solid #949494;
+}
+.ordermainWrapper:hover .admin_btn {
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+.sellerAddres{
+    color: grey;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-right: 1px solid #dadada;
+    width: 50%;
+}
+.sellerAddres h6 {
+    color: #000;
+    text-align: center;
+    border-bottom: 1px solid #dadada;
+    padding-bottom: 10px;
+}
+.ordersummarytext{
+    color: green;
+    font-weight: bold;
+}
+.ordersummarytext span{
+background-color: #c7ffc7;
+padding:0px 10px;
+margin: 5px;
+}
+
