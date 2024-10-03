@@ -21,7 +21,7 @@ const OrderedProduct = () => {
         .catch((err) => console.log(err));
     }
   }, [user?.profile]);
-  "Pending", "Processing", "Shipped", "Delivered", "Cancelled";
+
   return (
     <div className="">
       {orderedList?.map((elem) => {

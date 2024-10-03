@@ -76,6 +76,7 @@ import { Image_URL } from "@/helper/common";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { TbTruckDelivery } from "react-icons/tb";
 import VehicleServices from "@/services/VehicleServices";
+import OrderTracker from "@/component/smallcompo/OrderTracker";
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
@@ -94,13 +95,14 @@ const MyOrder = () => {
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
 
+  console.log(orderList)
+  // get order list
   useEffect(() => {
     setloading(true);
     OrderService.BuyerOrderList(status, page)
       .then(({ data }) => {
         setOrderList(data?.data);
         setmetaData(data?.meta);
-        console.log(data?.data);
         setloading(false);
       })
       .catch((err) => {
@@ -108,15 +110,18 @@ const MyOrder = () => {
       });
   }, [status, page]);
 
+  // Toggle div open/close
   const toggleDiv = (index, orderId) => {
-    setOpenIndex(openIndex === index ? null : index); // Toggle div open/close
+    setOpenIndex(openIndex === index ? null : index);
     showfullProductList(orderId);
   };
+
   const handleStatusChange = (value) => {
     setPage(1)
     setStatus(value);
     setOpenIndex(null);
   };
+
   const handleOncloses = (value) => {
     setErrror("")
     setTranspoterlist([])
@@ -135,6 +140,8 @@ const MyOrder = () => {
         console.log(err);
       });
   };
+
+  // get Transpoter for Order Delivery
   const getTranspoter = (location, OrderDetailId, productDtlId, UserId, addressId, selectTransVehical) => {
     // setMiniloading(true);
     setorderDetailId(OrderDetailId)
@@ -144,7 +151,6 @@ const MyOrder = () => {
     setSelectTransVehicalId(selectTransVehical)
     VehicleServices.getTranspoterForBuyer(location)
       .then(({ data }) => {
-        console.log(data)
         setTranspoterlist(data?.data);
         setMiniloading(false);
       })
@@ -156,30 +162,23 @@ const MyOrder = () => {
 
 
 
-  const hendleSelectTranspot = (transVehicalId, transporterId) => {
+  const hendleSelectTranspot = (trans_Vehical, trans_porterId) => {
     // setMiniloading(true);
     const data = {
-      transVehicalId,
-      transporterId,
+      transVehicalId: trans_Vehical,
+      transporterId: trans_porterId,
       orderDetailId: orderDetailId,
       productDtlId: productDtlId,
       deliveryAddressId: deliveryAddressId,
       sellerId: userId,
     }
-    console.log(productList);
-    console.log(orderDetailId);
-
-    
-   
     VehicleServices.selectTranspoterForOrderProduct(data)
       .then(({ data }) => {
-        // console.log(data)
-        setSelectTransVehicalId(data?.newDetail?.transVehicalId)
-        // setSelectTranspoterlist((pre) => pre, ...data?.newDetail?.transVehicalId);
-        const index =  productList.map((val)=>(val?.orderDetailId)).indexOf(orderDetailId)
+        setSelectTransVehicalId(trans_Vehical)
+        const index = productList.map((val) => (val?.orderDetailId)).indexOf(orderDetailId)
         const selectedOrder = productList[index]
         selectedOrder.transVehicalId = data?.newDetail?.transVehicalId
-       setProductList(productList)
+        setProductList(productList)
         setSelectTranspoterlist(data?.newDetail);
         setMiniloading(false);
       })
@@ -188,28 +187,7 @@ const MyOrder = () => {
         setErrror(err?.response?.data?.message)
       });
   };
-  // const hendleChengeTranspot = (transVehicalId, transporterId) => {
-  //   // setMiniloading(true);
-  //   const data = {
-  //     transVehicalId,
-  //     transporterId,
-  //     orderDetailId: orderDetailId,
-  //     productDtlId: productDtlId,
-  //     deliveryAddressId: deliveryAddressId,
-  //     sellerId: userId,
-  //   }
-  //   VehicleServices.chengeTranspoterForOrderProduct(data)
-  //     .then(({ data }) => {
-  //       console.log(data)
-  //       setSelectTranspoterlist((pre) => pre, ...data?.data.transVehicalId);
-  //       setMiniloading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setErrror(err?.response?.data?.message)
-  //     });
-  // };
-  console.log(SelectTranspoterlist)
+  console.log(productList)
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -337,9 +315,9 @@ const MyOrder = () => {
                       <div>
                         {productList?.map((ele) => {
                           return (
-                            <div className="productorderbox">
+                            <div className="productorderbox ">
                               <div className="row">
-                                <div className="col-md-8">
+                                <div className="col-md-6">
                                   <div className="d-flex gap-3">
                                     <img
                                       src={`${Image_URL}/products/${ele?.productDetail?.ProductsImages[0]?.url}`}
@@ -351,11 +329,25 @@ const MyOrder = () => {
                                         {ele?.productDetail?.productDtlName}
                                       </h6>
                                       <h6 className="mt-2">
-                                        ₹ {ele?.productDetail?.price}/
-                                        {
+                                        <del>₹ {ele?.productDetail?.price}/
+                                          {
+                                            ele?.productDetail?.ProductUnit
+                                              ?.unitName
+                                          }
+                                        </del>
+                                        {" "}
+                                        ₹{" "}
+                                        {ele?.productDetail?.price -
+                                          (ele?.productDetail?.discountType === "fixed"
+                                            ? ele?.productDetail?.discount * ele?.quantity
+                                            : ((ele?.productDetail?.price *
+                                              ele?.productDetail?.discount) /
+                                              100)
+                                          )}/{
                                           ele?.productDetail?.ProductUnit
                                             ?.unitName
                                         }
+
                                       </h6>
                                       <h6
                                         className="mt-2"
@@ -389,9 +381,14 @@ const MyOrder = () => {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-md-2">-----</div>
-
-                                <div
+                                <div className="col-md-2 text-secondary">Purchase Price: ₹{ele?.priceAtPurchase}</div>
+                                <div className="col-md-2 text-secondary"> Quantity: {ele?.quantity}{" "}
+                                  {
+                                    ele?.productDetail?.ProductUnit
+                                      ?.unitName
+                                  }
+                                </div>
+                                {ele.status == "Pending" && <div
                                   className="col-md-2"
                                   data-bs-toggle="offcanvas"
                                   data-bs-target="#offcanvasRight"
@@ -407,15 +404,20 @@ const MyOrder = () => {
                                     )
                                   }
                                 >
-                                  { ele?.transVehicalId == null  ? (
+                                  {ele?.transVehicalId == null ? (
                                     <p className="text-secondary transporter-text">Select Transports</p>)
                                     :
                                     (<p className="text-secondary transporter-text">Change Transports</p>)}
                                 </div>
+                                }
+                              </div>
+                              <div >
+                                <OrderTracker status={ele?.status} />
                               </div>
                             </div>
                           );
                         })}
+
                       </div>
                     )}
                   </div>
@@ -427,7 +429,7 @@ const MyOrder = () => {
       )}
       <div
         className="offcanvas offcanvas-end"
-        style={{ width: "1000px" }}
+        style={{ width: "1400px" }}
         tabIndex="-1"
         id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel"
@@ -452,15 +454,20 @@ const MyOrder = () => {
                 <div className="row m-0 align-items-center">
                   <div className="col-md-3">
                     <h6 className="text-secondary">
+                      Transporter : {val?.User.FirstName}{" "}{val?.User.LastName}
+                    </h6>
+                  </div>
+                  <div className="col-md-2">
+                    <h6 className="text-secondary">
                       {val?.TransportVehicle.type}
                     </h6>
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-md-2">
                     <h6 className="text-secondary">
                       Capacity in Ton: {val?.TransportVehicle.capacity}
                     </h6>
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-md-2">
                     <p className="text-secondary">
                       Charge Per Km : {val?.chargePerKm}
                     </p>
@@ -477,10 +484,7 @@ const MyOrder = () => {
                       }
                     </p>
                   </div>
-                  {/* <div className="col-md-3" >
-
-                  </div> */}
-                  <div className="col-md-3 d-flex justify-content-between align-items-center">
+                  <div className="col-md-2 d-flex justify-content-between align-items-center">
                     <div className="d-flex gap-2">
                       <p
                         className="orderstatuscircle mt-2"
@@ -495,37 +499,20 @@ const MyOrder = () => {
                         </p>
                       </div>
                     </div>
-                    {val?.vehicleId == selectTransVehicalId ?
-                      <IconButton
-                        onClick={() => hendleChengeTranspot(val?.vehicleId, val?.transporterId)}
-                      // onClick={() => hendleSelectTranspot(val?.vehicleId, val?.transporterId)}
-                      >
-                        <label className="cursor">
-                          <input
-                            key={i}
-                            type="checkbox"
-                            // value="All"
-                            checked={val?.vehicleId == selectTransVehicalId}
-                          />
-                        </label>
-                      </IconButton>
-                      :
-                      <IconButton
-                        onClick={() => hendleSelectTranspot(val?.vehicleId, val?.transporterId)}
-                      >
-                        <label className="cursor">
-                          <input
-                            className="cursor"
-                            key={i}
-                            type="radio"
-                            value={val?.vehicleId}
-                            checked={val?.vehicleId == selectTransVehicalId}
-                          />
-                        </label>
-                      </IconButton>
-                    }
+                    <IconButton
+                      onClick={() => hendleSelectTranspot(Number(val?.transVehicalId), Number(val?.transporterId))}
+                      style={{ width: "25px", height: "25px" }}
+                    >
+                      <input
+                        className="cursor"
+                        key={i}
+                        type="checkbox"
+                        // value={val?.transVehicalId}
+                        checked={val?.transVehicalId == selectTransVehicalId}
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </IconButton>
                   </div>
-                  {/* hendleChengeTranspot */}
                 </div>
               </div>
             ))}
