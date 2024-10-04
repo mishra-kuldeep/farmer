@@ -6,6 +6,7 @@ import { GrOverview } from "react-icons/gr";
 import Pagination from "../reusableComponent/Pagination";
 import ProductModal from "../reusableComponent/ProductModal";
 import OrderService from "@/services/Orderservices";
+import OrderModal from "../reusableComponent/OrderModel";
 
 const AllOrders = () => {
   const [page, setPage] = useState(1);
@@ -24,15 +25,15 @@ const AllOrders = () => {
     })
       .then(({ data }) => {
         console.log(data);
-        
+
         setAllPendingOrders(data?.data);
         setmetaData(data?.meta);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [ page, searchText, actionPerformed]);
-
+  }, [page, searchText, actionPerformed]);
+  console.log(allPendingOrder)
   return (
     <div className="p-2">
       <Pagination
@@ -44,7 +45,7 @@ const AllOrders = () => {
         metaData={metaData}
         searchShow={true}
       />
-     
+
 
       <table className="table table-striped table-bordered">
         <thead>
@@ -67,43 +68,46 @@ const AllOrders = () => {
                   <td>{i + 1}</td>
                   <td>{item?.User?.FirstName}</td>
                   <td className="text-center">
-                  {item?.User?.Phone?item?.User?.Phone:"---"}
+                    {item?.User?.Phone ? item?.User?.Phone : "---"}
                   </td>
                   <td className="text-center">
-                  {item?.User?.Email}
-                   
+                    {item?.User?.Email}
+
                   </td>
                   <td className="text-center">
-                  {item?.totalAmount}
+                    {item?.totalAmount}
                   </td>
-                  <td className="text-center">{item?.orderDate.slice(0,10)}</td>
+                  <td className="text-center">{item?.orderDate.slice(0, 10)}</td>
                   <td className="text-center">
-                    {item?.adminReviewDate?.slice(0,10)}
+                    {item?.adminReviewDate?.slice(0, 10)}
                   </td>
 
                   <td>
-                    <div className="d-flex gap-2 justify-content-center">
-                      <div
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        style={{
-                          height: "30px",
-                          width: "30px",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <IconButton onClick={() => setModalData(item)}>
-                          <GrOverview color="green" size={20} />
-                        </IconButton>
+                    {item?.adminReview == "Pending" &&
+                      <div className="d-flex gap-2 justify-content-center">
+                        <div
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          style={{
+                            height: "30px",
+                            width: "30px",
+                            borderRadius: "50%",
+                          }}
+                        >
+
+                          < IconButton onClick={() => setModalData(item?.orderId)}>
+                            <GrOverview color="green" size={20} />
+                          </IconButton>
+                        </div>
+                        <OrderModal
+                          modalData={modalData}
+                          // brandList={brandList}
+                          // categoryList={categoryList}
+                          // subCategoryList={subCategoryList}
+                          setActionPerformed={setActionPerformed}
+                        />
                       </div>
-                      {/* <ProductModal
-                        modalData={modalData}
-                        brandList={brandList}
-                        categoryList={categoryList}
-                        subCategoryList={subCategoryList}
-                        setActionPerformed={setActionPerformed}
-                      /> */}
-                    </div>
+                    }
                   </td>
                 </tr>
               );
@@ -111,15 +115,17 @@ const AllOrders = () => {
           </tbody>
         )}
       </table>
-      {allPendingOrder?.length == 0 && (
-        <div
-          className=" centerAllDiv fs-5 text-secondary "
-          style={{ height: "50vh" }}
-        >
-          <h6>No Products Found</h6>
-        </div>
-      )}
-    </div>
+      {
+        allPendingOrder?.length == 0 && (
+          <div
+            className=" centerAllDiv fs-5 text-secondary "
+            style={{ height: "50vh" }}
+          >
+            <h6>No Products Found</h6>
+          </div>
+        )
+      }
+    </div >
   );
 };
 

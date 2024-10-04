@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoIosPerson } from "react-icons/io";
 import "../../app/product/[...slug]/productPage.css";
 import ConfirmModel from "./ConfirmModel";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
@@ -11,6 +11,7 @@ import "../../app/basket/basket.css";
 import OrderService from "@/services/Orderservices";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import MiniLoader from "./MiniLoader";
+import { MdOutlineLocationOn } from "react-icons/md";
 
 const OrderModal = ({ modalData, setActionPerformed }) => {
   const [confirm, setConfirm] = useState(false);
@@ -53,21 +54,21 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
           setConfirm(false);
         });
     }
-    if (actionType == "reject") {    
-        
-        if(!adminReviewComment){
-            setConfirm(false)
-           return toast("Please Enter Review message", {
-                icon: "👏",
-                style: {
-                  borderRadius: "10px",
-                  background: "red",
-                  color: "#fff",
-                },
-              });
-        }
+    if (actionType == "reject") {
 
-        
+      if (!adminReviewComment) {
+        setConfirm(false)
+        return toast("Please Enter Review message", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "red",
+            color: "#fff",
+          },
+        });
+      }
+
+
       setloading(true);
       OrderService.AdminRejectOrder(modalData, adminReviewComment)
         .then(({ data }) => {
@@ -87,8 +88,8 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
           }
         })
         .catch((err) => {
-            console.log(err);
-            
+          console.log(err);
+
           const errorData = err?.response?.data?.errors || [];
           const errorObj = errorData.reduce((acc, curr) => {
             acc[curr.path] = curr.msg;
@@ -129,13 +130,13 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-          item?.quantity;
+        item?.quantity;
     return acc + discount;
   }, 0);
 
   const finalTotal = totalPrice - totalDiscount;
-
   const deliveryCharges = finalTotal > 1000 ? 0 : 40;
+  console.log(OrderDetails)
   return (
     <>
       <div className="modal fade" id="exampleModal" tabIndex="-1">
@@ -188,7 +189,41 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                           <div className="cartBaketDetail row">
                             <div className="col-md-6">
                               <h6>{val?.productDetail?.productDtlName}</h6>
-                              <h6>₹ {val?.productDetail?.price}</h6>
+                              <h6>₹ {val?.productDetail?.price}/{val?.productDetail?.ProductUnit?.unitName}</h6>
+                              <p
+                                style={{
+                                  fontSize: "12px",
+                                  fontWeight: "bold",
+                                  color: "grey",
+                                }}
+                              >
+                                {
+                                  val?.productDetail?.ProductGrade
+                                    ?.gradeName
+                                }{" "}
+                                grade
+                              </p>
+                              {/* <span>{val?.productDetail?.quantity}{" "}{val?.productDetail?.ProductUnit?.unitName}</span> */}
+                              <span>
+                                <IoIosPerson size={15} />
+                                <span className="fw-bold"
+                                  style={{
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    color: "grey",
+                                  }}
+                                >{val?.User?.FirstName}</span>
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  fontWeight: "bold",
+                                  color: "grey",
+                                }}
+                              >
+                                <MdOutlineLocationOn size={18} />
+                                {val?.User?.userInfo.City}
+                              </span>
                             </div>
 
                             <div className="col-md-3">
@@ -226,20 +261,20 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                                 {val?.productDetail?.discountType === "fixed"
                                   ? val?.productDetail?.discount * val?.quantity
                                   : ((val?.productDetail?.price *
-                                      val?.productDetail?.discount) /
-                                      100) *
-                                    val?.quantity}
+                                    val?.productDetail?.discount) /
+                                    100) *
+                                  val?.quantity}
                               </h6>
                               <h6>
                                 ₹{" "}
                                 {val?.productDetail?.price * val?.quantity -
                                   (val?.productDetail?.discountType === "fixed"
                                     ? val?.productDetail?.discount *
-                                      val?.quantity
+                                    val?.quantity
                                     : ((val?.productDetail?.price *
-                                        val?.productDetail?.discount) /
-                                        100) *
-                                      val?.quantity)}
+                                      val?.productDetail?.discount) /
+                                      100) *
+                                    val?.quantity)}
                               </h6>
                             </div>
                           </div>

@@ -84,7 +84,7 @@ const OrderReject = () => {
                     {item?.adminReviewComment}
                   </td>
                   <td>
-                    <div className="d-flex gap-2 justify-content-center">
+                    {/* <div className="d-flex gap-2 justify-content-center">
                       <div
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
@@ -98,14 +98,14 @@ const OrderReject = () => {
                           <GrOverview color="green" size={20} />
                         </IconButton>
                       </div>
-                      {/* <ProductModal
+                      <ProductModal
                         modalData={modalData}
                         brandList={brandList}
                         categoryList={categoryList}
                         subCategoryList={subCategoryList}
                         setActionPerformed={setActionPerformed}
-                      /> */}
-                    </div>
+                      />
+                    </div> */}
                   </td>
                 </tr>
               );

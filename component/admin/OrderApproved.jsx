@@ -92,9 +92,9 @@ const OrderApproved = () => {
                           borderRadius: "50%",
                         }}
                       >
-                        <IconButton onClick={() => setModalData(item)}>
+                        {/* <IconButton onClick={() => setModalData(item)}>
                           <GrOverview color="green" size={20} />
-                        </IconButton>
+                        </IconButton> */}
                       </div>
                       {/* <ProductModal
                         modalData={modalData}
