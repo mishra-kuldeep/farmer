@@ -66,7 +66,25 @@ export default class VehicleMasterServices {
         });
     }
 
-    static async CustomerOrderToTranspoterList() {
+    static async CustomerOrderToTranspoterList(status) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoterDelivery/${status}`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
+    static async CustomerOrderToTranspoterListToapprove(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoterDelivery/approve`;
+        return axios.post(url,data, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
+    static async CustomerOrderToTranspoterListToreject() {
         const token = getCookie("token");
         const url = `${BASE_URL}/transpoterDelivery`;
         return axios.get(url, {
@@ -75,9 +93,9 @@ export default class VehicleMasterServices {
             },
         });
     }
-    static async CustomerOrderToTranspoter() {
+    static async CustomerOrderToTranspoter(data) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/transpoterDelivery/admin`;
+        const url = `${BASE_URL}/transpoterDelivery/admin/${data}`;
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`, // Set the token in the Authorization header

@@ -46,7 +46,7 @@ const Pagination = ({
         <IoIosArrowBack color="#fff" size={20} />
       </button>
       <button
-        disabled={page == metaData?.totalPages}
+        disabled={ (metaData?.totalPages == 0)||(page == metaData?.totalPages) }
         className={`${
           page == metaData?.totalPages ? "arrwleftdisable" : "arrwleft"
         }`}
