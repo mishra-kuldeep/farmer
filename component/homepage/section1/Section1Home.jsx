@@ -175,21 +175,28 @@ const Section1Home = () => {
                     <span className="rating_unit">
                       {ele?.ProductGrade?.gradeName} grade
                     </span>
+
                   </div>
-                  <h5 className="mt-2 fw-bold fs-6">
-                    ₹{" "}
-                    {ele.discountType == "percentage"
-                      ? ele.price - (ele.price * ele.discount) / 100
-                      : ele.price - ele.discount}
-                    /{ele?.ProductUnit?.unitName}
-                    {ele.discount !== 0 && (
-                      <sub className="ms-1">
-                        <del className="text-secondary fw-light">
-                          ₹{ele.price}/{ele?.ProductUnit?.unitName}
-                        </del>
-                      </sub>
-                    )}
-                  </h5>
+                  <div className="d-flex justify-content-between align-items-center">
+
+                    <h5 className="mt-2 fw-bold fs-6">
+                      ₹{" "}
+                      {ele.discountType == "percentage"
+                        ? ele.price - (ele.price * ele.discount) / 100
+                        : ele.price - ele.discount}
+                      /{ele?.ProductUnit?.unitName}
+                      {ele.discount !== 0 && (
+                        <sub className="ms-1">
+                          <del className="text-secondary fw-light">
+                            ₹{ele.price}/{ele?.ProductUnit?.unitName}
+                          </del>
+                        </sub>
+                      )}
+                    </h5>
+                    <p className="rating_unit">
+                      {ele?.quantity}{" "}{ele?.ProductUnit?.unitName}
+                    </p>
+                  </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <button
@@ -209,7 +216,7 @@ const Section1Home = () => {
                         onClick={() => decreaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                        loadingAction === "decrement" ? (
+                          loadingAction === "decrement" ? (
                           <MiniLoader />
                         ) : (
                           <FaMinus size={15} />
@@ -227,7 +234,7 @@ const Section1Home = () => {
                         onClick={() => increaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                        loadingAction === "increment" ? (
+                          loadingAction === "increment" ? (
                           <MiniLoader />
                         ) : (
                           <FaPlus size={15} />

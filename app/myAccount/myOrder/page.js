@@ -70,13 +70,14 @@ import React, { useEffect, useState } from "react";
 import "./orderStyle.css";
 import OrderService from "@/services/Orderservices";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosPerson } from "react-icons/io";
 import IconButton from "@/component/reusableComponent/IconButton";
 import { Image_URL } from "@/helper/common";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { TbTruckDelivery } from "react-icons/tb";
 import VehicleServices from "@/services/VehicleServices";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
+import { MdOutlineLocationOn } from "react-icons/md";
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
@@ -95,7 +96,7 @@ const MyOrder = () => {
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
 
-  console.log(orderList)
+  console.log(productList)
   // get order list
   useEffect(() => {
     setloading(true);
@@ -378,6 +379,26 @@ const MyOrder = () => {
                                         }{" "}
                                         grade
                                       </p>
+                                      <span>
+                                        <IoIosPerson size={15} />
+                                        <span className="fw-bold"
+                                          style={{
+                                            fontSize: "12px",
+                                            fontWeight: "bold",
+                                            color: "grey",
+                                          }}
+                                        >{ele?.User?.FirstName}</span>
+                                      </span>
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          fontWeight: "bold",
+                                          color: "grey",
+                                        }}
+                                      >
+                                        <MdOutlineLocationOn size={18} />
+                                        {ele?.User?.userInfo.City}
+                                      </span>
                                     </div>
                                   </div>
                                 </div>

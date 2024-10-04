@@ -18,11 +18,13 @@ import { Image_URL } from "@/helper/common";
 import CartService from "@/services/CartSevices";
 import OrderService from "@/services/Orderservices";
 import { useRouter } from "next/navigation";
+import { IoIosPerson } from "react-icons/io";
+import { MdOutlineLocationOn } from "react-icons/md";
 
 const Basket = () => {
   const user = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
-  const router =useRouter()
+  const router = useRouter()
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -97,7 +99,7 @@ const Basket = () => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-          item?.quantity;
+        item?.quantity;
     return acc + discount;
   }, 0);
 
@@ -144,7 +146,6 @@ const Basket = () => {
     //   setIsCheckingOut(false);
     // }
   };
-  console.log();
 
   return (
     <div className="container">
@@ -174,7 +175,22 @@ const Basket = () => {
                   <div className="cartBaketDetail row">
                     <div className="col-md-6">
                       <h6>{val?.productDetail?.productDtlName}</h6>
-                      <h6>₹ {val?.productDetail?.price}</h6>
+                      <h6>₹ {val?.productDetail?.price}/{val?.productDetail?.ProductUnit?.unitName}</h6>
+                      <div>
+                      <span>{val?.productDetail?.ProductGrade?.gradeName}{" "}grade</span>
+                      {" "}
+                      <span>{val?.productDetail?.quantity}{" "}{val?.productDetail?.ProductUnit?.unitName}</span>
+                      </div>
+                      <div>
+                      <span>
+                        <IoIosPerson size={15} />
+                        <span className="fw-bold">{val?.productDetail?.User?.FirstName}</span>
+                      </span>
+                      <span>
+                        <MdOutlineLocationOn size={20} />
+                        {val?.productDetail?.User?.userInfo.City}
+                      </span>
+                      </div>
                     </div>
 
                     <div className="col-md-3">
@@ -188,7 +204,7 @@ const Basket = () => {
                               onClick={() => decreaseQuantity(val.productDtlId)}
                             >
                               {loadingProductId === val.productDtlId &&
-                              loadingAction === "decrement" ? (
+                                loadingAction === "decrement" ? (
                                 <MiniLoader />
                               ) : (
                                 <FaMinus size={15} />
@@ -207,7 +223,7 @@ const Basket = () => {
                               onClick={() => increaseQuantity(val.productDtlId)}
                             >
                               {loadingProductId === val.productDtlId &&
-                              loadingAction === "increment" ? (
+                                loadingAction === "increment" ? (
                                 <MiniLoader />
                               ) : (
                                 <FaPlus size={15} />
@@ -231,9 +247,9 @@ const Basket = () => {
                         {val?.productDetail?.discountType === "fixed"
                           ? val?.productDetail?.discount * val?.quantity
                           : ((val?.productDetail?.price *
-                              val?.productDetail?.discount) /
-                              100) *
-                            val?.quantity}
+                            val?.productDetail?.discount) /
+                            100) *
+                          val?.quantity}
                       </h6>
                       <h6>
                         ₹{" "}
@@ -241,9 +257,9 @@ const Basket = () => {
                           (val?.productDetail?.discountType === "fixed"
                             ? val?.productDetail?.discount * val?.quantity
                             : ((val?.productDetail?.price *
-                                val?.productDetail?.discount) /
-                                100) *
-                              val?.quantity)}
+                              val?.productDetail?.discount) /
+                              100) *
+                            val?.quantity)}
                       </h6>
                     </div>
                   </div>
@@ -297,7 +313,7 @@ const Basket = () => {
           </div>
         </div>
       ) : (
-        <div  style={{ height: "80vh",display:"flex",justifyContent:"center" }}>
+        <div style={{ height: "80vh", display: "flex", justifyContent: "center" }}>
           <div style={{ height: "50vh", width: "50vh", textAlign: "center" }}>
             <img
               // src="https://cdn-icons-png.flaticon.com/512/11010/11010851.png"
@@ -306,7 +322,7 @@ const Basket = () => {
               width="100%"
             />
             <h6 className="mb-4 text-secondary">Your cart is empty!</h6>
-            <button className="gohomeforshop" onClick={()=>router.push("/")}>Shop Now</button>
+            <button className="gohomeforshop" onClick={() => router.push("/")}>Shop Now</button>
           </div>
         </div>
       )}

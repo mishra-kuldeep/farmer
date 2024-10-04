@@ -13,6 +13,7 @@ import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { addToCart, deleteCart, getCart, updateCart } from "@/redux/cart/cartSlice";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
+import { MdProductionQuantityLimits } from "react-icons/md";
 
 const Product = () => {
   const user = useSelector((state) => state.auth);
@@ -109,7 +110,7 @@ const Product = () => {
   }, [slug]);
 
   const cartItem = cart?.cart?.find((item) => item.productDtlId === singleProduct?.productDtlId);
-
+console.log(singleProduct)
   return (
     <div className="container">
       <div className="w-100 overflow-auto">
@@ -159,7 +160,7 @@ const Product = () => {
             {singleProduct?.discount}
             {singleProduct?.discountType === "percentage" && "%"} OFF
           </h6>
-          <p className="text-secondary mb-5">(inclusive of all taxes)</p>
+          <p className="text-secondary mb-3">(inclusive of all taxes)</p>
           <p>
             <IoIosPerson size={15} />
             <span className="fw-bold">{singleProduct?.User?.FirstName}</span>
@@ -167,6 +168,13 @@ const Product = () => {
           <p>
             <MdOutlineLocationOn size={20} />
             {singleProduct?.User?.userInfo.City}
+          </p>
+          <p>
+            <MdProductionQuantityLimits size={20} />
+            {singleProduct?.quantity}{" "}{singleProduct?.ProductUnit?.unitName}
+          </p>
+          <p>
+            {singleProduct?.ProductGrade?.gradeName}{" "}Grade
           </p>
 
           <div className="d-flex my-md-5 d-none d-md-flex w-100">
