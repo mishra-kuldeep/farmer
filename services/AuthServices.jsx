@@ -64,9 +64,9 @@ export default class AuthService {
     });
   }
 
-  static async AllUserProfileAdmin(role) {
+  static async AllUserProfileAdmin(role,data) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/user/userList/${role}`;
+    const url = `${BASE_URL}/user/userList/${role}?page=${data?.page}&search=${data?.search}&status=${data?.status}`;
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header

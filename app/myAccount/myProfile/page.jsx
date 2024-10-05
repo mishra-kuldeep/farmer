@@ -11,6 +11,7 @@ const MyProfile = () => {
   const [isloading, setisLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [Errors, setErrors] = useState({});
+  const [companyError, setCompanyError] = useState("");
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -28,12 +29,14 @@ const MyProfile = () => {
     City: "",
     State: "",
     Zip: "",
+    CompanyName: "",
+    GSTNo: "",
   });
-
   useEffect(() => {
     setisLoading(true);
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+        console.log(data)
         setisLoading(false);
         setValues({
           FirstName: data.userProfile.FirstName,
@@ -43,7 +46,7 @@ const MyProfile = () => {
           Phone: data.userProfile.Phone,
           Email: data.userProfile.Email,
           Role: data.userProfile.Role,
-          CountryID: data.userProfile.userInfo.CountryID,
+          CountryID: data.userProfile.CountryID,
           Profile: data.userProfile.userInfo.Profile,
           IdImage: data.userProfile.userInfo.IdImage,
           AdharNo: data.userProfile.userInfo.AdharNo,
@@ -54,6 +57,8 @@ const MyProfile = () => {
           City: data.userProfile.userInfo.City,
           State: data.userProfile.userInfo.State,
           Zip: data.userProfile.userInfo.Zip,
+          CompanyName: data.userProfile.userInfo.CompanyName,
+          GSTNo: data.userProfile.userInfo.GSTNo,
         });
       });
     }
@@ -61,6 +66,11 @@ const MyProfile = () => {
 
   const updateProfileHandeler = () => {
     setLoading(true);
+    if (user?.profile?.role === 4 && !values?.CompanyName) {
+      setCompanyError("company name is required");
+      setLoading(false);
+      return;
+    }
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
@@ -94,6 +104,7 @@ const MyProfile = () => {
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+    setCompanyError("");
   };
 
   return (
@@ -222,6 +233,9 @@ const MyProfile = () => {
             <option value={1}>India</option>
             <option value={2}>America</option>
           </select>
+          {Errors.CountryID && (
+            <span className="error_input_text">{Errors.CountryID}</span>
+          )}
         </div>
         {values.CountryID == 1 && (
           <>
@@ -235,8 +249,8 @@ const MyProfile = () => {
                 className="form-control adjustLabel_input shadow-none p-2"
               />
               {Errors.AdharNo && (
-            <span className="error_input_text">{Errors.AdharNo}</span>
-          )}
+                <span className="error_input_text">{Errors.AdharNo}</span>
+              )}
             </div>
             <div className="col-md-4 ">
               <label className="adjustLabel " style={{ marginLeft: "100px" }}>
@@ -251,26 +265,35 @@ const MyProfile = () => {
                 className="form-control adjustLabel_input shadow-none p-2"
               />
             </div>
-            {values.IdImage&&
-            <>{typeof values.IdImage === "string" ? (
-              <div className="col-md-4 ">
-                <img
-                  src={`${Image_URL}/${values.IdImage}`}
-                  alt="idImage"
-                  style={{ width: "60%", height: "100px", objectFit: "cover" }}
-                />
-              </div>
-            ) : (
-              <div className="col-md-4 ">
-                <img
-                  src={URL.createObjectURL(values.IdImage)}
-                  alt="idImage"
-                  style={{ width: "60%", height: "100px", objectFit: "cover" }}
-                />
-              </div>
-            )}</>
-            }
-            
+            {values.IdImage && (
+              <>
+                {typeof values.IdImage === "string" ? (
+                  <div className="col-md-4 ">
+                    <img
+                      src={`${Image_URL}/${values.IdImage}`}
+                      alt="idImage"
+                      style={{
+                        width: "60%",
+                        height: "100px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="col-md-4 ">
+                    <img
+                      src={URL.createObjectURL(values.IdImage)}
+                      alt="idImage"
+                      style={{
+                        width: "60%",
+                        height: "100px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                )}
+              </>
+            )}
           </>
         )}
         <div className="col-md-6 ">
@@ -325,10 +348,39 @@ const MyProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none p-2"
           />
-          {Errors.Zip && (
-            <span className="error_input_text">{Errors.Zip}</span>
-          )}
+          {Errors.Zip && <span className="error_input_text">{Errors.Zip}</span>}
         </div>
+        {user?.profile?.role === 4 && (
+          <>
+            <div className="col-md-4 ">
+              <label className="adjustLabel">CompanyName *</label>
+              <input
+                type="text"
+                name="CompanyName"
+                value={values.CompanyName || ""}
+                onChange={handleChange}
+                className="form-control adjustLabel_input shadow-none p-2"
+              />
+              {companyError && (
+                <span className="error_input_text">{companyError}</span>
+              )}
+            </div>
+
+            <div className="col-md-4 ">
+              <label className="adjustLabel">GSTNo</label>
+              <input
+                type="text"
+                name="GSTNo"
+                value={values.GSTNo || ""}
+                onChange={handleChange}
+                className="form-control adjustLabel_input shadow-none p-2"
+              />
+              {Errors.GSTNo && (
+                <span className="error_input_text">{Errors.GSTNo}</span>
+              )}
+            </div>
+          </>
+        )}
         <div className="col-md-12 d-flex justify-content-center my-3">
           <button
             className="login_btn"
