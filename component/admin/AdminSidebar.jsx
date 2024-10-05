@@ -11,7 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
 import { AiFillTruck } from "react-icons/ai";
 import { MdOutlineEmojiTransportation } from "react-icons/md";
-
+import { FaIdCard } from "react-icons/fa";
 
 const sidebarArray = [
   {
@@ -92,6 +92,13 @@ const sidebarArray = [
     url: "/admin/transportationStatus",
     icon: <MdOutlineEmojiTransportation  size={28} className="me-1"/>,
   },
+  {
+    id: 15,
+    title: "Add Role",
+    url: "/admin/addRole",
+    icon: <FaIdCard size={25} />,
+  },
+  
 ];
 
 const AdminSidebar = ({ sideOpen, toggleidebar }) => {
@@ -108,7 +115,7 @@ const AdminSidebar = ({ sideOpen, toggleidebar }) => {
           : sideOpen
           ? "100vw"
           : "0px",
-        overflow: "hidden",
+        overflow: "auto",
       }}
     >
       {sidebarArray.map((items) => {
