@@ -19,7 +19,6 @@ export default class ProductgradeServices {
   }
 
   static async addGrade(data) {
-    console.log(data)
     const token = getCookie("token");
     const url = `${BASE_URL}/grade/grades`;
     return axios.post(url, data, {

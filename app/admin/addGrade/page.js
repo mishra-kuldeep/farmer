@@ -8,7 +8,7 @@ import EditUnits from "@/component/admin/EditUnits";
 import ListGrade from "@/component/admin/ListGrade";
 import EditGrade from "@/component/admin/EditGrade";
 
-const addGrade = () => {
+const AdddGrade = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
@@ -38,5 +38,5 @@ const addGrade = () => {
   );
 };
 
-export default addGrade;
+export default AdddGrade;
 

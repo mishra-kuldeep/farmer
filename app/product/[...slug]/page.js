@@ -42,6 +42,7 @@ const Product = () => {
     if (user?.isLoggedIn && user?.profile) {
       dispatch(getCart(user?.profile?.id));
     }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.isLoggedIn,user?.profile]);
 
   // Add product to cart
@@ -107,10 +108,10 @@ const Product = () => {
 
   useEffect(() => {
     handleGetProduct();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
   const cartItem = cart?.cart?.find((item) => item.productDtlId === singleProduct?.productDtlId);
-console.log(singleProduct)
   return (
     <div className="container">
       <div className="w-100 overflow-auto">

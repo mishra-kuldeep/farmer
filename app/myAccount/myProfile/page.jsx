@@ -36,7 +36,6 @@ const MyProfile = () => {
     setisLoading(true);
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
-        console.log(data)
         setisLoading(false);
         setValues({
           FirstName: data.userProfile.FirstName,

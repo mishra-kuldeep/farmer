@@ -130,7 +130,6 @@ const MyOrder = () => {
     setMiniloading(true);
     OrderService.BuyerOrderSingleList(orderId)
       .then(({ data }) => {
-        console.log(data)
         setProductList(data?.data);
         setSelectTranspoterlist(data?.data.map((ele) => ele.transVehicalId));
         setMiniloading(false);
@@ -186,7 +185,6 @@ const MyOrder = () => {
         setErrror(err?.response?.data?.message)
       });
   };
-  console.log(productList)
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -312,9 +310,9 @@ const MyOrder = () => {
                       </div>
                     ) : (
                       <div>
-                        {productList?.map((ele) => {
+                        {productList?.map((ele,i) => {
                           return (
-                            <div className="productorderbox ">
+                            <div className="productorderbox " key={i}>
                               <div className="row">
                                 <div className="col-md-6">
                                   <div className="d-flex gap-3">
@@ -322,6 +320,7 @@ const MyOrder = () => {
                                       src={`${Image_URL}/products/${ele?.productDetail?.ProductsImages[0]?.url}`}
                                       height="100px"
                                       width="100px"
+                                      alt="image"
                                     />
                                     <div>
                                       <h6 className="text-secondary">
@@ -467,6 +466,7 @@ const MyOrder = () => {
           <div style={{ display: "flex", flexDirection: "column" }}>
             {transpoterlist?.map((val, i) => (
               <div
+              key={i}
                 className="orderItemWrap"
                 style={{ backgroundColor: "#f3f3f3" }}
               >

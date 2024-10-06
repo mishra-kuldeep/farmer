@@ -13,7 +13,7 @@ import "../../admin/addProduct/addProduct.css";
 import VehicleServices from "@/services/VehicleServices";
 import { useSelector } from "react-redux";
 
-const vehicleList = () => {
+const VehicleList = () => {
   const router = useRouter();
   const user = useSelector((state) => state.auth);
   const [VehicleList, setVehicleList] = useState([]);
@@ -61,11 +61,11 @@ const vehicleList = () => {
   useEffect(() => {
     VehicleServices.getAllVehicle(user?.profile?.id,page, searchText)
       .then(({ data }) => {
-        console.log(data)
         setVehicleList(data?.rows);
         setMetaData(data?.meta);
       })
       .catch((err) => console.log(err));
+       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchText]);
 
   return (
@@ -256,4 +256,4 @@ const vehicleList = () => {
   );
 };
 
-export default vehicleList;
+export default VehicleList;

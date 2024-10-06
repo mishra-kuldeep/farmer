@@ -14,7 +14,6 @@ const OrderedProduct = () => {
       setLoader(true);
       OrderService.getOrderedConfirmToSeller("Approved")
         .then(({ data }) => {
-          console.log(data?.data);
           setOrderedList(data?.data);
           setLoader(false);
         })
@@ -24,12 +23,13 @@ const OrderedProduct = () => {
 
   return (
     <div className="">
-      {orderedList?.map((elem) => {
+      {orderedList?.map((elem,i) => {
         return (
-          <div className="orderedWrapper">
+          <div className="orderedWrapper" key={i}>
             <div>
               <img
                 src={`${Image_URL}/products/${elem?.productDetail?.ProductsImages[0]?.url}`}
+                alt="image"
               />
               <div style={{ lineHeight: "12px" }}>
                 <span

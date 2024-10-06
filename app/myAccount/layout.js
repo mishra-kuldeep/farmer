@@ -14,7 +14,6 @@ const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
   const pathname = usePathname();
   const router = useRouter();
-console.log(user?.profile?.role)
   const SideBarList = [
     {
       id: 1,

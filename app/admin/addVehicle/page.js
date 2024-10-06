@@ -5,7 +5,7 @@ import ListVehicle from "@/component/admin/ListVehicle";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const addVehicle = () => {
+const AdddVehicle = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get("editId");
@@ -46,4 +46,4 @@ const addVehicle = () => {
     );
 };
 
-export default addVehicle;
+export default AdddVehicle;

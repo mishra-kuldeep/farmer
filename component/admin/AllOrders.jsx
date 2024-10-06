@@ -24,8 +24,6 @@ const AllOrders = () => {
       search: searchText,
     })
       .then(({ data }) => {
-        console.log(data);
-
         setAllPendingOrders(data?.data);
         setmetaData(data?.meta);
       })

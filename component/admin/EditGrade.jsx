@@ -73,7 +73,6 @@ const EditGrade = ({ setState }) => {
     useEffect(() => {
         if (editId) {
             ProductgradeServices.getSingeGrade(editId).then(({ data }) => {
-                console.log(data)
                 setValues({
                     gradeName: data.gradeName,
                     status: data.status,

@@ -61,8 +61,6 @@ const EditUnits = ({ setState }) => {
     useEffect(() => {
         if (editId) {
             ProductUnitServices.getSingeUnit(editId).then(({ data }) => {
-                console.log(data);
-                
                 setValues({
                     unitName: data.unitName,
                     status: data.status,

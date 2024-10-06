@@ -58,7 +58,6 @@ const EditVehicle = ({ setState }) => {
     useEffect(() => {
         if (editId) {
             VehicleMasterServices.SingleVehicle(editId).then(({ data }) => {
-                console.log(data)
                 setValues({
                     type: data?.type,
                     capacity: data?.capacity,

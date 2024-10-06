@@ -18,7 +18,6 @@ export default class ProductUnitServices {
   }
 
   static async addUnit(data) {
-    console.log(data)
     const token = getCookie("token");
     const url = `${BASE_URL}/unit/units`;
     return axios.post(url, data, {

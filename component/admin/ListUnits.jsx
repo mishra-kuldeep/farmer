@@ -20,7 +20,6 @@ const ListUnits = ({ setState }) => {
     const updatestatus = async (id) => {
         try {
             const data = await ProductUnitServices.EditunitStatus(id);
-            console.log(data)
             setUnitList((prevUnits) => 
                 prevUnits.map(unit => 
                   unit.unitId === data?.data?.unit?.unitId ? { ...unit, ...data?.data?.unit } : unit

@@ -19,7 +19,6 @@ const ListGrade = ({ setState }) => {
     const updatestatus = async (id) => {
         try {
             const data = await ProductgradeServices.EditgradStatus(id);
-            console.log(data)
             setGradeList((prevUnits) => 
                 prevUnits.map(Grad => 
                     Grad.gradeId === data?.data?.grade?.gradeId ? { ...Grad, ...data?.data?.grade } : Grad

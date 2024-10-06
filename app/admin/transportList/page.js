@@ -21,9 +21,7 @@ const TransportList = () => {
     setLoader(true);
     VehicleMasterServices.getAllTransporterVehicleAdmin(status)
       .then(({ data }) => {
-        console.log(data?.rows);
         setLoader(false);
-
         settransportVehicleList(data?.rows);
       })
       .catch((err) => console.log(err));
@@ -42,7 +40,6 @@ const TransportList = () => {
     setConfirmLoader(true);
     VehicleMasterServices.TransporterVehicleAdminApprove(selectedUser)
       .then(({ data }) => {
-        console.log(data);
         setConfirmLoader(false);
         setOpen(false);
         toast(data?.message, {
@@ -61,7 +58,6 @@ const TransportList = () => {
     setConfirmLoader(true);
     VehicleMasterServices.TransporterVehicleAdminReject(selectedUser)
       .then(({ data }) => {
-        console.log(data);
         setConfirmLoader(false);
         setOpen2(false);
         toast(data?.message, {

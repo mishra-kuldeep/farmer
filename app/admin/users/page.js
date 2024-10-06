@@ -35,7 +35,6 @@ const UsersListForAdmin = () => {
       .then(({ data }) => {
         setUserList(data?.data);
         setmetaData(data?.meta);
-        console.log(data);
       })
       .catch((err) => console.log(err));
   }, [role, page, searchText, status]);

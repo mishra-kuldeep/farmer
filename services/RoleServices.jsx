@@ -16,7 +16,6 @@ export default class RoleServices {
     }
 
     static async addRole(data) {
-        console.log(data)
         const token = getCookie("token");
         const url = `${BASE_URL}/role/roles`;
         return axios.post(url, data, {

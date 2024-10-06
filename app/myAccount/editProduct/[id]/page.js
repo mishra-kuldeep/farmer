@@ -53,7 +53,6 @@ const EditProductFarmer = ({ params }) => {
         slug: formattedSlug,
         isEdit: true
       };
-      console.log(updatedValues)
       try {
         const dataa = await ProductFarmerServices.editProductsFormer(params?.id, updatedValues);
         // Reset errors and form values after successful service call

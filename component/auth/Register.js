@@ -27,8 +27,6 @@ const RegisterPage = () => {
     }));
   };
 
-  console.log(values);
-
   const submitHandler = async () => {
     if (cpawword == values.Password) {
       setLoader(true);

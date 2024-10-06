@@ -46,8 +46,6 @@ export default class OrderService {
     });
   }
   static async AdminRejectOrder(orderId,data) {
-    console.log(data);
-    
     const token = getCookie("token");
     const url = `${BASE_URL}/order/reject/${orderId}`;
     return axios.put(url,{adminReviewComment:data}, {
@@ -58,7 +56,6 @@ export default class OrderService {
   }
 
   static async BuyerOrderList(status,page) {    
-    console.log("status,page",status,page)
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderbuyer/${status}?page=${page}`;
     return axios.get(url, {
@@ -69,7 +66,6 @@ export default class OrderService {
   }
 
   static async BuyerOrderSingleList(orderId) {
-    console.log(orderId);
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderDetailadmin/${orderId}`;
     return axios.get(url, {
@@ -80,7 +76,6 @@ export default class OrderService {
   }
 
   static async getOrderedConfirmToSeller(status) {
-    console.log(status);
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderfarmer/${status}`;
     return axios.get(url, {

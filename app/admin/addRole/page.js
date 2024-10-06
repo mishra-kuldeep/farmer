@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
-const addGrade = () => {
+const AdddRole = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
@@ -37,5 +37,5 @@ const addGrade = () => {
   );
 };
 
-export default addGrade;
+export default AdddRole;
 

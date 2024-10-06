@@ -31,6 +31,7 @@ const Basket = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (user?.profile?.id) dispatch(getCart(user?.profile?.id));
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile]);
   // Add product to cart
   const addCartHandler = (id) => {
@@ -320,6 +321,7 @@ const Basket = () => {
               src="https://static.vecteezy.com/system/resources/previews/005/006/007/non_2x/no-item-in-the-shopping-cart-click-to-go-shopping-now-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
               height="100%"
               width="100%"
+              alt="pic"
             />
             <h6 className="mb-4 text-secondary">Your cart is empty!</h6>
             <button className="gohomeforshop" onClick={() => router.push("/")}>Shop Now</button>

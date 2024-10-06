@@ -6,7 +6,7 @@ import "../../myAccount/customerOrder/customerOrder.css";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
 import Pagination from "@/component/reusableComponent/Pagination";
 
-const page = () => {
+const TransportationStatus = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
@@ -17,7 +17,6 @@ const page = () => {
     setLoading(true);
     VehicleMasterServices.CustomerOrderToTranspoter(status)
       .then(({ data }) => {
-        console.log(data);
         setOrderDetails(data?.data);
         setMetaData(data?.meta);
         setLoading(false);
@@ -194,4 +193,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TransportationStatus;

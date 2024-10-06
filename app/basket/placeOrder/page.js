@@ -11,7 +11,7 @@ import CartService from "@/services/CartSevices";
 import { clearCart } from "@/redux/cart/cartSlice";
 import { useRouter } from "next/navigation";
 
-const placeorder = () => {
+const Placeorder = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -72,7 +72,6 @@ const placeorder = () => {
     setLoader(true);
     AddressServices.addAddress(values)
       .then(({ data }) => {
-        console.log(data);
         setLoader(false);
         setValues({
           buyerId: user?.profile?.id,
@@ -148,7 +147,6 @@ const placeorder = () => {
     }
   };
 
-  console.log(addressList);
 
   return (
     <div
@@ -158,8 +156,8 @@ const placeorder = () => {
         <div className="row">
           <div className="col-md-9">
             <div className="border p-1 bg-white rounded ">
-              {addressList?.map((address) => (
-                <label className="addressWrapper">
+              {addressList?.map((address,i) => (
+                <label className="addressWrapper" key={i}>
                   <input
                     type="radio"
                     value="All"
@@ -400,4 +398,4 @@ const placeorder = () => {
   );
 };
 
-export default placeorder;
+export default Placeorder;

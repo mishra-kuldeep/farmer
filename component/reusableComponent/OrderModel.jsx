@@ -135,7 +135,6 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
 
   const finalTotal = totalPrice - totalDiscount;
   const deliveryCharges = finalTotal > 1000 ? 0 : 40;
-  console.log(OrderDetails);
   return (
     <>
       <div className="modal fade" id="exampleModal" tabIndex="-1">

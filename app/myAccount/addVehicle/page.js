@@ -48,14 +48,10 @@ const AddProductDtl = () => {
       setisLoading(true);
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setprofile(data?.userProfile);
-        console.log(data?.userProfile?.IsVerified);
-        console.log(data?.userProfile?.isUpdate);
-        if (profile?.IsVerified && profile?.isUpdate) {
-          console.log("first");
-        }
         setisLoading(false);
       });
     }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const onSubmitHandler = async () => {
