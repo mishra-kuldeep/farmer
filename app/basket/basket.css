@@ -1,5 +1,5 @@
 .productlistWrapper {
-  background-color: rgba(137, 43, 226, 0.096);
+  background-color: #fff;
   height: auto;
   margin-top: 10px;
 }
@@ -14,7 +14,7 @@
   gap: 30px;
   border-bottom: 1px solid #ddd;
   padding: 20px;
-  background-color: aliceblue;
+  background-color: #fff;
 }
 .cardBasket img {
   height: 100px;

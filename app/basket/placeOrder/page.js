@@ -1,13 +1,15 @@
 "use client";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../basket.css";
 import { FaPlus } from "react-icons/fa6";
 import AddressServices from "@/services/AddressServices";
 import toast from "react-hot-toast";
 import OrderService from "@/services/Orderservices";
 import CartService from "@/services/CartSevices";
+import { clearCart } from "@/redux/cart/cartSlice";
+import { useRouter } from "next/navigation";
 
 const placeorder = () => {
   const cart = useSelector((state) => state.cart);
@@ -18,9 +20,8 @@ const placeorder = () => {
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [errors, setErrors] = useState({});
   const [addressList, setAddressList] = useState([]);
-
-  console.log(cart);
-
+  const dispatch = useDispatch();
+  const router = useRouter()
   const [values, setValues] = useState({
     buyerId: user?.profile?.id,
     FirstName: "",
@@ -33,7 +34,6 @@ const placeorder = () => {
     country: user?.profile?.country,
   });
 
-  console.log(errors);
   useEffect(() => {
     if (user?.profile) {
       setValues((pre) => ({
@@ -114,14 +114,13 @@ const placeorder = () => {
   }, []);
 
   const handleCheckout = async () => {
-
     const deliveryCharges = finalTotal > 1000 ? 0 : 40;
     const totalAmount = finalTotal + deliveryCharges;
 
     const products = cart.cart.map((item) => ({
       productDtlId: item.productDtlId,
       quantity: item.quantity,
-      sellerId:item.productDetail.sellerId,
+      sellerId: item.productDetail.sellerId,
       price: item.productDetail.price,
       discount: item.productDetail.discount,
       discountType: item.productDetail.discountType,
@@ -129,7 +128,7 @@ const placeorder = () => {
 
     const checkoutData = {
       buyerId: user?.profile?.id,
-      addressId:selectedAddressId,
+      addressId: selectedAddressId,
       totalAmount,
       products,
     };
@@ -138,7 +137,8 @@ const placeorder = () => {
       setIsCheckingOut(true);
       const response = await OrderService.checkoutCart(checkoutData);
       const res = await CartService.DeleteCartBuyer(user?.profile?.id);
-      toast.success("Your Order is Placed for review successful!");
+      toast.success("To complete this order Please add Transpoter!!");
+      router.push('/myAccount/myOrder')
       dispatch(clearCart());
     } catch (error) {
       toast.error("Checkout failed. Please try again.");
@@ -151,7 +151,9 @@ const placeorder = () => {
   console.log(addressList);
 
   return (
-    <div style={{ backgroundColor: "#f1f3f6", minHeight: "calc(100vh - 120px)" }}>
+    <div
+      style={{ backgroundColor: "#f1f3f6", minHeight: "calc(100vh - 120px)" }}
+    >
       <div className="container">
         <div className="row">
           <div className="col-md-9">

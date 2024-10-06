@@ -96,8 +96,6 @@ const MyOrder = () => {
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
 
-  console.log(productList)
-  // get order list
   useEffect(() => {
     setloading(true);
     OrderService.BuyerOrderList(status, page)
