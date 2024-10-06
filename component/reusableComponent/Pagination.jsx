@@ -26,7 +26,7 @@ const Pagination = ({
       {searchShow && (
         <input
           type="search"
-          className="form-control categorySearch"
+          className="form-control categorySearch w-50"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
