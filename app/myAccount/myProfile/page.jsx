@@ -48,7 +48,7 @@ const MyProfile = () => {
           CountryID: data.userProfile.CountryID,
           Profile: data.userProfile.userInfo.Profile,
           IdImage: data.userProfile.userInfo.IdImage,
-          AdharNo: data.userProfile.userInfo.AdharNo,
+          AdharNo: data.userProfile.userInfo.AdharNo?data.userProfile.userInfo.AdharNo:"",
           Dob: data.userProfile.userInfo.Dob,
           Gender: data.userProfile.userInfo.Gender,
           Address1: data.userProfile.userInfo.Address1,
@@ -63,8 +63,46 @@ const MyProfile = () => {
     }
   }, [user?.profile?.id]);
 
+  console.log(values?.AdharNo?.length)
+
   const updateProfileHandeler = () => {
     setLoading(true);
+    if (
+      (user?.profile?.role === 2 ||
+        user?.profile?.role === 4 ||
+        user?.profile?.role === 5) &&
+      (values?.CountryID == 1 &&
+      values?.AdharNo?.length < 12)
+    ) {
+      console.log("first")
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        AdharNo:
+          values?.AdharNo?.length >0
+            ? "Please enter valid adhar number"
+            : !values?.AdharNo
+            ? "AdharNo is required"
+            : "",
+      }));
+      setLoading(false);
+    }
+    if (
+      ((user?.profile?.role === 2 || user?.profile?.role === 4) &&
+        !values?.Address1) ||
+      !values?.City ||
+      !values?.State ||
+      !values?.Zip
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        Address1: !values?.Address1 ? "Address1 is required" : "",
+        City: !values?.City ? "City is required" : "",
+        State: !values?.State ? "State is required" : "",
+        ["Zip"]: !values?.Zip ? "Zip is required" : "",
+      }));
+      setLoading(false);
+      return;
+    }
     if (user?.profile?.role === 4 && !values?.CompanyName) {
       setCompanyError("company name is required");
       setLoading(false);
@@ -105,6 +143,7 @@ const MyProfile = () => {
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
+  console.log(Errors);
 
   return (
     <>
@@ -225,6 +264,7 @@ const MyProfile = () => {
                 ...prevValues,
                 AdharNo: null,
               }));
+              setErrors((prevErrors) => ({ ...prevErrors, AdharNo: "" }));
             }}
             name="CountryID"
           >
@@ -239,12 +279,16 @@ const MyProfile = () => {
         {values.CountryID == 1 && (
           <>
             <div className="col-md-4 ">
-              <label className="adjustLabel">Adhar Number</label>
+              <label className="adjustLabel">
+                Adhar Number {values?.CountryID == 1 && "*"}
+              </label>
               <input
                 type="text"
                 name="AdharNo"
-                value={values.AdharNo || ""}
+                value={values?.AdharNo || ""}
                 onChange={handleChange}
+                placeholder="XXXX XXXX XXXX"
+                maxLength={12} // Allow 12 digits + 3 spaces
                 className="form-control adjustLabel_input shadow-none p-2"
               />
               {Errors.AdharNo && (
@@ -296,7 +340,10 @@ const MyProfile = () => {
           </>
         )}
         <div className="col-md-6 ">
-          <label className="adjustLabel">Address1</label>
+          <label className="adjustLabel">
+            Address1{" "}
+            {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
+          </label>
           <textarea
             className="form-control adjustLabel_input shadow-none p-2"
             id="exampleFormControlTextarea1"
@@ -305,6 +352,9 @@ const MyProfile = () => {
             value={values.Address1 || ""}
             onChange={handleChange}
           ></textarea>
+          {Errors.Address1 && (
+            <span className="error_input_text">{Errors.Address1}</span>
+          )}
         </div>
         <div className="col-md-6 ">
           <label className="adjustLabel">Address2</label>
@@ -319,7 +369,10 @@ const MyProfile = () => {
         </div>
 
         <div className="col-md-4 ">
-          <label className="adjustLabel">State</label>
+          <label className="adjustLabel">
+            State{" "}
+            {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
+          </label>
           <input
             type="text"
             name="State"
@@ -327,9 +380,15 @@ const MyProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none p-2"
           />
+          {Errors.State && (
+            <span className="error_input_text">{Errors.State}</span>
+          )}
         </div>
         <div className="col-md-4 ">
-          <label className="adjustLabel">City</label>
+          <label className="adjustLabel">
+            City{" "}
+            {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
+          </label>
           <input
             type="text"
             name="City"
@@ -337,9 +396,15 @@ const MyProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none p-2"
           />
+          {Errors.City && (
+            <span className="error_input_text">{Errors.City}</span>
+          )}
         </div>
         <div className="col-md-4 ">
-          <label className="adjustLabel">Zip Code</label>
+          <label className="adjustLabel">
+            Zip Code{" "}
+            {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
+          </label>
           <input
             type="text"
             name="Zip"
@@ -366,7 +431,7 @@ const MyProfile = () => {
             </div>
 
             <div className="col-md-4 ">
-              <label className="adjustLabel">GSTNo</label>
+              <label className="adjustLabel">GSTNo </label>
               <input
                 type="text"
                 name="GSTNo"

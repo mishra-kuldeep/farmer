@@ -511,7 +511,7 @@ const AddProductDtl = () => {
               <div>
                 {!profile?.isUpdate && (
                   <p>
-                    Please go first to update your profile to add you vehicle{" "}
+                    Please go first to update your profile to add you product{" "}
                     <span
                       onClick={() => router.push("/myAccount/myProfile")}
                       className="admin_btn cursor"
@@ -523,7 +523,7 @@ const AddProductDtl = () => {
                 {!profile?.IsVerified && profile?.isUpdate && (
                   <p>
                     Please wait for admin verfication, after verfication you can
-                    add you vehicle here
+                    add you product here
                   </p>
                 )}
               </div>
