@@ -31,7 +31,7 @@ const LoginPage = () => {
         />
       </div>
       <div className="p-2 m20">
-        <label className="adjustLabel">User Id *</label>
+        <label className="adjustLabel">Email *</label>
         <input
           type="email"
           className="form-control adjustLabel_input p-2"
@@ -40,7 +40,7 @@ const LoginPage = () => {
         />
       </div>
       <div className="p-2 m20">
-        <label className="adjustLabel">password *</label>
+        <label className="adjustLabel">Password *</label>
         <input
           type="text"
           className="form-control adjustLabel_input p-2"
@@ -51,7 +51,7 @@ const LoginPage = () => {
       <div className="p-2 text-center mt-4">
         <button className="login_btn" onClick={handleSubmit} disabled={loader}>
         {loader && <MiniLoader/>}
-          login
+          Login
         </button>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { registration } from "@/redux/auth/authSlice";
 import MiniLoader from "../reusableComponent/MiniLoader";
 import AuthService from "@/services/AuthServices";
+import RoleServices from "@/services/RoleServices";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -15,9 +16,11 @@ const RegisterPage = () => {
     Email: "",
     Phone: "",
     Password: "",
+    CompanyName:"",
     Country: "",
     Role: null,
   });
+  const [RoleList, setRoleList] = useState([]);
 
   const handleValues = (e) => {
     const { name, value } = e.target;
@@ -27,6 +30,12 @@ const RegisterPage = () => {
     }));
   };
 
+  const initApi = async () => {
+    const R_List = await RoleServices.getRoleList();
+    console.log(R_List);
+
+    setRoleList(R_List?.data);
+  };
   const submitHandler = async () => {
     if (cpawword == values.Password) {
       setLoader(true);
@@ -36,6 +45,7 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
+    initApi();
     AuthService.getCountryList()
       .then(({ data }) => {
         setCountry(data);
@@ -54,7 +64,45 @@ const RegisterPage = () => {
         /> */}
       </div>
       <div className="p-2 m20">
-        <label className="adjustLabel">Firstname *</label>
+        <label className="adjustLabel">Role *</label>
+        <select
+          className="form-select custom-select adjustLabel_input"
+          aria-label="Default select example"
+          onChange={handleValues}
+          name="Role"
+        >
+          <option value={""}>select</option>
+          {RoleList.map((val) => (
+            <option value={val?.RoleId}>{val?.RoleName}</option>
+          ))}
+        </select>
+      </div>
+      {values.Role == 4 && (
+        <div className="p-2 m20">
+          <label className="adjustLabel">Company Name *</label>
+          <input
+            type="text"
+            className="form-control p-2 adjustLabel_input"
+            onChange={handleValues}
+            name="CompanyName"
+          />
+        </div>
+      )}
+      {values.Role == 4 && (
+        <div className="p-2 m20">
+          <label className="adjustLabel">Company Email *</label>
+          <input
+            type="email"
+            className="form-control p-2 adjustLabel_input"
+            onChange={handleValues}
+            name="Email"
+          />
+        </div>
+      )}
+      <div className="p-2 m20">
+        <label className="adjustLabel">
+          {values.Role == 4 ? "Contact Person Name" : "Firstname *"}{" "}
+        </label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -62,34 +110,51 @@ const RegisterPage = () => {
           name="FirstName"
         />
       </div>
-      <div className="p-2 m20">
-        <label className="adjustLabel">LastName</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          onChange={handleValues}
-          name="LastName"
-        />
-      </div>
-      <div className="p-2 m20">
-        <label className="adjustLabel">Email *</label>
-        <input
-          type="email"
-          className="form-control p-2 adjustLabel_input"
-          onChange={handleValues}
-          name="Email"
-        />
-      </div>
-      <div className="p-2 m20">
-        <label className="adjustLabel">Mobile No *</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          onChange={handleValues}
-          name="Phone"
-        />
-      </div>
-     
+      {values.Role == 4 && (
+        <div className="p-2 m20">
+          <label className="adjustLabel">Mobile No *</label>
+          <input
+            type="number"
+            className="form-control p-2 adjustLabel_input"
+            onChange={handleValues}
+            name="Phone"
+          />
+        </div>
+      )}
+      {values.Role != 4 && (
+        <div className="p-2 m20">
+          <label className="adjustLabel">LastName</label>
+          <input
+            type="text"
+            className="form-control p-2 adjustLabel_input"
+            onChange={handleValues}
+            name="LastName"
+          />
+        </div>
+      )}
+      {values.Role != 4 && (
+        <div className="p-2 m20">
+          <label className="adjustLabel">Email *</label>
+          <input
+            type="email"
+            className="form-control p-2 adjustLabel_input"
+            onChange={handleValues}
+            name="Email"
+          />
+        </div>
+      )}
+      {values.Role != 4 && (
+        <div className="p-2 m20">
+          <label className="adjustLabel">Mobile No *</label>
+          <input
+            type="number"
+            className="form-control p-2 adjustLabel_input"
+            onChange={handleValues}
+            name="Phone"
+          />
+        </div>
+      )}
+
       <div className="p-2 m20">
         <label className="adjustLabel">Country *</label>
         <select
@@ -104,24 +169,7 @@ const RegisterPage = () => {
           ))}
         </select>
       </div>
-      <div className="p-2 m20">
-        <label className="adjustLabel">Role *</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          onChange={handleValues}
-          name="Role"
-        >
-          <option value={""}></option>
-          <option value={2}>Farmers</option>
-          <option value={3}>Buyers</option>
-          <option value={4}>Transportation</option>
-          <option value={5}>Employee</option>
-          <option value={6}>Vendors</option>
-          <option value={7}>Educational Resources</option>
-          <option value={8}>Customer Care</option>
-        </select>
-      </div>
+
       <div className="p-2 m20">
         <label className="adjustLabel">Password *</label>
         <input
