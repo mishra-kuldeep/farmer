@@ -6,6 +6,7 @@ import { GrOverview } from "react-icons/gr";
 import Pagination from "../reusableComponent/Pagination";
 import ProductModal from "../reusableComponent/ProductModal";
 import OrderService from "@/services/Orderservices";
+import OrderModal from "../reusableComponent/OrderModel";
 
 const OrderApproved = () => {
   const [page, setPage] = useState(1);
@@ -92,17 +93,17 @@ const OrderApproved = () => {
                           borderRadius: "50%",
                         }}
                       >
-                        {/* <IconButton onClick={() => setModalData(item)}>
+                        <IconButton onClick={() => setModalData(item.orderId)}>
                           <GrOverview color="green" size={20} />
-                        </IconButton> */}
+                        </IconButton>
                       </div>
-                      {/* <ProductModal
+                      <OrderModal
                         modalData={modalData}
-                        brandList={brandList}
-                        categoryList={categoryList}
-                        subCategoryList={subCategoryList}
+                        // brandList={brandList}
+                        // categoryList={categoryList}
+                        // subCategoryList={subCategoryList}
                         setActionPerformed={setActionPerformed}
-                      /> */}
+                      />
                     </div>
                   </td>
                 </tr>

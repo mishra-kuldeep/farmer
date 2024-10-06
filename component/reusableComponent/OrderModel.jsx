@@ -24,10 +24,22 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
   const [adminReviewComment, setAdminReviewComment] = useState("");
   const closeButtonRef = useRef(null);
   const [Errors, setErrors] = useState({});
+  const orderDetailId = [];
+  const transporterDeliveryDetailId = [];
+
   const onConfirmHandeler = () => {
     if (actionType == "approve") {
       setloading(true);
-      OrderService.AdminApproveOrder(modalData, adminReviewComment)
+      OrderDetails?.forEach((val) => {
+        orderDetailId.push(val.orderDetailId);
+        transporterDeliveryDetailId.push(val.transVehicalId);
+      });
+      const data = {
+        orderDetailId,
+        transporterDeliveryDetailId,
+        adminReviewComment
+      }
+      OrderService.AdminApproveOrder(modalData, data)
         .then(({ data }) => {
           setloading(false);
           setConfirm(false);
@@ -118,7 +130,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
         });
     }
   }, [modalData]);
-
+  console.log(OrderDetails)
   // Calculate total price, discount, and final total
   const totalPrice = OrderDetails.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;
@@ -129,7 +141,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-          item?.quantity;
+        item?.quantity;
     return acc + discount;
   }, 0);
 
@@ -174,8 +186,9 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                     </div>
                     {isLoadingDetails && <MiniLoader />}
                     <div className="productlistWrapper">
-                      {OrderDetails?.map((val) => (
-                        <>
+                      {OrderDetails?.map((val) =>
+                      (
+                        <div >
                           <div
                             style={{ padding: "10px" }}
                             className="cardBasket"
@@ -186,7 +199,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                               alt="Product image"
                             />
                             <div className="cartBaketDetail row">
-                              <div className="col-md-4">
+                              <div className="col-md-6">
                                 <h6>{val?.productDetail?.productDtlName}</h6>
                                 <h6>
                                   ₹ {val?.productDetail?.price}/
@@ -213,7 +226,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                                       color: "grey",
                                     }}
                                   >
-                                    {val?.User?.FirstName}
+                                    {val?.productDetail?.User?.FirstName}
                                   </span>
                                 </span>
                                 <span
@@ -224,8 +237,9 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                                   }}
                                 >
                                   <MdOutlineLocationOn size={18} />
-                                  {val?.User?.userInfo.City}
+                                  {val?.productDetail?.User?.userInfo.City}
                                 </span>
+
                               </div>
 
                               <div className="col-md-3">
@@ -264,82 +278,79 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                                   Saved: ₹
                                   {val?.productDetail?.discountType === "fixed"
                                     ? val?.productDetail?.discount *
-                                      val?.quantity
+                                    val?.quantity
                                     : ((val?.productDetail?.price *
-                                        val?.productDetail?.discount) /
-                                        100) *
-                                      val?.quantity}
+                                      val?.productDetail?.discount) /
+                                      100) *
+                                    val?.quantity}
                                 </h6>
                                 <h6>
                                   ₹{" "}
                                   {val?.productDetail?.price * val?.quantity -
                                     (val?.productDetail?.discountType ===
-                                    "fixed"
+                                      "fixed"
                                       ? val?.productDetail?.discount *
-                                        val?.quantity
+                                      val?.quantity
                                       : ((val?.productDetail?.price *
-                                          val?.productDetail?.discount) /
-                                          100) *
-                                        val?.quantity)}
+                                        val?.productDetail?.discount) /
+                                        100) *
+                                      val?.quantity)}
                                 </h6>
                               </div>
+                              {val?.TransporterVehicle == null &&
+                                <p style={{ color: "red" }}> No Transporter Is Select For This Product</p>}
                             </div>
                           </div>
+
                           <div className="row">
-                            {val?.TransporterVehicle == null ? (
-                              <p> For This Product Not Select Transporter Vehicle</p>
-                            ) : (
-                              <details>
-                                <summary>
-                                  {
-                                    val?.TransporterVehicle?.TransportVehicle
-                                      ?.type
-                                  }
-                                </summary>
-                                <div className="accordion-content">
-                                  <div className="d-md-flex justify-content-between">
-                                    <div className="sellerAddres">
-                                      <h6>Transport company Detail</h6>
-                                      <p>
-                                        <b>Name : </b>
-                                        {val?.TransporterVehicle?.User?.FirstName}{" "}
-                                        {val?.TransporterVehicle?.User?.LatName}
-                                      </p>
-                                      <p>
-                                        <b>Phone : </b>
-                                        {val?.TransporterVehicle?.User?.Phone}
-                                      </p>
-                                      <p>
-                                        <b>Address : </b>
-                                        {val?.TransporterVehicle?.User?.userInfo?.Address1},{" "}
-                                        {val?.TransporterVehicle?.User?.userInfo?.City},{" "}
-                                        {val?.TransporterVehicle?.User?.userInfo?.State} -
-                                        {val?.TransporterVehicle?.User?.userInfo?.Zip}
-                                      </p>
-                                    </div>
-                                    <div className="sellerAddres">
-                                      <h6>Delivery Address</h6>
-                                      <p>
-                                        <b>Name : </b>
-                                        {val?.DeliveryAddress?.FirstName}{" "}
-                                        {val?.DeliveryAddress?.LatName}
-                                      </p>
-                                      <p>
-                                        <b>Phone : </b>
-                                        {val?.DeliveryAddress?.Phone}
-                                      </p>
-                                      <p>
-                                        <b>Address : </b>
-                                        {
-                                          val?.DeliveryAddress?.addressLine1
-                                        }, {val?.DeliveryAddress?.city},{" "}
-                                        {val?.DeliveryAddress?.State} -
-                                        {val?.DeliveryAddress?.postalCode}
-                                      </p>
-                                    </div>
+                            <details>
+                              <summary style={{ color: "green" }}>
+                                {val?.TransporterVehicle?.TransportVehicle?.type} More Details
+                              </summary>
+                              <div className="accordion-content">
+                                <div className="d-md-flex justify-content-between">
+                                  <div className="sellerAddres">
+                                    <h6>Transport company Detail</h6>
+                                    <p>
+                                      <b>Name : </b>
+                                      {val?.TransporterVehicle?.User?.FirstName}{" "}
+                                      {val?.TransporterVehicle?.User?.LatName}
+                                    </p>
+                                    <p>
+                                      <b>Phone : </b>
+                                      {val?.TransporterVehicle?.User?.Phone}
+                                    </p>
+                                    <p>
+                                      <b>Address : </b>
+                                      {val?.TransporterVehicle?.User?.userInfo?.Address1},{" "}
+                                      {val?.TransporterVehicle?.User?.userInfo?.City},{" "}
+                                      {val?.TransporterVehicle?.User?.userInfo?.State} -
+                                      {val?.TransporterVehicle?.User?.userInfo?.Zip}
+                                    </p>
                                   </div>
-                                  <div className="d-md-flex justify-content-between">
-                                    {/* <div className="sellerAddres">
+                                  <div className="sellerAddres">
+                                    <h6>Delivery Address</h6>
+                                    <p>
+                                      <b>Name : </b>
+                                      {val?.DeliveryAddress?.FirstName}{" "}
+                                      {val?.DeliveryAddress?.LatName}
+                                    </p>
+                                    <p>
+                                      <b>Phone : </b>
+                                      {val?.DeliveryAddress?.Phone}
+                                    </p>
+                                    <p>
+                                      <b>Address : </b>
+                                      {
+                                        val?.DeliveryAddress?.addressLine1
+                                      }, {val?.DeliveryAddress?.city},{" "}
+                                      {val?.DeliveryAddress?.State} -
+                                      {val?.DeliveryAddress?.postalCode}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="d-md-flex justify-content-between">
+                                  {/* <div className="sellerAddres">
                                       <h6>Product detail to pickup</h6>
                                       <p>
                                         <b>Product Name : </b>
@@ -357,37 +368,38 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                                         of {val?.productDetail?.productDtlName}
                                       </p>
                                     </div> */}
-                                    <div className="sellerAddres">
-                                      <h6>Transport Driver Detail</h6>
-                                      <p>
-                                        <b>Vehicle Number : </b>
-                                        {val?.TransporterVehicle?.vehicleNumber}
-                                      </p>
-                                      <p>
-                                        <b>Driver Name : </b>
-                                        {val?.TransporterVehicle?.driverName}
-                                      </p>
-                                      <p>
-                                        <b>Driver Contact : </b>
-                                        {val?.TransporterVehicle?.driverContact}
-                                      </p>
-                                      <p>
-                                        <b>Charge PerKm : </b>
-                                        {val?.TransporterVehicle?.chargePerKm}
-                                      </p>
-                                    </div>
+                                  <div className="sellerAddres">
+                                    <h6>Transport Driver Detail</h6>
+                                    <p>
+                                      <b>Vehicle Number : </b>
+                                      {val?.TransporterVehicle?.vehicleNumber}
+                                    </p>
+                                    <p>
+                                      <b>Driver Name : </b>
+                                      {val?.TransporterVehicle?.driverName}
+                                    </p>
+                                    <p>
+                                      <b>Driver Contact : </b>
+                                      {val?.TransporterVehicle?.driverContact}
+                                    </p>
+                                    <p>
+                                      <b>Charge PerKm : </b>
+                                      {val?.TransporterVehicle?.chargePerKm}
+                                    </p>
                                   </div>
-                                  {/* <OrderTracker
+                                </div>
+                                {/* <OrderTracker
                                     status={ele?.orderDetail?.status}
                                   /> */}
-                                </div>
-                              </details>
-                            )}
+                              </div>
+                            </details>
+                            {/* )} */}
                           </div>
-                        </>
+                        </div>
                       ))}
                     </div>
                   </div>
+
                   <div className="col-md-3">
                     <div
                       className="detailWrapper border p-3 rounded shadow"
@@ -460,6 +472,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
             <div className="modal-footer justify-content-around">
               <button
                 type="button"
+                disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-success w-25"
                 onClick={() => {
                   setConfirm(true);
@@ -471,6 +484,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
               </button>
               <button
                 type="button"
+                disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-danger w-25"
                 onClick={() => {
                   setConfirm(true);

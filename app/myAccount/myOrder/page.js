@@ -78,6 +78,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import VehicleServices from "@/services/VehicleServices";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
 import { MdOutlineLocationOn } from "react-icons/md";
+import "../../myAccount/customerOrder/customerOrder.css"
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
@@ -310,7 +311,7 @@ const MyOrder = () => {
                       </div>
                     ) : (
                       <div>
-                        {productList?.map((ele,i) => {
+                        {productList?.map((ele, i) => {
                           return (
                             <div className="productorderbox " key={i}>
                               <div className="row">
@@ -384,7 +385,7 @@ const MyOrder = () => {
                                             fontWeight: "bold",
                                             color: "grey",
                                           }}
-                                        >{ele?.User?.FirstName}</span>
+                                        >{ele?.productDetail?.User?.FirstName}</span>
                                       </span>
                                       <span
                                         style={{
@@ -394,7 +395,7 @@ const MyOrder = () => {
                                         }}
                                       >
                                         <MdOutlineLocationOn size={18} />
-                                        {ele?.User?.userInfo.City}
+                                        {ele?.productDetail?.User?.userInfo.City}
                                       </span>
                                     </div>
                                   </div>
@@ -413,10 +414,10 @@ const MyOrder = () => {
                                   aria-controls="offcanvasRight"
                                   onClick={() =>
                                     getTranspoter(
-                                      ele?.User?.userInfo?.Zip,
+                                      ele?.productDetail?.User?.userInfo?.Zip,
                                       ele.orderDetailId,
                                       ele.productDtlId,
-                                      ele?.User?.UserId,
+                                      ele?.productDetail?.User?.UserId,
                                       ele?.addressId,
                                       ele?.transVehicalId
                                     )
@@ -429,6 +430,110 @@ const MyOrder = () => {
                                 </div>
                                 }
                               </div>
+                              <details>
+                                <summary style={{ color: "green" }}>
+                                Transporter More Details
+                                </summary>
+                                <div className="accordion-content">
+                                  <div className="d-md-flex justify-content-between">
+                                    <div className="sellerAddres">
+                                      <h6>Transport Driver & company Detail</h6>
+                                      <p>
+                                        <b>Company Name : </b>
+                                        {ele?.TransporterVehicle?.User?.CompanyName}
+                                        {/* {ele?.TransporterVehicle?.User?.LatName} */}
+                                      </p>
+                                      {/* <p>
+                                        <b>Phone : </b>
+                                        {ele?.TransporterVehicle?.User?.Phone}
+                                      </p>
+                                      <p>
+                                        <b>Address : </b>
+                                        {ele?.TransporterVehicle?.User?.userInfo?.Address1},{" "}
+                                        {ele?.TransporterVehicle?.User?.userInfo?.City},{" "}
+                                        {ele?.TransporterVehicle?.User?.userInfo?.State} -
+                                        {ele?.TransporterVehicle?.User?.userInfo?.Zip}
+                                      </p> */}
+                                      {/* <h6>Transport Driver Detail</h6> */}
+                                      <p>
+                                        <b>Vehicle Number : </b>
+                                        {ele?.TransporterVehicle?.vehicleNumber}
+                                      </p>
+                                      <p>
+                                        <b>Driver Name : </b>
+                                        {ele?.TransporterVehicle?.driverName}
+                                      </p>
+                                      <p>
+                                        <b>Driver Contact : </b>
+                                        {ele?.TransporterVehicle?.driverContact}
+                                      </p>
+                                      <p>
+                                        <b>Charge PerKm : </b>
+                                        {ele?.TransporterVehicle?.chargePerKm}
+                                      </p>
+                                    </div>
+                                    <div className="sellerAddres">
+                                      <h6>Delivery Address</h6>
+                                      <p>
+                                        <b>Name : </b>
+                                        {ele?.DeliveryAddress?.FirstName}{" "}
+                                        {ele?.DeliveryAddress?.LatName}
+                                      </p>
+                                      <p>
+                                        <b>Phone : </b>
+                                        {ele?.DeliveryAddress?.Phone}
+                                      </p>
+                                      <p>
+                                        <b>Address : </b>
+                                        {
+                                          ele?.DeliveryAddress?.addressLine1
+                                        }, {ele?.DeliveryAddress?.city},{" "}
+                                        {ele?.DeliveryAddress?.State} -
+                                        {ele?.DeliveryAddress?.postalCode}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="d-md-flex justify-content-between">
+                                    {/* <div className="sellerAddres">
+                                      <h6>Product detail to pickup</h6>
+                                      <p>
+                                        <b>Product Name : </b>
+                                        {val?.productDetail?.productDtlName}
+                                      </p>
+                                      <p className="ordersummarytext">
+                                        You have to deliver{" "}
+                                        <span>
+                                          {val?.quantity}{" "}
+                                          {
+                                            val?.productDetail?.ProductUnit
+                                              ?.unitName
+                                          }
+                                        </span>{" "}
+                                        of {val?.productDetail?.productDtlName}
+                                      </p>
+                                    </div> */}
+                                    {/* <div className="sellerAddres">
+                                      <h6>Transport Driver Detail</h6>
+                                      <p>
+                                        <b>Vehicle Number : </b>
+                                        {ele?.TransporterVehicle?.vehicleNumber}
+                                      </p>
+                                      <p>
+                                        <b>Driver Name : </b>
+                                        {ele?.TransporterVehicle?.driverName}
+                                      </p>
+                                      <p>
+                                        <b>Driver Contact : </b>
+                                        {ele?.TransporterVehicle?.driverContact}
+                                      </p>
+                                      <p>
+                                        <b>Charge PerKm : </b>
+                                        {ele?.TransporterVehicle?.chargePerKm}
+                                      </p>
+                                    </div> */}
+                                  </div>
+                                </div>
+                              </details>
                               <div >
                                 <OrderTracker status={ele?.status} />
                               </div>
@@ -466,7 +571,7 @@ const MyOrder = () => {
           <div style={{ display: "flex", flexDirection: "column" }}>
             {transpoterlist?.map((val, i) => (
               <div
-              key={i}
+                key={i}
                 className="orderItemWrap"
                 style={{ backgroundColor: "#f3f3f3" }}
               >
