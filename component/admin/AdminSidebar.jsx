@@ -12,6 +12,7 @@ import { isMobile } from "react-device-detect";
 import { AiFillTruck } from "react-icons/ai";
 import { MdOutlineEmojiTransportation } from "react-icons/md";
 import { FaIdCard } from "react-icons/fa";
+import { IoMdAddCircle } from "react-icons/io";
 
 const sidebarArray = [
   {
@@ -30,7 +31,7 @@ const sidebarArray = [
     id: 3,
     title: "Order List",
     url: "/admin/orders",
-    icon: <MdProductionQuantityLimits size={22} className="me-1"/>,
+    icon: <MdProductionQuantityLimits size={22} />,
   },
   {
     id: 4,
@@ -72,31 +73,37 @@ const sidebarArray = [
     id: 10,
     title: "Users List",
     url: "/admin/users",
-    icon: <FaListUl size={20} className="me-1"/>,
+    icon: <FaListUl size={20} />,
   },
   {
     id: 11,
     title: "Add Vehicle",
     url: "/admin/addVehicle",
-    icon: <AiFillTruck  size={28} className="me-1"/>,
+    icon: <AiFillTruck  size={28} />,
   },
   {
     id: 12,
     title: "Transporter Vehicle List",
     url: "/admin/transportList",
-    icon: <AiFillTruck  size={28} className="me-1"/>,
+    icon: <AiFillTruck  size={28} />,
   },
   {
     id: 13,
     title: "Transportation Status",
     url: "/admin/transportationStatus",
-    icon: <MdOutlineEmojiTransportation  size={28} className="me-1"/>,
+    icon: <MdOutlineEmojiTransportation  size={28} />,
   },
   {
     id: 15,
     title: "Add Role",
     url: "/admin/addRole",
     icon: <FaIdCard size={25} />,
+  },
+  {
+    id: 16,
+    title: "Add Vendor",
+    url: "/admin/addVendor",
+    icon: <IoMdAddCircle size={25} />,
   },
   
 ];
