@@ -37,7 +37,7 @@
     display: flex;
     gap: 10px;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     /* border-radius: 8px; */
     color: var(--adminwhite);
     background-color: var(--adminMainColor);
@@ -49,7 +49,7 @@
     display: flex;
     gap: 10px;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     /* border-radius: 8px; */
     background-color: var(--white);
     border: 1px solid #ddd;

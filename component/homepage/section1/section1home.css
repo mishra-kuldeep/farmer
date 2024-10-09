@@ -84,13 +84,12 @@
 .bookmark_btn {
   border: none;
   outline: none;
-  background-color: var(--light);
-  padding:0px 5px;
-  border-radius: 4px;
-  transition: 0.5s;
+  background-color: transparent;
+  padding: 3px;
 }
 .bookmark_btn:hover {
-  border-radius: 10px;
+  background-color: #ddd;
+  border-radius: 50%;
 }
 .addtoCart_btn {
   border: none;

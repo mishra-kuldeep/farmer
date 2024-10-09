@@ -5,7 +5,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaMinus, FaPlus, FaStar } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
-import product1 from "../../../public/product/apple.jpg";
+import { FiHeart } from "react-icons/fi";
+import { IoMdHeart } from "react-icons/io";
 import { isMobile } from "react-device-detect";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { IoIosPerson } from "react-icons/io";
@@ -17,6 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { addToCart, deleteCart, updateCart } from "@/redux/cart/cartSlice";
 import toast from "react-hot-toast";
+import SaveForLaterServices from "@/services/SaveForLaterServices";
 
 const Section1Home = () => {
   const router = useRouter();
@@ -24,6 +26,10 @@ const Section1Home = () => {
   const [Products, setProducts] = useState([]);
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
+  const [saveforlaterId, setsaveforlaterId] = useState("");
+  const [savelaterLoader, setSvaeLaterLoader] = useState(false);
+  const [wishList, setWishList] = useState([]);
+  const [wishFullList, setFullWishList] = useState([]);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -40,8 +46,18 @@ const Section1Home = () => {
     }
   };
 
+  const saveLaterList = () => {
+    SaveForLaterServices.getAllWishList()
+      .then(({ data }) => {
+        setWishList(data?.map((ele) => ele?.productDtlId));
+        setFullWishList(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     initApi();
+    saveLaterList();
   }, []);
 
   const handleScroll = (direction) => {
@@ -114,6 +130,61 @@ const Section1Home = () => {
     }
   };
 
+  console.log(wishList);
+  console.log(wishFullList);
+
+  const saveforLater = (productDtlId) => {
+    setsaveforlaterId(productDtlId);
+    if (productDtlId) {
+      if (wishList?.includes(productDtlId)) {
+        const obj = wishFullList.find(
+          (ele) => ele.productDtlId == productDtlId
+        );
+        setSvaeLaterLoader(true);
+        SaveForLaterServices.removeForLater(obj?.SaveForLaterId)
+          .then(({ data }) => {
+            console.log(data);
+            setWishList(wishList.filter((ele)=>ele!=productDtlId))
+            setFullWishList(wishFullList.filter((ele)=>ele.productDtlId!=productDtlId))
+            setSvaeLaterLoader(false);
+            toast(data?.message, {
+              icon: "👏",
+              style: {
+                borderRadius: "10px",
+                background: "green",
+                color: "#fff",
+              },
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            setSvaeLaterLoader(false);
+          });
+      } else {
+        setSvaeLaterLoader(true);
+        SaveForLaterServices.saveForLater({
+          userId: user?.profile?.id,
+          productDtlId: productDtlId,
+        })
+          .then(({ data }) => {
+            console.log(data);
+           data?.savedProduct?.productDtlId&&setWishList((pre)=>([...pre,data?.savedProduct?.productDtlId]))
+           data?.savedProduct&&setFullWishList((pre)=>([...pre,data?.savedProduct]))
+            setSvaeLaterLoader(false);
+            toast(data?.message, {
+              icon: "👏",
+              style: {
+                borderRadius: "10px",
+                background: "green",
+                color: "#fff",
+              },
+            });
+          })
+          .catch((err) => console.log(err));
+      }
+    }
+  };
+
   return (
     <div className="container">
       <div className="bestSellerWrapper p-md-3 p-0">
@@ -173,10 +244,8 @@ const Section1Home = () => {
                     <span className="rating_unit">
                       {ele?.ProductGrade?.gradeName} grade
                     </span>
-
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
-
                     <h5 className="mt-2 fw-bold fs-6">
                       ₹{" "}
                       {ele.discountType == "percentage"
@@ -192,7 +261,7 @@ const Section1Home = () => {
                       )}
                     </h5>
                     <p className="rating_unit">
-                      {ele?.quantity}{" "}{ele?.ProductUnit?.unitName}
+                      {ele?.quantity} {ele?.ProductUnit?.unitName}
                     </p>
                   </div>
                 </div>
@@ -202,8 +271,15 @@ const Section1Home = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Save for Later"
+                    onClick={() => saveforLater(ele.productDtlId)}
                   >
-                    <FaRegBookmark size={15} />
+                    {savelaterLoader && ele.productDtlId === saveforlaterId ? (
+                      <MiniLoader />
+                    ) : wishList.includes(ele.productDtlId) ? (
+                      <IoMdHeart size={20} color="red"/>
+                    ) : (
+                      <FiHeart size={20} color="grey"/>
+                    )}
                   </button>
                   {cart?.cart?.find(
                     (item) => item.productDtlId === ele.productDtlId
@@ -214,7 +290,7 @@ const Section1Home = () => {
                         onClick={() => decreaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                          loadingAction === "decrement" ? (
+                        loadingAction === "decrement" ? (
                           <MiniLoader />
                         ) : (
                           <FaMinus size={15} />
@@ -232,7 +308,7 @@ const Section1Home = () => {
                         onClick={() => increaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                          loadingAction === "increment" ? (
+                        loadingAction === "increment" ? (
                           <MiniLoader />
                         ) : (
                           <FaPlus size={15} />

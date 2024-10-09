@@ -74,7 +74,7 @@ function Header() {
       id: 1,
       title: "Farm Lands",
       goesTo: "/myAccount/myProfile",
-      status: user?.profile?.role == 2 || user?.profile?.role ==3,
+      status: user?.profile?.role == 2 || user?.profile?.role == 3,
       subMenu: [
         {
           id: 11,
@@ -112,7 +112,7 @@ function Header() {
           id: 31,
           title: "Tractor",
           goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role ==4 ,
+          status: user?.profile?.role == 4,
         },
         {
           id: 32,
@@ -124,17 +124,16 @@ function Header() {
           id: 33,
           title: "Trucks",
           goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role ==4,
+          status: user?.profile?.role == 4,
         },
         {
           id: 34,
           title: "Shipping container",
           goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role ==4,
-        }
+          status: user?.profile?.role == 4,
+        },
       ],
     },
-   
   ];
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
@@ -213,6 +212,16 @@ function Header() {
                             >
                               My Profile
                             </p>
+                            {user?.isLoggedIn && (
+                              <p
+                                className="cat_list"
+                                onClick={() =>
+                                  router.push("/myAccount/myWishList")
+                                }
+                              >
+                                My Wishlist
+                              </p>
+                            )}
                             <p
                               className="cat_list"
                               onClick={() => router.push("/basket")}

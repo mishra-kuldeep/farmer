@@ -10,6 +10,7 @@ import IconButton from "@/component/reusableComponent/IconButton";
 import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
 import toast from "react-hot-toast";
 import Pagination from "@/component/reusableComponent/Pagination";
+
 const UsersListForAdmin = () => {
   const [role, setRole] = useState("All");
   const [userList, setUserList] = useState([]);
@@ -101,7 +102,6 @@ const UsersListForAdmin = () => {
     setStatus(id);
     setPage(1);
   };
-
   return (
     <>
       <div className="row  align-items-center shadow px-2 mb-3">
@@ -216,12 +216,21 @@ const UsersListForAdmin = () => {
                             padding: "5px",
                           }}
                         >
-                          <img
-                            src={`${Image_URL}/Profiles/${ele?.userInfo?.Profile}`}
-                            alt="image"
-                            width="100%"
-                            height="100%"
-                          />
+                          {ele?.userInfo?.Profile ? (
+                            <img
+                              src={`${Image_URL}/Profiles/${ele?.userInfo?.Profile}`}
+                              alt="image"
+                              width="100%"
+                              height="100%"
+                            />
+                          ) : (
+                            <img
+                              src={`https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`}
+                              alt="image"
+                              width="100%"
+                              height="100%"
+                            />
+                          )}
                         </div>
                         <div className="d-flex justify-content-center gap-5 mt-3">
                           <IconButton
@@ -262,7 +271,7 @@ const UsersListForAdmin = () => {
                                 CountryID
                               </td>
                               <td className="text-secondary p-0 m-0">
-                                : {ele?.userInfo?.CountryID}
+                                : {ele?.CountryID == 1 ? "India" : "America"}
                               </td>
                             </tr>
                             <tr>

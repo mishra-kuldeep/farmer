@@ -9,6 +9,7 @@ import { PiVan } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import UserProfile from "@/component/myaccount/UserProfile";
+import { FiHeart } from "react-icons/fi";
 
 const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
@@ -16,10 +17,17 @@ const AccountLayout = ({ children }) => {
   const router = useRouter();
   const SideBarList = [
     {
-      id: 1,
+      id: 0,
       title: "My Profile",
       icon: <CgProfile size={22} />,
       goesTo: "/myAccount/myProfile",
+      status: true,
+    },
+    {
+      id: 1,
+      title: "My Wishlist",
+      icon: <FiHeart size={22} />,
+      goesTo: "/myAccount/myWishList",
       status: true,
     },
     {
