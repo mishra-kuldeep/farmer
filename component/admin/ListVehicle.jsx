@@ -14,7 +14,6 @@ const ListVehicle = ({setState}) => {
   
   const initApi = async () => {
     const VehicleList = await VehicleMasterServices.getVehicle();
-    console.log(VehicleList)
     setCatList(VehicleList?.data);
   };
 

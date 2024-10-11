@@ -130,10 +130,18 @@ const Section1Home = () => {
     }
   };
 
-  console.log(wishList);
-  console.log(wishFullList);
-
   const saveforLater = (productDtlId) => {
+    if(!user?.isLoggedIn){
+      toast("Please login to wishlist this product", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "red",
+          color: "#fff",
+        },
+      });
+      return
+    }
     setsaveforlaterId(productDtlId);
     if (productDtlId) {
       if (wishList?.includes(productDtlId)) {
@@ -143,7 +151,6 @@ const Section1Home = () => {
         setSvaeLaterLoader(true);
         SaveForLaterServices.removeForLater(obj?.SaveForLaterId)
           .then(({ data }) => {
-            console.log(data);
             setWishList(wishList.filter((ele)=>ele!=productDtlId))
             setFullWishList(wishFullList.filter((ele)=>ele.productDtlId!=productDtlId))
             setSvaeLaterLoader(false);
@@ -167,7 +174,6 @@ const Section1Home = () => {
           productDtlId: productDtlId,
         })
           .then(({ data }) => {
-            console.log(data);
            data?.savedProduct?.productDtlId&&setWishList((pre)=>([...pre,data?.savedProduct?.productDtlId]))
            data?.savedProduct&&setFullWishList((pre)=>([...pre,data?.savedProduct]))
             setSvaeLaterLoader(false);

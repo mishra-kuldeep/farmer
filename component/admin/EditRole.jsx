@@ -62,7 +62,6 @@ const EditRole = ({ setState }) => {
     useEffect(() => {
         if (editId) {
             RoleServices.getSingeRole(editId).then(({ data }) => {
-                console.log(data)
                 setValues({
                     RoleName: data.RoleName,
                     Description: data.Description,

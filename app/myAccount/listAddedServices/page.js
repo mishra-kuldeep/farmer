@@ -2,7 +2,6 @@
 import IconButton from "@/component/reusableComponent/IconButton";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit, FaRegImages } from "react-icons/fa";
-import ProductFarmerServices from "@/services/ProductFarmerServices";
 import React, { useEffect, useState } from "react";
 import Pagination from "@/component/reusableComponent/Pagination";
 import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
@@ -10,12 +9,18 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Image_URL } from "@/helper/common";
 import "../../admin/addProduct/addProduct.css";
+import VehicleServices from "@/services/VehicleServices";
+import { useSelector } from "react-redux";
+import vendorMasterServices from "@/services/vendorMasterServices";
 
-const ListAddedProduct = () => {
+const ServicesVenderList = () => {
   const router = useRouter();
-  const [productList, setProductList] = useState([]);
+  const user = useSelector((state) => state.auth);
+  const [servicesVenderList, setservicesVenderList] = useState([]);
   const [imageList, setImageList] = useState([]);
   const [metaData, setMetaData] = useState({});
+
+  const [deleteloader, setdeleteloader] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState("");
@@ -24,15 +29,17 @@ const ListAddedProduct = () => {
   const [searchText, setSearchText] = useState("");
 
   const editHandeler = (id) => {
-    router.push(`/myAccount/editProduct/${id}`);
+    // router.push(`/myAccount/editVenderServices/${id}`);
   };
 
   const handleDelete = async () => {
-    await ProductFarmerServices.deleteProductsFarmer(selectedId)
+    setdeleteloader(true);
+    await vendorMasterServices
+      .deleteVendorServices(selectedId)
       .then(({ data }) => {
-        console.log(data);
-        setProductList(
-          productList.filter((ele) => ele.productDtlId !== selectedId)
+        setdeleteloader(false);
+        setservicesVenderList(
+          servicesVenderList.filter((ele) => ele?.serviceId !== selectedId)
         );
         setShowConfirm(false);
         toast(data.message, {
@@ -44,7 +51,11 @@ const ListAddedProduct = () => {
           },
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setdeleteloader(false);
+        setShowConfirm(false);
+      });
   };
 
   const handleCancel = () => {
@@ -55,22 +66,15 @@ const ListAddedProduct = () => {
     setShowConfirm(true);
   };
 
-  const getImage = (id) => {
-    setImageList([])
-    ProductFarmerServices.getAllImage(id)
-      .then(({ data }) => {
-        setImageList(data?.images);
-      })
-      .catch((err) => console.log(err));
-  };
-
   useEffect(() => {
-    ProductFarmerServices.getProductsFarmer(page, searchText)
+    vendorMasterServices
+      .getVendorServices(page, searchText)
       .then(({ data }) => {
-        setProductList(data?.data);
+        setservicesVenderList(data);
         setMetaData(data?.meta);
       })
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchText]);
 
   return (
@@ -80,7 +84,7 @@ const ListAddedProduct = () => {
         setPage={setPage}
         searchText={searchText}
         setSearchText={setSearchText}
-        List={productList}
+        List={servicesVenderList}
         metaData={metaData}
         searchShow={true}
       />
@@ -128,79 +132,70 @@ const ListAddedProduct = () => {
             <thead>
               <tr>
                 <th>SrNo</th>
-                <th>Product Name</th>
-                <th>Discription</th>
-                <th>Product Type</th>
-                <th className="text-center">Price</th>
-                <th className="text-center">Discount</th>
-                <th className="text-center">Quantity/Unit</th>
+                <th style={{ whiteSpace: "nowrap" }}>Service Type</th>
+                <th style={{ whiteSpace: "nowrap" }}>Service Name</th>
+                <th>Description</th>
+                <th className="text-center">Cost</th>
+                <th className="text-center">Duration</th>
+                <th style={{ whiteSpace: "nowrap" }} className="text-center">
+                  Offer Available
+                </th>
+                <th className="text-center">Availability</th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>
-            {productList?.length > 0 && (
+            {servicesVenderList?.length > 0 && (
               <tbody>
-                {productList?.map((item, i) => {
+                {servicesVenderList?.map((item, i) => {
                   return (
                     <tr key={item?.productDtlId}>
                       <td
                         className={`${
-                          !item?.isVerify && !item?.rejected
+                          item?.adminReview == "Pending"
                             ? "bgwarning"
-                            : item?.isVerify
+                            : item?.adminReview == "Approved"
                             ? "bgsuccess"
-                            : item?.rejected
+                            : item?.adminReview == "Rejected"
                             ? "bgdanger"
                             : ""
                         }`}
                       >
                         {i + 1}
                       </td>
-                      <td>{item?.productDtlName}</td>
+                      <td>{item?.serviceName}</td>
+                      <td>{item?.serviceName}</td>
                       <td
                         data-bs-toggle="tooltip"
                         data-bs-placement="bottom"
-                        title={item?.productDtl}
+                        title={item?.description}
                       >
-                        {item?.productDtl?.length < 100
-                          ? item?.productDtl
-                          : `${item?.productDtl.substring(0, 100)}...`}
+                        {item?.description?.length < 100
+                          ? item?.description
+                          : `${item?.description?.substring(0, 100)}...`}
                       </td>
                       <td style={{ backgroundColor: "transparent" }}>
-                        {item?.Product.productName}
+                        {item?.cost}
                       </td>
-                      <td className="text-center">{item?.price}</td>
+                      <td style={{ backgroundColor: "transparent" }}>
+                        {item?.duration}
+                      </td>
+                      <td className="text-center">{item?.offer}</td>
                       <td className="text-center">
-                        {item?.discountType == "fixed" && "₹"}
-                        {item?.discount}
-                        {item?.discountType == "percentage" && "%"}
+                        {item?.availabilityStatus}
                       </td>
-                      <td className="text-center">
-                        {item?.quantity}/{item?.ProductUnit?.unitName}
-                      </td>
+
                       <td className="text-center">
                         <div className="d-flex gap-2 justify-content-center">
-                          <div
-                            className="rounded-5"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"
-                            onClick={() => getImage(item?.productDtlId)}
-                          >
-                            <IconButton tooltip="view images">
-                              <FaRegImages color="darkblue" size={20} />
-                            </IconButton>
-                          </div>
-
                           <IconButton
                             tooltip="edit"
-                            onClick={() => editHandeler(item?.productDtlId)}
+                            onClick={() => editHandeler(item?.vendorId)}
                           >
                             <FaRegEdit color="green" size={20} />
                           </IconButton>
-                          {!item?.isVerify ? (
+                          {item?.adminReview == "Pending" ? (
                             <IconButton
                               tooltip="delete"
-                              onClick={() => deleteHandeler(item.productDtlId)}
+                              onClick={() => deleteHandeler(item.serviceId)}
                             >
                               <MdDelete color="red" size={20} />
                             </IconButton>
@@ -223,10 +218,11 @@ const ListAddedProduct = () => {
         onConfirm={handleDelete}
         onCancel={handleCancel}
         message="Are you sure you want to delete this item?"
+        loading={deleteloader}
       />
       <div
         className="offcanvas offcanvas-end"
-        style={{width: "470px"}}
+        style={{ width: "470px" }}
         tabIndex="-1"
         id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel"
@@ -241,20 +237,20 @@ const ListAddedProduct = () => {
           ></button>
         </div>
         <div className="offcanvas-body">
-         <div style={{display:"flex",flexDirection:"column"}}>
-         {imageList?.map((val,i) => (
-            <img
-            key={i}
-              src={`${Image_URL}/products/${val.url}`}
-              alt={val.url}
-              className="imageofProductaddbyFarmer"
-            />
-          ))}
-         </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {imageList?.map((val, i) => (
+              <img
+                key={i}
+                src={`${Image_URL}/products/${val.url}`}
+                alt={val.url}
+                className="imageofProductaddbyFarmer"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ListAddedProduct;
+export default ServicesVenderList;

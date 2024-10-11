@@ -32,8 +32,6 @@ const RegisterPage = () => {
 
   const initApi = async () => {
     const R_List = await RoleServices.getRoleList();
-    console.log(R_List);
-
     setRoleList(R_List?.data);
   };
   const submitHandler = async () => {

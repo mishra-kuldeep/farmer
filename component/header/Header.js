@@ -273,14 +273,19 @@ function Header() {
                   </div>
                   <div className="col-md-9 p-0">
                     <div className="category_inline_header">
-                      <p>Farmers</p>
-                      <p>Buyers</p>
+                      {(user?.profile?.role == 2 ||
+                        user?.profile?.role == 4) && <p>Farmers</p>}
+                      {(user?.profile?.role == 3 ||
+                        user?.profile?.role == 4) && <p>Buyers</p>}
+                      {(user?.profile?.role == 2 ||
+                        user?.profile?.role == 3 ||
+                        user?.profile?.role == 4) && <p>Farm Lands</p>}
+                      {user?.profile?.role == 6 && <p>Cold Storage</p>}
+                      {user?.profile?.role == 6 && <p>Machinery</p>}
                       <p>Transportation</p>
-                      {/* <p>Employee</p> */}
-                      <p>Vendors</p>
+                      {user?.profile?.role != 6 && <p>Vendors</p>}
                       <p>Fertilizers & Pesticides</p>
                       <p>Educational Resources</p>
-                      {/* <p>Customer Care</p> */}
                     </div>
                   </div>
                   <div className="col-md-1 p-0">

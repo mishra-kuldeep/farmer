@@ -4,11 +4,12 @@ import "./accountpage.css";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiProductHuntLine } from "react-icons/ri";
-import { MdFormatListBulleted } from "react-icons/md";
+import { MdFormatListBulleted ,MdOutlineCleaningServices} from "react-icons/md";
 import { PiVan } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import UserProfile from "@/component/myaccount/UserProfile";
+
 import { FiHeart } from "react-icons/fi";
 
 const AccountLayout = ({ children }) => {
@@ -29,6 +30,20 @@ const AccountLayout = ({ children }) => {
       icon: <FiHeart size={22} />,
       goesTo: "/myAccount/myWishList",
       status: true,
+    },
+    {
+      id: 16,
+      title: "Add Services",
+      icon: <MdOutlineCleaningServices size={22} />,
+      goesTo: "/myAccount/addvenderServices",
+      status: user?.profile?.role === 6,
+    },
+    {
+      id: 17,
+      title: "Services List",
+      icon: <MdFormatListBulleted size={22} />,
+      goesTo: "/myAccount/listAddedServices",
+      status: user?.profile?.role === 6,
     },
     {
       id: 2,
@@ -88,8 +103,8 @@ const AccountLayout = ({ children }) => {
             <div className="accountsidebar pe-md-3">
               <h2> My Account</h2>
               <hr />
-              <UserProfile/>
-              
+              <UserProfile />
+
               {SideBarList?.map((elem) => (
                 <div
                   key={elem.id}
@@ -97,7 +112,7 @@ const AccountLayout = ({ children }) => {
                     pathname == elem.goesTo && "accListSideActive"
                   } accListSide`}
                   onClick={() => router.push(elem.goesTo)}
-                  style={{display:elem.status?"flex":"none"}}
+                  style={{ display: elem.status ? "flex" : "none" }}
                 >
                   {elem.icon} <h6>{elem.title}</h6>
                 </div>

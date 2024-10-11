@@ -63,7 +63,6 @@ const MyProfile = () => {
     }
   }, [user?.profile?.id]);
 
-  console.log(values?.AdharNo?.length)
 
   const updateProfileHandeler = () => {
     setLoading(true);
@@ -74,7 +73,6 @@ const MyProfile = () => {
       (values?.CountryID == 1 &&
       values?.AdharNo?.length < 12)
     ) {
-      console.log("first")
       setErrors((prevErrors) => ({
         ...prevErrors,
         AdharNo:

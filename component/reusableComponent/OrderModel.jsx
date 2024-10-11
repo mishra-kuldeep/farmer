@@ -130,7 +130,6 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
         });
     }
   }, [modalData]);
-  console.log(OrderDetails)
   // Calculate total price, discount, and final total
   const totalPrice = OrderDetails.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;

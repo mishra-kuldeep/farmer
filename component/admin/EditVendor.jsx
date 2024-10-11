@@ -63,7 +63,6 @@ const EditVendor = ({ setState }) => {
     useEffect(() => {
         if (editId) {
             vendorMasterServices.getSingleVendor(editId).then(({ data }) => {
-                console.log(data)
                 setValues({
                     type: data.type,
                     description: data.description,

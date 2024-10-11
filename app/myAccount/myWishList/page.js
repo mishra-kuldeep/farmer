@@ -42,6 +42,7 @@ const WishList = () => {
                       src={`${Image_URL}/products/${ele?.productDetail?.ProductsImages[0]?.url}`}
                       width="100%"
                       height="180px"
+                      alt="image"
                     />
                   </Link>
                   <Link

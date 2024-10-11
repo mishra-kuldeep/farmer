@@ -66,8 +66,48 @@ export default class vendorMasterServices {
         });
     }
 
+    /////////////////////////////////// vender user routes //////////////////////////////////////
 
+    static async addVendorServices(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vendor/services`;
+        return axios.post(url, data, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async getVendorServices(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vendor/services?page=${data?.page}?searchText=${data?.searchText}`;
+        return axios.get(url, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async getsingleVendorServices(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vendor/services/vendor/${id}`;
+        return axios.get(url, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async deleteVendorServices(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vendor/services/${id}`;
+        return axios.delete(url, {
+            headers: {
+                // 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
 
-
-
+    
 }

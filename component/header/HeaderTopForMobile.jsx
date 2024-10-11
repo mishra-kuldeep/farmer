@@ -25,8 +25,15 @@ const HeaderTopForMobile = () => {
               <IoMenu size={20} />
             </div>
             <ul className="dropdown-menu custom-dropdown-menu">
-              <li className="dropdown-item">Farmers</li>
-              <li className="dropdown-item">Buyers</li>
+              {user?.profile?.role == 2 && (
+                <li className="dropdown-item">Farmers</li>
+              )}
+              {user?.profile?.role == 3 && (
+                <li className="dropdown-item">Buyers</li>
+              )}
+              {(user?.profile?.role == 2 || user?.profile?.role == 3) && (
+                <li className="dropdown-item">Farm Lands</li>
+              )}
               <li className="dropdown-item">Transportation</li>
               <li className="dropdown-item">Employee</li>
               <li className="dropdown-item">Vendors</li>
