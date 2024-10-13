@@ -10,20 +10,16 @@ import vendorMasterServices from "@/services/vendorMasterServices";
 const EditVenderServices = ({ params }) => {
   const router = useRouter();
   const [errors, setErrors] = useState({});
-  const [vehicleList, setVehicleList] = useState([]);
+  const [venderList, setVenderList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
-    vehicleId: "",
-    vehicleNumber: "",
-    chargePerKm: "",
+    vendorId: "",
+    VendorServicesMasterId: "",
+    serviceName: "",
+    description: "",
+    cost: "",
     availableOffers: "",
-    minDeliveryDistance: null,
-    maxDeliveryDistance: null,
-    vehicleAvailabilityStatus: "Available",
-    driverName: "",
-    driverContact: "",
-    estimatedDeliveryTime: null,
-    notes: "",
+    duration: "",
   });
   const onchangeHandeler = (e) => {
     const { name, files } = e.target;
@@ -39,20 +35,16 @@ const EditVenderServices = ({ params }) => {
   const onSubmitHandler = async () => {
     setLoader(true);
     try {
-      await VehicleServices?.EditTranspoterVehicle(params?.id, values);
+      await vendorMasterServices?.UpdateVendorServices(params?.id, values);
       setErrors({});
       setValues({
-        vehicleId: "",
-        vehicleNumber: "",
-        chargePerKm: "",
+        vendorId: "",
+        VendorServicesMasterId: "",
+        serviceName: "",
+        description: "",
+        cost: "",
         availableOffers: "",
-        minDeliveryDistance: null,
-        maxDeliveryDistance: null,
-        vehicleAvailabilityStatus: "",
-        driverName: "",
-        driverContact: "",
-        estimatedDeliveryTime: null,
-        notes: "",
+        duration: "",
       });
       setLoader(false);
       toast("Vehicle added successfully!", {
@@ -63,7 +55,7 @@ const EditVenderServices = ({ params }) => {
           color: "#fff",
         },
       });
-      router.push("/myAccount/vehicleList");
+      router.push("/myAccount/listAddedServices");
     } catch (err) {
       const errorData = err?.response?.data?.errors || [];
       const errorObj = errorData.reduce((acc, curr) => {
@@ -75,208 +67,150 @@ const EditVenderServices = ({ params }) => {
     }
   };
 
-  const initApi = () => {
-    vendorMasterServices
-      .getsingleVendorServices(params?.id)
-      .then(({ data }) => {
-        setVehicleList(data);
-      })
-      .catch((err) => console.log(err));
-  };
 
-  useEffect(
-    () => {
-      initApi();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   useEffect(() => {
     if (params?.id) {
-      VehicleServices.getSingleTranspoterVehicle(params?.id)
+      vendorMasterServices.getSingleService(params?.id)
         .then(({ data }) => {
-          const valuess = data;
+    
+          const valuess = data[0];
           setValues({
-            vehicleId: valuess?.vehicleId,
-            vehicleNumber: valuess?.vehicleNumber,
-            chargePerKm: valuess?.chargePerKm,
-            availableOffers: valuess?.availableOffers,
-            minDeliveryDistance: valuess?.minDeliveryDistance,
-            maxDeliveryDistance: valuess?.maxDeliveryDistance,
-            vehicleAvailabilityStatus: valuess?.vehicleAvailabilityStatus,
-            driverName: valuess?.driverName,
-            driverContact: valuess?.driverContact,
-            estimatedDeliveryTime: valuess?.estimatedDeliveryTime,
-            notes: valuess?.notes,
+            vendorId: valuess.vendorId,
+            VendorServicesMasterId: valuess.VendorServicesMasterId,
+            serviceName: valuess.serviceName,
+            description: valuess.description,
+            cost: valuess.cost,
+            availableOffers: valuess.availableOffers,
+            duration: valuess.duration,
           });
         })
         .catch((err) => console.log(err));
     }
   }, [params?.id]);
+  const initApis = () => {
+    vendorMasterServices.getAllVendor()
+      .then(({ data }) => {
+        setVenderList(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => initApis(), []);
 
   return (
     <div className="row  m-0 px-md-3 mb-4">
-      <h4 className="text-secondary mb-3">Edit Vehicle</h4>
-      <hr />
-      {/* Form content */}
+    <h4 className="text-secondary mb-3">Edit Services</h4>
+    <hr />
+    {/* Form content */}
 
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Vehicle*</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="vehicleId"
-          value={values.vehicleId}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          {vehicleList?.map((ele) => (
-            <option key={ele.vehicleId} value={ele.vehicleId}>
-              {ele?.type}---Capacity:{ele?.capacity}:Ton
-            </option>
-          ))}
-        </select>
-        {errors.vehicleId && (
-          <span className="error_input_text">{errors.vehicleId}</span>
-        )}
-      </div>
-
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Vehicle Number *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="vehicleNumber"
-          value={values.vehicleNumber}
-          onChange={onchangeHandeler}
-        />
-        {errors.vehicleNumber && (
-          <span className="error_input_text">{errors.vehicleNumber}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
-        <label className="adjustLabel">Charge Per Km *</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="chargePerKm"
-          value={values.chargePerKm}
-          onChange={onchangeHandeler}
-        />
-        {errors.chargePerKm && (
-          <span className="error_input_text">{errors.chargePerKm}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
-        <label className="adjustLabel">Available Offers </label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="availableOffers"
-          value={values.availableOffers}
-          onChange={onchangeHandeler}
-        />
-        {errors.availableOffers && (
-          <span className="error_input_text">{errors.availableOffers}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Min Delivery Distance</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="minDeliveryDistance"
-          value={values.minDeliveryDistance}
-          onChange={onchangeHandeler}
-        />
-        {errors.minDeliveryDistance && (
-          <span className="error_input_text">{errors.minDeliveryDistance}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Max Delivery Distance</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="maxDeliveryDistance"
-          value={values.maxDeliveryDistance}
-          onChange={onchangeHandeler}
-        />
-        {errors.maxDeliveryDistance && (
-          <span className="error_input_text">{errors.maxDeliveryDistance}</span>
-        )}
-      </div>
-
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Vehicle Availability Status</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="vehicleAvailabilityStatus"
-          value={values.vehicleAvailabilityStatus}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          <option value={"Available"}>Available</option>
-          <option value={"Unavailable"}>Unavailable</option>
-        </select>
-        {errors.vehicleAvailabilityStatus && (
-          <span className="error_input_text">
-            {errors.vehicleAvailabilityStatus}
-          </span>
-        )}
-      </div>
-
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Driver Name *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="driverName"
-          value={values.driverName}
-          onChange={onchangeHandeler}
-        />
-        {errors.driverName && (
-          <span className="error_input_text">{errors.driverName}</span>
-        )}
-      </div>
-
-      <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Driver Contact*</label>
-        <input
-          type="number"
-          className="form-control p-2 adjustLabel_input"
-          name="driverContact"
-          value={values.driverContact}
-          onChange={onchangeHandeler}
-        />
-        {errors.driverContact && (
-          <span className="error_input_text">{errors.driverContact}</span>
-        )}
-      </div>
-
-      <div className="col-md-6 ms-md-0 ms-2">
-        <label className="adjustLabel">Notes</label>
-        <textarea
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="notes"
-          value={values.notes}
-          onChange={onchangeHandeler}
-        />
-      </div>
-      <div className="col-md-3 text-center mt-3">
-        <button
-          className="login_btn"
-          onClick={onSubmitHandler}
-          disabled={loader}
-        >
-          {loader && <MiniLoader />}
-          Submit
-        </button>
-      </div>
+    <div className="col-md-4 mb-3 ms-md-0 ms-2">
+      <label className="adjustLabel">Service Type*</label>
+      <select
+        className="form-select custom-select adjustLabel_input"
+        aria-label="Default select example"
+        name="VendorServicesMasterId"
+        value={values.VendorServicesMasterId}
+        onChange={onchangeHandeler}
+      >
+        <option value="" className="d-none"></option>
+        {venderList?.map((ele) => (
+          <option
+            key={ele.VendorServicesMasterId}
+            value={ele.VendorServicesMasterId}
+          >
+            {ele?.type}
+          </option>
+        ))}
+      </select>
+      {errors.VendorServicesMasterId && (
+        <span className="error_input_text">
+          {errors.VendorServicesMasterId}
+        </span>
+      )}
     </div>
+
+    <div className="col-md-4 mb-3 ms-md-0 ms-2">
+      <label className="adjustLabel">Service Name *</label>
+      <input
+        type="text"
+        className="form-control p-2 adjustLabel_input"
+        name="serviceName"
+        value={values.serviceName}
+        onChange={onchangeHandeler}
+      />
+      {errors.serviceName && (
+        <span className="error_input_text">{errors.serviceName}</span>
+      )}
+    </div>
+    <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+      <label className="adjustLabel">Description </label>
+      <input
+        type="text"
+        className="form-control p-2 adjustLabel_input"
+        name="description"
+        value={values.description}
+        onChange={onchangeHandeler}
+      />
+      {errors.description && (
+        <span className="error_input_text">{errors.description}</span>
+      )}
+    </div>
+
+    <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+      <label className="adjustLabel">Cost *</label>
+      <input
+        type="text"
+        className="form-control p-2 adjustLabel_input"
+        name="cost"
+        value={values.cost}
+        onChange={onchangeHandeler}
+      />
+      {errors.cost && (
+        <span className="error_input_text">{errors.cost}</span>
+      )}
+    </div>
+
+    <div className="col-md-4 mb-3 ms-md-0 ms-2">
+      <label className="adjustLabel">Available Offers</label>
+      <input
+        type="number"
+        className="form-control p-2 adjustLabel_input"
+        name="availableOffers"
+        value={values.availableOffers}
+        onChange={onchangeHandeler}
+      />
+      {errors.availableOffers && (
+        <span className="error_input_text">
+          {errors.availableOffers}
+        </span>
+      )}
+    </div>
+
+    <div className="col-md-4 mb-3 ms-md-0 ms-2">
+      <label className="adjustLabel">Duration</label>
+      <input
+        type="number"
+        className="form-control p-2 adjustLabel_input"
+        name="duration"
+        value={values.duration}
+        onChange={onchangeHandeler}
+      />
+      {errors.duration && (
+        <span className="error_input_text">{errors.duration}</span>
+      )}
+    </div>
+    <div className="col-md-3 text-center mt-3">
+      <button
+        className="login_btn"
+        onClick={onSubmitHandler}
+        disabled={loader}
+      >
+        {loader && <MiniLoader />}
+        Submit
+      </button>
+    </div>
+  </div>
   );
 };
 

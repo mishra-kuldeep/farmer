@@ -1,6 +1,6 @@
 import React from "react";
 import { MdCategory } from "react-icons/md";
-import { FaProductHunt } from "react-icons/fa6";
+import { FaProductHunt,FaServicestack } from "react-icons/fa6";
 import { MdOutlineDashboard } from "react-icons/md";
 import { SiBrandfolder } from "react-icons/si";
 import { FaRegListAlt,FaListUl } from "react-icons/fa";
@@ -104,6 +104,12 @@ const sidebarArray = [
     title: "Add Vendor",
     url: "/admin/addVendor",
     icon: <IoMdAddCircle size={25} />,
+  },
+  {
+    id: 17,
+    title: "Vendor services List",
+    url: "/admin/VendorServicesList",
+    icon: <FaServicestack size={25} />,
   },
   
 ];

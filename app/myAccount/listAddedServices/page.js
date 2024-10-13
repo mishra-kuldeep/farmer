@@ -29,7 +29,7 @@ const ServicesVenderList = () => {
   const [searchText, setSearchText] = useState("");
 
   const editHandeler = (id) => {
-    // router.push(`/myAccount/editVenderServices/${id}`);
+    router.push(`/myAccount/editVenderServices/${id}`);
   };
 
   const handleDelete = async () => {
@@ -68,7 +68,7 @@ const ServicesVenderList = () => {
 
   useEffect(() => {
     vendorMasterServices
-      .getVendorServices(page, searchText)
+      .getVendorServices(user.profile?.id,page, searchText)
       .then(({ data }) => {
         setservicesVenderList(data);
         setMetaData(data?.meta);
@@ -162,7 +162,7 @@ const ServicesVenderList = () => {
                       >
                         {i + 1}
                       </td>
-                      <td>{item?.serviceName}</td>
+                      <td>{item?.VendorMaster?.type}</td>
                       <td>{item?.serviceName}</td>
                       <td
                         data-bs-toggle="tooltip"
@@ -179,7 +179,7 @@ const ServicesVenderList = () => {
                       <td style={{ backgroundColor: "transparent" }}>
                         {item?.duration}
                       </td>
-                      <td className="text-center">{item?.offer}</td>
+                      <td className="text-center">{item?.offer?item?.offer:"----"}</td>
                       <td className="text-center">
                         {item?.availabilityStatus}
                       </td>
@@ -188,7 +188,7 @@ const ServicesVenderList = () => {
                         <div className="d-flex gap-2 justify-content-center">
                           <IconButton
                             tooltip="edit"
-                            onClick={() => editHandeler(item?.vendorId)}
+                            onClick={() => editHandeler(item?.serviceId)}
                           >
                             <FaRegEdit color="green" size={20} />
                           </IconButton>
