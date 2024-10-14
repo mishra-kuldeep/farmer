@@ -95,7 +95,7 @@ const EditVendor = ({ setState }) => {
                 <input
                     type="text"
                     className="form-control p-2 adjustLabel_input"
-                    name="Description"
+                    name="description"
                     value={values.description}
                     onChange={onChangeHandeler}
                 />

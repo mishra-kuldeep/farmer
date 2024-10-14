@@ -79,7 +79,7 @@ function Header() {
         const transformedData = data.map((service) => ({
           id: service.VendorServicesMasterId,
           title: service.type,
-          goesTo: "/myAccount/myProfile",
+          goesTo: `/vender/${service.VendorServicesMasterId}`,
           status: user?.profile?.role === 4, // Assuming the role condition applies here
         }));
         setVenderList(transformedData);
@@ -392,6 +392,7 @@ function Header() {
                             >
                               {ele?.subMenu?.map((subEle, subIndex) => (
                                 <div
+                                onClick={()=> router.push(subEle?.goesTo)}
                                   className="px-3 py-1 cursor submenu"
                                   key={subIndex}
                                 >
