@@ -222,7 +222,7 @@ const Section1Home = () => {
                 <div onClick={() => router.push(`/product/${ele.slug}`)}>
                   <div className="image_div">
                     <img
-                      src={`${Image_URL}/Products/${ele.ProductsImages[0].url}`}
+                      src={`${Image_URL}/Products/${ele.ProductsImages[0]?.url}`}
                       alt="product image"
                     />
                   </div>

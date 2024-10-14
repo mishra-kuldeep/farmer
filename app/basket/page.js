@@ -170,7 +170,7 @@ const Basket = () => {
               {cart?.cart?.map((val) => (
                 <div className="cardBasket" key={val.productDtlId}>
                   <img
-                    src={`${Image_URL}/Products/${val?.productDetail?.ProductsImages[0].url}`}
+                    src={`${Image_URL}/Products/${val?.productDetail?.ProductsImages[0]?.url}`}
                     alt="image"
                   />
                   <div className="cartBaketDetail row">

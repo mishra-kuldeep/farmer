@@ -62,7 +62,7 @@ const RegisterPage = () => {
         /> */}
       </div>
       <div className="p-2 m20">
-        <label className="adjustLabel">Role *</label>
+        <label className="adjustLabel">Category *</label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"

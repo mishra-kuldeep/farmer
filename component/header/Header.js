@@ -112,6 +112,20 @@ function Header() {
       status:
         !user.isLoggedIn ||
         (user?.profile?.role === 2 && user?.profile?.role !== 3),
+        subMenu:[
+          {
+            id: 11,
+            title: "Vegitable and Fruit",
+            goesTo: "/myAccount/myProfile",
+            status: user?.profile?.role === 2,
+          },
+          {
+            id: 12,
+            title: "Plots",
+            goesTo: "/myAccount/myProfile",
+            status: user?.profile?.role === 2,
+          },
+        ]
     },
     {
       id: 1,
@@ -120,7 +134,7 @@ function Header() {
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 2 ||
-        user?.profile?.role == 3,
+        user?.profile?.role == 3||4,
       subMenu: [
         {
           id: 11,
@@ -152,14 +166,14 @@ function Header() {
       id: 3,
       title: "Transportation",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 4,
+      status: !user.isLoggedIn || user?.profile?.role == 4||3,
       subMenu: transporterList,
     },
     {
       id: 4,
-      title: "Vender",
+      title: "Vendor",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 6,
+      status: !user.isLoggedIn || user?.profile?.role == 6||3,
       subMenu: venderList,
       //  [
       //   {
@@ -180,19 +194,25 @@ function Header() {
       id: 6,
       title: "Fertilizers & Pesticides",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 4,
+      status: !user.isLoggedIn || user?.profile?.role == 4||3,
       subMenu: [
         {
           id: 31,
           title: "Distributors(Bulk orders)",
           goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
+          status: user?.profile?.role == 4||3,
         },
         {
           id: 32,
           title: "Dealers(Small Orders)",
           goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
+          status: user?.profile?.role == 4||3,
+        },
+        {
+          id: 33,
+          title: "Retailer",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role == 4||3,
         },
       ],
     },
