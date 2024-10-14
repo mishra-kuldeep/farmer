@@ -119,6 +119,22 @@ header {
   left: 25px;
   background-color: var(--mainColor);
 }
+
+.category_inline_header  .activee::after {
+  content: "";
+  height: 2px;
+  width: calc(100% - 50px);
+  position: absolute;
+  bottom: 0;
+  left: 25px;
+  background-color: var(--mainColor);
+}
+.submenu{
+  color: #555;
+}
+.submenu:hover{
+  color: #000;
+}
 .offerZoneBtn {
   background-color: var(--mainColor);
   border-radius: 10px;

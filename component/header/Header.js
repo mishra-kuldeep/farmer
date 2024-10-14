@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
 import logo from "../../public/header/logo1.jpg";
 import { FaShoppingCart } from "react-icons/fa";
@@ -15,9 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser, fetchUserInfo } from "@/redux/auth/authSlice";
 import { deleteCookie } from "@/helper/common";
 import { clearCart, getCart } from "@/redux/cart/cartSlice";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 
 function Header() {
   const user = useSelector((state) => state.auth);
+  const menuRef = useRef(null);
+  const [openMenuIndex, setOpenMenuIndex] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -68,13 +72,13 @@ function Header() {
       id: 1,
       title: "Farmers",
       goesTo: "/myAccount/myProfile",
-      status: user?.profile?.role === 2,
+      status: !user.isLoggedIn||(user?.profile?.role === 2&&user?.profile?.role !== 3),
     },
     {
       id: 1,
       title: "Farm Lands",
       goesTo: "/myAccount/myProfile",
-      status: user?.profile?.role == 2 || user?.profile?.role == 3,
+      status: !user.isLoggedIn||(user?.profile?.role == 2 || user?.profile?.role == 3),
       subMenu: [
         {
           id: 11,
@@ -100,13 +104,13 @@ function Header() {
       id: 2,
       title: "Buyer",
       goesTo: "/myAccount/addProduct",
-      status: user?.profile?.role === 3,
+      status: !user.isLoggedIn||(user?.profile?.role === 3),
     },
     {
       id: 3,
       title: "Transportation",
       goesTo: "/myAccount/listAddedProduct",
-      status: user?.profile?.role == 4,
+      status: !user.isLoggedIn||user?.profile?.role == 4,
       subMenu: [
         {
           id: 31,
@@ -134,9 +138,69 @@ function Header() {
         },
       ],
     },
+    {
+      id: 4,
+      title: "Vender",
+      goesTo: "/myAccount/listAddedProduct",
+      status: !user.isLoggedIn||user?.profile?.role == 6,
+      subMenu: [
+        {
+          id: 31,
+          title: "Cold Storage",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role == 4,
+        },
+        {
+          id: 32,
+          title: "Machinary",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role == 4,
+        },
+      ],
+    },
+    {
+      id: 6,
+      title: "Fertilizers & Pesticides",
+      goesTo: "/myAccount/listAddedProduct",
+      status: !user.isLoggedIn||user?.profile?.role == 4,
+      subMenu: [
+        {
+          id: 31,
+          title: "Distributors(Bulk orders)",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role == 4,
+        },
+        {
+          id: 32,
+          title: "Dealers(Small Orders)",
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role == 4,
+        },
+      ],
+    },
+    
   ];
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
+
+  const toggleSubMenu = (index) => {
+    setOpenMenuIndex(openMenuIndex === index ? null : index);
+  };
+
+    // Detect outside clicks
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+          setOpenMenuIndex(null); // Close the submenu if click is outside
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [menuRef]);
 
   return (
     <>
@@ -272,8 +336,27 @@ function Header() {
                     </div>
                   </div>
                   <div className="col-md-9 p-0">
-                    <div className="category_inline_header">
-                      {(user?.profile?.role == 2 ||
+                    <div className="category_inline_header" ref={menuRef}>
+                      {HeaderMenu?.map((ele, index) => (
+                        <div key={index}>
+                          <p className={`${openMenuIndex === index?"activee":""}`}
+                            onClick={() => toggleSubMenu(index)}
+                            style={{ cursor: "pointer" ,position:"relative",display:!ele?.status&&"none"}}
+                          >
+                            {ele?.title}
+                        {   ele?.subMenu&&<span> {openMenuIndex !== index?<IoIosArrowDown/>:<IoIosArrowUp/>}</span>}
+                          </p>
+                          {openMenuIndex === index && (
+                            <div className="shadow" style={{ position: "absolute" ,top:"110px",backgroundColor:"#fff",border:"1px solid #ddd",borderRadius:"0px 0px 7px 7px"}}>
+                              {ele?.subMenu?.map((subEle, subIndex) => (
+                                <div className="px-3 py-1 cursor submenu" key={subIndex}>{subEle?.title}</div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+
+                      {/* {(user?.profile?.role == 2 ||
                         user?.profile?.role == 4) && <p>Farmers</p>}
                       {(user?.profile?.role == 3 ||
                         user?.profile?.role == 4) && <p>Buyers</p>}
@@ -285,7 +368,7 @@ function Header() {
                       <p>Transportation</p>
                       {user?.profile?.role != 6 && <p>Vendors</p>}
                       <p>Fertilizers & Pesticides</p>
-                      <p>Educational Resources</p>
+                      <p>Educational Resources</p> */}
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
