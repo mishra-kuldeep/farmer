@@ -17,10 +17,14 @@ import { deleteCookie } from "@/helper/common";
 import { clearCart, getCart } from "@/redux/cart/cartSlice";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
+import vendorMasterServices from "@/services/vendorMasterServices";
+import VehicleMasterServices from "@/services/VehicleMasterServices";
 
 function Header() {
   const user = useSelector((state) => state.auth);
   const menuRef = useRef(null);
+  const [venderList, setVenderList] = useState([]);
+  const [transporterList, setTransporterList] = useState([]);
   const [openMenuIndex, setOpenMenuIndex] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -67,18 +71,56 @@ function Header() {
     router.push("/"); // Redirect to the login page
   };
 
+  const initApi = () => {
+    vendorMasterServices
+      .getAllVendor()
+      .then(({ data }) => {
+        console.log(data);
+        const transformedData = data.map((service) => ({
+          id: service.VendorServicesMasterId,
+          title: service.type,
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role === 4, // Assuming the role condition applies here
+        }));
+        setVenderList(transformedData);
+      })
+      .catch((err) => console.log(err));
+
+    VehicleMasterServices.getVehicle()
+      .then(({ data }) => {
+        console.log(data);
+        const transformedData = data.map((service) => ({
+          id: service.VendorServicesMasterId,
+          title: service.type,
+          goesTo: "/myAccount/myProfile",
+          status: user?.profile?.role === 4, // Assuming the role condition applies here
+        }));
+        setTransporterList(transformedData);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => initApi(), []);
+
+  console.log(venderList);
+
   const HeaderMenu = [
     {
       id: 1,
       title: "Farmers",
       goesTo: "/myAccount/myProfile",
-      status: !user.isLoggedIn||(user?.profile?.role === 2&&user?.profile?.role !== 3),
+      status:
+        !user.isLoggedIn ||
+        (user?.profile?.role === 2 && user?.profile?.role !== 3),
     },
     {
       id: 1,
       title: "Farm Lands",
       goesTo: "/myAccount/myProfile",
-      status: !user.isLoggedIn||(user?.profile?.role == 2 || user?.profile?.role == 3),
+      status:
+        !user.isLoggedIn ||
+        user?.profile?.role == 2 ||
+        user?.profile?.role == 3,
       subMenu: [
         {
           id: 11,
@@ -104,65 +146,41 @@ function Header() {
       id: 2,
       title: "Buyer",
       goesTo: "/myAccount/addProduct",
-      status: !user.isLoggedIn||(user?.profile?.role === 3),
+      status: !user.isLoggedIn || user?.profile?.role === 3,
     },
     {
       id: 3,
       title: "Transportation",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn||user?.profile?.role == 4,
-      subMenu: [
-        {
-          id: 31,
-          title: "Tractor",
-          goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
-        },
-        {
-          id: 32,
-          title: "Mini Truck(Lorry)",
-          goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
-        },
-        {
-          id: 33,
-          title: "Trucks",
-          goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
-        },
-        {
-          id: 34,
-          title: "Shipping container",
-          goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
-        },
-      ],
+      status: !user.isLoggedIn || user?.profile?.role == 4,
+      subMenu: transporterList,
     },
     {
       id: 4,
       title: "Vender",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn||user?.profile?.role == 6,
-      subMenu: [
-        {
-          id: 31,
-          title: "Cold Storage",
-          goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
-        },
-        {
-          id: 32,
-          title: "Machinary",
-          goesTo: "/myAccount/myProfile",
-          status: user?.profile?.role == 4,
-        },
-      ],
+      status: !user.isLoggedIn || user?.profile?.role == 6,
+      subMenu: venderList,
+      //  [
+      //   {
+      //     id: 31,
+      //     title: "Cold Storage",
+      //     goesTo: "/myAccount/myProfile",
+      //     status: user?.profile?.role == 4,
+      //   },
+      //   {
+      //     id: 32,
+      //     title: "Machinary",
+      //     goesTo: "/myAccount/myProfile",
+      //     status: user?.profile?.role == 4,
+      //   },
+      // ],
     },
     {
       id: 6,
       title: "Fertilizers & Pesticides",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn||user?.profile?.role == 4,
+      status: !user.isLoggedIn || user?.profile?.role == 4,
       subMenu: [
         {
           id: 31,
@@ -178,7 +196,6 @@ function Header() {
         },
       ],
     },
-    
   ];
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
@@ -187,20 +204,20 @@ function Header() {
     setOpenMenuIndex(openMenuIndex === index ? null : index);
   };
 
-    // Detect outside clicks
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (menuRef.current && !menuRef.current.contains(event.target)) {
-          setOpenMenuIndex(null); // Close the submenu if click is outside
-        }
-      };
-  
-      document.addEventListener("mousedown", handleClickOutside);
-  
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [menuRef]);
+  // Detect outside clicks
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuIndex(null); // Close the submenu if click is outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
 
   return (
     <>
@@ -339,17 +356,47 @@ function Header() {
                     <div className="category_inline_header" ref={menuRef}>
                       {HeaderMenu?.map((ele, index) => (
                         <div key={index}>
-                          <p className={`${openMenuIndex === index?"activee":""}`}
+                          <p
+                            className={`${
+                              openMenuIndex === index ? "activee" : ""
+                            }`}
                             onClick={() => toggleSubMenu(index)}
-                            style={{ cursor: "pointer" ,position:"relative",display:!ele?.status&&"none"}}
+                            style={{
+                              cursor: "pointer",
+                              position: "relative",
+                              display: !ele?.status && "none",
+                            }}
                           >
                             {ele?.title}
-                        {   ele?.subMenu&&<span> {openMenuIndex !== index?<IoIosArrowDown/>:<IoIosArrowUp/>}</span>}
+                            {ele?.subMenu && (
+                              <span>
+                                {" "}
+                                {openMenuIndex !== index ? (
+                                  <IoIosArrowDown />
+                                ) : (
+                                  <IoIosArrowUp />
+                                )}
+                              </span>
+                            )}
                           </p>
                           {openMenuIndex === index && (
-                            <div className="shadow" style={{ position: "absolute" ,top:"110px",backgroundColor:"#fff",border:"1px solid #ddd",borderRadius:"0px 0px 7px 7px"}}>
+                            <div
+                              className="shadow"
+                              style={{
+                                position: "absolute",
+                                top: "110px",
+                                backgroundColor: "#fff",
+                                border: "1px solid #ddd",
+                                borderRadius: "0px 0px 7px 7px",
+                              }}
+                            >
                               {ele?.subMenu?.map((subEle, subIndex) => (
-                                <div className="px-3 py-1 cursor submenu" key={subIndex}>{subEle?.title}</div>
+                                <div
+                                  className="px-3 py-1 cursor submenu"
+                                  key={subIndex}
+                                >
+                                  {subEle?.title}
+                                </div>
                               ))}
                             </div>
                           )}
