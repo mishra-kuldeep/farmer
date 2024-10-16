@@ -67,15 +67,17 @@ const ServicesVenderList = () => {
   };
 
   useEffect(() => {
-    vendorMasterServices
-      .getVendorServices(user.profile?.id,page, searchText)
-      .then(({ data }) => {
-        setservicesVenderList(data);
-        setMetaData(data?.meta);
-      })
-      .catch((err) => console.log(err));
+    if (user.profile?.id) {
+      vendorMasterServices
+        .getVendorServices(user.profile?.id, page, searchText)
+        .then(({ data }) => {
+          setservicesVenderList(data);
+          setMetaData(data?.meta);
+        })
+        .catch((err) => console.log(err));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchText]);
+  }, [user.profile?.id, page, searchText]);
 
   return (
     <div>
@@ -179,7 +181,9 @@ const ServicesVenderList = () => {
                       <td style={{ backgroundColor: "transparent" }}>
                         {item?.duration}
                       </td>
-                      <td className="text-center">{item?.offer?item?.offer:"----"}</td>
+                      <td className="text-center">
+                        {item?.offer ? item?.offer : "----"}
+                      </td>
                       <td className="text-center">
                         {item?.availabilityStatus}
                       </td>
