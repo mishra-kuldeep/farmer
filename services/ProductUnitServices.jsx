@@ -5,7 +5,15 @@ import axios from "axios";
 
 export default class ProductUnitServices {
   ////////////////////////////  category  ///////////////////////////////
-
+  static async getUnitBycountry(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/unit/units/${id}`
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
     static async getProductUnit(id) {
     const token = getCookie("token");

@@ -8,6 +8,8 @@ import VehicleServices from "@/services/VehicleServices";
 import { useSelector } from "react-redux";
 import AuthService from "@/services/AuthServices";
 import vendorMasterServices from "@/services/vendorMasterServices";
+import CountryServices from "@/services/CountryServices";
+import ProductUnitServices from "@/services/ProductUnitServices";
 
 const AddVenderServices = () => {
   const router = useRouter();
@@ -19,6 +21,7 @@ const AddVenderServices = () => {
   const [isloading, setisLoading] = useState(false);
   // vendorId, VendorServicesMasterId, serviceName, description, cost, availableOffers, duration
 
+  const [unitList, setUnitList] = useState([]);
   const [values, setValues] = useState({
     vendorId: "",
     VendorServicesMasterId: "",
@@ -27,6 +30,9 @@ const AddVenderServices = () => {
     cost: "",
     availableOffers: "",
     duration: "",
+    capacity: "",
+    capacityUnit: "",
+    countryId: user?.profile?.country,
   });
   const onchangeHandeler = (e) => {
     const { name, value } = e.target;
@@ -43,7 +49,6 @@ const AddVenderServices = () => {
         setisLoading(false);
       });
     }
-    
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -84,7 +89,8 @@ const AddVenderServices = () => {
   };
 
   const initApi = () => {
-    vendorMasterServices.getAllVendor()
+    vendorMasterServices
+      .getAllVendor()
       .then(({ data }) => {
         setVenderList(data);
       })
@@ -92,6 +98,19 @@ const AddVenderServices = () => {
   };
 
   useEffect(() => initApi(), []);
+
+  useEffect(() => {
+    if(user?.profile?.country)
+    {ProductUnitServices.getUnitBycountry(user?.profile?.country)
+      .then(({ data }) => {
+        console.log(data);
+        setUnitList(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });}
+  }, [user]);
+
 
   return (
     <>
@@ -203,6 +222,36 @@ const AddVenderServices = () => {
                 {errors.duration && (
                   <span className="error_input_text">{errors.duration}</span>
                 )}
+              </div>
+
+              <div className="col-md-4 mb-3 ms-md-0 ms-2">
+                <label className="adjustLabel">Capacity</label>
+                <input
+                  type="number"
+                  className="form-control p-2 adjustLabel_input"
+                  name="capacity"
+                  value={values.capacity}
+                  onChange={onchangeHandeler}
+                />
+                {errors.capacity && (
+                  <span className="error_input_text">{errors.capacity}</span>
+                )}
+              </div>
+
+              <div className="col-md-4">
+                <label className="adjustLabel">capacity Unit</label>
+                <select
+                  className="form-select custom-select adjustLabel_input shadow-none"
+                  aria-label="Default select example"
+                  value={values.capacityUnit || ""}
+                  onChange={onchangeHandeler}
+                  name="capacityUnit"
+                >
+                  <option value={""}></option>
+                  {unitList?.map((val) => (
+                    <option value={val?.unitId}>{val?.unitName}</option>
+                  ))}
+                </select>
               </div>
               <div className="col-md-3 text-center mt-3">
                 <button
