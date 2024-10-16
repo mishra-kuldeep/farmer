@@ -5,10 +5,12 @@ import { useSelector } from "react-redux";
 import { Image_URL } from "@/helper/common";
 import { CgKey } from "react-icons/cg";
 import toast from "react-hot-toast";
+import CountryServices from "@/services/CountryServices";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
+  const [countryList, setCountryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [Errors, setErrors] = useState({});
   const [companyError, setCompanyError] = useState("");
@@ -33,6 +35,12 @@ const MyProfile = () => {
     GSTNo: "",
   });
   useEffect(() => {
+    CountryServices.getAllCountry()
+      .then(({ data }) => {
+        console.log(data);
+        setCountryList(data);
+      })
+      .catch((err) => console.log(err));
     setisLoading(true);
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
@@ -48,7 +56,9 @@ const MyProfile = () => {
           CountryID: data.userProfile.CountryID,
           Profile: data.userProfile.userInfo.Profile,
           IdImage: data.userProfile.userInfo.IdImage,
-          AdharNo: data.userProfile.userInfo.AdharNo?data.userProfile.userInfo.AdharNo:"",
+          AdharNo: data.userProfile.userInfo.AdharNo
+            ? data.userProfile.userInfo.AdharNo
+            : "",
           Dob: data.userProfile.userInfo.Dob,
           Gender: data.userProfile.userInfo.Gender,
           Address1: data.userProfile.userInfo.Address1,
@@ -63,26 +73,27 @@ const MyProfile = () => {
     }
   }, [user?.profile?.id]);
 
-
   const updateProfileHandeler = () => {
     setLoading(true);
     if (
       (user?.profile?.role === 2 ||
         user?.profile?.role === 4 ||
-        user?.profile?.role === 5) &&
-      (values?.CountryID == 1 &&
-      values?.AdharNo?.length < 12)
+        user?.profile?.role === 5 ||
+        user?.profile?.role === 6) &&
+      values?.CountryID == 1 &&
+      !values?.AdharNo
     ) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         AdharNo:
-          values?.AdharNo?.length >0
+          values?.AdharNo?.length > 0
             ? "Please enter valid adhar number"
             : !values?.AdharNo
             ? "AdharNo is required"
             : "",
       }));
       setLoading(false);
+      return
     }
     if (
       ((user?.profile?.role === 2 || user?.profile?.role === 4) &&
@@ -101,7 +112,10 @@ const MyProfile = () => {
       setLoading(false);
       return;
     }
-    if (user?.profile?.role === 4 && !values?.CompanyName) {
+    if (
+      (user?.profile?.role === 4 || user?.profile?.role === 6) &&
+      !values?.CompanyName
+    ) {
       setCompanyError("company name is required");
       setLoading(false);
       return;
@@ -152,7 +166,7 @@ const MyProfile = () => {
         <h4 className="text-secondary mb-3">Personal Information</h4>
         <hr />
         <div className="col-md-4 ">
-          <label className="adjustLabel">First Name</label>
+          <label className="adjustLabel">{(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"Contact Person Name":"First Name"}</label>
           <input
             type="text"
             name="FirstName"
@@ -161,7 +175,7 @@ const MyProfile = () => {
             className="form-control adjustLabel_input shadow-none p-2"
           />
         </div>
-        <div className="col-md-4 ">
+        {(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"":<div className="col-md-4 ">
           <label className="adjustLabel">Last Name</label>
           <input
             type="text"
@@ -173,9 +187,9 @@ const MyProfile = () => {
           {Errors.LastName && (
             <span className="error_input_text">{Errors.LastName}</span>
           )}
-        </div>
+        </div>}
         <div className="col-md-4 ">
-          <label className="adjustLabel">Email</label>
+          <label className="adjustLabel">{(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"Company Email":"Email"}</label>
           <input
             type="text"
             disabled
@@ -186,7 +200,8 @@ const MyProfile = () => {
           />
         </div>
         <div className="col-md-4 ">
-          <label className="adjustLabel">Phone No</label>
+          <label className="adjustLabel">{(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"Contact Person No":"Phone No"}</label>
+          {/* <label className="adjustLabel">Phone No</label> */}
           <input
             type="text"
             name="Phone"
@@ -267,8 +282,9 @@ const MyProfile = () => {
             name="CountryID"
           >
             <option value={""}></option>
-            <option value={1}>India</option>
-            <option value={2}>America</option>
+            {countryList?.map((val) => (
+              <option value={val?.countryId}>{val?.countryName}</option>
+            ))}
           </select>
           {Errors.CountryID && (
             <span className="error_input_text">{Errors.CountryID}</span>
@@ -412,7 +428,7 @@ const MyProfile = () => {
           />
           {Errors.Zip && <span className="error_input_text">{Errors.Zip}</span>}
         </div>
-        {user?.profile?.role === 4 && (
+        {(user?.profile?.role === 4 || user?.profile?.role === 6) && (
           <>
             <div className="col-md-4 ">
               <label className="adjustLabel">CompanyName *</label>
