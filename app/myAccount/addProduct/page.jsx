@@ -43,7 +43,6 @@ const AddProductDtl = () => {
     available: true,
     isEdit: false,
   });
-
   const onchangeHandeler = (e) => {
     const { name, files } = e.target;
 
@@ -173,11 +172,7 @@ const AddProductDtl = () => {
         setProductList(data?.data);
       })
       .catch((err) => console.log(err));
-    ProductUnitServices.getProductUnit()
-      .then(({ data }) => {
-        setUnitlist(data);
-      })
-      .catch((err) => console.log(err));
+
     ProductgradeServices.getProductgrades()
       .then(({ data }) => {
         console.log(data);
@@ -187,6 +182,14 @@ const AddProductDtl = () => {
   };
 
   useEffect(() => initApi(), []);
+  useEffect(() => {
+    ProductUnitServices.getProductUnit(user?.profile?.country)
+      .then(({ data }) => {
+        setUnitlist(data);
+      })
+      .catch((err) => console.log(err));
+
+  }, [user?.profile?.country]);
 
   return (
     <>
