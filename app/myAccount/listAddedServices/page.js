@@ -71,6 +71,7 @@ const ServicesVenderList = () => {
       vendorMasterServices
         .getVendorServices(user.profile?.id, page, searchText)
         .then(({ data }) => {
+          console.log(data);
           setservicesVenderList(data);
           setMetaData(data?.meta);
         })

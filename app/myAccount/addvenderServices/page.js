@@ -19,6 +19,7 @@ const AddVenderServices = () => {
   const [venderList, setVenderList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [isloading, setisLoading] = useState(false);
+  const [countrySymbol,setCountrySymbol] = useState([])
   // vendorId, VendorServicesMasterId, serviceName, description, cost, availableOffers, duration
 
   const [unitList, setUnitList] = useState([]);
@@ -100,17 +101,24 @@ const AddVenderServices = () => {
   useEffect(() => initApi(), []);
 
   useEffect(() => {
-    if(user?.profile?.country)
-    {ProductUnitServices.getUnitBycountry(user?.profile?.country)
-      .then(({ data }) => {
-        console.log(data);
-        setUnitList(data);
+   
+    if (user?.profile?.country) {
+      AuthService.getCountryList() .then(({ data }) => {
+        setCountrySymbol(data?.find((val)=>val?.countryId ==user.profile.country)?.currencySymbol);
       })
       .catch((err) => {
         console.log(err);
-      });}
+      });
+      ProductUnitServices.getUnitBycountry(user?.profile?.country)
+        .then(({ data }) => {
+          console.log(data);
+          setUnitList(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [user]);
-
 
   return (
     <>
@@ -167,9 +175,9 @@ const AddVenderServices = () => {
                 )}
               </div>
               <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
-                <label className="adjustLabel">description </label>
+                <label className="adjustLabel">description *</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control p-2 adjustLabel_input"
                   name="description"
                   value={values.description}
@@ -180,24 +188,54 @@ const AddVenderServices = () => {
                 )}
               </div>
 
-              <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
-                <label className="adjustLabel">Cost *</label>
+              <div
+                className="col-md-4 mb-3 ms-md-0 ms-2 "
+                style={{ position: "relative" }}
+              >
+                <label className="adjustLabel ms-4">Cost *</label>
                 <input
                   type="text"
-                  className="form-control p-2 adjustLabel_input"
+                  className="form-control p-2 ps-4 adjustLabel_input"
                   name="cost"
                   value={values.cost}
                   onChange={onchangeHandeler}
                 />
+                <span
+                  style={{
+                    position: "absolute",
+                    left: "3px",
+                    top: "15px",
+                    backgroundColor: "#dadada",
+                    borderRadius: "5px 0px 0px 5px",
+                  }}
+                  className="fw-bold text-secondary p-2"
+                >
+                  {countrySymbol}
+                </span>
+
                 {errors.cost && (
                   <span className="error_input_text">{errors.cost}</span>
                 )}
               </div>
 
               <div className="col-md-4 mb-3 ms-md-0 ms-2">
+                <label className="adjustLabel">Duration</label>
+                <input
+                  type="text"
+                  className="form-control p-2 adjustLabel_input"
+                  name="duration"
+                  value={values.duration}
+                  onChange={onchangeHandeler}
+                />
+                {errors.duration && (
+                  <span className="error_input_text">{errors.duration}</span>
+                )}
+              </div>
+
+              <div className="col-md-4 mb-3 ms-md-0 ms-2">
                 <label className="adjustLabel">Available Offers</label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control p-2 adjustLabel_input"
                   name="availableOffers"
                   value={values.availableOffers}
@@ -207,20 +245,6 @@ const AddVenderServices = () => {
                   <span className="error_input_text">
                     {errors.availableOffers}
                   </span>
-                )}
-              </div>
-
-              <div className="col-md-4 mb-3 ms-md-0 ms-2">
-                <label className="adjustLabel">Duration</label>
-                <input
-                  type="number"
-                  className="form-control p-2 adjustLabel_input"
-                  name="duration"
-                  value={values.duration}
-                  onChange={onchangeHandeler}
-                />
-                {errors.duration && (
-                  <span className="error_input_text">{errors.duration}</span>
                 )}
               </div>
 
