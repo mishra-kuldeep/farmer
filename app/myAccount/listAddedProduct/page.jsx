@@ -10,19 +10,23 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Image_URL } from "@/helper/common";
 import "../../admin/addProduct/addProduct.css";
+import CountryServices from "@/services/CountryServices";
+import { useSelector } from "react-redux";
 
 const ListAddedProduct = () => {
   const router = useRouter();
   const [productList, setProductList] = useState([]);
   const [imageList, setImageList] = useState([]);
   const [metaData, setMetaData] = useState({});
-
+  const [Countrylist, setCountrylist] = useState([])
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
+  const user = useSelector((state) => state.auth);
 
+console.log(Countrylist)
   const editHandeler = (id) => {
     router.push(`/myAccount/editProduct/${id}`);
   };
@@ -73,6 +77,15 @@ const ListAddedProduct = () => {
       .catch((err) => console.log(err));
   }, [page, searchText]);
 
+  useEffect(() => {
+ 
+      CountryServices.getCountrybyId(user?.profile?.country)
+      .then(({ data }) => {
+        setCountrylist(data);
+      })
+      .catch((err) => console.log(err));
+
+  }, [user?.profile?.country]);
   return (
     <div>
       <Pagination
@@ -168,9 +181,9 @@ const ListAddedProduct = () => {
                       <td style={{ backgroundColor: "transparent" }}>
                         {item?.Product.productName}
                       </td>
-                      <td className="text-center">{item?.price}</td>
+                      <td className="text-center">{Countrylist?.currencySymbol}{item?.price}</td>
                       <td className="text-center">
-                        {item?.discountType == "fixed" && "₹"}
+                        {item?.discountType == "fixed" && Countrylist?.currencySymbol}
                         {item?.discount}
                         {item?.discountType == "percentage" && "%"}
                       </td>

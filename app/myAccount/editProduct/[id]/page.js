@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import ProductgradeServices from "@/services/ProductgradeServices";
 import ProductUnitServices from "@/services/ProductUnitServices";
+
+import CountryServices from "@/services/CountryServices";
 const specialCharRegex = /[^a-zA-Z0-9\s-]/;
 
 const EditProductFarmer = ({ params }) => {
@@ -16,6 +18,7 @@ const EditProductFarmer = ({ params }) => {
   const [productList, setProductList] = useState([])
   const [unitlist, setUnitlist] = useState([]);
   const [gradelist, setgradelist] = useState([])
+
 
   const [values, setValues] = useState({
     productDtlName: "",
@@ -103,18 +106,22 @@ const EditProductFarmer = ({ params }) => {
       setProductList(data?.data)
     }).catch((err) => console.log(err))
 
-    ProductUnitServices.getProductUnit()
-      .then(({ data }) => {
-        setUnitlist(data);
-      }).catch((err) => console.log(err));
-
     ProductgradeServices.getProductgrades()
       .then(({ data }) => {
         setgradelist(data);
       }).catch((err) => console.log(err));
   }
 
+  useEffect(() => {
+    ProductUnitServices.getProductUnit(user?.profile?.country)
+      .then(({ data }) => {
+        setUnitlist(data);
+      })
+      .catch((err) => console.log(err));
+  }, [user?.profile?.country]);
+
   useEffect(() => initApi(), [])
+
   useEffect(() => {
     if (params?.id) {
       ProductFarmerServices.getSingleProductsFarmer(params?.id).then(({ data }) => {
