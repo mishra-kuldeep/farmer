@@ -7,11 +7,12 @@ import { FaRegEdit } from "react-icons/fa";
 import IconButton from "../reusableComponent/IconButton";
 import { useRouter } from "next/navigation";
 import ProductUnitServices from "@/services/ProductUnitServices";
+import CountryServices from "@/services/CountryServices";
 
 const ListUnits = ({ setState }) => {
     const router = useRouter()
     const [UnitList, setUnitList] = useState([]);
-
+  const [countryList, setCountryList] = useState([]);
 
     const initApi = async () => {
         const UnitList = await ProductUnitServices.getunit();
@@ -30,6 +31,15 @@ const ListUnits = ({ setState }) => {
         }
         ;
     };
+    useEffect(() => {
+        CountryServices.getAllCountry()
+          .then(({ data }) => {
+            setCountryList(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, []);
 
     useEffect(() => {
         initApi();
@@ -46,6 +56,7 @@ const ListUnits = ({ setState }) => {
                     <tr>
                         <th>Sr No</th>
                         <th>Unit Name</th>
+                        <th>Country Name</th>
                         <th className="text-center">Status</th>
                         <th className="text-center">Action</th>
                     </tr>
@@ -57,6 +68,7 @@ const ListUnits = ({ setState }) => {
                                 <tr key={i}>
                                     <td>{i + 1}</td>
                                     <td>{item.unitName}</td>
+                                    <td>{countryList?.find((ele)=>ele?.countryId==item?.countryId)?.countryName}</td>
                                     <td className="d-flex justify-content-center">
                                         <IconButton onClick={() => updatestatus(item?.unitId)}>
                                             {item.status ? (
