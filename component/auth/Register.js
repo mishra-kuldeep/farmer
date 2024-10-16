@@ -75,7 +75,7 @@ const RegisterPage = () => {
           ))}
         </select>
       </div>
-      {values.Role == 4 && (
+      {(values.Role == 4 || values.Role == 6 ||values.Role == 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">Company Name *</label>
           <input
@@ -86,7 +86,7 @@ const RegisterPage = () => {
           />
         </div>
       )}
-      {values.Role == 4 && (
+      {(values.Role == 4 || values.Role == 6 ||values.Role == 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">Company Email *</label>
           <input
@@ -99,7 +99,7 @@ const RegisterPage = () => {
       )}
       <div className="p-2 m20">
         <label className="adjustLabel">
-          {values.Role == 4 ? "Contact Person Name" : "Firstname *"}{" "}
+          {(values.Role == 4 || values.Role == 6 || values.Role == 9) ? "Contact Person Name" : "Firstname *"}{" "}
         </label>
         <input
           type="text"
@@ -108,7 +108,7 @@ const RegisterPage = () => {
           name="FirstName"
         />
       </div>
-      {values.Role == 4 && (
+      {(values.Role == 4 || values.Role == 6 ||values.Role == 9 )&& (
         <div className="p-2 m20">
           <label className="adjustLabel">Mobile No *</label>
           <input
@@ -119,7 +119,7 @@ const RegisterPage = () => {
           />
         </div>
       )}
-      {values.Role != 4 && (
+      {(values.Role != 4 && values.Role != 6 && values.Role != 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">LastName</label>
           <input
@@ -130,7 +130,7 @@ const RegisterPage = () => {
           />
         </div>
       )}
-      {values.Role != 4 && (
+      {(values.Role != 4 && values.Role != 6 && values.Role != 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">Email *</label>
           <input
@@ -141,7 +141,7 @@ const RegisterPage = () => {
           />
         </div>
       )}
-      {values.Role != 4 && (
+      {(values.Role != 4 && values.Role != 6 && values.Role != 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">Mobile No *</label>
           <input
