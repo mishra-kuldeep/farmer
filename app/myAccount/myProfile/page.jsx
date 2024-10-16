@@ -6,6 +6,7 @@ import { Image_URL } from "@/helper/common";
 import { CgKey } from "react-icons/cg";
 import toast from "react-hot-toast";
 import CountryServices from "@/services/CountryServices";
+import RoleServices from "@/services/RoleServices";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.auth);
@@ -14,6 +15,8 @@ const MyProfile = () => {
   const [loading, setLoading] = useState(false);
   const [Errors, setErrors] = useState({});
   const [companyError, setCompanyError] = useState("");
+  const [RoleList, setRoleList] = useState([]);
+
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -35,13 +38,18 @@ const MyProfile = () => {
     GSTNo: "",
   });
   useEffect(() => {
+    setisLoading(true);
     CountryServices.getAllCountry()
       .then(({ data }) => {
-        console.log(data);
         setCountryList(data);
       })
       .catch((err) => console.log(err));
-    setisLoading(true);
+    RoleServices.getRoleList()
+      .then(({ data }) => {
+        setRoleList(data);
+      })
+      .catch((err) => console.log(err));
+
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setisLoading(false);
@@ -93,7 +101,7 @@ const MyProfile = () => {
             : "",
       }));
       setLoading(false);
-      return
+      return;
     }
     if (
       ((user?.profile?.role === 2 || user?.profile?.role === 4) &&
@@ -166,7 +174,13 @@ const MyProfile = () => {
         <h4 className="text-secondary mb-3">Personal Information</h4>
         <hr />
         <div className="col-md-4 ">
-          <label className="adjustLabel">{(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"Contact Person Name":"First Name"}</label>
+          <label className="adjustLabel">
+            {user?.profile?.role === 4 ||
+            user?.profile?.role === 6 ||
+            user?.profile?.role === 9
+              ? "Contact Person Name"
+              : "First Name"}
+          </label>
           <input
             type="text"
             name="FirstName"
@@ -175,21 +189,33 @@ const MyProfile = () => {
             className="form-control adjustLabel_input shadow-none p-2"
           />
         </div>
-        {(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"":<div className="col-md-4 ">
-          <label className="adjustLabel">Last Name</label>
-          <input
-            type="text"
-            name="LastName"
-            value={values.LastName || ""}
-            onChange={handleChange}
-            className="form-control adjustLabel_input shadow-none p-2"
-          />
-          {Errors.LastName && (
-            <span className="error_input_text">{Errors.LastName}</span>
-          )}
-        </div>}
+        {user?.profile?.role === 4 ||
+        user?.profile?.role === 6 ||
+        user?.profile?.role === 9 ? (
+          ""
+        ) : (
+          <div className="col-md-4 ">
+            <label className="adjustLabel">Last Name</label>
+            <input
+              type="text"
+              name="LastName"
+              value={values.LastName || ""}
+              onChange={handleChange}
+              className="form-control adjustLabel_input shadow-none p-2"
+            />
+            {Errors.LastName && (
+              <span className="error_input_text">{Errors.LastName}</span>
+            )}
+          </div>
+        )}
         <div className="col-md-4 ">
-          <label className="adjustLabel">{(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"Company Email":"Email"}</label>
+          <label className="adjustLabel">
+            {user?.profile?.role === 4 ||
+            user?.profile?.role === 6 ||
+            user?.profile?.role === 9
+              ? "Company Email"
+              : "Email"}
+          </label>
           <input
             type="text"
             disabled
@@ -200,7 +226,13 @@ const MyProfile = () => {
           />
         </div>
         <div className="col-md-4 ">
-          <label className="adjustLabel">{(user?.profile?.role === 4 || user?.profile?.role === 6|| user?.profile?.role === 9)?"Contact Person No":"Phone No"}</label>
+          <label className="adjustLabel">
+            {user?.profile?.role === 4 ||
+            user?.profile?.role === 6 ||
+            user?.profile?.role === 9
+              ? "Contact Person No"
+              : "Phone No"}
+          </label>
           {/* <label className="adjustLabel">Phone No</label> */}
           <input
             type="text"
@@ -214,7 +246,7 @@ const MyProfile = () => {
           )}
         </div>
         <div className="col-md-4">
-          <label className="adjustLabel">Role *</label>
+          <label className="adjustLabel">Category *</label>
           <select
             className="form-select custom-select adjustLabel_input shadow-none"
             aria-label="Default select example"
@@ -224,13 +256,9 @@ const MyProfile = () => {
             name="Role"
           >
             <option value={""}></option>
-            <option value={2}>Farmers</option>
-            <option value={3}>Buyers</option>
-            <option value={4}>Transportation</option>
-            <option value={5}>Employee</option>
-            <option value={6}>Vendors</option>
-            <option value={7}>Educational Resources</option>
-            <option value={8}>Customer Care</option>
+            {RoleList.map((val) => (
+            <option value={val?.RoleId}>{val?.RoleName}</option>
+          ))}
           </select>
         </div>
       </div>
