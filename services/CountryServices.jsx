@@ -15,4 +15,13 @@ export default class CountryServices {
       },
     });
   }
+  static async getCountrybyId(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/country/countries/${id}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 }
