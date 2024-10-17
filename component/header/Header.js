@@ -88,7 +88,6 @@ function Header() {
 
     VehicleMasterServices.getVehicle()
       .then(({ data }) => {
-        console.log(data);
         const transformedData = data.map((service) => ({
           id: service.VendorServicesMasterId,
           title: service.type,
@@ -132,9 +131,9 @@ function Header() {
       title: "Farm Lands",
       goesTo: "/myAccount/myProfile",
       status:
-        !user.isLoggedIn ||
+       ( !user.isLoggedIn ||
         user?.profile?.role == 2 ||
-        user?.profile?.role == 3||4,
+        user?.profile?.role == 3|| user?.profile?.role ==4),
       subMenu: [
         {
           id: 11,
@@ -166,7 +165,7 @@ function Header() {
       id: 3,
       title: "Transportation",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 4||3,
+      status: (!user.isLoggedIn || user?.profile?.role == 4||user?.profile?.role ==3||user?.profile?.role ==2),
       subMenu: transporterList,
     },
     {
@@ -194,7 +193,7 @@ function Header() {
       id: 6,
       title: "Fertilizers & Pesticides",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 4||3,
+      status:( !user.isLoggedIn || user?.profile?.role == 4||user?.profile?.role ==3||user?.profile?.role ==2),
       subMenu: [
         {
           id: 31,

@@ -17,7 +17,7 @@ const RegisterPage = () => {
     Phone: "",
     Password: "",
     CompanyName:"",
-    Country: "",
+    CountryID: "",
     Role: null,
   });
   const [RoleList, setRoleList] = useState([]);
@@ -159,7 +159,7 @@ const RegisterPage = () => {
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
           onChange={handleValues}
-          name="Country"
+          name="CountryID"
         >
           <option value={""}></option>
           {countryies?.map((val) => (
