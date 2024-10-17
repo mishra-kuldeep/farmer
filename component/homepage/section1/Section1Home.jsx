@@ -33,11 +33,13 @@ const Section1Home = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  console.log(user)
   const initApi = async () => {
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({
         page: 1,
         search: "",
+        countryId:user?.profile?.country?user?.profile?.country:""
       });
       setProducts(searchResult?.data?.data || []);
     } catch (error) {
@@ -58,7 +60,7 @@ const Section1Home = () => {
   useEffect(() => {
     initApi();
     saveLaterList();
-  }, []);
+  }, [user?.profile?.country]);
 
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {

@@ -3,21 +3,30 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "./vender.css";
 import vendorMasterServices from "@/services/vendorMasterServices";
+import { useSelector } from "react-redux";
 const page = () => {
-    const { slug } = useParams();
+  const { slug } = useParams();
   const [VendorList, setVendorList] = useState([]);
   const [Loader, setLoader] = useState(false);
+  const user = useSelector((state) => state.auth);
   useEffect(() => {
     setLoader(true);
+    const data = {
+      status:"Approved",
+      slug:slug,
+      page:"",
+      searchText:"",
+      countryId:user?.profile?.country?user?.profile?.country:"",
+    };
     vendorMasterServices
-      .getAllVendorServices("Approved",slug)
+      .getAllVendorServices(data)
       .then(({ data }) => {
         console.log(data);
         setLoader(false);
         setVendorList(data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [user?.profile?.country]);
   return (
     <div>
       <div className="container">
@@ -31,9 +40,14 @@ const page = () => {
                   <summary className="details-summary">View Details</summary>
                   <div className="details">
                     <p className="cost">cost: {item.cost}</p>
-                    <p className="available-offers">Offers: {item.availableOffers?item.availableOffers:"0"}</p>
+                    <p className="available-offers">
+                      Offers:{" "}
+                      {item.availableOffers ? item.availableOffers : "0"}
+                    </p>
                     <p className="duration">Duration: {item.duration}months</p>
-                    <p className="average-rating">Average Rating {item.averageRating}</p>
+                    <p className="average-rating">
+                      Average Rating {item.averageRating}
+                    </p>
                     {/* <p className="number-of-ratings">numberOfRatings{item.numberOfRatings}</p> */}
                   </div>
                 </details>

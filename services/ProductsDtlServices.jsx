@@ -5,7 +5,7 @@ import axios from "axios";
 export default class ProductsDtlServices {
     static async getProductsDtl(data) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/productDtl/productsDtl/?page=${data?.page}&search=${data?.search}`;
+        const url = `${BASE_URL}/productDtl/productsDtl/?page=${data?.page}&search=${data?.search}&countryIds=${data?.countryId}`;
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`, 

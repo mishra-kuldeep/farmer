@@ -23,6 +23,7 @@ const AddProductDtl = () => {
   const [validImageNames, setValidImageNames] = useState([]);
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
+  const [countrySymbol,setCountrySymbol] = useState([])
   const [values, setValues] = useState({
     productDtlName: "",
 
@@ -183,6 +184,12 @@ const AddProductDtl = () => {
 
   useEffect(() => initApi(), []);
   useEffect(() => {
+    AuthService.getCountryList() .then(({ data }) => {
+      setCountrySymbol(data?.find((val)=>val?.countryId ==user.profile.country)?.currencySymbol);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     ProductUnitServices.getProductUnit(user?.profile?.country)
       .then(({ data }) => {
         setUnitlist(data);
@@ -284,15 +291,29 @@ const AddProductDtl = () => {
                   ))}
                 </select>
               </div>
-              <div className="col-md-4 mb-3 ms-md-0 ms-2">
-                <label className="adjustLabel">Price *</label>
+              <div className="col-md-4 mb-3 ms-md-0 ms-2"
+              style={{ position: "relative" }}
+              >
+                <label className="adjustLabel  ms-3">Price *</label>
                 <input
                   type="number"
-                  className="form-control p-2 adjustLabel_input"
+                  className="form-control p-2 ps-4 adjustLabel_input"
                   name="price"
                   value={values.price}
                   onChange={onchangeHandeler}
                 />
+                 <span
+                  style={{
+                    position: "absolute",
+                    left: "3px",
+                    top: "15px",
+                    backgroundColor: "#dadada",
+                    borderRadius: "5px 0px 0px 5px",
+                  }}
+                  className="fw-bold text-secondary p-2"
+                >
+                  {countrySymbol}
+                </span>
                 {errors.price && (
                   <span className="error_input_text">{errors.price}</span>
                 )}

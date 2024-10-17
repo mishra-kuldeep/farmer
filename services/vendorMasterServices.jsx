@@ -86,9 +86,9 @@ export default class vendorMasterServices {
       },
     });
   }
-  static async getAllVendorServices( status,slug,page, searchText) {
+  static async getAllVendorServices(data) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/vendor/services?status=${status}&id=${slug}&page=${page}&searchText=${searchText}`;
+    const url = `${BASE_URL}/vendor/services?status=${data?.status}&id=${data?.slug}&page=${data?.page}&searchText=${data?.searchText}&countryId=${data?.countryId}`;
     return axios.get(url, {
       headers: {
         // 'Content-Type': 'multipart/form-data',
@@ -126,20 +126,20 @@ export default class vendorMasterServices {
       },
     });
   }
-  static async reviewVendorServices(serviceId,data) {
+  static async reviewVendorServices(serviceId, data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/vendor/services/admin-review/${serviceId}`;
-    return axios.patch(url, data,{
+    return axios.patch(url, data, {
       headers: {
         // 'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
     });
   }
-  static async UpdateVendorServices(serviceId,data) {
+  static async UpdateVendorServices(serviceId, data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/vendor/services/${serviceId}`;
-    return axios.put(url, data,{
+    return axios.put(url, data, {
       headers: {
         // 'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,

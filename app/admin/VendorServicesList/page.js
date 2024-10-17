@@ -20,7 +20,14 @@ const VendorServicesList = () => {
 
   useEffect(() => {
     setLoader(true);
-    vendorMasterServices.getAllVendorServices(status)
+    const data = {
+      status:status,
+      slug:"",
+      page:"",
+      searchText:"",
+      countryId:"",
+    };
+    vendorMasterServices.getAllVendorServices(data)
       .then(({ data }) => {
         console.log(data)
         setLoader(false);
