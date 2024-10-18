@@ -139,16 +139,21 @@ const MyOrder = () => {
         console.log(err);
       });
   };
-
+console.log(productList)
   // get Transpoter for Order Delivery
-  const getTranspoter = (location, OrderDetailId, productDtlId, UserId, addressId, selectTransVehical) => {
+  const getTranspoter = (location, OrderDetailId, productDtlId, UserId, addressId, selectTransVehical,countryId) => {
+    const data ={
+      location:location,
+      countryId:countryId,
+    }
+    console.log(data)
     // setMiniloading(true);
     setorderDetailId(OrderDetailId)
     setProductDtlId(productDtlId)
     setUserId(UserId)
     setdeliveryAddressId(addressId)
     setSelectTransVehicalId(selectTransVehical)
-    VehicleServices.getTranspoterForBuyer(location)
+    VehicleServices.getTranspoterForBuyer(data)
       .then(({ data }) => {
         setTranspoterlist(data?.data);
         setMiniloading(false);
@@ -419,7 +424,8 @@ const MyOrder = () => {
                                       ele.productDtlId,
                                       ele?.productDetail?.User?.UserId,
                                       ele?.addressId,
-                                      ele?.transVehicalId
+                                      ele?.transVehicalId,
+                                      ele?.productDetail?.countryId,
                                     )
                                   }
                                 >

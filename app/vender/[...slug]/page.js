@@ -27,6 +27,8 @@ const page = () => {
       })
       .catch((err) => console.log(err));
   }, [user?.profile?.country]);
+
+  console.log(VendorList)
   return (
     <div>
       <div className="container">

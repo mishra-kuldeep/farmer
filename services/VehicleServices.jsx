@@ -33,9 +33,9 @@ export default class VehicleServices {
             },
         });
     }
-    static async getTranspoterForBuyer(location) {
+    static async getTranspoterForBuyer(data) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/transpoter/transpoterForBuyer/${location}`;
+        const url = `${BASE_URL}/transpoter/transpoterForBuyer/${data?.countryId}/${data?.location}`;
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,

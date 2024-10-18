@@ -33,7 +33,7 @@ const AddVenderServices = () => {
     duration: "",
     capacity: "",
     capacityUnit: "",
-    countryId: user?.profile?.country,
+    countryId: "",
   });
   const onchangeHandeler = (e) => {
     const { name, value } = e.target;
@@ -44,7 +44,7 @@ const AddVenderServices = () => {
   useEffect(() => {
     if (user?.profile?.id) {
       setisLoading(true);
-      setValues((pre) => ({ ...pre, ["vendorId"]: user?.profile?.id }));
+      setValues((pre) => ({ ...pre, ["vendorId"]: user?.profile?.id, ["countryId"]: user?.profile?.country }));
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setprofile(data?.userProfile);
         setisLoading(false);
@@ -177,7 +177,7 @@ const AddVenderServices = () => {
               <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
                 <label className="adjustLabel">description *</label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control p-2 adjustLabel_input"
                   name="description"
                   value={values.description}
