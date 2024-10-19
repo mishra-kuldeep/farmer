@@ -76,7 +76,13 @@ const HeaderTopForMobile = () => {
                   </p>
                   <p
                     className="cat_list1"
-                    onClick={() => router.push("/myAccount/myProfile")}
+                    onClick={() =>
+                      router.push(
+                        user?.profile?.role == 4 || 6
+                          ? "/myAccount/CompanyProfile"
+                          : "/myAccount/myProfile"
+                      )
+                    }
                   >
                     My Profile
                   </p>

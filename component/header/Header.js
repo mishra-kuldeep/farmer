@@ -307,7 +307,11 @@ function Header() {
                             <p
                               className="cat_list"
                               onClick={() =>
-                                router.push("/myAccount/myProfile")
+                                router.push(
+                                  user?.profile?.role == 4 || 6
+                                    ? "/myAccount/CompanyProfile"
+                                    : "/myAccount/myProfile"
+                                )
                               }
                             >
                               My Profile

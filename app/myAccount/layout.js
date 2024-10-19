@@ -4,7 +4,10 @@ import "./accountpage.css";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiProductHuntLine } from "react-icons/ri";
-import { MdFormatListBulleted ,MdOutlineCleaningServices} from "react-icons/md";
+import {
+  MdFormatListBulleted,
+  MdOutlineCleaningServices,
+} from "react-icons/md";
 import { PiVan } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
@@ -21,7 +24,10 @@ const AccountLayout = ({ children }) => {
       id: 0,
       title: "My Profile",
       icon: <CgProfile size={22} />,
-      goesTo: "/myAccount/myProfile",
+      goesTo:
+        user?.profile?.role == 4 || 6
+          ? "/myAccount/CompanyProfile"
+          : "/myAccount/myProfile",
       status: true,
     },
     {
