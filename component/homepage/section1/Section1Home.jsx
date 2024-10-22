@@ -33,7 +33,6 @@ const Section1Home = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  console.log(user)
   const initApi = async () => {
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({

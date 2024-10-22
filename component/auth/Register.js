@@ -16,14 +16,20 @@ const RegisterPage = () => {
     Email: "",
     Phone: "",
     Password: "",
-    CompanyName:"",
+    CompanyName: "",
     CountryID: "",
     Role: null,
   });
   const [RoleList, setRoleList] = useState([]);
+  const phonecode = countryies?.find(
+    (val) => val?.countryId == values?.CountryID
+  )?.phoneCode
 
   const handleValues = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    // if(name =="Phone"){
+    //   value = `${phonecode}-${value}`
+    // }
     setValues((prev) => ({
       ...prev,
       [name]: value,
@@ -37,6 +43,7 @@ const RegisterPage = () => {
   const submitHandler = async () => {
     if (cpawword == values.Password) {
       setLoader(true);
+      values.Phone = `${phonecode}-${values.Phone}`
       await dispatch(registration(values));
       setLoader(false);
     }
@@ -75,7 +82,10 @@ const RegisterPage = () => {
           ))}
         </select>
       </div>
-      {(values.Role == 4 || values.Role == 6 ||values.Role == 9) && (
+      {(values.Role == 3 ||
+        values.Role == 4 ||
+        values.Role == 6 ||
+        values.Role == 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">Company Name *</label>
           <input
@@ -86,7 +96,10 @@ const RegisterPage = () => {
           />
         </div>
       )}
-      {(values.Role == 4 || values.Role == 6 ||values.Role == 9) && (
+      {(values.Role == 3 ||
+        values.Role == 4 ||
+        values.Role == 6 ||
+        values.Role == 9) && (
         <div className="p-2 m20">
           <label className="adjustLabel">Company Email *</label>
           <input
@@ -99,7 +112,12 @@ const RegisterPage = () => {
       )}
       <div className="p-2 m20">
         <label className="adjustLabel">
-          {(values.Role == 4 || values.Role == 6 || values.Role == 9) ? "Contact Person Name" : "Firstname *"}{" "}
+          {values.Role == 3 ||
+          values.Role == 4 ||
+          values.Role == 6 ||
+          values.Role == 9
+            ? "Contact Person Name"
+            : "Firstname *"}{" "}
         </label>
         <input
           type="text"
@@ -108,51 +126,21 @@ const RegisterPage = () => {
           name="FirstName"
         />
       </div>
-      {(values.Role == 4 || values.Role == 6 ||values.Role == 9 )&& (
-        <div className="p-2 m20">
-          <label className="adjustLabel">Mobile No *</label>
-          <input
-            type="number"
-            className="form-control p-2 adjustLabel_input"
-            onChange={handleValues}
-            name="Phone"
-          />
-        </div>
-      )}
-      {(values.Role != 4 && values.Role != 6 && values.Role != 9) && (
-        <div className="p-2 m20">
-          <label className="adjustLabel">LastName</label>
-          <input
-            type="text"
-            className="form-control p-2 adjustLabel_input"
-            onChange={handleValues}
-            name="LastName"
-          />
-        </div>
-      )}
-      {(values.Role != 4 && values.Role != 6 && values.Role != 9) && (
-        <div className="p-2 m20">
-          <label className="adjustLabel">Email *</label>
-          <input
-            type="email"
-            className="form-control p-2 adjustLabel_input"
-            onChange={handleValues}
-            name="Email"
-          />
-        </div>
-      )}
-      {(values.Role != 4 && values.Role != 6 && values.Role != 9) && (
-        <div className="p-2 m20">
-          <label className="adjustLabel">Mobile No *</label>
-          <input
-            type="number"
-            className="form-control p-2 adjustLabel_input"
-            onChange={handleValues}
-            name="Phone"
-          />
-        </div>
-      )}
 
+      {values.Role != 3 &&
+        values.Role != 4 &&
+        values.Role != 6 &&
+        values.Role != 9 && (
+          <div className="p-2 m20">
+            <label className="adjustLabel">LastName</label>
+            <input
+              type="text"
+              className="form-control p-2 adjustLabel_input"
+              onChange={handleValues}
+              name="LastName"
+            />
+          </div>
+        )}
       <div className="p-2 m20">
         <label className="adjustLabel">Country *</label>
         <select
@@ -167,7 +155,82 @@ const RegisterPage = () => {
           ))}
         </select>
       </div>
-
+      {values.Role != 3 &&
+        values.Role != 4 &&
+        values.Role != 6 &&
+        values.Role != 9 && (
+          <div className="p-2 m20" style={{ position: "relative" }}>
+            <label className="adjustLabel" style={{marginLeft:"30px"}}>Mobile No *</label>
+            <input
+              type="text"
+              id="phone"
+              name="Phone"
+              value={values.Phone}
+              onChange={handleValues}
+              className="form-control adjustLabel_input shadow-none"
+              style={{ padding: `9px ${phonecode?.length * 16}px ` }}
+            />
+             
+            <span
+              style={{
+                position: "absolute",
+                left: "-2px",
+                // right:"350px",
+                top: "23px",
+                backgroundColor: "#dadada",
+                borderRadius: "5px 0px 0px 5px",
+              }}
+              className="fw-bold text-secondary p-2"
+            >
+              {phonecode}
+            </span>
+          </div>
+        )}
+      {(values.Role == 3 ||
+        values.Role == 4 ||
+        values.Role == 6 ||
+        values.Role == 9) && (
+          <div className="p-2 m20" style={{ position: "relative" }}>
+          <label className="adjustLabel" style={{marginLeft:"30px"}}>Mobile No *</label>
+          <input
+            type="text"
+            id="phone"
+            name="Phone"
+            value={values.Phone}
+            onChange={handleValues}
+            className="form-control adjustLabel_input shadow-none"
+            style={{ padding: `9px ${phonecode?.length * 16}px ` }}
+          />
+           
+          <span
+            style={{
+              position: "absolute",
+              left: "-2px",
+              // right:"350px",
+              top: "24px",
+              backgroundColor: "#dadada",
+              borderRadius: "5px 0px 0px 5px",
+            }}
+            className="fw-bold text-secondary p-2"
+          >
+            {phonecode}
+          </span>
+        </div>
+      )}
+      {values.Role != 3 &&
+        values.Role != 4 &&
+        values.Role != 6 &&
+        values.Role != 9 && (
+          <div className="p-2 m20">
+            <label className="adjustLabel">Email *</label>
+            <input
+              type="email"
+              className="form-control p-2 adjustLabel_input"
+              onChange={handleValues}
+              name="Email"
+            />
+          </div>
+        )}
       <div className="p-2 m20">
         <label className="adjustLabel">Password *</label>
         <input

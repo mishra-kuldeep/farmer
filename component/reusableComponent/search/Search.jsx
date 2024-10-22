@@ -73,7 +73,7 @@ const Search = () => {
           {searchProduct?.map((ele, i) => (
             <div className="singleProductWrap">
               <img
-                src={`${Image_URL}/Products/${ele.ProductsImages[0].url}`}
+                src={`${Image_URL}/Products/${ele.ProductsImages[0]?.url}`}
                 alt="image"
                 className="searchImagesss"
               />

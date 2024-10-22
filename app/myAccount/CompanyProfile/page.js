@@ -29,7 +29,9 @@ const MyProfile = () => {
   const cities = selectedState
     ? City.getCitiesOfState(selectedCountry, selectedState)
     : [];
-
+    const phonecode = countryList?.find(
+      (val) => val?.countryId == values?.CountryID
+    )?.phoneCode;
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -121,7 +123,7 @@ const MyProfile = () => {
       setLoading(false);
       return;
     }
-
+ values.Phone = `${phonecode}-${values.Phone}`
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
@@ -163,9 +165,7 @@ const MyProfile = () => {
     setCompanyError("");
   };
 
-  const phonecode = countryList?.find(
-    (val) => val?.countryId == values?.CountryID
-  )?.phoneCode;
+
 
   return (
     <>

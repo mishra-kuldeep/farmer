@@ -20,7 +20,6 @@ const MyProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const activeCountries = ["IN", "US", "GB", "KE"];
 
   const states = selectedCountry
     ? State.getStatesOfCountry(selectedCountry)
@@ -29,6 +28,10 @@ const MyProfile = () => {
   const cities = selectedState
     ? City.getCitiesOfState(selectedCountry, selectedState)
     : [];
+
+const phonecode = countryList?.find(
+      (val) => val?.countryId == values?.CountryID
+    )?.phoneCode;
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -116,6 +119,7 @@ const MyProfile = () => {
       setLoading(false);
       return;
     }
+     values.Phone = `${phonecode}-${values.Phone}`
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
@@ -152,17 +156,15 @@ const MyProfile = () => {
         countryList.find((country) => country.countryId == value)?.countryCode
       );
     }
-    if (name == "Phone") {
-     value =`${phonecode}-${value}`
-    }
+    // if (name == "Phone") {
+    //  value =`${phonecode}-${value}`
+    // }
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
 
-  const phonecode = countryList?.find(
-    (val) => val?.countryId == values?.CountryID
-  )?.phoneCode;
+
 
   return (
     <>
