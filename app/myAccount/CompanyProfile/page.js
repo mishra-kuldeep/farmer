@@ -29,9 +29,7 @@ const MyProfile = () => {
   const cities = selectedState
     ? City.getCitiesOfState(selectedCountry, selectedState)
     : [];
-    const phonecode = countryList?.find(
-      (val) => val?.countryId == values?.CountryID
-    )?.phoneCode;
+  
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -52,6 +50,9 @@ const MyProfile = () => {
     CompanyName: "",
     GSTNo: "",
   });
+  const phonecode = countryList?.find(
+    (val) => val?.countryId == values?.CountryID
+  )?.phoneCode;
   useEffect(() => {
     setisLoading(true);
     CountryServices.getAllCountry()
