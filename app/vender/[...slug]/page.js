@@ -20,7 +20,7 @@ const page = () => {
       slug: slug,
       page: "",
       searchText: "",
-      countryId: user?.profile?.country ? user?.profile?.country : "",
+      countryId: user?.profile?.country ? user?.profile?.country : 1,
     };
     vendorMasterServices
       .getAllVendorServices(data)

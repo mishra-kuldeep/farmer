@@ -10,7 +10,6 @@ const HeaderTopForMobile = () => {
   const user = useSelector((state) => state.auth);
   const router = useRouter();
   const dispatch = useDispatch();
-
   const handleLogout = () => {
     deleteCookie("token");
     dispatch(clearUser()); // Action to clear user data in Redux
@@ -78,9 +77,9 @@ const HeaderTopForMobile = () => {
                     className="cat_list1"
                     onClick={() =>
                       router.push(
-                        user?.profile?.role == 4 || 6
-                          ? "/myAccount/CompanyProfile"
-                          : "/myAccount/myProfile"
+                        user?.profile?.role !== 2
+                          ? "/myAccount/myProfile"
+                          : "/myAccount/CompanyProfile"
                       )
                     }
                   >

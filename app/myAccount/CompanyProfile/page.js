@@ -7,6 +7,7 @@ import { CgKey } from "react-icons/cg";
 import toast from "react-hot-toast";
 import CountryServices from "@/services/CountryServices";
 import RoleServices from "@/services/RoleServices";
+import { Country, State, City } from "country-state-city";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.auth);
@@ -16,6 +17,18 @@ const MyProfile = () => {
   const [Errors, setErrors] = useState({});
   const [companyError, setCompanyError] = useState("");
   const [RoleList, setRoleList] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const activeCountries = ["IN", "US", "GB", "KE"];
+
+  const states = selectedCountry
+    ? State.getStatesOfCountry(selectedCountry)
+    : [];
+
+  const cities = selectedState
+    ? City.getCitiesOfState(selectedCountry, selectedState)
+    : [];
 
   const [values, setValues] = useState({
     FirstName: "",
@@ -42,6 +55,10 @@ const MyProfile = () => {
     CountryServices.getAllCountry()
       .then(({ data }) => {
         setCountryList(data);
+        setSelectedCountry(
+          data.find((country) => country.countryId == user?.profile?.country)
+            ?.countryCode
+        );
       })
       .catch((err) => console.log(err));
     RoleServices.getRoleList()
@@ -77,6 +94,8 @@ const MyProfile = () => {
           CompanyName: data.userProfile.userInfo.CompanyName,
           GSTNo: data.userProfile.userInfo.GSTNo,
         });
+        setSelectedState(data.userProfile.userInfo.State);
+        setSelectedCity(data.userProfile.userInfo.City);
       });
     }
   }, [user?.profile?.id]);
@@ -84,50 +103,25 @@ const MyProfile = () => {
   const updateProfileHandeler = () => {
     setLoading(true);
     if (
-      (user?.profile?.role === 2 ||
-        user?.profile?.role === 4 ||
-        user?.profile?.role === 5 ||
-        user?.profile?.role === 6) &&
-      values?.CountryID == 1 &&
-      !values?.AdharNo
-    ) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        AdharNo:
-          values?.AdharNo?.length > 0
-            ? "Please enter valid adhar number"
-            : !values?.AdharNo
-            ? "AdharNo is required"
-            : "",
-      }));
-      setLoading(false);
-      return;
-    }
-    if (
-      ((user?.profile?.role === 2 || user?.profile?.role === 4) &&
-        !values?.Address1) ||
+      !values?.CompanyName ||
+      !values?.Address1 ||
       !values?.City ||
-      !values?.State ||
-      !values?.Zip
+      !values?.Zip ||
+      !values?.GSTNo
     ) {
+      setCompanyError(!values?.CompanyName ?"company name is required":"");
       setErrors((prevErrors) => ({
         ...prevErrors,
         Address1: !values?.Address1 ? "Address1 is required" : "",
         City: !values?.City ? "City is required" : "",
-        State: !values?.State ? "State is required" : "",
+        // State: !values?.State ? "State is required" : "",
         ["Zip"]: !values?.Zip ? "Zip is required" : "",
+        GSTNo: !values?.GSTNo ? "GSTNo is required" : "",
       }));
       setLoading(false);
       return;
     }
-    if (
-      (user?.profile?.role === 4 || user?.profile?.role === 6) &&
-      !values?.CompanyName
-    ) {
-      setCompanyError("company name is required");
-      setLoading(false);
-      return;
-    }
+
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
@@ -159,60 +153,56 @@ const MyProfile = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    if (name == "CountryID") {
+      setSelectedCountry(
+        countryList.find((country) => country.countryId == value)?.countryCode
+      );
+    }
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
-  console.log(Errors);
+
+  const phonecode = countryList?.find(
+    (val) => val?.countryId == values?.CountryID
+  )?.phoneCode;
 
   return (
     <>
-      {/* {isloading ? (
-        <p>loading ....</p>
-      ) : ( */}
       <div className="row m-0">
         <h4 className="text-secondary mb-3">Company Information</h4>
         <hr />
-        {(user?.profile?.role === 4 || user?.profile?.role === 6) && (
-          <>
-            <div className="col-md-4 ">
-              <label className="adjustLabel">CompanyName *</label>
-              <input
-                type="text"
-                name="CompanyName"
-                value={values.CompanyName || ""}
-                onChange={handleChange}
-                className="form-control adjustLabel_input shadow-none p-2"
-              />
-              {companyError && (
-                <span className="error_input_text">{companyError}</span>
-              )}
-            </div>
+        <>
+          <div className="col-md-4 ">
+            <label className="adjustLabel">CompanyName *</label>
+            <input
+              type="text"
+              name="CompanyName"
+              value={values.CompanyName || ""}
+              onChange={handleChange}
+              className="form-control adjustLabel_input shadow-none p-2"
+            />
+            {companyError && (
+              <span className="error_input_text">{companyError}</span>
+            )}
+          </div>
 
-            <div className="col-md-4 ">
-              <label className="adjustLabel">GSTNo </label>
-              <input
-                type="text"
-                name="GSTNo"
-                value={values.GSTNo || ""}
-                onChange={handleChange}
-                className="form-control adjustLabel_input shadow-none p-2"
-              />
-              {Errors.GSTNo && (
-                <span className="error_input_text">{Errors.GSTNo}</span>
-              )}
-            </div>
-          </>
-        )}
-
+          <div className="col-md-4 ">
+            <label className="adjustLabel">GSTNo* </label>
+            <input
+              type="text"
+              name="GSTNo"
+              value={values.GSTNo || ""}
+              onChange={handleChange}
+              className="form-control adjustLabel_input shadow-none p-2"
+            />
+            {Errors.GSTNo && (
+              <span className="error_input_text">{Errors.GSTNo}</span>
+            )}
+          </div>
+        </>
         <div className="col-md-4 ">
-          <label className="adjustLabel">
-            {user?.profile?.role === 4 ||
-            user?.profile?.role === 6 ||
-            user?.profile?.role === 9
-              ? "Company Email"
-              : "Email"}
-          </label>
+          <label className="adjustLabel">Company Email</label>
           <input
             type="text"
             disabled
@@ -222,78 +212,6 @@ const MyProfile = () => {
             className="form-control adjustLabel_input shadow-none p-2"
           />
         </div>
-      </div>
-
-      <div className="row m-0">
-        <h4 className="text-secondary mb-3 mt-5">More Information</h4>
-        <hr />
-
-        <div className="col-md-4 ">
-          <label className="adjustLabel">
-            {user?.profile?.role === 4 ||
-            user?.profile?.role === 6 ||
-            user?.profile?.role === 9
-              ? "Contact Person Name"
-              : "First Name"}
-          </label>
-          <input
-            type="text"
-            name="FirstName"
-            value={values.FirstName}
-            onChange={handleChange}
-            className="form-control adjustLabel_input shadow-none p-2"
-          />
-        </div>
-        <div className="col-md-4 ">
-          <label className="adjustLabel">
-            {user?.profile?.role === 4 ||
-            user?.profile?.role === 6 ||
-            user?.profile?.role === 9
-              ? "Contact Person No"
-              : "Phone No"}
-          </label>
-          {/* <label className="adjustLabel">Phone No</label> */}
-          <input
-            type="text"
-            name="Phone"
-            value={values.Phone}
-            onChange={handleChange}
-            className="form-control adjustLabel_input shadow-none  p-2"
-          />
-          {Errors.Phone && (
-            <span className="error_input_text">{Errors.Phone}</span>
-          )}
-        </div>
-
-        <div className="col-md-4">
-          <label className="adjustLabel">Country</label>
-          <select
-            className="form-select custom-select adjustLabel_input shadow-none"
-            aria-label="Default select example"
-            value={values.CountryID || ""}
-            // onChange={handleChange}
-            onChange={(event) => {
-              // Call your first function
-              handleChange(event);
-              // Call your second function
-              setValues((prevValues) => ({
-                ...prevValues,
-                AdharNo: null,
-              }));
-              setErrors((prevErrors) => ({ ...prevErrors, AdharNo: "" }));
-            }}
-            name="CountryID"
-          >
-            <option value={""}></option>
-            {countryList?.map((val) => (
-              <option value={val?.countryId}>{val?.countryName}</option>
-            ))}
-          </select>
-          {Errors.CountryID && (
-            <span className="error_input_text">{Errors.CountryID}</span>
-          )}
-        </div>
-
         <div className="col-md-6 ">
           <label className="adjustLabel">
             Address1{" "}
@@ -322,19 +240,64 @@ const MyProfile = () => {
             onChange={handleChange}
           ></textarea>
         </div>
-        {values.CountryID == 1 && (
+        <div className="col-md-2">
+          <label className="adjustLabel">Country</label>
+          <select
+            className="form-select custom-select adjustLabel_input shadow-none"
+            aria-label="Default select example"
+            value={values.CountryID || ""}
+            onChange={(event) => {
+              handleChange(event);
+              setSelectedState(""); // Reset state and city when country changes
+              setSelectedCity("");
+              setValues((prevValues) => ({
+                ...prevValues,
+                AdharNo: null,
+              }));
+              setErrors((prevErrors) => ({ ...prevErrors, AdharNo: "" }));
+            }}
+            name="CountryID"
+          >
+            <option value={""}></option>
+            {countryList?.map((val) => (
+              <option value={val?.countryId}>{val?.countryName}</option>
+            ))}
+          </select>
+          {Errors.CountryID && (
+            <span className="error_input_text">{Errors.CountryID}</span>
+          )}
+        </div>
+        {values.CountryID != 2 && (
           <div className="col-md-4 ">
             <label className="adjustLabel">
               State{" "}
               {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
             </label>
-            <input
+            {/* <input
               type="text"
               name="State"
               value={values.State || ""}
               onChange={handleChange}
               className="form-control adjustLabel_input shadow-none p-2"
-            />
+            /> */}
+            <select
+              value={selectedState}
+              className="form-select custom-select adjustLabel_input shadow-none"
+              name="State"
+              onChange={(e) => {
+                handleChange(e);
+                setSelectedState(e.target.value);
+                setSelectedCity(""); // Reset city when state changes
+              }}
+              disabled={!selectedCountry}
+            >
+              <option value="">Select State</option>
+              {states.map((state) => (
+                <option key={state.isoCode} value={state.isoCode}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
             {Errors.State && (
               <span className="error_input_text">{Errors.State}</span>
             )}
@@ -345,19 +308,29 @@ const MyProfile = () => {
             City{" "}
             {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
           </label>
-          <input
-            type="text"
+          <select
+            value={selectedCity}
             name="City"
-            value={values.City || ""}
-            onChange={handleChange}
-            className="form-control adjustLabel_input shadow-none p-2"
-          />
+            onChange={(e) => {
+              setSelectedCity(e.target.value);
+              handleChange(e);
+            }}
+            disabled={values.CountryID == 1 && !selectedState}
+            className="form-select custom-select adjustLabel_input shadow-none"
+          >
+            <option value="">Select City</option>
+            {(values.CountryID != 2 ? cities : states).map((city) => (
+              <option key={city.name} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </select>
           {Errors.City && (
             <span className="error_input_text">{Errors.City}</span>
           )}
         </div>
         {values.CountryID == 1 ? (
-          <div className="col-md-4 ">
+          <div className="col-md-2 ">
             <label className="adjustLabel">
               Zip Code{" "}
               {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
@@ -369,12 +342,13 @@ const MyProfile = () => {
               onChange={handleChange}
               className="form-control adjustLabel_input shadow-none p-2"
             />
+
             {Errors.Zip && (
               <span className="error_input_text">{Errors.Zip}</span>
             )}
           </div>
         ) : (
-          <div className="col-md-4 ">
+          <div className="col-md-2 ">
             <label className="adjustLabel">
               Postal Code{" "}
               {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
@@ -391,6 +365,50 @@ const MyProfile = () => {
             )}
           </div>
         )}
+      </div>
+
+      <div className="row m-0">
+        <h4 className="text-secondary mb-3 mt-5">More Information</h4>
+        <hr />
+        <div className="col-md-4 ">
+          <label className="adjustLabel">Contact Person Name</label>
+          <input
+            type="text"
+            name="FirstName"
+            value={values.FirstName}
+            onChange={handleChange}
+            className="form-control adjustLabel_input shadow-none p-2"
+          />
+        </div>
+        <div className="col-md-4 ms-5" style={{ position: "relative" }}>
+          <label htmlFor="phone" className="adjustLabel ms-5">
+            Contact Person No
+          </label>
+          <input
+            type="text"
+            id="phone"
+            name="Phone"
+            value={values.Phone}
+            onChange={handleChange}
+            className="form-control adjustLabel_input shadow-none"
+            style={{ padding: `9px ${phonecode?.length * 16}px ` }}
+          />
+          {countryList.length > 0 && (
+            <span
+              style={{
+                position: "absolute",
+                left: "3px",
+                top: "15px",
+                backgroundColor: "#dadada",
+                borderRadius: "5px 0px 0px 5px",
+              }}
+              className="fw-bold text-secondary p-2"
+            >
+              {phonecode}
+            </span>
+          )}
+        </div>
+
         <div className="col-md-12 d-flex justify-content-center my-3">
           <button
             className="login_btn"

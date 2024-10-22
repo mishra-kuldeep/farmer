@@ -25,9 +25,9 @@ const AccountLayout = ({ children }) => {
       title: "My Profile",
       icon: <CgProfile size={22} />,
       goesTo:
-        user?.profile?.role == 4 || 6
-          ? "/myAccount/CompanyProfile"
-          : "/myAccount/myProfile",
+        user?.profile?.role == 2
+          ? "/myAccount/myProfile"
+          : "/myAccount/CompanyProfile",
       status: true,
     },
     {
