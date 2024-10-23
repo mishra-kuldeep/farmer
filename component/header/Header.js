@@ -19,7 +19,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import vendorMasterServices from "@/services/vendorMasterServices";
 import VehicleMasterServices from "@/services/VehicleMasterServices";
-
+import CountryServices from "@/services/CountryServices";
+import { fetchCountry } from "@/redux/country/countrySlice";
 function Header() {
   const user = useSelector((state) => state.auth);
   const menuRef = useRef(null);
@@ -32,6 +33,8 @@ function Header() {
   const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
   const cart = useSelector((state) => state.cart);
+  const country = useSelector((state) => state.country);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleScroll = () => {
@@ -58,6 +61,19 @@ function Header() {
     // if (!user.isLoggedIn && dispatch && !user.isLoading) {
     if (!user.isLoggedIn && dispatch && !user.isLoading) {
       dispatch(fetchUserInfo());
+      const res = fetch("https://ipapi.co/json/").then((data) => {
+        data.json().then((countrys) => {
+          CountryServices.getAllCountry().then((data) => {
+            const country = data.data.find(
+              (ele) => ele.countryCode == countrys.country_code
+            );
+            dispatch(fetchCountry(country))
+            console.log(country);
+            
+          });
+        });
+      });
+      // const data = await res.;
     } else if (user.isLoggedIn && user?.profile) {
       dispatch(getCart(user?.profile?.id));
     }
@@ -247,9 +263,11 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuRef]);
-  console.log(user?.profile?.role === 2
-    ? "/myAccount/myProfile"
-    : "/myAccount/CompanyProfile")
+  console.log(
+    user?.profile?.role === 2
+      ? "/myAccount/myProfile"
+      : "/myAccount/CompanyProfile"
+  );
   return (
     <>
       {!isMobile ? (

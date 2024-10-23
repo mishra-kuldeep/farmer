@@ -5,13 +5,13 @@ import "./vender.css";
 import { IoIosCall } from "react-icons/io";
 import vendorMasterServices from "@/services/vendorMasterServices";
 import { useSelector } from "react-redux";
-import CountryServices from "@/services/CountryServices";
 const page = () => {
+  const country = useSelector((state) => state.country)
   const { slug } = useParams();
   const [VendorList, setVendorList] = useState([]);
   const [Loader, setLoader] = useState(false);
   const [currencySymbol, seetcurrencySymbol] = useState("₹");
-
+console.log(country)
   const user = useSelector((state) => state.auth);
   useEffect(() => {
     setLoader(true);
@@ -20,8 +20,9 @@ const page = () => {
       slug: slug,
       page: "",
       searchText: "",
-      countryId: user?.profile?.country ? user?.profile?.country : 1,
-    };
+      countryId: user?.profile?.country ? user?.profile?.country :country?.country?.countryId ,
+    }
+    if(data.countryId){
     vendorMasterServices
       .getAllVendorServices(data)
       .then(({ data }) => {
@@ -29,10 +30,9 @@ const page = () => {
         setVendorList(data);
       })
       .catch((err) => console.log(err));
-
+    }
   }, [user?.profile?.country]);
 
-  console.log(VendorList);
   return (
     <div>
       <div className="container">

@@ -78,7 +78,7 @@ const MyProfile = () => {
           LastName: data.userProfile.LastName
             ? data.userProfile.LastName
             : null,
-          Phone: data.userProfile.Phone,
+          Phone: data?.userProfile?.Phone?.split('-')[1],
           Email: data.userProfile.Email,
           Role: data.userProfile.Role,
           CountryID: data.userProfile.CountryID,

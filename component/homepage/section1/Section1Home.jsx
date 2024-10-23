@@ -30,6 +30,7 @@ const Section1Home = () => {
   const [savelaterLoader, setSvaeLaterLoader] = useState(false);
   const [wishList, setWishList] = useState([]);
   const [wishFullList, setFullWishList] = useState([]);
+  const country = useSelector((state) => state.country);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -38,7 +39,9 @@ const Section1Home = () => {
       const searchResult = await ProductsDtlServices.getProductsDtl({
         page: 1,
         search: "",
-        countryId:user?.profile?.country?user?.profile?.country:""
+        countryId: user?.profile?.country
+          ? user?.profile?.country
+          : country?.country?.countryId,
       });
       setProducts(searchResult?.data?.data || []);
     } catch (error) {
@@ -57,9 +60,11 @@ const Section1Home = () => {
   };
 
   useEffect(() => {
-    initApi();
+    if (user?.profile?.country || country?.country?.countryId) {
+      initApi();
+    }
     saveLaterList();
-  }, [user?.profile?.country]);
+  }, [user?.profile?.country, country?.country?.countryId]);
 
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
@@ -132,7 +137,7 @@ const Section1Home = () => {
   };
 
   const saveforLater = (productDtlId) => {
-    if(!user?.isLoggedIn){
+    if (!user?.isLoggedIn) {
       toast("Please login to wishlist this product", {
         icon: "👏",
         style: {
@@ -141,7 +146,7 @@ const Section1Home = () => {
           color: "#fff",
         },
       });
-      return
+      return;
     }
     setsaveforlaterId(productDtlId);
     if (productDtlId) {
@@ -152,8 +157,10 @@ const Section1Home = () => {
         setSvaeLaterLoader(true);
         SaveForLaterServices.removeForLater(obj?.SaveForLaterId)
           .then(({ data }) => {
-            setWishList(wishList.filter((ele)=>ele!=productDtlId))
-            setFullWishList(wishFullList.filter((ele)=>ele.productDtlId!=productDtlId))
+            setWishList(wishList.filter((ele) => ele != productDtlId));
+            setFullWishList(
+              wishFullList.filter((ele) => ele.productDtlId != productDtlId)
+            );
             setSvaeLaterLoader(false);
             toast(data?.message, {
               icon: "👏",
@@ -175,8 +182,10 @@ const Section1Home = () => {
           productDtlId: productDtlId,
         })
           .then(({ data }) => {
-           data?.savedProduct?.productDtlId&&setWishList((pre)=>([...pre,data?.savedProduct?.productDtlId]))
-           data?.savedProduct&&setFullWishList((pre)=>([...pre,data?.savedProduct]))
+            data?.savedProduct?.productDtlId &&
+              setWishList((pre) => [...pre, data?.savedProduct?.productDtlId]);
+            data?.savedProduct &&
+              setFullWishList((pre) => [...pre, data?.savedProduct]);
             setSvaeLaterLoader(false);
             toast(data?.message, {
               icon: "👏",
@@ -283,9 +292,9 @@ const Section1Home = () => {
                     {savelaterLoader && ele.productDtlId === saveforlaterId ? (
                       <MiniLoader />
                     ) : wishList.includes(ele.productDtlId) ? (
-                      <IoMdHeart size={20} color="red"/>
+                      <IoMdHeart size={20} color="red" />
                     ) : (
-                      <FiHeart size={20} color="grey"/>
+                      <FiHeart size={20} color="grey" />
                     )}
                   </button>
                   {cart?.cart?.find(

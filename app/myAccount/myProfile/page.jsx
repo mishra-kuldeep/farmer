@@ -48,11 +48,12 @@ const MyProfile = () => {
     Zip: "",
     CompanyName: "",
     GSTNo: "",
+    Cultivating: "",
   });
-  
-const phonecode = countryList?.find(
-  (val) => val?.countryId == values?.CountryID
-)?.phoneCode;
+
+  const phonecode = countryList?.find(
+    (val) => val?.countryId == values?.CountryID
+  )?.phoneCode;
   useEffect(() => {
     setisLoading(true);
     CountryServices.getAllCountry()
@@ -69,7 +70,7 @@ const phonecode = countryList?.find(
         setRoleList(data);
       })
       .catch((err) => console.log(err));
-      console.log(values)
+    console.log(values);
 
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
@@ -79,7 +80,7 @@ const phonecode = countryList?.find(
           LastName: data.userProfile.LastName
             ? data.userProfile.LastName
             : null,
-          Phone: data.userProfile.Phone,
+          Phone: data.userProfile.Phone.split('-')[1],
           Email: data.userProfile.Email,
           Role: data.userProfile.Role,
           CountryID: data.userProfile.CountryID,
@@ -97,6 +98,7 @@ const phonecode = countryList?.find(
           Zip: data.userProfile.userInfo.Zip,
           CompanyName: data.userProfile.userInfo.CompanyName,
           GSTNo: data.userProfile.userInfo.GSTNo,
+          Cultivating: data.userProfile.userInfo.Cultivating,
         });
         setSelectedState(data.userProfile.userInfo.State);
         setSelectedCity(data.userProfile.userInfo.City);
@@ -105,11 +107,7 @@ const phonecode = countryList?.find(
   }, [user?.profile?.id]);
   const updateProfileHandeler = () => {
     setLoading(true);
-    if (
-      !values?.Address1 ||
-      !values?.City ||
-      !values?.Zip
-    ) {
+    if (!values?.Address1 || !values?.City || !values?.Zip) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         Address1: !values?.Address1 ? "Address1 is required" : "",
@@ -120,7 +118,7 @@ const phonecode = countryList?.find(
       setLoading(false);
       return;
     }
-     values.Phone = `${phonecode}-${values.Phone}`
+    values.Phone = `${phonecode}-${values.Phone}`;
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
@@ -164,8 +162,6 @@ const phonecode = countryList?.find(
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
-
-
 
   return (
     <>
@@ -235,7 +231,7 @@ const phonecode = countryList?.find(
           )}
         </div>
 
-        <div className="col-md-4 ms-5" style={{ position: "relative" }}>
+        <div className="col-md-4 " style={{ position: "relative" }}>
           <label htmlFor="phone" className="adjustLabel ms-5">
             Phone No
           </label>
@@ -262,7 +258,24 @@ const phonecode = countryList?.find(
               {phonecode}
             </span>
           )}
-                  
+        </div>
+        <div className="col-md-4">
+          <label className="adjustLabel">Cultivating</label>
+          <select
+            className="form-select custom-select adjustLabel_input shadow-none"
+            aria-label="Default select example"
+            value={values.Cultivating || ""}
+            onChange={handleChange}
+            name="Cultivating"
+          >
+            <option value={""}></option>
+            <option value={1}>Cereal Crops</option>
+            <option value={2}>Legumes</option>
+            <option value={3}>Root Vegetables</option>
+            <option value={4}>Legumes</option>
+            <option value={5}>Leafy Greens</option>
+            <option value={6}>Fruits</option>
+          </select>
         </div>
         {/* <div className="col-md-4">
           <label className="adjustLabel">Category *</label>
