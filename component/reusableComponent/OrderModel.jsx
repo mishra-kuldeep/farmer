@@ -194,7 +194,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                             key={val?.productDetail?.productDtlId}
                           >
                             <img
-                              src={`${Image_URL}/Products/${val?.productDetail?.ProductsImages[0].url}`}
+                              src={`${Image_URL}/Products/${val?.productDetail?.ProductsImages[0]?.url}`}
                               alt="Product image"
                             />
                             <div className="cartBaketDetail row">
@@ -471,7 +471,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
             <div className="modal-footer justify-content-around">
               <button
                 type="button"
-                disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
+                // disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-success w-25"
                 onClick={() => {
                   setConfirm(true);
@@ -483,7 +483,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
               </button>
               <button
                 type="button"
-                disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
+                // disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-danger w-25"
                 onClick={() => {
                   setConfirm(true);

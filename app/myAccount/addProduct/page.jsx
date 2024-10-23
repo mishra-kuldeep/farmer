@@ -34,7 +34,7 @@ const AddProductDtl = () => {
     discount: 0,
     discountType: "fixed",
     productType: "Inorganic",
-    gradeId: "A",
+    gradeId:3,
     sku: "",
     // metaTitle: "",
     // metaDescription: "",

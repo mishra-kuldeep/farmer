@@ -123,7 +123,7 @@ const ProductModal = ({
           setImageList(data?.images);
         }
       );
-      ProductUnitServices.getProductUnit().then(({ data }) => {
+      ProductUnitServices.getProductUnit(modalData?.unitId).then(({ data }) => {
         setUnitTitle(
           data.filter((data) => data?.unitId == modalData?.unitId)[0]?.unitName
         );

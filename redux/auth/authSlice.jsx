@@ -117,7 +117,7 @@ export const authSlice = createSlice({
       .addCase(registration.rejected, (state, action) => {
         state.isLoading = false;
         state.profile = null;
-        state.error = action.payload.error || "Registration failed";
+        state.error = action?.payload?.error || "Registration failed";
         state.success = action.payload.success;
       });
   },

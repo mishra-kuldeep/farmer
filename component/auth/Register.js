@@ -15,6 +15,7 @@ const RegisterPage = () => {
     LastName: "",
     Email: "",
     Phone: "",
+    Mobile:"",
     Password: "",
     CompanyName: "",
     CountryID: "",
@@ -43,7 +44,7 @@ const RegisterPage = () => {
   const submitHandler = async () => {
     if (cpawword == values.Password) {
       setLoader(true);
-      values.Phone = `${phonecode}-${values.Phone}`
+      values.Phone = `${phonecode}-${values.Mobile}`
       await dispatch(registration(values));
       setLoader(false);
     }
@@ -132,7 +133,7 @@ const RegisterPage = () => {
         values.Role != 6 &&
         values.Role != 9 && (
           <div className="p-2 m20">
-            <label className="adjustLabel">LastName</label>
+            <label className="adjustLabel">LastName*</label>
             <input
               type="text"
               className="form-control p-2 adjustLabel_input"
@@ -164,8 +165,8 @@ const RegisterPage = () => {
             <input
               type="text"
               id="phone"
-              name="Phone"
-              value={values.Phone}
+              name="Mobile"
+              value={values.Mobile}
               onChange={handleValues}
               className="form-control adjustLabel_input shadow-none"
               style={{ padding: `9px ${phonecode?.length * 16}px ` }}
@@ -195,8 +196,8 @@ const RegisterPage = () => {
           <input
             type="text"
             id="phone"
-            name="Phone"
-            value={values.Phone}
+            name="Mobile"
+            value={values.Mobile}
             onChange={handleValues}
             className="form-control adjustLabel_input shadow-none"
             style={{ padding: `9px ${phonecode?.length * 16}px ` }}
