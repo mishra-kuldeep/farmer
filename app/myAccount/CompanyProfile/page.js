@@ -20,7 +20,6 @@ const MyProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const activeCountries = ["IN", "US", "GB", "KE"];
 
   const states = selectedCountry
     ? State.getStatesOfCountry(selectedCountry)
@@ -29,7 +28,7 @@ const MyProfile = () => {
   const cities = selectedState
     ? City.getCitiesOfState(selectedCountry, selectedState)
     : [];
-  
+
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
@@ -58,10 +57,6 @@ const MyProfile = () => {
     CountryServices.getAllCountry()
       .then(({ data }) => {
         setCountryList(data);
-        setSelectedCountry(
-          data.find((country) => country.countryId == user?.profile?.country)
-            ?.countryCode
-        );
       })
       .catch((err) => console.log(err));
     RoleServices.getRoleList()
@@ -78,7 +73,9 @@ const MyProfile = () => {
           LastName: data.userProfile.LastName
             ? data.userProfile.LastName
             : null,
-          Phone: data?.userProfile?.Phone?.split('-')[1],
+          Phone: data?.userProfile?.Phone
+            ? data?.userProfile?.Phone?.split("-")[1]
+            : "",
           Email: data.userProfile.Email,
           Role: data.userProfile.Role,
           CountryID: data.userProfile.CountryID,
@@ -102,6 +99,15 @@ const MyProfile = () => {
       });
     }
   }, [user?.profile?.id]);
+  useEffect(() => {
+    if (countryList.length && values.CountryID) {
+      setSelectedCountry(
+        countryList.find((country) => country.countryId == values.CountryID)
+          ?.countryCode
+      );
+    }
+  }, [countryList.length, values.CountryID]);
+  console.log(values);
 
   const updateProfileHandeler = () => {
     setLoading(true);
@@ -112,7 +118,7 @@ const MyProfile = () => {
       !values?.Zip ||
       !values?.GSTNo
     ) {
-      setCompanyError(!values?.CompanyName ?"company name is required":"");
+      setCompanyError(!values?.CompanyName ? "company name is required" : "");
       setErrors((prevErrors) => ({
         ...prevErrors,
         Address1: !values?.Address1 ? "Address1 is required" : "",
@@ -124,12 +130,13 @@ const MyProfile = () => {
       setLoading(false);
       return;
     }
- values.Phone = `${phonecode}-${values.Phone}`
+
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
       )
     );
+    filteredObject.Phone = `${phonecode}-${filteredObject.Phone}`;
     AuthService.updateUserProfile(filteredObject)
       .then(({ data }) => {
         setErrors({});
@@ -165,8 +172,6 @@ const MyProfile = () => {
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
-
-
 
   return (
     <>

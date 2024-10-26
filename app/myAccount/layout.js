@@ -100,6 +100,13 @@ const AccountLayout = ({ children }) => {
       goesTo: "/myAccount/customerOrder",
       status: user?.profile?.role === 4,
     },
+    {
+      id: 7,
+      title: "Fertilizers Pesticides  ",
+      icon: <PiVan size={22} />,
+      goesTo: "/myAccount/addFertilizersPesticides",
+      status: user?.profile?.role === 9,
+    },
   ];
   return (
     <>

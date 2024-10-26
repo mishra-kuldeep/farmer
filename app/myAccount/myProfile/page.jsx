@@ -20,6 +20,7 @@ const MyProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+console.log(selectedCountry);
 
   const states = selectedCountry
     ? State.getStatesOfCountry(selectedCountry)
@@ -59,10 +60,7 @@ const MyProfile = () => {
     CountryServices.getAllCountry()
       .then(({ data }) => {
         setCountryList(data);
-        setSelectedCountry(
-          data.find((country) => country.countryId == user?.profile?.country)
-            ?.countryCode
-        );
+        
       })
       .catch((err) => console.log(err));
     RoleServices.getRoleList()
@@ -70,8 +68,6 @@ const MyProfile = () => {
         setRoleList(data);
       })
       .catch((err) => console.log(err));
-    console.log(values);
-
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setisLoading(false);
@@ -105,6 +101,14 @@ const MyProfile = () => {
       });
     }
   }, [user?.profile?.id]);
+  useEffect(()=>{
+if(countryList.length && values.CountryID){
+  setSelectedCountry(
+    countryList.find((country) => country.countryId == values.CountryID)
+      ?.countryCode
+  );
+}
+  },[countryList.length,values.CountryID])
   const updateProfileHandeler = () => {
     setLoading(true);
     if (!values?.Address1 || !values?.City || !values?.Zip) {
@@ -118,12 +122,13 @@ const MyProfile = () => {
       setLoading(false);
       return;
     }
-    values.Phone = `${phonecode}-${values.Phone}`;
+ 
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
       )
     );
+    filteredObject.Phone = `${phonecode}-${filteredObject.Phone}`;
     AuthService.updateUserProfile(filteredObject)
       .then(({ data }) => {
         setErrors({});
@@ -155,13 +160,13 @@ const MyProfile = () => {
         countryList.find((country) => country.countryId == value)?.countryCode
       );
     }
-    // if (name == "Phone") {
-    //  value =`${phonecode}-${value}`
-    // }
+    console.log(value);
+    
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
+console.log(values);
 
   return (
     <>

@@ -122,6 +122,7 @@ const UsersListForAdmin = () => {
             <option value={6}>Vendors</option>
             <option value={7}>Educational Resources</option>
             <option value={8}>Customer Care</option>
+            <option value={9}>Fertilizers & Pesticides </option>
           </select>
         </div>
 

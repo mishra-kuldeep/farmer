@@ -193,7 +193,7 @@ function Header() {
       id: 4,
       title: "Vendor",
       goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 6 || 3,
+      status: !user.isLoggedIn || user?.profile?.role == 6 ||user?.profile?.role == 3,
       subMenu: venderList,
       //  [
       //   {
@@ -224,19 +224,19 @@ function Header() {
         {
           id: 31,
           title: "Distributors(Bulk orders)",
-          goesTo: "/myAccount/myProfile",
+          goesTo: "/fertilizers-pesticides/1",
           status: user?.profile?.role == 4 || 3,
         },
         {
           id: 32,
           title: "Dealers(Small Orders)",
-          goesTo: "/myAccount/myProfile",
+          goesTo: "/fertilizers-pesticides/2",
           status: user?.profile?.role == 4 || 3,
         },
         {
           id: 33,
           title: "Retailer",
-          goesTo: "/myAccount/myProfile",
+          goesTo: "/fertilizers-pesticides/3",
           status: user?.profile?.role == 4 || 3,
         },
       ],
