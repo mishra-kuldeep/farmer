@@ -23,7 +23,7 @@ const editFertilizersPesticides = ({ params }) => {
     vendorId: "",
     VendorServicesMasterId: "",
     serviceName: "",
-    DistributorsType:"",
+    DistributorsType: "",
     description: "",
     cost: "",
     availableOffers: "",
@@ -53,7 +53,7 @@ const editFertilizersPesticides = ({ params }) => {
         VendorServicesMasterId: "",
         serviceName: "",
         description: "",
-        DistributorsType:"",
+        DistributorsType: "",
         cost: "",
         availableOffers: "",
         duration: "",
@@ -84,10 +84,9 @@ const editFertilizersPesticides = ({ params }) => {
 
   useEffect(() => {
     if (params?.id) {
-      FertilizersPesticideServices
-        .getSinglFertilizersPesticide(params?.id)
+      FertilizersPesticideServices.getSinglFertilizersPesticide(params?.id)
         .then(({ data }) => {
-          console.log(data)
+          console.log(data);
           const valuess = data;
           setValues({
             vendorId: valuess.vendorId,
@@ -139,8 +138,8 @@ const editFertilizersPesticides = ({ params }) => {
         });
     }
   }, [user]);
-console.log(venderList)
-console.log(values.VendorServicesMasterId)
+  console.log(venderList);
+  console.log(values.VendorServicesMasterId);
   return (
     <div className="row  m-0 px-md-3 mb-4">
       <h4 className="text-secondary mb-3">Edit Services</h4>
@@ -194,9 +193,20 @@ console.log(values.VendorServicesMasterId)
           </option>
         </select>
         {errors.DistributorsType && (
-          <span className="error_input_text">
-            {errors.DistributorsType}
-          </span>
+          <span className="error_input_text">{errors.DistributorsType}</span>
+        )}
+      </div>
+      <div className="col-md-4 mb-3 ms-md-0 ms-2">
+        <label className="adjustLabel">Service Name *</label>
+        <input
+          type="text"
+          className="form-control p-2 adjustLabel_input"
+          name="serviceName"
+          value={values.serviceName}
+          onChange={onchangeHandeler}
+        />
+        {errors.serviceName && (
+          <span className="error_input_text">{errors.serviceName}</span>
         )}
       </div>
       <div className="col-md-4 mb-3 ms-md-0 ms-2 ">

@@ -172,7 +172,7 @@ const addFertilizersPesticides = () => {
                 <select
                   className="form-select custom-select adjustLabel_input"
                   aria-label="Default select example"
-                  name="Fertilizer_PesticideId"
+                  name="Distributorstype"
                   value={values.Distributorstype}
                   onChange={onchangeHandeler}
                 >
