@@ -9,8 +9,9 @@ import vendorMasterServices from "@/services/vendorMasterServices";
 import { useSelector } from "react-redux";
 import AuthService from "@/services/AuthServices";
 import ProductUnitServices from "@/services/ProductUnitServices";
+import FertilizersPesticideServices from "@/services/FertilizersPesticideServices";
 
-const EditVenderServices = ({ params }) => {
+const editFertilizersPesticides = ({ params }) => {
   const user = useSelector((state) => state.auth);
   const router = useRouter();
   const [errors, setErrors] = useState({});
@@ -22,6 +23,7 @@ const EditVenderServices = ({ params }) => {
     vendorId: "",
     VendorServicesMasterId: "",
     serviceName: "",
+    DistributorsType:"",
     description: "",
     cost: "",
     availableOffers: "",
@@ -51,6 +53,7 @@ const EditVenderServices = ({ params }) => {
         VendorServicesMasterId: "",
         serviceName: "",
         description: "",
+        DistributorsType:"",
         cost: "",
         availableOffers: "",
         duration: "",
@@ -81,13 +84,15 @@ const EditVenderServices = ({ params }) => {
 
   useEffect(() => {
     if (params?.id) {
-      vendorMasterServices
-        .getSingleServiceforuser(params?.id)
+      FertilizersPesticideServices
+        .getSinglFertilizersPesticide(params?.id)
         .then(({ data }) => {
+          console.log(data)
           const valuess = data;
           setValues({
             vendorId: valuess.vendorId,
             VendorServicesMasterId: valuess.VendorServicesMasterId,
+            DistributorsType: valuess.DistributorsType,
             serviceName: valuess.serviceName,
             description: valuess.description,
             cost: valuess.cost,
@@ -103,7 +108,7 @@ const EditVenderServices = ({ params }) => {
   }, [params?.id]);
   const initApis = () => {
     vendorMasterServices
-      .getAllactiveVendor(true)
+      .getAllactiveVendor(false)
       .then(({ data }) => {
         setVenderList(data);
       })
@@ -134,7 +139,8 @@ const EditVenderServices = ({ params }) => {
         });
     }
   }, [user]);
-
+console.log(venderList)
+console.log(values.VendorServicesMasterId)
   return (
     <div className="row  m-0 px-md-3 mb-4">
       <h4 className="text-secondary mb-3">Edit Services</h4>
@@ -168,16 +174,29 @@ const EditVenderServices = ({ params }) => {
       </div>
 
       <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Service Name *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="serviceName"
-          value={values.serviceName}
+        <label className="adjustLabel">Distributors Type*</label>
+        <select
+          className="form-select custom-select adjustLabel_input"
+          aria-label="Default select example"
+          name="DistributorsType"
+          value={values.DistributorsType}
           onChange={onchangeHandeler}
-        />
-        {errors.serviceName && (
-          <span className="error_input_text">{errors.serviceName}</span>
+        >
+          <option value="" className="d-none"></option>
+          <option value="1" className="">
+            Distributors(Bulk orders)
+          </option>
+          <option value="2" className="">
+            Dealers(Small Orders)
+          </option>
+          <option value="3" className="">
+            Retailer
+          </option>
+        </select>
+        {errors.DistributorsType && (
+          <span className="error_input_text">
+            {errors.DistributorsType}
+          </span>
         )}
       </div>
       <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
@@ -292,4 +311,4 @@ const EditVenderServices = ({ params }) => {
   );
 };
 
-export default EditVenderServices;
+export default editFertilizersPesticides;

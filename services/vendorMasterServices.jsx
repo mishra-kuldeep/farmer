@@ -115,6 +115,16 @@ export default class vendorMasterServices {
       },
     });
   }
+  static async getSingleServiceforuser(serviceId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/vendor/Singl/services/${serviceId}`;
+    return axios.get(url, {
+      headers: {
+        // 'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
   static async getsingleVendorServices(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/vendor/services/vendor/${id}`;

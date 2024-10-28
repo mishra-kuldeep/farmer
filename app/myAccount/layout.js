@@ -12,8 +12,9 @@ import { PiVan } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import UserProfile from "@/component/myaccount/UserProfile";
-
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { FiHeart } from "react-icons/fi";
+import { CiBoxList } from "react-icons/ci";
 
 const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
@@ -103,14 +104,14 @@ const AccountLayout = ({ children }) => {
     {
       id: 9,
       title: "Fertilizers Pesticides  ",
-      icon: <PiVan size={22} />,
+      icon: <IoIosAddCircleOutline size={22} />,
       goesTo: "/myAccount/addFertilizersPesticides",
       status: user?.profile?.role === 9,
     },
     {
       id: 10,
       title: "Fertilizers Pesticides List ",
-      icon: <PiVan size={22} />,
+      icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/FertilizersPesticidesList",
       status: user?.profile?.role === 9,
     },
