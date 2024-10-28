@@ -12,6 +12,15 @@ export default class vendorMasterServices {
       },
     });
   }
+  static async getAllactiveVendor(isVendor) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/vendorServices/active?isVendor=${isVendor}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
   static async getSingleVendor(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/vendorServices/${id}`;

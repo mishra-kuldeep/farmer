@@ -103,7 +103,7 @@ const EditVenderServices = ({ params }) => {
   }, [params?.id]);
   const initApis = () => {
     vendorMasterServices
-      .getAllVendor()
+      .getAllactiveVendor(true)
       .then(({ data }) => {
         setVenderList(data);
       })

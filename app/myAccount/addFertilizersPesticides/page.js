@@ -19,12 +19,12 @@ const addFertilizersPesticides = () => {
   const [venderList, setVenderList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [isloading, setisLoading] = useState(false);
-  const [countrySymbol,setCountrySymbol] = useState([])
+  const [countrySymbol, setCountrySymbol] = useState([]);
 
   const [unitList, setUnitList] = useState([]);
   const [values, setValues] = useState({
     vendorId: "",
-    Fertilizer_PesticideId: "",
+    Distributorstype: "",
     serviceName: "",
     description: "",
     cost: "",
@@ -43,7 +43,11 @@ const addFertilizersPesticides = () => {
   useEffect(() => {
     if (user?.profile?.id) {
       setisLoading(true);
-      setValues((pre) => ({ ...pre, ["vendorId"]: user?.profile?.id, ["countryId"]: user?.profile?.country }));
+      setValues((pre) => ({
+        ...pre,
+        ["vendorId"]: user?.profile?.id,
+        ["countryId"]: user?.profile?.country,
+      }));
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setprofile(data?.userProfile);
         setisLoading(false);
@@ -60,7 +64,8 @@ const addFertilizersPesticides = () => {
       setErrors({});
       setValues({
         vendorId: "",
-        Fertilizer_PesticideId: "",
+        Distributorstype: "",
+        VendorServicesMasterId: "",
         serviceName: "",
         description: "",
         cost: "",
@@ -88,26 +93,29 @@ const addFertilizersPesticides = () => {
     }
   };
 
-//   const initApi = () => {
-//     vendorMasterServices
-//       .getAllVendor()
-//       .then(({ data }) => {
-//         setVenderList(data);
-//       })
-//       .catch((err) => console.log(err));
-//   };
+  const initApi = () => {
+    vendorMasterServices
+      .getAllactiveVendor(false)
+      .then(({ data }) => {
+        setVenderList(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
-//   useEffect(() => initApi(), []);
+  useEffect(() => initApi(), []);
 
   useEffect(() => {
-   
     if (user?.profile?.country) {
-      AuthService.getCountryList() .then(({ data }) => {
-        setCountrySymbol(data?.find((val)=>val?.countryId ==user.profile.country)?.currencySymbol);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      AuthService.getCountryList()
+        .then(({ data }) => {
+          setCountrySymbol(
+            data?.find((val) => val?.countryId == user.profile.country)
+              ?.currencySymbol
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       ProductUnitServices.getUnitBycountry(user?.profile?.country)
         .then(({ data }) => {
           console.log(data);
@@ -139,15 +147,45 @@ const addFertilizersPesticides = () => {
                 <select
                   className="form-select custom-select adjustLabel_input"
                   aria-label="Default select example"
-                  name="Fertilizer_PesticideId"
-                  value={values.Fertilizer_PesticideId}
+                  name="VendorServicesMasterId"
+                  value={values.VendorServicesMasterId}
                   onChange={onchangeHandeler}
                 >
                   <option value="" className="d-none"></option>
-                  <option value="1" className="">Distributors(Bulk orders)</option>
-                  <option value="2" className="">Dealers(Small Orders)</option>
-                  <option value="3" className="">Retailer</option>
-                  
+                  {venderList?.map((ele) => (
+                    <option
+                      key={ele.VendorServicesMasterId}
+                      value={ele.VendorServicesMasterId}
+                    >
+                      {ele?.type}
+                    </option>
+                  ))}
+                </select>
+                {errors.VendorServicesMasterId && (
+                  <span className="error_input_text">
+                    {errors.VendorServicesMasterId}
+                  </span>
+                )}
+              </div>
+              <div className="col-md-4 mb-3 ms-md-0 ms-2">
+                <label className="adjustLabel">Distributors Type*</label>
+                <select
+                  className="form-select custom-select adjustLabel_input"
+                  aria-label="Default select example"
+                  name="Fertilizer_PesticideId"
+                  value={values.Distributorstype}
+                  onChange={onchangeHandeler}
+                >
+                  <option value="" className="d-none"></option>
+                  <option value="1" className="">
+                    Distributors(Bulk orders)
+                  </option>
+                  <option value="2" className="">
+                    Dealers(Small Orders)
+                  </option>
+                  <option value="3" className="">
+                    Retailer
+                  </option>
                 </select>
                 {errors.VendorServicesMasterId && (
                   <span className="error_input_text">

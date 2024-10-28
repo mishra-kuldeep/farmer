@@ -91,7 +91,7 @@ const AddVenderServices = () => {
 
   const initApi = () => {
     vendorMasterServices
-      .getAllVendor()
+    .getAllactiveVendor(true)
       .then(({ data }) => {
         setVenderList(data);
       })

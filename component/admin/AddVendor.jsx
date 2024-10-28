@@ -12,6 +12,7 @@ const AddVendor = ({ setState }) => {
   const [values, setValues] = useState({
     type: "",
     description: "",
+    isVendor:"",
     status: false, 
   });
 
@@ -31,6 +32,7 @@ const AddVendor = ({ setState }) => {
         setValues({
           type: "",
           description: "", 
+          isVendor:""
         });
 
         // Show success toast
@@ -107,6 +109,26 @@ const AddVendor = ({ setState }) => {
             Status
           </label>
         </div>
+      </div>
+      <div className="col-md-3 my-3 d-flex align-items-center justify-content-center">
+        {/* <div className="form-check form-switch "> */}
+          <input
+            className="form-check-input custom-checkbox cursor"
+            type="checkbox"
+            id="flexSwitchCheckDefault"
+            name="isVendor"
+            checked={values?.isVendor}
+            onChange={(e) =>
+              setValues((prev) => ({ ...prev, isVendor: e?.target?.checked }))
+            }
+          />
+          <label
+            className="form-check-label ms-2 cursor"
+            htmlFor="flexSwitchCheckDefault"
+          >
+            is Vendor
+          </label>
+        {/* </div> */}
       </div>
       <div className="col-md-3 text-center mt-3">
         <button className="login_btn" onClick={()=>onSubmitHandler()} disabled={loader}>

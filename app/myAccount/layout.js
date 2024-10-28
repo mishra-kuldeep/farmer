@@ -101,10 +101,17 @@ const AccountLayout = ({ children }) => {
       status: user?.profile?.role === 4,
     },
     {
-      id: 7,
+      id: 9,
       title: "Fertilizers Pesticides  ",
       icon: <PiVan size={22} />,
       goesTo: "/myAccount/addFertilizersPesticides",
+      status: user?.profile?.role === 9,
+    },
+    {
+      id: 10,
+      title: "Fertilizers Pesticides List ",
+      icon: <PiVan size={22} />,
+      goesTo: "/myAccount/FertilizersPesticidesList",
       status: user?.profile?.role === 9,
     },
   ];
