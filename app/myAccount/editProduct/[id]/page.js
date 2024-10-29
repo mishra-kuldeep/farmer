@@ -9,6 +9,7 @@ import ProductgradeServices from "@/services/ProductgradeServices";
 import ProductUnitServices from "@/services/ProductUnitServices";
 
 import CountryServices from "@/services/CountryServices";
+import { useSelector } from "react-redux";
 const specialCharRegex = /[^a-zA-Z0-9\s-]/;
 
 const EditProductFarmer = ({ params }) => {
@@ -18,7 +19,7 @@ const EditProductFarmer = ({ params }) => {
   const [productList, setProductList] = useState([])
   const [unitlist, setUnitlist] = useState([]);
   const [gradelist, setgradelist] = useState([])
-
+  const user = useSelector((state) => state.auth);
 
   const [values, setValues] = useState({
     productDtlName: "",

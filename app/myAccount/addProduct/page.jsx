@@ -48,7 +48,7 @@ const AddProductDtl = () => {
     const { name, files } = e.target;
 
     if (name === "Product") {
-      const maxFileSize = 100 * 1024; // 100 KB
+      const maxFileSize = 200 * 1024; // 100 KB
       const maxImages = 5; // Maximum allowed images
       const selectedFiles = Array.from(files);
 
@@ -71,7 +71,7 @@ const AddProductDtl = () => {
           validFiles.push(file); // Only push valid files to the array
           validFileNames.push(file.name); // Store valid file names
         } else {
-          invalidFiles.push(`${file.name} is larger than 100KB`); // Store invalid file name with error
+          invalidFiles.push(`${file.name} is larger than 200KB`); // Store invalid file name with error
         }
       });
 
