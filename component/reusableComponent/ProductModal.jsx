@@ -29,20 +29,23 @@ const ProductModal = ({
   const [metaDescription, setmetaDescription] = useState("");
   const [review, setreview] = useState("");
   const [NextPage, setNextPage] = useState(false);
-  // const [url, seturl] = useState([]);
+  const [inspectionDateerror, setinspectionDateerror] = useState("");
+  const [inspectionStatusError, setinspectionStatusError] = useState("");
+  const [complianceLevelerror, setcomplianceLevelerror] = useState("");
+
   const [Inspectiondata, setInspectiondata] = useState({
-    inspectionDate: "",
-    inspectionStatus: "",
-    productDtlId: "",
-    remarks: "",
-    url: "",
-    complianceLevel: "",
-    nextInspectionDue: "",
-    inspectedQuantity: "",
-    issuesFound: "",
-    resolutionDate: "",
+    inspectionDate: '',
+    inspectionStatus: '',
+    productDtlId: '',
+    remarks: '',
+    url: '',
+    complianceLevel: '',
+    nextInspectionDue: '',
+    inspectedQuantity: '',
+    issuesFound: '',
+    resolutionDate: '',
   });
-console.log(Inspectiondata)
+
   const onChangeHandeler = (e) => {
     const { value, name, files } = e.target;
     setInspectiondata((prevData) => ({
@@ -52,6 +55,8 @@ console.log(Inspectiondata)
   };
 
   const onConfirmHandeler = () => {
+    console.log(Object.values(Inspectiondata))
+
     const specialCharRegex = /[^a-zA-Z0-9\s-]/;
     const formattedSlug = slug.toLowerCase().replace(/['\s]+/g, "-");
     const data = {
@@ -70,10 +75,24 @@ console.log(Inspectiondata)
         "Do not contain any special characters in the slug field"
       );
     }
+    if (Object.values(Inspectiondata).length > 1) {
+      setConfirm(false);
+      if(!Inspectiondata.inspectionDate)
+      return setinspectionDateerror(
+        "Inspection Date is required field"
+      );
+      if(!Inspectiondata.inspectionStatus)
+      return setinspectionStatusError(
+        "Inspection Status is required field"
+      );
+      if(!Inspectiondata.complianceLevel)
+      return setcomplianceLevelerror(
+        " compliance Level is required field"
+      );
+    }
     if (actionType == "approve") {
       setloading(true);
       const formData = new FormData();
-
       for (let key in Inspectiondata) {
         if (key === "url" && Inspectiondata[key]) {
           // Ensure file is appended only if selected by the user
@@ -82,13 +101,12 @@ console.log(Inspectiondata)
           formData.append(key, Inspectiondata[key]);
         }
       }
-     
       ProductFarmerServices.approveProductsFarmer(modalData?.productDtlId, data)
         .then((data) => {
           setloading(false);
           setConfirm(false);
           setActionPerformed(true);
-          if (Object.values(Inspectiondata).length>0) {
+          if (Object.values(Inspectiondata).length > 0) {
             ProductFarmerServices.productInspection(formData).then((data) => {
               setloading(false);
             });
@@ -110,7 +128,6 @@ console.log(Inspectiondata)
           console.log(err);
           setConfirm(false);
         });
-      
     }
 
     if (actionType == "reject") {
@@ -182,9 +199,12 @@ console.log(Inspectiondata)
     setSlug("");
     setreview("");
     setNextPage(false);
+    setinspectionDateerror("")
+    setcomplianceLevelerror("")
+    setinspectionStatusError("")
     setInspectiondata({
       inspectionDate: "",
-      inspectionStat:"",
+      inspectionStat: "",
       remarks: "",
       url: "",
       complianceLevel: "",
@@ -203,7 +223,7 @@ console.log(Inspectiondata)
             <div className="modal-body ">
               <button
                 ref={closeButtonRef}
-                onClick={clearerrors}
+                onClick={()=>clearerrors()}
                 type="button"
                 className="btn-close "
                 style={{
@@ -416,7 +436,7 @@ console.log(Inspectiondata)
                       </div>
 
                       <div className="col-md-6">
-                        <label className="adjustLabel">Inspection Date</label>
+                        <label className="adjustLabel">Inspection Date*</label>
                         <input
                           type="date"
                           name="inspectionDate"
@@ -424,10 +444,13 @@ console.log(Inspectiondata)
                           onChange={(e) => onChangeHandeler(e)}
                           value={Inspectiondata.inspectionDate}
                         />
+                         {inspectionDateerror && (
+                          <span className="error_input_text">{inspectionDateerror}</span>
+                        )}
                       </div>
 
-                      <div className="col-md-6">
-                        <label className="adjustLabel">Inspection Status</label>
+                      {/* <div className="col-md-6">
+                        <label className="adjustLabel">Inspection Status*</label>
                         <input
                           type="text"
                           className="form-control p-2 adjustLabel_input shadow-none"
@@ -435,6 +458,27 @@ console.log(Inspectiondata)
                           onChange={(e) => onChangeHandeler(e)}
                           value={Inspectiondata.inspectionStatus}
                         />
+                      </div> */}
+                      <div className="col-md-6">
+                        <label className="adjustLabel">
+                          Inspection Status*
+                        </label>
+                        <select
+                          className="form-control p-2 adjustLabel_input shadow-none"
+                          name="inspectionStatus"
+                          onChange={(e) => onChangeHandeler(e)}
+                          value={Inspectiondata.inspectionStatus || ""} // Set default to an empty string if undefined
+                        >
+                          <option value="" disabled>
+                            Select Status
+                          </option>
+                          <option value="Pass">Pass</option>
+                          <option value="Fail">Fail</option>
+                          <option value="Pending">Pending</option>
+                        </select>
+                        { inspectionStatusError && (
+                          <span className="error_input_text">{inspectionStatusError}</span>
+                        )}
                       </div>
 
                       <div className="col-md-6">
@@ -449,7 +493,10 @@ console.log(Inspectiondata)
                       </div>
 
                       <div className="col-md-6">
-                        <label className="adjustLabel"> Compliance Level</label>
+                        <label className="adjustLabel">
+                          {" "}
+                          Compliance Level*
+                        </label>
                         <input
                           type="text"
                           className="form-control p-2 adjustLabel_input shadow-none"
@@ -457,6 +504,9 @@ console.log(Inspectiondata)
                           onChange={(e) => onChangeHandeler(e)}
                           value={Inspectiondata.complianceLevel}
                         />
+                        { complianceLevelerror && (
+                          <span className="error_input_text">{complianceLevelerror}</span>
+                        )}
                       </div>
 
                       <div className="col-md-6">
