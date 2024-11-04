@@ -40,12 +40,14 @@
   background-color: var(--white);
   width: 100%; /* Set the width of the outer div */
   padding: 8px;
+  position: relative;
 }
 .bestseller_cards .image_div {
   background-color: var(--light);
   width: 100%;
   padding-bottom: 70%;
   position: relative;
+  border-radius: 2px;
 }
 
 .bestseller_cards .image_div img {
@@ -58,6 +60,28 @@
 }
 .bestseller_cards h6{
   height: 50px;
+}
+
+.bestseller_cards .verified-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #4ebd52; 
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+.verified-badge:hover{
+  cursor: pointer;
+}
+.bestseller_cards .verified-badge::before {
+  content: "✔️"; /* Checkmark icon */
+  margin-right: 4px;
 }
 .rating_wrap {
   display: flex;

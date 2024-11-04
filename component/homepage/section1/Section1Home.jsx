@@ -237,6 +237,7 @@ const Section1Home = () => {
                     />
                   </div>
                   <h6 className="mt-2 mb-0">{ele.productDtlName}</h6>
+                  {ele.productInspection && <div class="verified-badge">Verified</div>}
                   <div className="d-flex my-2 justify-content-between kisanNamelocation">
                     <p>
                       <IoIosPerson size={15} />
@@ -306,7 +307,7 @@ const Section1Home = () => {
                         onClick={() => decreaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                        loadingAction === "decrement" ? (
+                          loadingAction === "decrement" ? (
                           <MiniLoader />
                         ) : (
                           <FaMinus size={15} />
@@ -324,7 +325,7 @@ const Section1Home = () => {
                         onClick={() => increaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                        loadingAction === "increment" ? (
+                          loadingAction === "increment" ? (
                           <MiniLoader />
                         ) : (
                           <FaPlus size={15} />
