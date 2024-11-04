@@ -100,6 +100,15 @@ export default class ProductFarmerServices {
       },
     });
   }
+  static async productInspection(data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productInspection/add`;
+    return axios.post(url,data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
   static async getAllproductsAdmin({
     name,

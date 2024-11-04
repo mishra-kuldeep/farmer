@@ -13,6 +13,7 @@ import { AiFillTruck } from "react-icons/ai";
 import { MdOutlineEmojiTransportation } from "react-icons/md";
 import { FaIdCard } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 const sidebarArray = [
   {
@@ -110,6 +111,12 @@ const sidebarArray = [
     title: "Vendor services List",
     url: "/admin/VendorServicesList",
     icon: <FaServicestack size={25} />,
+  },
+  {
+    id: 18,
+    title: "Add Rent Category",
+    url: "/admin/addrentCategory",
+    icon: <BiSolidCategoryAlt size={25} />,
   },
   
 ];
