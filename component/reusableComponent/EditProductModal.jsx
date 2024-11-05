@@ -7,7 +7,7 @@ import { Image_URL } from "@/helper/common";
 import IconButton from "./IconButton";
 import ProductUnitServices from "@/services/ProductUnitServices";
 
-const ProductModal = ({
+const EditProductModal = ({
   modalData,
   brandList,
   categoryList,
@@ -651,4 +651,4 @@ const ProductModal = ({
   );
 };
 
-export default ProductModal;
+export default EditProductModal;

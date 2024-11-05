@@ -6,6 +6,8 @@ import { GrOverview } from "react-icons/gr";
 import Pagination from "../reusableComponent/Pagination";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import ProductModal from "../reusableComponent/ProductModal";
+import EditProductModal from "../reusableComponent/EditProductModal";
+import { FaRegEdit } from "react-icons/fa";
 
 const AproveFarmerProductslist = () => {
   const [page, setPage] = useState(1);
@@ -207,10 +209,10 @@ const AproveFarmerProductslist = () => {
                         }}
                       >
                         <IconButton onClick={() => setModalData(item)}>
-                          <GrOverview color="green" size={20} />
+                          <FaRegEdit color="green" size={20} />
                         </IconButton>
                       </div>
-                      <ProductModal
+                      <EditProductModal
                         modalData={modalData}
                         brandList={brandList}
                         categoryList={categoryList}

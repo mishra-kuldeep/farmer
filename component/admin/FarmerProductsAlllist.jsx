@@ -6,6 +6,8 @@ import { GrOverview } from "react-icons/gr";
 import Pagination from "../reusableComponent/Pagination";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import ProductModal from "../reusableComponent/ProductModal";
+import { FaRegEdit } from "react-icons/fa";
+import EditProductModal from "../reusableComponent/EditProductModal";
 
 const FarmerProductsAlllist = () => {
   const [page, setPage] = useState(1);
@@ -66,7 +68,7 @@ const FarmerProductsAlllist = () => {
         console.log(err);
       });
   }, [intiapicall, page, searchText, actionPerformed]);
-
+console.log(allFarmerProducts)
   return (
     <div className="p-2">
       <Pagination
@@ -198,6 +200,29 @@ const FarmerProductsAlllist = () => {
                   </td>
 
                   <td>
+                    {item.productInspection?
+                    <div className="d-flex gap-2 justify-content-center">
+                    <div
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      style={{
+                        height: "30px",
+                        width: "30px",
+                        borderRadius: "50%",
+                      }}
+                    >
+                      <IconButton onClick={() => setModalData(item)}>
+                        <FaRegEdit color="green" size={20} />
+                      </IconButton>
+                    </div>
+                    <EditProductModal
+                      modalData={modalData}
+                      brandList={brandList}
+                      categoryList={categoryList}
+                      subCategoryList={subCategoryList}
+                      setActionPerformed={setActionPerformed}
+                    />
+                  </div> :
                     <div className="d-flex gap-2 justify-content-center">
                       <div
                         data-bs-toggle="modal"
@@ -219,7 +244,7 @@ const FarmerProductsAlllist = () => {
                         subCategoryList={subCategoryList}
                         setActionPerformed={setActionPerformed}
                       />
-                    </div>
+                    </div>}
                   </td>
                 </tr>
               );
