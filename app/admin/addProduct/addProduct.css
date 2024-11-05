@@ -64,3 +64,15 @@
   font-size: 12px;
 }
 
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}

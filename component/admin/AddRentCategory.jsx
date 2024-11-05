@@ -1,22 +1,11 @@
-// import React from 'react'
-
-// const AddRentCategory = () => {
-//   return (
-//     <div>
-//       dfdsfsdfbsjfd
-//     </div>
-//   )
-// }
-
-// export default AddRentCategory
-
-
 "use client";
 import React, { useState } from "react";
 import "../../app/admin/addProduct/addProduct.css";
 import CategoryServices from "@/services/CategoryServices";
 import toast from "react-hot-toast";
+import { FaPlus } from "react-icons/fa";
 import MiniLoader from "../reusableComponent/MiniLoader";
+import RentServices from "@/services/RentService";
 
 const AddRentCategory = ({ setState }) => {
   const [loader, setLoader] = useState(false);
@@ -26,7 +15,8 @@ const AddRentCategory = ({ setState }) => {
     status: false,
   });
 
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [errors, setErrors] = useState({});
+  const [fields, setFields] = useState([]);
 
   const onChangeHandler = (e) => {
     const { value, name } = e.target;
@@ -39,27 +29,20 @@ const AddRentCategory = ({ setState }) => {
   };
 
   const onSubmitHandler = () => {
-    setLoader(true);
-    CategoryServices.addCategory(values)
-      .then((data) => {
-        setLoader(false);
-        setErrors({});
-        setValues({
-          categoryName: "",
-          description: "",
-          status: false,
-        });
-        toast("category added successfully!", {
-          icon: "👏",
-          style: {
-            borderRadius: "10px",
-            background: "green",
-            color: "#fff",
-          },
-        });
-        setState("1");
-      })
-      .catch((err) => {
+    //  setLoader(true);
+    const allField = fields.map((val) => !Object.values(val)[0] ? null : Object.values(val)[0])
+    const result = allField.reduce((acc, item) => {
+      if (item != null) {
+        acc[item.trim()] = "";
+      }
+      return acc;
+    }, {});
+    values.otherDetails = result
+    RentServices.addRentCategory(values)
+      .then((val) => {
+        console.log(val);
+
+      }).catch((err)=>{
         const errorData = err?.response?.data?.errors || [];
         const errorObj = errorData.reduce((acc, curr) => {
           acc[curr.path] = curr.msg;
@@ -67,13 +50,25 @@ const AddRentCategory = ({ setState }) => {
         }, {});
         setErrors(errorObj);
         setLoader(false);
-      });
+      })
+  };
+console.log(errors);
+
+  const addField = () => {
+    setFields([...fields, { value: "" }]);
   };
 
+  const handleInputChange = (index, event) => {
+    const updatedFields = [...fields];
+    updatedFields[index].value = event.target.value;
+    setFields(updatedFields);
+  };
+  console.log(fields);
+
   return (
-    <div className="row  m-0 p-3">
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Category Name</label>
+    <div className="row m-0 p-3">
+      <div className="col-md-3 mb-3">
+        <label className="adjustLabel">Category Name *</label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -98,10 +93,10 @@ const AddRentCategory = ({ setState }) => {
           <span className="error_input_text">{errors.description}</span>
         )}
       </div>
-      <div className="col-md-4 mb-3 d-flex align-items-center mt-3">
+      <div className="col-md-3 mb-3  d-flex align-items-center justify-content-center mt-3  ">
         <div className="form-check form-switch ">
           <input
-            className="form-check-input custom-checkbox cursor"
+            className="form-check-input custom-checkbox cursor "
             type="checkbox"
             id="flexSwitchCheckDefault"
             name="status"
@@ -112,14 +107,34 @@ const AddRentCategory = ({ setState }) => {
             className="form-check-label ms-3 cursor"
             htmlFor="flexSwitchCheckDefault"
           >
-            Status 
+            Status
           </label>
         </div>
       </div>
+      <div className="col-md-2 mb-3 d-flex flex-column align-items-center  mt-3">
+        <button onClick={addField} className="add-button" >
+          <FaPlus size={14} />
+        </button>
+        {errors.otherDetails && (
+          <span className="error_input_text">{errors.otherDetails}</span>
+        )}
+      </div>
+
+      {fields.map((field, index) => (
+        <div key={index} className="col-md-4 mb-3 mt-2">
+          <input
+            type="text"
+            className="form-control p-2 adjustLabel_input"
+            placeholder={`Field Name ${index + 1}`}
+            value={field.value}
+            onChange={(e) => handleInputChange(index, e)}
+          />
+        </div>
+      ))}
 
       <div className="col-md-12 mb-3 text-center">
-        <button className="admin_btn" onClick={onSubmitHandler}  disabled={loader}>
-          {loader && <MiniLoader/>}
+        <button className="admin_btn" onClick={onSubmitHandler} disabled={loader}>
+          {loader && <MiniLoader />}
           Submit
         </button>
       </div>

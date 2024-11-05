@@ -183,7 +183,7 @@ const EditProductModal = ({
           setImageList(data?.images);
         }
       );
-      ProductFarmerServices.getSingleProductInspection(modalData?.productDtlId)
+      ProductFarmerServices?.getSingleProductInspection(modalData?.productDtlId)
         .then(({ data }) => {
           setInspectionId(data.inspectionId);
           setInspectiondata({
