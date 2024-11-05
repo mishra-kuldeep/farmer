@@ -105,11 +105,19 @@ export default class ProductFarmerServices {
     const url = `${BASE_URL}/productInspection/add`;
     return axios.post(url,data, {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
   }
-
+  static async getProductInspection(productDetailId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productInspection/product/${productDetailId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+  }
   static async getAllproductsAdmin({
     name,
     page = 1,

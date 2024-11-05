@@ -64,8 +64,8 @@
 
 .bestseller_cards .verified-badge {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0;
+  right: 0;
   background-color: #4ebd52; 
   color: #fff;
   padding: 4px 8px;

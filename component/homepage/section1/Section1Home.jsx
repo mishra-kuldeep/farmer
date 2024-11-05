@@ -4,7 +4,6 @@ import "./section1home.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaMinus, FaPlus, FaStar } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { IoMdHeart } from "react-icons/io";
 import { isMobile } from "react-device-detect";
@@ -19,17 +18,23 @@ import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { addToCart, deleteCart, updateCart } from "@/redux/cart/cartSlice";
 import toast from "react-hot-toast";
 import SaveForLaterServices from "@/services/SaveForLaterServices";
-
+import { Modal, Button } from "react-bootstrap";
+import ProductFarmerServices from "@/services/ProductFarmerServices";
+import MediumLoader from "@/component/reusableComponent/MediumLoader";
 const Section1Home = () => {
   const router = useRouter();
   const scrollContainerRef = useRef(null);
   const [Products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [saveforlaterId, setsaveforlaterId] = useState("");
   const [savelaterLoader, setSvaeLaterLoader] = useState(false);
   const [wishList, setWishList] = useState([]);
+  const [showVerifiedModal, setShowVerifiedModal] = useState(false);
   const [wishFullList, setFullWishList] = useState([]);
+  const [loadingInspection, setLoadingInspection] = useState(false)
+  const [inspectionData, setInspectionData] = useState({});
   const country = useSelector((state) => state.country);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
@@ -200,7 +205,27 @@ const Section1Home = () => {
       }
     }
   };
+  const openVerifiedModal = (product) => {
+    setSelectedProduct(product);
+    setShowVerifiedModal(true);
+    setLoadingInspection(true);
+    ProductFarmerServices.getProductInspection(product.productDtlId)
+      .then(({ data }) => {
+        setInspectionData(data);
+        setLoadingInspection(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoadingInspection(false);
+      });
+  }
 
+  const closeVerifiedModal = () => {
+    setShowVerifiedModal(false);
+    setSelectedProduct(null);
+    setInspectionData({})
+
+  };
   return (
     <div className="container">
       <div className="bestSellerWrapper p-md-3 p-0">
@@ -229,16 +254,17 @@ const Section1Home = () => {
           {Products.map((ele) => (
             <div className="col-md-3 px-2 " key={ele.productDtlId}>
               <div className="bestseller_cards">
-                <div onClick={() => router.push(`/product/${ele.slug}`)}>
+                <div >
                   <div className="image_div">
                     <img
                       src={`${Image_URL}/Products/${ele.ProductsImages[0]?.url}`}
                       alt="product image"
+                      onClick={() => router.push(`/product/${ele.slug}`)}
                     />
                   </div>
                   <h6 className="mt-2 mb-0">{ele.productDtlName}</h6>
-                  {ele.productInspection && <div class="verified-badge">Verified</div>}
-                  <div className="d-flex my-2 justify-content-between kisanNamelocation">
+                  {ele.productInspection && <div class="verified-badge" onClick={() => openVerifiedModal(ele)}>Verified</div>}
+                  <div className="d-flex my-2 justify-content-between kisanNamelocation" onClick={() => router.push(`/product/${ele.slug}`)}>
                     <p>
                       <IoIosPerson size={15} />
                       <span className="ms-1">{ele.User.FirstName}</span>
@@ -349,6 +375,46 @@ const Section1Home = () => {
           ))}
         </div>
       </div>
+      <Modal show={showVerifiedModal} onHide={closeVerifiedModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Inspection Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {loadingInspection && <MediumLoader />}
+          {!loadingInspection&&inspectionData && (
+            <>
+              <p><strong>Product Name:</strong> {selectedProduct?.productDtlName}</p>
+              {/* <p><strong>Inspection ID:</strong> {inspectionData.inspectionId}</p> */}
+              <p><strong>Inspection Status:</strong> {inspectionData.inspectionStatus}</p>
+              <p><strong>Compliance Level:</strong> {inspectionData.complianceLevel}</p>
+              <p><strong>Inspected Quantity:</strong> {inspectionData.inspectedQuantity}</p>
+              <p><strong>Inspection Date:</strong> {inspectionData.inspectionDate}</p>
+              {/* <p><strong>Issues Found:</strong> {inspectionData.issuesFound}</p> */}
+              <p><strong>Next Inspection Due:</strong> {inspectionData.nextInspectionDue}</p>
+              <p><strong>Remarks:</strong> {inspectionData.remarks}</p>
+              {/* <p><strong>Resolution Date:</strong> {inspectionData.resolutionDate}</p> */}
+
+              {/* Download PDF if available */}
+              {inspectionData.url && (
+                <Button
+                  variant="primary"
+                  href={`${Image_URL}/inspection/${inspectionData.url}`}
+                  src={`${Image_URL}/inspection/${inspectionData.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download 
+                </Button>
+              )}
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeVerifiedModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
