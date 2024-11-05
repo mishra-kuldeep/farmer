@@ -3,7 +3,7 @@ import React from "react";
 const MediumLoader = () => {
   return (
     <div
-      style={{ height: "200px", width: "100%" ,backgroundColor:"red"}}
+      style={{ height: "200px", width: "100%" }}
       className="centerAllDiv"
     >
       <div
