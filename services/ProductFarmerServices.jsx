@@ -60,6 +60,7 @@ export default class ProductFarmerServices {
       },
     });
   }
+  
 
   static async editProductsFormer(id, data) {
     const token = getCookie("token");
@@ -109,15 +110,7 @@ export default class ProductFarmerServices {
       },
     });
   }
-  static async getProductInspection(productDetailId) {
-    const token = getCookie("token");
-    const url = `${BASE_URL}/productInspection/product/${productDetailId}`;
-    return axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
-    });
-  }
+ 
   static async getAllproductsAdmin({
     name,
     page = 1,
@@ -135,4 +128,38 @@ export default class ProductFarmerServices {
       },
     });
   }
+
+// =========================ProductInspection===============//
+
+  static async getProductInspection(productDetailId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productInspection/product/${productDetailId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+  }
+
+
+  static async getSingleProductInspection(productId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productInspection/product/${productId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async UpdateProductInspection(inspectionId,data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/productInspection/${inspectionId}`;
+    return axios.put(url,data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 }
+
+

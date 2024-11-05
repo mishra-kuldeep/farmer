@@ -32,6 +32,7 @@ const EditProductModal = ({
   const [inspectionDateerror, setinspectionDateerror] = useState("");
   const [inspectionStatusError, setinspectionStatusError] = useState("");
   const [complianceLevelerror, setcomplianceLevelerror] = useState("");
+  const [InspectionId, setInspectionId] = useState(null);
 
   const [Inspectiondata, setInspectiondata] = useState({
     inspectionDate: "",
@@ -118,7 +119,7 @@ const EditProductModal = ({
           setConfirm(false);
         });
       if (Inspectiondata.inspectionDate !== "") {
-        ProductFarmerServices.productInspection(formData)
+        ProductFarmerServices.UpdateProductInspection(InspectionId,formData)
           .then((data) => {
             setloading(false);
           })
@@ -173,11 +174,32 @@ const EditProductModal = ({
   useEffect(() => {
     setImageList([]);
     if (modalData?.productDtlId) {
+      setSlug(modalData.slug);
+      setreview(modalData?.review);
+      setmetaTitle(modalData.metaTitle);
+      setmetaDescription(modalData.metaDescription);
       ProductFarmerServices.getAllImage(modalData?.productDtlId).then(
         ({ data }) => {
           setImageList(data?.images);
         }
       );
+      ProductFarmerServices.getSingleProductInspection(modalData?.productDtlId)
+        .then(({ data }) => {
+          setInspectionId(data.inspectionId);
+          setInspectiondata({
+            inspectionDate: data.inspectionDate?.split("T")[0],
+            inspectionStatus: data.inspectionStatus,
+            productDtlId: data.productDtlId,
+            remarks: data.remarks,
+            url: data.url,
+            complianceLevel: data.complianceLevel,
+            nextInspectionDue: data.nextInspectionDue,
+            inspectedQuantity: data.inspectedQuantity,
+            issuesFound: data.issuesFound,
+            resolutionDate: data.resolutionDate,
+          });
+        })
+        .catch((e) => console.log(e));
       ProductUnitServices.getProductUnit(modalData?.unitId).then(({ data }) => {
         setUnitTitle(
           data.filter((data) => data?.unitId == modalData?.unitId)[0]?.unitName
@@ -188,8 +210,7 @@ const EditProductModal = ({
       ...prevData,
       ["productDtlId"]: modalData?.productDtlId,
     }));
-  }, [modalData?.productDtlId]);
-
+  }, [modalData?.productDtlId, NextPage]);
 
   useEffect(() => {
     setInspectiondata((prevData) => ({
