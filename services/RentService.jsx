@@ -17,15 +17,15 @@ export default class RentServices {
         });
     }
 
-    // static async getVehicleType(page = 1, search = "") {
-    //     const token = getCookie("token");
-    //     const url = `${BASE_URL}/vehicle/active`;
-    //     return axios.get(url, {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`, // Set the token in the Authorization header
-    //         },
-    //     });
-    // }
+    static async getRentCategory() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/rentCategory`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        });
+    }
     // static async getAllVehicle(id, page = 1, search = "") {
     //     const token = getCookie("token");
     //     const url = `${BASE_URL}/transpoter/transpoter/${id}?page=${page}&search=${search}`;

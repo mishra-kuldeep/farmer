@@ -39,9 +39,24 @@ const AddRentCategory = ({ setState }) => {
     }, {});
     values.otherDetails = result
     RentServices.addRentCategory(values)
-      .then((val) => {
-        console.log(val);
-
+      .then(({data}) => {
+       if(data){
+        setValues({})
+        setFields([])
+        setErrors({})
+          // Show success toast
+          toast("Category added successfully!", {
+            icon: "👏",
+            style: {
+              borderRadius: "10px",
+              background: "green",
+              color: "#fff",
+            },
+          });
+  
+          // Update state after successful service call
+          setState("1");
+       }
       }).catch((err)=>{
         const errorData = err?.response?.data?.errors || [];
         const errorObj = errorData.reduce((acc, curr) => {

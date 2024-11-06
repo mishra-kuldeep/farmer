@@ -1,6 +1,7 @@
 "use client";
 import AddRentCategory from "@/component/admin/AddRentCategory";
 import EditRentCategory from "@/component/admin/EditRentCategory";
+import ListRentCategory from "@/component/admin/ListRentCategory";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -37,8 +38,8 @@ const AddCategorys = () => {
         </button>}
       </div>
       {state == 0 && <AddRentCategory setState={setState} />}
-      {/* {state == 1 && <ListCategory setState={setState} />}
-      {state == 2 && <EditRentCategory setState={setState} />} */}
+       {state == 1 && <ListRentCategory setState={setState} />}
+      {/*state == 2 && <EditRentCategory setState={setState} />} */}
 
     </div>
   );
