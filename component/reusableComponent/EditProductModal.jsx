@@ -101,6 +101,7 @@ const EditProductModal = ({
           setloading(false);
           setConfirm(false);
           setActionPerformed(true);
+          setNextPage(false);
           if (closeButtonRef.current) {
             closeButtonRef.current.click();
           }
@@ -119,7 +120,7 @@ const EditProductModal = ({
           setConfirm(false);
         });
       if (Inspectiondata.inspectionDate !== "") {
-        ProductFarmerServices.UpdateProductInspection(InspectionId,formData)
+        ProductFarmerServices.UpdateProductInspection(InspectionId, formData)
           .then((data) => {
             setloading(false);
           })
@@ -183,23 +184,7 @@ const EditProductModal = ({
           setImageList(data?.images);
         }
       );
-      ProductFarmerServices?.getSingleProductInspection(modalData?.productDtlId)
-        .then(({ data }) => {
-          setInspectionId(data.inspectionId);
-          setInspectiondata({
-            inspectionDate: data.inspectionDate?.split("T")[0],
-            inspectionStatus: data.inspectionStatus,
-            productDtlId: data.productDtlId,
-            remarks: data.remarks,
-            url: data.url,
-            complianceLevel: data.complianceLevel,
-            nextInspectionDue: data.nextInspectionDue,
-            inspectedQuantity: data.inspectedQuantity,
-            issuesFound: data.issuesFound,
-            resolutionDate: data.resolutionDate,
-          });
-        })
-        .catch((e) => console.log(e));
+
       ProductUnitServices.getProductUnit(modalData?.unitId).then(({ data }) => {
         setUnitTitle(
           data.filter((data) => data?.unitId == modalData?.unitId)[0]?.unitName
@@ -219,6 +204,39 @@ const EditProductModal = ({
     }));
   }, [NextPage]);
 
+  useEffect(() => {
+    ProductFarmerServices.getSingleProductInspection(modalData?.productDtlId)
+      .then(({ data }) => {
+        setInspectionId(data.inspectionId);
+        setInspectiondata({
+          inspectionDate: data.inspectionDate?.split("T")[0],
+          inspectionStatus: data.inspectionStatus,
+          productDtlId: data.productDtlId,
+          remarks: data.remarks,
+          url: data.url,
+          complianceLevel: data.complianceLevel,
+          nextInspectionDue: data.nextInspectionDue,
+          inspectedQuantity: data.inspectedQuantity,
+          issuesFound: data.issuesFound,
+          resolutionDate: data.resolutionDate,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+        setInspectiondata({
+          inspectionDate: "",
+          inspectionStatus: "",
+          remarks: "",
+          url: "",
+          complianceLevel: "",
+          nextInspectionDue: "",
+          inspectedQuantity: "",
+          issuesFound: "",
+          resolutionDate: "",
+        });
+      });
+  }, [modalData?.productDtlId && NextPage]);
+
   const clearerrors = () => {
     setslugerror("");
     setreviewerror("");
@@ -226,7 +244,7 @@ const EditProductModal = ({
     setmetaTitle("");
     setSlug("");
     setreview("");
-    setNextPage(false);
+    setNextPage(!NextPage);
     setinspectionDateerror("");
     setcomplianceLevelerror("");
     setinspectionStatusError("");
@@ -479,16 +497,6 @@ const EditProductModal = ({
                         )}
                       </div>
 
-                      {/* <div className="col-md-6">
-                        <label className="adjustLabel">Inspection Status*</label>
-                        <input
-                          type="text"
-                          className="form-control p-2 adjustLabel_input shadow-none"
-                          name="inspectionStatus"
-                          onChange={(e) => onChangeHandeler(e)}
-                          value={Inspectiondata.inspectionStatus}
-                        />
-                      </div> */}
                       <div className="col-md-6">
                         <label className="adjustLabel">
                           Inspection Status*
@@ -497,7 +505,7 @@ const EditProductModal = ({
                           className="form-control p-2 adjustLabel_input shadow-none"
                           name="inspectionStatus"
                           onChange={(e) => onChangeHandeler(e)}
-                          value={Inspectiondata.inspectionStatus || ""} // Set default to an empty string if undefined
+                          value={Inspectiondata.inspectionStatus || ""}
                         >
                           <option value="" disabled>
                             Select Status
@@ -520,8 +528,19 @@ const EditProductModal = ({
                           className="form-control p-2 adjustLabel_input shadow-none"
                           name="url"
                           onChange={(e) => onChangeHandeler(e)}
-                          // value={Inspectiondata.url}
+                          //   value={Inspectiondata.url}
                         />
+                        {Inspectiondata.url && (
+                          <span className="error_input_text">
+                            <a
+                              href={`${Image_URL}/inspection/${Inspectiondata.url}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              View Selected File
+                            </a>
+                          </span>
+                        )}
                       </div>
 
                       <div className="col-md-6">
