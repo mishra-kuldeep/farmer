@@ -52,6 +52,7 @@ const page = () => {
         available: true,
         isForSale: false,
         isForRent: false,
+        otherDetails: {},
       });
       setLoader(false);
       toast(" added successfully!", {
@@ -208,7 +209,7 @@ const page = () => {
                     type="text"
                     className="form-control adjustLabel_input"
                     name={key}
-                    value={values.otherDetails[key]}
+                    value={values?.otherDetails[key]}
                     onChange={handleDynamicFieldChange}
                   />
                 </div>
