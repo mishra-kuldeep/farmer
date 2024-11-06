@@ -15,6 +15,7 @@ import UserProfile from "@/component/myaccount/UserProfile";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FiHeart } from "react-icons/fi";
 import { CiBoxList } from "react-icons/ci";
+import { IoMdAddCircle } from "react-icons/io";
 
 const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
@@ -114,6 +115,13 @@ const AccountLayout = ({ children }) => {
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/FertilizersPesticidesList",
       status: user?.profile?.role === 9,
+    },
+    {
+      id: 10,
+      title: "Farm Lands ",
+      icon: <IoMdAddCircle size={22} />,
+      goesTo: "/myAccount/addFarmLands",
+      status: true,
     },
   ];
   return (
