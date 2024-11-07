@@ -110,17 +110,24 @@ const AccountLayout = ({ children }) => {
       status: user?.profile?.role === 9,
     },
     {
-      id: 10,
+      id: 11,
       title: "Fertilizers Pesticides List ",
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/FertilizersPesticidesList",
       status: user?.profile?.role === 9,
     },
     {
-      id: 10,
+      id: 12,
       title: "Farm Lands ",
       icon: <IoMdAddCircle size={22} />,
       goesTo: "/myAccount/addFarmLands",
+      status: true,
+    },
+    {
+      id: 13,
+      title: "Farm Lands List ",
+      icon: <CiBoxList size={22} />,
+      goesTo: "/myAccount/FarmLandList ",
       status: true,
     },
   ];

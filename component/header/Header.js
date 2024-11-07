@@ -155,19 +155,19 @@ function Header() {
         {
           id: 11,
           title: "Agricultural lands",
-          goesTo: "/myAccount/myProfile",
+          goesTo: "/adverts/1",
           status: user?.profile?.role === 2,
         },
         {
           id: 12,
           title: "Plots",
-          goesTo: "/myAccount/myProfile",
+          goesTo: "/adverts/2",
           status: user?.profile?.role === 2,
         },
         {
           id: 12,
           title: "Farm Lands",
-          goesTo: "/myAccount/myProfile",
+          goesTo: "/adverts/3",
           status: user?.profile?.role === 2,
         },
       ],
