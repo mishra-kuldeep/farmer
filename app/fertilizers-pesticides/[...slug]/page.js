@@ -39,7 +39,7 @@ const page = () => {
           setLoader(false);
         });
     }
-  }, [user?.profile?.country]);
+  }, [user?.profile?.country,country?.country?.countryId]);
 
   return (
     <>

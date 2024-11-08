@@ -43,7 +43,31 @@
   color: #fff;
   border-radius:0px 10px 10px 0px;
 }
+.filterSELECTED{
+  background-color: #ebebeb;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.filterHover:hover{
+  background-color: #ebebeb;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.filterSection{
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 5px;
+  max-height: 70vh;
+  overflow: auto;
+}
 
+@media only screen and (max-width: 600px) {
+  .filterSection{
+    max-height: 20vh;
+    margin-bottom: 20px;
+  }
+  
+}
 .plotsale[data-status="isForRent"]{
    
     padding: 5px;

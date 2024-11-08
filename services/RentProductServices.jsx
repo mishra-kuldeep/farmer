@@ -22,6 +22,15 @@ export default class RentProductsServices {
       },
     });
   }
+  static async getAllRentProductHome(data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/rentProduct/add/home?page=${data?.page}&search=${data?.searchText}&countryId=${data?.countryId}&rentCategoryId=${data?.rentCategoryId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
   static async addRentProducts(data) {
     const token = getCookie("token");

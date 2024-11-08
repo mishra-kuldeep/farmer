@@ -12,7 +12,6 @@ const page = () => {
   const [VendorList, setVendorList] = useState([]);
   const [Loader, setLoader] = useState(false);
   const [currencySymbol, seetcurrencySymbol] = useState("₹");
-  console.log(country);
   const user = useSelector((state) => state.auth);
   useEffect(() => {
     setLoader(true);
@@ -37,7 +36,7 @@ const page = () => {
           setLoader(false);
         });
     }
-  }, [user?.profile?.country]);
+  }, [user?.profile?.country,country?.country?.countryId]);
 
   return (
     <>
@@ -75,9 +74,15 @@ const page = () => {
                           color: "grey",
                           fontSize: "12px",
                           margin: "10px 0px 10px 0px",
+                          // cursor:""
                         }}
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title={item?.description}
                       >
-                        {item?.description}
+                        {item?.description?.length < 100
+                          ? item?.description
+                          : `${item?.description?.substring(0, 100)}...`}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
