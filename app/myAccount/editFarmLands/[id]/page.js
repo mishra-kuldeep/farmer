@@ -1,14 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "../../admin/addProduct/addProduct.css";
+// import "../../admin/addProduct/addProduct.css";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import AuthService from "@/services/AuthServices";
 import { useSelector } from "react-redux";
 import RentProductsServices from "@/services/RentProductServices";
-
-const page = () => {
+const page = ({ params }) => {
   const router = useRouter();
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
@@ -17,7 +16,10 @@ const page = () => {
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
   const [dynamicFields, setDynamicFields] = useState({});
+
   const [values, setValues] = useState({
+    title: "",
+    description: "",
     countryId: "",
     UserId: "",
     rentCategoryId: "",
@@ -74,7 +76,8 @@ const page = () => {
       setLoader(false);
     }
   };
- 
+  console.log(values);
+
   useEffect(() => {
     if (user?.profile?.id) {
       setisLoading(true);
@@ -90,12 +93,36 @@ const page = () => {
   const initApi = () => {
     RentProductsServices.getAllRentCategories()
       .then(({ data }) => {
+        console.log(data);
         setRentCategorieslist(data);
+      })
+      .catch((err) => console.log(err));
+
+    RentProductsServices.getRentProductById(params?.id)
+      .then(({ data }) => {
+        console.log(data);
+        setValues({
+          countryId: data?.countryId,
+          UserId: data?.UserId,
+          title: data?.title,
+          description: data?.description,
+          phone:data?.phone,
+          rentCategoryId: data?.rentCategoryId,
+          available: data?.isAvailable,
+          isForSale: data?.isForSale,
+          isForRent: data?.isForRent,
+          otherDetails: data?.otherDetails,
+        });
+        // setRentProduct(data);
       })
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => initApi(), []);
+  useEffect(() => {
+    if (params?.id) {
+      initApi();
+    }
+  }, [params?.id]);
 
   useEffect(() => {
     if (values.rentCategoryId) {
@@ -106,7 +133,7 @@ const page = () => {
         setDynamicFields(JSON.parse(selectedCategory.otherDetails));
         setValues((prev) => ({
           ...prev,
-          otherDetails: JSON.parse(selectedCategory.otherDetails),
+          otherDetails: JSON.parse(values?.otherDetails||selectedCategory.otherDetails ),
         }));
       }
     }
@@ -268,7 +295,7 @@ const page = () => {
                       }))
                     }
                   >
-                    Rent
+                    isForRent
                   </label>
                 </div>
               </div>
@@ -298,7 +325,7 @@ const page = () => {
                       }))
                     }
                   >
-                    Sale
+                    isForSale
                   </label>
                 </div>
               </div>

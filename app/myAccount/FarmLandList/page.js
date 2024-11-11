@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 import vendorMasterServices from "@/services/vendorMasterServices";
 import RentProductsServices from "@/services/RentProductServices";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import IconButton from "@/component/reusableComponent/IconButton";
 
 const page = () => {
   const router = useRouter();
@@ -25,7 +28,7 @@ const page = () => {
   const [expandedRow, setExpandedRow] = useState(null);
 
   const editHandeler = (id) => {
-    router.push(`/myAccount/editVenderServices/${id}`);
+    router.push(`/myAccount/editFarmLands/${id}`);
   };
 
   //********  Toggle the expansion of the row ******************//
@@ -219,8 +222,20 @@ const page = () => {
                   {expandedRow === item?.rentProductId && (
                     <tr>
                       <td colSpan="9">
-                        <div className="mt-2"><strong>Description: </strong> {item?.description}</div>
-                        <div>{renderOtherDetails(item?.otherDetails)}</div>
+                        <div className="row">
+                          <div className="col-md-11">
+                            <div className="mt-2">
+                              <strong>Description: </strong> {item?.description}
+                            </div>
+                            <div>{renderOtherDetails(item?.otherDetails)}</div>
+                          </div>
+                          <div className="col-md-1 text-center p-2">
+                            <div>
+                              <FaEdit color="green" size={26} onClick={()=>editHandeler(item?.rentProductId)}  />
+                              <MdDelete color="red" size={30} />
+                            </div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   )}
