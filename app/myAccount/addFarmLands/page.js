@@ -270,7 +270,7 @@ const page = () => {
                       }))
                     }
                   >
-                    isForRent
+                    Rent
                   </label>
                 </div>
               </div>
@@ -300,7 +300,7 @@ const page = () => {
                       }))
                     }
                   >
-                    isForSale
+                    Sale
                   </label>
                 </div>
               </div>
