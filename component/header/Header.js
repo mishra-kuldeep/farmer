@@ -68,8 +68,6 @@ function Header() {
               (ele) => ele.countryCode == countrys.country_code
             );
             dispatch(fetchCountry(country))
-            console.log(country);
-            
           });
         });
       });
@@ -91,7 +89,6 @@ function Header() {
     vendorMasterServices
       .getAllVendor()
       .then(({ data }) => {
-        console.log(data);
         const transformedData = data.map((service) => ({
           id: service.VendorServicesMasterId,
           title: service.type,
@@ -117,7 +114,7 @@ function Header() {
 
   useEffect(() => initApi(), []);
 
-  console.log(venderList);
+
 
   const HeaderMenu = [
     {
@@ -263,11 +260,7 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuRef]);
-  console.log(
-    user?.profile?.role === 2
-      ? "/myAccount/myProfile"
-      : "/myAccount/CompanyProfile"
-  );
+
   return (
     <>
       {!isMobile ? (

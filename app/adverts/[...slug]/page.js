@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
 import { FaThList } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
@@ -25,7 +26,11 @@ const AdvertsCart = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [Loader, setLoader] = useState(false);
-  const farmServices = () => {};
+  const router = useRouter();
+  
+  const farmServices = (id) => {
+    router.push(`/adverts/details/${id}`);
+  };
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -38,7 +43,7 @@ const AdvertsCart = () => {
 
   const handleCategoryChange = (rentCategoryId) => {
     setSelectedCategory(rentCategoryId);
-    setSearchTerm("")
+    setSearchTerm("");
   };
 
   const ApiCall = () => {
@@ -144,12 +149,20 @@ const AdvertsCart = () => {
                 {user?.profile?.countryName || country?.country?.countryName}
               </h3>
               <div className="d-flex align-items-center gap-3 cursor ">
-                <FaThList size={25} onClick={() => setGrid(1)} color={grid?"#000":"#ddd"}/>
-                <MdDashboard size={30} onClick={() => setGrid(0)} color={grid?"#ddd":"#000"} />
+                <FaThList
+                  size={25}
+                  onClick={() => setGrid(1)}
+                  color={grid ? "#000" : "#ddd"}
+                />
+                <MdDashboard
+                  size={30}
+                  onClick={() => setGrid(0)}
+                  color={grid ? "#ddd" : "#000"}
+                />
               </div>
             </div>
             {Loader ? (
-              <div style={{height:"50vh"}} className="centerAllDiv">
+              <div style={{ height: "50vh" }} className="centerAllDiv">
                 <MiniLoader />
                 <span className="ms-3">Loading...</span>
               </div>
@@ -162,7 +175,7 @@ const AdvertsCart = () => {
                     <div
                       key={product.rentProductId}
                       className="product-card"
-                      onClick={farmServices}
+                      onClick={() => farmServices(product.rentProductId)}
                     >
                       <div className="rentstatus ">
                         {product.isForSale && (
@@ -201,10 +214,7 @@ const AdvertsCart = () => {
                           >
                             {product?.description?.length < 100
                               ? product?.description
-                              : `${product?.description?.substring(
-                                  0,
-                                   100
-                                )}...`}
+                              : `${product?.description?.substring(0, 100)}...`}
                           </p>
                         </div>
                       </div>

@@ -17,7 +17,6 @@ export const fetchCountry = createAsyncThunk(
   "/fetchCountry",
   async ( data,{ rejectWithValue }) => {
     try {
-     console.log(data)
       return data;
     } catch (error) {
       return rejectWithValue("country get error");
@@ -43,7 +42,6 @@ export const countrySlice = createSlice({
       })
       .addCase(fetchCountry.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload)
        state.country=action.payload
       })
       .addCase(fetchCountry.rejected, (state, action) => {
