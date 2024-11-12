@@ -59,4 +59,22 @@ export default class RentProductsServices {
       },
     });
   }
+  static async EditRentProducts(id ,data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/rentProduct/${id}`;
+    return axios.put(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async DeleteRentProducts(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/rentProduct/${id}`;
+    return axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 }

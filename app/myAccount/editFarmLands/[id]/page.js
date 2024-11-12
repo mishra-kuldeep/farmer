@@ -44,7 +44,7 @@ const page = ({ params }) => {
   const onSubmitHandler = async () => {
     setLoader(true);
     try {
-      await RentProductsServices.addRentProducts(values);
+      await RentProductsServices.EditRentProducts(params?.id, values);
       setErrors({});
       setValues({
         countryId: "",
@@ -56,8 +56,8 @@ const page = ({ params }) => {
         otherDetails: {},
       });
       setLoader(false);
-      toast(" added successfully!", {
-        icon: "👏",
+      toast(" Edit successfully!", {
+        icon: "✔️",
         style: {
           borderRadius: "10px",
           background: "green",
@@ -76,7 +76,8 @@ const page = ({ params }) => {
       setLoader(false);
     }
   };
-  console.log(values);
+
+ 
 
   useEffect(() => {
     if (user?.profile?.id) {
@@ -93,20 +94,18 @@ const page = ({ params }) => {
   const initApi = () => {
     RentProductsServices.getAllRentCategories()
       .then(({ data }) => {
-        console.log(data);
         setRentCategorieslist(data);
       })
       .catch((err) => console.log(err));
 
     RentProductsServices.getRentProductById(params?.id)
       .then(({ data }) => {
-        console.log(data);
         setValues({
           countryId: data?.countryId,
           UserId: data?.UserId,
           title: data?.title,
           description: data?.description,
-          phone:data?.phone,
+          phone: data?.phone,
           rentCategoryId: data?.rentCategoryId,
           available: data?.isAvailable,
           isForSale: data?.isForSale,
@@ -133,7 +132,7 @@ const page = ({ params }) => {
         setDynamicFields(JSON.parse(selectedCategory.otherDetails));
         setValues((prev) => ({
           ...prev,
-          otherDetails: JSON.parse(values?.otherDetails||selectedCategory.otherDetails ),
+          otherDetails: JSON.parse(values?.otherDetails || selectedCategory.otherDetails),
         }));
       }
     }

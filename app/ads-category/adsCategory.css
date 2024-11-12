@@ -1,0 +1,41 @@
+.adsCatogryWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.adsCategory {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #dadada;
+    padding: 20px;
+    margin-bottom: 10px;
+    transition: 1s;
+}
+
+.adsCategory:hover img {
+    transform: scale(1.1);
+    transition: 1s;
+}
+
+.imageWrapperAdd {
+    width: 210px;
+    height: 210px;
+    padding: 5px;
+    border: 1px solid #dadada;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adsCategory .imageWrapperAdd img {
+    width: 205px;
+    height: 205px;
+    padding: 5px;
+    border-radius: 50%;
+
+}

@@ -22,16 +22,19 @@
   /* background-color: red; */
   width: 100%;
   position: relative;
-  border: 1px solid rgb(190, 190, 190);
   border-radius: 10px;
+  padding: 5px;
+  background-color: var(--light);
+  display: flex;
+  justify-content: space-between;
 }
 .search_wrapper input {
-  width: 90%;
+  width: 89%;
   border: none;
   outline: none;
   padding: 10px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 10px 0px 0px 10px;
 }
 .search_wrapper button {
   width: 10%;

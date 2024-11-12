@@ -52,12 +52,12 @@ const page = () => {
   };
   const handleDelete = async () => {
     setdeleteloader(true);
-    await vendorMasterServices
-      .deleteVendorServices(selectedId)
+    await RentProductsServices
+      .DeleteRentProducts(selectedId)
       .then(({ data }) => {
         setdeleteloader(false);
         setservicesVenderList(
-          servicesVenderList.filter((ele) => ele?.serviceId !== selectedId)
+          servicesVenderList.filter((ele) => ele?.rentProductId !== rentProductId)
         );
         setShowConfirm(false);
         toast(data.message, {
@@ -232,7 +232,7 @@ const page = () => {
                           <div className="col-md-1 text-center p-2">
                             <div>
                               <FaEdit color="green" size={26} onClick={()=>editHandeler(item?.rentProductId)}  />
-                              <MdDelete color="red" size={30} />
+                              <MdDelete color="red" size={30} onClick={()=>deleteHandeler(item?.rentProductId)}/>
                             </div>
                           </div>
                         </div>

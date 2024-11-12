@@ -87,7 +87,7 @@ function Header() {
 
   const initApi = () => {
     vendorMasterServices
-      .getAllVendor()
+      .getAllactiveVendor(1)
       .then(({ data }) => {
         const transformedData = data.map((service) => ({
           id: service.VendorServicesMasterId,
@@ -120,7 +120,7 @@ function Header() {
     {
       id: 1,
       title: "Farmers",
-      goesTo: "/myAccount/myProfile",
+      // goesTo: "/myAccount/myProfile",
       status:
         !user.isLoggedIn ||
         (user?.profile?.role === 2 && user?.profile?.role !== 3),
@@ -142,7 +142,7 @@ function Header() {
     {
       id: 1,
       title: "Farm Lands",
-      goesTo: "/myAccount/myProfile",
+      // goesTo: "/myAccount/myProfile",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 2 ||
@@ -172,13 +172,14 @@ function Header() {
     {
       id: 2,
       title: "Buyer",
-      goesTo: "/myAccount/addProduct",
+      // goesTo: "/myAccount/addProduct",
       status: !user.isLoggedIn || user?.profile?.role === 3,
     },
+
     {
-      id: 3,
+      id: 4,
       title: "Transportation",
-      goesTo: "/myAccount/listAddedProduct",
+      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 4 ||
@@ -187,30 +188,16 @@ function Header() {
       subMenu: transporterList,
     },
     {
-      id: 4,
+      id: 5,
       title: "Vendor",
-      goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 6 ||user?.profile?.role == 3,
+      // goesTo: "/myAccount/listAddedProduct",
+      status: !user.isLoggedIn || user?.profile?.role == 6 || user?.profile?.role == 3,
       subMenu: venderList,
-      //  [
-      //   {
-      //     id: 31,
-      //     title: "Cold Storage",
-      //     goesTo: "/myAccount/myProfile",
-      //     status: user?.profile?.role == 4,
-      //   },
-      //   {
-      //     id: 32,
-      //     title: "Machinary",
-      //     goesTo: "/myAccount/myProfile",
-      //     status: user?.profile?.role == 4,
-      //   },
-      // ],
     },
     {
       id: 6,
       title: "Fertilizers & Pesticides",
-      goesTo: "/myAccount/listAddedProduct",
+      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 4 ||
@@ -237,6 +224,12 @@ function Header() {
           status: user?.profile?.role == 4 || 3,
         },
       ],
+    },
+    {
+      id: 3,
+      title: "Ads",
+      goesTo: "/ads-category",
+      status: true,
     },
   ];
   const cls = visible ? "visible" : "hidden";
@@ -401,11 +394,10 @@ function Header() {
                   <div className="col-md-9 p-0">
                     <div className="category_inline_header" ref={menuRef}>
                       {HeaderMenu?.map((ele, index) => (
-                        <div key={index}>
+                        <div key={index} onClick={() => ele?.goesTo && router.push(ele?.goesTo)}>
                           <p
-                            className={`${
-                              openMenuIndex === index ? "activee" : ""
-                            }`}
+                            className={`${openMenuIndex === index ? "activee" : ""
+                              }`}
                             onClick={() => toggleSubMenu(index)}
                             style={{
                               cursor: "pointer",
