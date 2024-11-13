@@ -39,7 +39,7 @@ const AddCategorys = () => {
       </div>
       {state == 0 && <AddRentCategory setState={setState} />}
        {state == 1 && <ListRentCategory setState={setState} />}
-      {/*state == 2 && <EditRentCategory setState={setState} />} */}
+      {state == 2 && <EditRentCategory setState={setState} />}
 
     </div>
   );

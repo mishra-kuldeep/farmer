@@ -70,7 +70,7 @@ const ListRentCategory = ({ setState }) => {
     const editHandeler = (id) => {
         setSelectedId(id);
         setState("2");
-        router.push(`/admin/addCategory?editId=${id}`);
+        router.push(`/admin/addrentCategory?editId=${id}`);
     };
 
     return (

@@ -7,6 +7,7 @@ import "../adverts/[...slug]/adverts.css"
 import RentServices from '@/services/RentService';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { Image_URL } from "@/helper/common";
 
 const page = () => {
     const user = useSelector((state) => state.auth);
@@ -38,6 +39,7 @@ const page = () => {
 
 
     ]
+    console.log(categoryList)
     return (
         <div className='container pt-3'>
             <div className="search_wrapper mb-3">
@@ -63,7 +65,7 @@ const page = () => {
                     {categoryList.map((category, index) => (
                         <div className='adsCategory' key={index} onClick={() => goNextPage(category?.rentCategoryId)}>
                             <div className='imageWrapperAdd'>
-                                <img src={categoryimg[index]} />
+                                <img src={category.url !=='default_url'?`${Image_URL}/CatImage/${category?.url}`: categoryimg[index] } />
                             </div>
                             <h6><u>{category?.name}</u></h6>
                         </div>))}
