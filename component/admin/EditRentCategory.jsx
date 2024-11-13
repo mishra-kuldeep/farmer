@@ -59,9 +59,11 @@ const EditRentCategory = ({ setState }) => {
             description: data?.description,
             status: data?.status,
             Image: null,
-            otherDetails:data?.otherDetails
+            otherDetails: data?.otherDetails
           })
-          setFields([JSON.parse(data?.otherDetails)])
+          const obj = {value:""}
+         const flds = Object.keys(JSON.parse(data?.otherDetails)).map((val)=>({'value':val}))
+          setFields(flds)
         }).catch((e) => {
           console.log(e)
         }).finally(() => {
@@ -72,12 +74,13 @@ const EditRentCategory = ({ setState }) => {
 
   const onSubmitHandler = () => {
     setLoader(true);
+    console.log(values)
     const formData = new FormData();
-    formData.append("categoryName", values.categoryName);
-    formData.append("description", values.description);
-    formData.append("status", values.status);
-    if (values.Image) {
-      formData.append("CatImage", values.Image); // Add image file
+    formData.append("categoryName", values?.categoryName);
+    formData.append("description", values?.description);
+    formData.append("status", values?.status);
+    if (values?.Image) {
+      formData.append("CatImage", values?.Image); // Add image file
     }
     const allField = fields.map((val) => !Object.values(val)[0] ? null : Object.values(val)[0])
     const result = allField.reduce((acc, item) => {
@@ -122,6 +125,7 @@ const EditRentCategory = ({ setState }) => {
 
   const addField = () => {
     setFields([...fields, { value: "" }]);
+    console.log(fields)
   };
 
   const handleInputChange = (index, event) => {
@@ -194,6 +198,7 @@ const EditRentCategory = ({ setState }) => {
       </div>
       {fields.map((field, index) => (
         <div key={index} className="col-md-4 mb-3 mt-2">
+           {/* <label className="adjustLabel">{field}</label> */}
           <input
             type="text"
             className="form-control p-2 adjustLabel_input"

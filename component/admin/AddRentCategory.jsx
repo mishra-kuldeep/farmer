@@ -84,6 +84,7 @@ const AddRentCategory = ({ setState }) => {
   const addField = () => {
     setFields([...fields, { value: "" }]);
   };
+console.log(fields);
 
   const handleInputChange = (index, event) => {
     const updatedFields = [...fields];

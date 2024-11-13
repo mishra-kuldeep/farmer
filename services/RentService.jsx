@@ -39,6 +39,9 @@ export default class RentServices {
   
 
     static async EditRentCategory(id, data) {
+        for (const [key, value] of data.entries()) {
+            console.log(`${key}: ${value}`);
+          }
         const token = getCookie("token");
         const url = `${BASE_URL}/rentCategory/${id}`;
         return axios.put(url, data, {
