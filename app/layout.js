@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-     <body className={`${inter.className} ${robotoSlab.className}`} onContextMenu={(e) => e.preventDefault()}>
+     <body className={`${inter.className} ${robotoSlab.className}`} >
 
       <Suspense>
         <Provider store={store}>

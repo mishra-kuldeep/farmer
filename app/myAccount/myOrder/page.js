@@ -78,7 +78,9 @@ import { TbTruckDelivery } from "react-icons/tb";
 import VehicleServices from "@/services/VehicleServices";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
 import { MdOutlineLocationOn } from "react-icons/md";
-import "../../myAccount/customerOrder/customerOrder.css"
+import "../../myAccount/customerOrder/customerOrder.css";
+import { calculateDistance } from "@/helper/utils";
+import { isMobile } from "react-device-detect";
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
@@ -94,9 +96,10 @@ const MyOrder = () => {
   const [productDtlId, setProductDtlId] = useState(null);
   const [deliveryAddressId, setdeliveryAddressId] = useState(null);
   const [selectTransVehicalId, setSelectTransVehicalId] = useState(null);
+  const [distanceArr, setDistanceArr] = useState([]);
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
-
+  const [TransporterDelivery, setTransporterDelivery] = useState([]);
   useEffect(() => {
     setloading(true);
     OrderService.BuyerOrderList(status, page)
@@ -117,42 +120,78 @@ const MyOrder = () => {
   };
 
   const handleStatusChange = (value) => {
-    setPage(1)
+    setPage(1);
     setStatus(value);
     setOpenIndex(null);
   };
 
   const handleOncloses = (value) => {
-    setErrror("")
-    setTranspoterlist([])
+    setErrror("");
+    setTranspoterlist([]);
   };
+  console.log(productList);
+  console.log(TransporterDelivery);
 
   const showfullProductList = (orderId) => {
     setMiniloading(true);
     OrderService.BuyerOrderSingleList(orderId)
       .then(({ data }) => {
+        setTransporterDelivery([]);
+        data?.data.map((ele) => {
+          if (ele.transVehicalId) {
+            // setSelectTranspoterlist([...SelectTranspoterlist, ele.transVehicalId]);
+            OrderService.getTransporterDetailForOrderDetails(ele.orderDetailId)
+              .then(({ data }) => {
+                setTransporterDelivery((pre) => [...pre, data]);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        });
         setProductList(data?.data);
-        setSelectTranspoterlist(data?.data.map((ele) => ele.transVehicalId));
+        if (data?.data?.length > 0) {
+          setDistanceArr([]);
+          for (let index = 0; index < data?.data?.length; index++) {
+            calculateDistance(
+              data?.data[index]?.DeliveryAddress?.postalCode,
+              data?.data[index]?.productDetail?.User?.userInfo?.Zip
+            )
+              .then((distance) => {
+                const obj = {
+                  productDtlId: data?.data[index]?.productDetail?.productDtlId,
+                  distance,
+                };
+                setDistanceArr((pre) => [...pre, obj]);
+              })
+              .catch((error) => console.error(error));
+          }
+        }
         setMiniloading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-console.log(productList)
   // get Transpoter for Order Delivery
-  const getTranspoter = (location, OrderDetailId, productDtlId, UserId, addressId, selectTransVehical,countryId) => {
-    const data ={
-      location:location,
-      countryId:countryId,
-    }
-    console.log(data)
-    // setMiniloading(true);
-    setorderDetailId(OrderDetailId)
-    setProductDtlId(productDtlId)
-    setUserId(UserId)
-    setdeliveryAddressId(addressId)
-    setSelectTransVehicalId(selectTransVehical)
+  const getTranspoter = (
+    location,
+    OrderDetailId,
+    productDtlId,
+    UserId,
+    addressId,
+    selectTransVehical,
+    countryId
+  ) => {
+    const data = {
+      location: location,
+      countryId: countryId,
+    };
+    setorderDetailId(OrderDetailId);
+    setProductDtlId(productDtlId);
+    setUserId(UserId);
+    setdeliveryAddressId(addressId);
+    setSelectTransVehicalId(selectTransVehical);
     VehicleServices.getTranspoterForBuyer(data)
       .then(({ data }) => {
         setTranspoterlist(data?.data);
@@ -160,14 +199,16 @@ console.log(productList)
       })
       .catch((err) => {
         console.log(err);
-        setErrror(err?.response?.data?.message)
+        setErrror(err?.response?.data?.message);
       });
   };
 
-
-
-  const hendleSelectTranspot = (trans_Vehical, trans_porterId) => {
+  const hendleSelectTranspot = (trans_Vehical, trans_porterId, perKmCharge) => {
     // setMiniloading(true);
+    const selectedDistance = distanceArr.find(
+      (val) => val?.productDtlId == productDtlId
+    );
+    const maxDistance = Math.ceil(selectedDistance?.distance);
     const data = {
       transVehicalId: trans_Vehical,
       transporterId: trans_porterId,
@@ -175,20 +216,24 @@ console.log(productList)
       productDtlId: productDtlId,
       deliveryAddressId: deliveryAddressId,
       sellerId: userId,
-    }
+      totalDistance: maxDistance,
+      totalTranportCharge: maxDistance * perKmCharge,
+    };
     VehicleServices.selectTranspoterForOrderProduct(data)
       .then(({ data }) => {
-        setSelectTransVehicalId(trans_Vehical)
-        const index = productList.map((val) => (val?.orderDetailId)).indexOf(orderDetailId)
-        const selectedOrder = productList[index]
-        selectedOrder.transVehicalId = data?.newDetail?.transVehicalId
-        setProductList(productList)
+        setSelectTransVehicalId(trans_Vehical);
+        const index = productList
+          .map((val) => val?.orderDetailId)
+          .indexOf(orderDetailId);
+        const selectedOrder = productList[index];
+        selectedOrder.transVehicalId = data?.newDetail?.transVehicalId;
+        setProductList(productList);
         setSelectTranspoterlist(data?.newDetail);
         setMiniloading(false);
       })
       .catch((err) => {
         console.log(err);
-        setErrror(err?.response?.data?.message)
+        setErrror(err?.response?.data?.message);
       });
   };
   return (
@@ -302,7 +347,6 @@ console.log(productList)
                         />
                       </IconButton>
                     </div>
-
                   </div>
                 </div>
 
@@ -319,13 +363,14 @@ console.log(productList)
                         {productList?.map((ele, i) => {
                           return (
                             <div className="productorderbox " key={i}>
+                              <p className="indexing">{i+1}</p>
                               <div className="row">
                                 <div className="col-md-6">
-                                  <div className="d-flex gap-3">
+                                  <div className="d-md-flex gap-3">
                                     <img
                                       src={`${Image_URL}/products/${ele?.productDetail?.ProductsImages[0]?.url}`}
-                                      height="100px"
-                                      width="100px"
+                                      height={isMobile?"300px":"150px"}
+                                      width={isMobile?"100%":"150px"}
                                       alt="image"
                                     />
                                     <div>
@@ -333,25 +378,27 @@ console.log(productList)
                                         {ele?.productDetail?.productDtlName}
                                       </h6>
                                       <h6 className="mt-2">
-                                        <del>₹ {ele?.productDetail?.price}/
+                                        <del>
+                                          ₹ {ele?.productDetail?.price}/
                                           {
                                             ele?.productDetail?.ProductUnit
                                               ?.unitName
                                           }
-                                        </del>
-                                        {" "}
+                                        </del>{" "}
                                         ₹{" "}
                                         {ele?.productDetail?.price -
-                                          (ele?.productDetail?.discountType === "fixed"
-                                            ? ele?.productDetail?.discount * ele?.quantity
-                                            : ((ele?.productDetail?.price *
-                                              ele?.productDetail?.discount) /
-                                              100)
-                                          )}/{
+                                          (ele?.productDetail?.discountType ===
+                                          "fixed"
+                                            ? ele?.productDetail?.discount *
+                                              ele?.quantity
+                                            : (ele?.productDetail?.price *
+                                                ele?.productDetail?.discount) /
+                                              100)}
+                                        /
+                                        {
                                           ele?.productDetail?.ProductUnit
                                             ?.unitName
                                         }
-
                                       </h6>
                                       <h6
                                         className="mt-2"
@@ -384,13 +431,16 @@ console.log(productList)
                                       </p>
                                       <span>
                                         <IoIosPerson size={15} />
-                                        <span className="fw-bold"
+                                        <span
+                                          className="fw-bold"
                                           style={{
                                             fontSize: "12px",
                                             fontWeight: "bold",
                                             color: "grey",
                                           }}
-                                        >{ele?.productDetail?.User?.FirstName}</span>
+                                        >
+                                          {ele?.productDetail?.User?.FirstName}
+                                        </span>
                                       </span>
                                       <span
                                         style={{
@@ -400,45 +450,75 @@ console.log(productList)
                                         }}
                                       >
                                         <MdOutlineLocationOn size={18} />
-                                        {ele?.productDetail?.User?.userInfo.City}
+                                        {
+                                          ele?.productDetail?.User?.userInfo
+                                            .City
+                                        }
                                       </span>
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-md-2 text-secondary">Purchase Price: ₹{ele?.priceAtPurchase}</div>
-                                <div className="col-md-2 text-secondary"> Quantity: {ele?.quantity}{" "}
-                                  {
-                                    ele?.productDetail?.ProductUnit
-                                      ?.unitName
-                                  }
+                                <div className="col-md-3">
+                                  <div className=" text-secondary">
+                                    Distance:
+                                    {Math.ceil(distanceArr[i]?.distance)}
+                                  </div>
+                                  {ele?.transVehicalId != null && (
+                                    <div className=" text-secondary">
+                                      Transportation Charges: ₹
+                                      {
+                                        TransporterDelivery[i]
+                                          ?.totalTranportCharge
+                                      }
+                                    </div>
+                                  )}
+                                  <div className=" text-secondary">
+                                    Purchase Price: ₹{ele?.priceAtPurchase}
+                                  </div>
+                                  <div className=" text-secondary">
+                                    {" "}
+                                    Quantity: {ele?.quantity}{" "}
+                                    {ele?.productDetail?.ProductUnit?.unitName}
+                                  </div>
+                             
                                 </div>
-                                {ele.status == "Pending" && <div
-                                  className="col-md-2"
-                                  data-bs-toggle="offcanvas"
-                                  data-bs-target="#offcanvasRight"
-                                  aria-controls="offcanvasRight"
-                                  onClick={() =>
-                                    getTranspoter(
-                                      ele?.productDetail?.User?.userInfo?.Zip,
-                                      ele.orderDetailId,
-                                      ele.productDtlId,
-                                      ele?.productDetail?.User?.UserId,
-                                      ele?.addressId,
-                                      ele?.transVehicalId,
-                                      ele?.productDetail?.countryId,
-                                    )
-                                  }
-                                >
-                                  {ele?.transVehicalId == null ? (
-                                    <p className="text-secondary transporter-text">Select Transports</p>)
-                                    :
-                                    (<p className="text-secondary transporter-text">Change Transports</p>)}
+                                <div className="col-md-3 d-flex align-items-center">
+                                {ele.status == "Pending" && (
+                                    <div
+                                      className="col-md-2"
+                                      data-bs-toggle="offcanvas"
+                                      data-bs-target="#offcanvasRight"
+                                      aria-controls="offcanvasRight"
+                                      onClick={() =>
+                                        getTranspoter(
+                                          ele?.productDetail?.User?.userInfo
+                                            ?.Zip,
+                                          ele.orderDetailId,
+                                          ele.productDtlId,
+                                          ele?.productDetail?.User?.UserId,
+                                          ele?.addressId,
+                                          ele?.transVehicalId,
+                                          ele?.productDetail?.countryId
+                                        )
+                                      }
+                                    >
+                                      {ele?.transVehicalId == null ? (
+                                        <button className="login_btn" style={{whiteSpace:"nowrap"}}>
+                                          Select Transports
+                                        </button>
+                                      ) : (
+                                        <button className="login_btn" style={{whiteSpace:"nowrap"}}>
+                                          Change Transports
+                                        </button>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
-                                }
                               </div>
+                              <hr/>
                               <details>
                                 <summary style={{ color: "green" }}>
-                                Transporter More Details
+                                  Transporter More Details
                                 </summary>
                                 <div className="accordion-content">
                                   <div className="d-md-flex justify-content-between">
@@ -446,7 +526,10 @@ console.log(productList)
                                       <h6>Transport Driver & company Detail</h6>
                                       <p>
                                         <b>Company Name : </b>
-                                        {ele?.TransporterVehicle?.User?.CompanyName}
+                                        {
+                                          ele?.TransporterVehicle?.User
+                                            ?.CompanyName
+                                        }
                                         {/* {ele?.TransporterVehicle?.User?.LatName} */}
                                       </p>
                                       {/* <p>
@@ -540,13 +623,12 @@ console.log(productList)
                                   </div>
                                 </div>
                               </details>
-                              <div >
+                              <div>
                                 <OrderTracker status={ele?.status} />
                               </div>
                             </div>
                           );
                         })}
-
                       </div>
                     )}
                   </div>
@@ -584,7 +666,7 @@ console.log(productList)
                 <div className="row m-0 align-items-center">
                   <div className="col-md-3">
                     <h6 className="text-secondary">
-                      Transporter : {val?.User.FirstName}{" "}{val?.User.LastName}
+                      Transporter : {val?.User.FirstName} {val?.User.LastName}
                     </h6>
                   </div>
                   <div className="col-md-2">
@@ -601,36 +683,44 @@ console.log(productList)
                     <p className="text-secondary">
                       Charge Per Km : {val?.chargePerKm}
                     </p>
-                    <p style={{
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      color: "green",
-                    }}>
-                      You Save :{" "}{val?.availableOffers ?
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                        color: "green",
+                      }}
+                    >
+                      You Save :{" "}
+                      {val?.availableOffers ? (
                         <p className="text-secondary mt-2">
-                          {val?.availableOffers}{" "}OFF
+                          {val?.availableOffers} OFF
                         </p>
-                        : "0 OFF"
-                      }
+                      ) : (
+                        "0 OFF"
+                      )}
                     </p>
                   </div>
                   <div className="col-md-2 d-flex justify-content-between align-items-center">
                     <div className="d-flex gap-2">
                       <p
                         className="orderstatuscircle mt-2"
-                      // style={{backgroundColor:"orange"}}
+                        // style={{backgroundColor:"orange"}}
                       ></p>
                       <div>
                         <p className="text-secondary">
                           {val?.vehicleAvailabilityStatus}
                         </p>
-                        <p className="text-secondary">
-
-                        </p>
+                        <p className="text-secondary"></p>
                       </div>
                     </div>
                     <IconButton
-                      onClick={() => hendleSelectTranspot(Number(val?.transVehicalId), Number(val?.transporterId))}
+                      onClick={() =>
+                        hendleSelectTranspot(
+                          Number(val?.transVehicalId),
+                          Number(val?.transporterId),
+                          Number(val?.chargePerKm)
+                        )
+                      }
                       style={{ width: "25px", height: "25px" }}
                     >
                       <input

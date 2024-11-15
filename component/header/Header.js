@@ -191,7 +191,7 @@ function Header() {
       id: 5,
       title: "Vendor",
       // goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 6 || user?.profile?.role == 3,
+      status: !user.isLoggedIn || user?.profile?.role == 6 || user?.profile?.role == 3|| user?.profile?.role == 2,
       subMenu: venderList,
     },
     {

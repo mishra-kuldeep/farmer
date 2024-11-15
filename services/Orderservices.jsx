@@ -70,7 +70,7 @@ export default class OrderService {
     const url = `${BASE_URL}/order/orderDetailadmin/${orderId}`;
     return axios.get(url, {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
   }
@@ -80,10 +80,19 @@ export default class OrderService {
     const url = `${BASE_URL}/order/orderfarmer/${status}`;
     return axios.get(url, {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
   }
 
-  
+  static async getTransporterDetailForOrderDetails(orderDetailId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/transpoterDelivery/orderDetail/${orderDetailId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+  }
+
 }
