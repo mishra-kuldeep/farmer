@@ -1,0 +1,68 @@
+
+.servicevendercard {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin: 5px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    border-top: 4px solid var(--mainColor); /* Highlighted left border */
+}
+.servicevendercard:hover{
+  outline: 1px solid black;
+}
+.transporterParagraph{
+  font-weight: bold;
+}
+.locationInput{
+  border-radius: 2px;
+  background-color:#fff;
+  border-radius: 5px;
+  border: 1px solid gray;
+  outline: none;
+  padding-left: 10px;
+
+}
+.venderservicephone{
+    background-color: green;
+    color: #fff;
+    font-weight: bold;
+    height: 30px;
+    display: flex;
+    font-size: 12px;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+}
+.venderservicephone:hover{
+    cursor: pointer;
+    border-radius: 5px;
+}
+.search_wrapper {
+    /* background-color: red; */
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: var(--light);
+    display: flex;
+    justify-content: space-between;
+  }
+  .search_wrapper input {
+    width: 89%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px 0px 0px 10px;
+  }
+  .search_wrapper button {
+    width: 10%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 20px;
+    background-color: var(--mainColor);
+    color: #fff;
+    border-radius:0px 10px 10px 0px;
+  }

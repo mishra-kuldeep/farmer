@@ -97,4 +97,25 @@ export default class VehicleServices {
             },
         });
     }
+
+    // getHomeSingleTransVechical
+    static async getHomeSingleTransVechical(transVehicalId) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoter/singleHomepage/${transVehicalId}`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+
+    static async getAllTransportByVehicalId(vehicleId, data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/transpoter/allhomepage/${vehicleId}?countryId=${data.country}&search=${data.search}&zip=${data.zip}`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
 }

@@ -104,7 +104,7 @@ function Header() {
         const transformedData = data.map((service) => ({
           id: service.VendorServicesMasterId,
           title: service.type,
-          goesTo: "/myAccount/myProfile",
+          goesTo: `/transporter/${service.vehicleId}`,
           status: user?.profile?.role === 4, // Assuming the role condition applies here
         }));
         setTransporterList(transformedData);
