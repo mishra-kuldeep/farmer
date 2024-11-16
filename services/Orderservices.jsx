@@ -95,4 +95,14 @@ export default class OrderService {
     });
   }
 
+  static async getAllorderWithTranspoter(orderId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/transpoterDelivery/order/deliverycharge/${orderId}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+  }
+
 }

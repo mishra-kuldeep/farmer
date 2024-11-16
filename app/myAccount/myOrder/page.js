@@ -1,69 +1,4 @@
-// "use client";
-// import React, { useEffect, useState } from "react";
-// import "./orderStyle.css";
-// import OrderService from "@/services/Orderservices";
 
-// const MyOrder = () => {
-//   const [status, setStatus] = useState("all");
-//   const [orderList, setOrderList] = useState([]);
-//   useEffect(() => {
-//     OrderService.BuyerOrderList(status)
-//       .then(({ data }) => {
-//         setOrderList(data?.data);
-//         console.log(data?.data);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }, []);
-//   return (
-//     <div className="orderPage">
-//       {orderList?.map((ele) => {
-//         return (
-//           <div className="orderItemWrap">
-//             <div className="row m-0 align-items-center">
-//               <div className="col-md-3">
-//                 <h6 className="text-secondary">
-//                   Total Price : ₹ {ele?.totalAmount}
-//                 </h6>
-//               </div>
-//               <div className="col-md-3">
-//                 <p className="text-secondary">
-//                   Order on : {ele?.orderDate.substring(0, 10)}
-//                 </p>
-//               </div>
-
-//               <div className="col-md-6">
-//                 <div className="d-flex  gap-2">
-//                   <p
-//                     className="orderstatuscircle mt-2"
-//                     style={{
-//                       backgroundColor:
-//                         ele.adminReview == "Pending"
-//                           ? "orange"
-//                           : ele.adminReview == "Rejected" && "red",
-//                     }}
-//                   ></p>
-//                   <div>
-//                     <p className="text-secondary">{ele.adminReview} by admin</p>
-//                     {ele?.adminReviewDate && (
-//                       <p className="text-secondary ">
-//                         on {ele?.adminReviewDate?.substring(0, 10)}{" "}
-//                       </p>
-//                     )}
-//                     <p className="text-secondary">{ele?.adminReviewComment}</p>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         );
-//       })}
-//     </div>
-//   );
-// };
-
-// export default MyOrder;
 
 "use client";
 import React, { useEffect, useState } from "react";
@@ -81,13 +16,18 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import "../../myAccount/customerOrder/customerOrder.css";
 import { calculateDistance } from "@/helper/utils";
 import { isMobile } from "react-device-detect";
+import PaymentOrder from "@/component/reusableComponent/PaymentOrder";
+
+
 const MyOrder = () => {
+
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
   const [metaData, setmetaData] = useState(false);
+  const [orderId, setorderId] = useState(false);
   const [orderList, setOrderList] = useState([]);
   const [productList, setProductList] = useState([]);
-  const [openIndex, setOpenIndex] = useState(null); // State to track the open div index
+  const [openIndex, setOpenIndex] = useState(null);
   const [loading, setloading] = useState(false);
   const [miniloading, setMiniloading] = useState(false);
   const [transpoterlist, setTranspoterlist] = useState([]);
@@ -100,6 +40,11 @@ const MyOrder = () => {
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
   const [TransporterDelivery, setTransporterDelivery] = useState([]);
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [totalProductChar, setTotalProductChar] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     setloading(true);
     OrderService.BuyerOrderList(status, page)
@@ -129,8 +74,7 @@ const MyOrder = () => {
     setErrror("");
     setTranspoterlist([]);
   };
-  console.log(productList);
-  console.log(TransporterDelivery);
+
 
   const showfullProductList = (orderId) => {
     setMiniloading(true);
@@ -139,7 +83,6 @@ const MyOrder = () => {
         setTransporterDelivery([]);
         data?.data.map((ele) => {
           if (ele.transVehicalId) {
-            // setSelectTranspoterlist([...SelectTranspoterlist, ele.transVehicalId]);
             OrderService.getTransporterDetailForOrderDetails(ele.orderDetailId)
               .then(({ data }) => {
                 setTransporterDelivery((pre) => [...pre, data]);
@@ -173,6 +116,7 @@ const MyOrder = () => {
         console.log(err);
       });
   };
+
   // get Transpoter for Order Delivery
   const getTranspoter = (
     location,
@@ -181,7 +125,8 @@ const MyOrder = () => {
     UserId,
     addressId,
     selectTransVehical,
-    countryId
+    countryId,
+    orderId
   ) => {
     const data = {
       location: location,
@@ -192,6 +137,7 @@ const MyOrder = () => {
     setUserId(UserId);
     setdeliveryAddressId(addressId);
     setSelectTransVehicalId(selectTransVehical);
+    setorderId(orderId);
     VehicleServices.getTranspoterForBuyer(data)
       .then(({ data }) => {
         setTranspoterlist(data?.data);
@@ -218,6 +164,7 @@ const MyOrder = () => {
       sellerId: userId,
       totalDistance: maxDistance,
       totalTranportCharge: maxDistance * perKmCharge,
+      orderId: orderId
     };
     VehicleServices.selectTranspoterForOrderProduct(data)
       .then(({ data }) => {
@@ -236,6 +183,21 @@ const MyOrder = () => {
         setErrror(err?.response?.data?.message);
       });
   };
+
+  //************  Opens the modal and sets the selected order ****************/
+  const handleOpenModal = (order, price) => {
+    setSelectedOrder(order);
+    setTotalProductChar(price)
+    setShowModal(true);
+  };
+
+  //**************** */ Closes the modal and resets the state   ****************/
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedOrder(null);
+  };
+
+  console.log(orderList)
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -327,16 +289,46 @@ const MyOrder = () => {
                           <p className="text-secondary">
                             {ele.adminReview} by admin
                           </p>
-                          {ele?.adminReviewDate && (
+                          {ele.adminReviewDate &&
                             <p className="text-secondary">
                               on {ele?.adminReviewDate?.substring(0, 10)}{" "}
                             </p>
-                          )}
+                          }
                           <p className="text-secondary">
                             {ele?.adminReviewComment}
                           </p>
+
+
                         </div>
                       </div>
+                      {ele.adminReview == 'Approved' && (ele?.paymentStatus == "Pending" || ele?.paymentStatus == "Failed") ? (
+                        <>
+                          {showModal && (
+                            <PaymentOrder
+                              selectedOrder={selectedOrder}
+                              totalProductChar={totalProductChar}
+                              onClose={handleCloseModal}
+                            />
+                          )}
+                          <button className="login_btn" style={{ whiteSpace: "nowrap" }} onClick={() => handleOpenModal(ele?.orderId, ele?.totalAmount)}>
+                            Pay now
+                          </button>
+                          {ele?.paymentStatus == "Failed" &&
+                            <p>
+                              <span className="text-secondary">Payment </span>
+                              <span className="text-danger">{ele?.paymentStatus}</span>
+                            </p>
+                          }
+                        </>
+                      ) : (
+                        <p>
+                          <span className="text-secondary">Payment </span><span className="text-info">{ele?.paymentStatus}</span>
+                        </p>
+                      )
+
+
+                      }
+
                       <IconButton
                         onClick={() => toggleDiv(index, ele?.orderId)}
                       >
@@ -363,14 +355,14 @@ const MyOrder = () => {
                         {productList?.map((ele, i) => {
                           return (
                             <div className="productorderbox " key={i}>
-                              <p className="indexing">{i+1}</p>
+                              <p className="indexing">{i + 1}</p>
                               <div className="row">
                                 <div className="col-md-6">
                                   <div className="d-md-flex gap-3">
                                     <img
                                       src={`${Image_URL}/products/${ele?.productDetail?.ProductsImages[0]?.url}`}
-                                      height={isMobile?"300px":"150px"}
-                                      width={isMobile?"100%":"150px"}
+                                      height={isMobile ? "300px" : "150px"}
+                                      width={isMobile ? "100%" : "150px"}
                                       alt="image"
                                     />
                                     <div>
@@ -388,12 +380,12 @@ const MyOrder = () => {
                                         ₹{" "}
                                         {ele?.productDetail?.price -
                                           (ele?.productDetail?.discountType ===
-                                          "fixed"
+                                            "fixed"
                                             ? ele?.productDetail?.discount *
-                                              ele?.quantity
+                                            ele?.quantity
                                             : (ele?.productDetail?.price *
-                                                ele?.productDetail?.discount) /
-                                              100)}
+                                              ele?.productDetail?.discount) /
+                                            100)}
                                         /
                                         {
                                           ele?.productDetail?.ProductUnit
@@ -480,10 +472,10 @@ const MyOrder = () => {
                                     Quantity: {ele?.quantity}{" "}
                                     {ele?.productDetail?.ProductUnit?.unitName}
                                   </div>
-                             
+
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
-                                {ele.status == "Pending" && (
+                                  {ele.status == "Pending" && (
                                     <div
                                       className="col-md-2"
                                       data-bs-toggle="offcanvas"
@@ -498,16 +490,17 @@ const MyOrder = () => {
                                           ele?.productDetail?.User?.UserId,
                                           ele?.addressId,
                                           ele?.transVehicalId,
-                                          ele?.productDetail?.countryId
+                                          ele?.productDetail?.countryId,
+                                          ele?.orderId
                                         )
                                       }
                                     >
                                       {ele?.transVehicalId == null ? (
-                                        <button className="login_btn" style={{whiteSpace:"nowrap"}}>
+                                        <button className="login_btn" style={{ whiteSpace: "nowrap" }}>
                                           Select Transports
                                         </button>
                                       ) : (
-                                        <button className="login_btn" style={{whiteSpace:"nowrap"}}>
+                                        <button className="login_btn" style={{ whiteSpace: "nowrap" }}>
                                           Change Transports
                                         </button>
                                       )}
@@ -515,7 +508,7 @@ const MyOrder = () => {
                                   )}
                                 </div>
                               </div>
-                              <hr/>
+                              <hr />
                               <details>
                                 <summary style={{ color: "green" }}>
                                   Transporter More Details
@@ -704,7 +697,7 @@ const MyOrder = () => {
                     <div className="d-flex gap-2">
                       <p
                         className="orderstatuscircle mt-2"
-                        // style={{backgroundColor:"orange"}}
+                      // style={{backgroundColor:"orange"}}
                       ></p>
                       <div>
                         <p className="text-secondary">
