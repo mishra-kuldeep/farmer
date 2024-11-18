@@ -15,9 +15,7 @@ const page = () => {
 
   const intiApi = () => {
     VehicleServices.getHomeSingleTransVechical(id).then((response) => {
-      console.log(response.data.data[0])
       const userData = response.data.data[0];
-      console.log(userData)
       setSingleTransportData(userData);
     }).catch((err) => console.log(err))
   }
@@ -67,7 +65,7 @@ const page = () => {
             <div className="m-0 row mt-3">
               <div className="col-md-6">
                 <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Vechical</span> {singleTransportData?.TransportVehicle?.type || "N/A"}</h2>
-               <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Capacity</span>  {singleTransportData?.TransportVehicle?.capacity || "N/A"}</h2>
+                <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Capacity</span>  {singleTransportData?.TransportVehicle?.capacity || "N/A"}</h2>
               </div>
               <div className="col-md-6">
                 <h2 className='transporterDetailHeading py-2'>Tranporter Detail</h2>
@@ -174,8 +172,6 @@ const page = () => {
                   </button>
                 </div>
               </div>
-
-
               <button className="mt-2 query_Buttom">
                 {singleTransportData?.User?.Phone}
               </button>

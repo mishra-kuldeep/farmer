@@ -43,8 +43,8 @@
     height: 2px;
     background-color: #ccc;
     top: 12px;
-    left: 51%;
-    /* z-index: -1; */
+    right: 51%;
+    z-index: -1;
     transition: background-color 0.3s ease;
   }
   
@@ -52,7 +52,7 @@
     background-color: #198754; /* Active step line color */
   }
   
-  .step:last-child::before {
+  .step:first-child::before {
     display: none; /* No line after the last step */
   }
   
@@ -75,7 +75,7 @@
       width: 2px; /* Vertical line between steps */
       height: 20px;
       top: 30px;
-      left: 48%;
+      right: 48%;
       transform: translate(-50% -50%);
     }
   

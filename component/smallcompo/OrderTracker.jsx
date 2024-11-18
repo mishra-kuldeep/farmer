@@ -4,7 +4,7 @@ import "./tracker.css"; // Create this CSS file for styles
 const OrderTracker = ({ status }) => {
     // 'Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'
   // Define order statuses
-  const steps = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+  const steps = ['Pending', 'Payments','Processing', 'Shipped', 'Delivered', 'Cancelled'];
 
   // Get the index of the current status to highlight the correct step
   const currentStepIndex = steps.indexOf(status);

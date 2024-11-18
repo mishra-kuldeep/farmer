@@ -55,6 +55,7 @@ export default class OrderService {
     });
   }
 
+
   static async BuyerOrderList(status,page) {    
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderbuyer/${status}?page=${page}`;
@@ -104,5 +105,29 @@ export default class OrderService {
       },
     });
   }
+
+
+  // oder treck transpoter Delivery reposen
+
+  static async ShippedOrder(orderDetailId,data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/order/orderstatus/farmer/${orderDetailId}`;
+    return axios.put(url,{adminReviewComment:data}, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
+  static async DeliveredOrder(orderDetailId,data) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/order/orderstatus/transporter/${orderDetailId}`;
+    return axios.put(url,{adminReviewComment:data}, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
 
 }

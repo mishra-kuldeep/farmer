@@ -64,7 +64,7 @@ const Page = () => {
     }
     useEffect(() => {
         apiCallTransAds()
-        
+
     }, [user?.profile?.country, country?.country?.countryId, selectedCategory, location])
 
     useEffect(() => {
