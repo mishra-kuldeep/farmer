@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useEffect, useState } from "react";
 import "./orderStyle.css";
@@ -18,9 +16,7 @@ import { calculateDistance } from "@/helper/utils";
 import { isMobile } from "react-device-detect";
 import PaymentOrder from "@/component/reusableComponent/PaymentOrder";
 
-
 const MyOrder = () => {
-
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
   const [metaData, setmetaData] = useState(false);
@@ -40,7 +36,7 @@ const MyOrder = () => {
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
   const [TransporterDelivery, setTransporterDelivery] = useState([]);
-
+const [isAdminReview,setIsAdminReview] = useState("")
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [totalProductChar, setTotalProductChar] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -59,9 +55,10 @@ const MyOrder = () => {
   }, [status, page]);
 
   // Toggle div open/close
-  const toggleDiv = (index, orderId) => {
+  const toggleDiv = (index, orderId,review) => {
     setOpenIndex(openIndex === index ? null : index);
     showfullProductList(orderId);
+    setIsAdminReview(review)
   };
 
   const handleStatusChange = (value) => {
@@ -74,8 +71,6 @@ const MyOrder = () => {
     setErrror("");
     setTranspoterlist([]);
   };
-
-
   const showfullProductList = (orderId) => {
     setMiniloading(true);
     OrderService.BuyerOrderSingleList(orderId)
@@ -168,6 +163,17 @@ const MyOrder = () => {
     };
     VehicleServices.selectTranspoterForOrderProduct(data)
       .then(({ data }) => {
+        if (data?.newDetail?.orderDetailId) {
+          OrderService.getTransporterDetailForOrderDetails(data?.newDetail?.orderDetailId)
+            .then(({ data }) => {
+              console.log(data);
+              
+              setTransporterDelivery((pre) => [...pre, data]);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } 
         setSelectTransVehicalId(trans_Vehical);
         const index = productList
           .map((val) => val?.orderDetailId)
@@ -196,8 +202,6 @@ const MyOrder = () => {
     setShowModal(false);
     setSelectedOrder(null);
   };
-
-  console.log(orderList)
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -330,7 +334,7 @@ const MyOrder = () => {
                       }
 
                       <IconButton
-                        onClick={() => toggleDiv(index, ele?.orderId)}
+                        onClick={() => toggleDiv(index, ele?.orderId ,ele.adminReview)}
                       >
                         <IoIosArrowDown
                           style={{
@@ -475,7 +479,7 @@ const MyOrder = () => {
 
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
-                                  {ele.status == "Pending" && (
+                                  {isAdminReview == "Pending" && (
                                     <div
                                       className="col-md-2"
                                       data-bs-toggle="offcanvas"
@@ -509,8 +513,8 @@ const MyOrder = () => {
                                 </div>
                               </div>
                               <hr />
-                              <details>
-                                <summary style={{ color: "green" }}>
+                              <details disabled>
+                                <summary style={{ color: "green" }} >
                                   Transporter More Details
                                 </summary>
                                 <div className="accordion-content">
