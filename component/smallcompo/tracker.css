@@ -39,12 +39,12 @@
   .step::before {
     content: "";
     position: absolute;
-    width: 100%;
+    width: 88%;
     height: 2px;
     background-color: #ccc;
     top: 12px;
-    right: 51%;
-    z-index: -1;
+    right: 56%;
+    /* z-index: -1; */
     transition: background-color 0.3s ease;
   }
   

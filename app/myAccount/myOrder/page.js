@@ -202,6 +202,9 @@ const [isAdminReview,setIsAdminReview] = useState("")
     setShowModal(false);
     setSelectedOrder(null);
   };
+console.log(productList);
+  console.log(TransporterDelivery);
+  
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -463,7 +466,7 @@ const [isAdminReview,setIsAdminReview] = useState("")
                                     <div className=" text-secondary">
                                       Transportation Charges: ₹
                                       {
-                                        TransporterDelivery[i]
+                                        (TransporterDelivery.find((val)=>val?.productDtlId == ele?.productDtlId))
                                           ?.totalTranportCharge
                                       }
                                     </div>

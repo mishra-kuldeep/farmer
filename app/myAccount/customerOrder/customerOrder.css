@@ -50,8 +50,8 @@ margin: 5px;
     padding: 10px;
     background: #f7f7f7;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* justify-content: space-between; */
   }
   .accordion-content {
     padding: 10px;

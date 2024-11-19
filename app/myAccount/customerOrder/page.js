@@ -1,4 +1,3 @@
-
 "use client";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import VehicleMasterServices from "@/services/VehicleMasterServices";
@@ -9,7 +8,6 @@ import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
 import toast from "react-hot-toast";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
 import OrderService from "@/services/Orderservices";
-
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -22,7 +20,7 @@ const Page = () => {
   const [orderDetails, setOrderDetails] = useState([]);
   const [metaData, setMetaData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null); // Track which accordion is open
-  const [orderStatus, setorderStatus] = useState(''); // Track which accordion is open
+  const [orderStatus, setorderStatus] = useState(""); // Track which accordion is open
 
   useEffect(() => {
     setLoading(true);
@@ -42,7 +40,7 @@ const Page = () => {
 
   const toggleAccordion = (index, status) => {
     setOpenIndex(openIndex === index ? null : index);
-    setorderStatus(status)
+    setorderStatus(status);
   };
 
   const handleCancel = () => {
@@ -64,7 +62,7 @@ const Page = () => {
       .then(({ data }) => {
         console.log(data);
         setconfirmLoader(false);
-        setOpen(false)
+        setOpen(false);
         toast(data?.message, {
           icon: "👏",
           style: {
@@ -83,7 +81,7 @@ const Page = () => {
       .then(({ data }) => {
         console.log(data);
         setconfirmLoader(false);
-        setOpen(false)
+        setOpen(false);
         toast(data?.message, {
           icon: "👏",
           style: {
@@ -95,7 +93,7 @@ const Page = () => {
       })
       .catch((err) => console.log(err));
   };
-  console.log(orderDetails)
+  console.log(orderDetails);
   return (
     <>
       <div className="d-md-flex justify-content-between">
@@ -147,18 +145,43 @@ const Page = () => {
       {orderDetails?.map((ele, index) => (
         <div className="accordion-item" key={ele.id}>
           <div
-            className="accordion-header d-flex justify-content-between"
+            className="accordion-heade p-2 cursor"
             onClick={() => toggleAccordion(index, ele?.status)}
           >
-            <h6>
-              You have to deliver{" "}
-              <span>
-                {ele?.orderDetail?.quantity}{" "}
-                {ele?.productDetail?.ProductUnit?.unitName}
-              </span>{" "}
-              of {ele?.productDetail?.productDtlName}
-            </h6>
-            <span>{openIndex === index ? "-" : "+"}</span>
+            <div className="row m-0 p-0">
+              <div className="col-md-8">
+                <h6>
+                  You have to deliver{" "}
+                  <span>
+                    {ele?.orderDetail?.quantity}{" "}
+                    {ele?.productDetail?.ProductUnit?.unitName}
+                  </span>{" "}
+                  of {ele?.productDetail?.productDtlName}
+                </h6>
+              </div>
+
+              <div className="col-md-3">
+                {" "}
+                <div className="d-flex">
+                  <h6>Payment Status&nbsp;:</h6> &nbsp; 
+                  <span
+                    className={`${
+                      ele?.Order?.paymentStatus == "Pending"
+                        ? "text-warning"
+                        : ele?.Order?.paymentStatus == "Paid"
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    {ele?.Order?.paymentStatus}
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-1">
+                {" "}
+                <p className="text-end">{openIndex === index ? "-" : "+"}</p>
+              </div>
+            </div>
           </div>
           {openIndex === index && (
             <div className="accordion-content">
@@ -237,9 +260,13 @@ const Page = () => {
               <div>
                 <OrderTracker status={ele.orderDetail.status} />
               </div>
-              {(ele.orderDetail.status === 'Processing' || ele.orderDetail.status === 'Shipped') && (
+              {(ele.orderDetail.status === "Processing" ||
+                ele.orderDetail.status === "Shipped") && (
                 <div
-                  style={{ backgroundColor: "#dadada", justifyContent: "center" }}
+                  style={{
+                    backgroundColor: "#dadada",
+                    justifyContent: "center",
+                  }}
                   className="d-flex align-items-center gap-4 p-3"
                 >
                   <p>
@@ -250,7 +277,7 @@ const Page = () => {
                     </b>{" "}
                     of {ele?.productDetail?.productDtlName}
                   </p>
-                  {ele.orderDetail.status === 'Processing' ? (
+                  {ele.orderDetail.status === "Processing" ? (
                     <button
                       className="admin_btn"
                       onClick={() => {
@@ -263,19 +290,20 @@ const Page = () => {
                       Shipped
                     </button>
                   ) : (
-                    <button className="admin_btn"
+                    <button
+                      className="admin_btn"
                       onClick={() => {
                         setelectedId({
                           orderDetailId: ele?.orderDetailId,
                         });
                         setOpen1(true);
                       }}
-
-                    >Delivered</button>
+                    >
+                      Delivered
+                    </button>
                   )}
                 </div>
               )}
-
             </div>
           )}
         </div>
