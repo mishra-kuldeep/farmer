@@ -23,3 +23,12 @@
     cursor: pointer;
     border-radius: 5px;
 }
+.locationInput{
+    border-radius: 2px;
+    background-color:#fff;
+    border-radius: 5px;
+    border: 1px solid gray;
+    outline: none;
+    padding-left: 10px;
+  
+  }

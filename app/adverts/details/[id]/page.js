@@ -6,6 +6,8 @@ import "./details.css";
 import RentProductsServices from "@/services/RentProductServices";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
+import { FcCallback } from "react-icons/fc";
+import { MdAddCall } from "react-icons/md";
 
 const page = () => {
   const user = useSelector((state) => state.auth);
@@ -182,7 +184,7 @@ const page = () => {
               )}
 
               <button className="mt-2 query_Buttom">
-                {rentProduct?.phone}
+                <MdAddCall size={25} color="#fff"/>{rentProduct?.phone}
               </button>
             </div>
           </div>

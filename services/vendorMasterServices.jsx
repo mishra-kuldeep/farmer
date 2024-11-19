@@ -125,6 +125,7 @@ export default class vendorMasterServices {
       },
     });
   }
+
   static async getsingleVendorServices(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/vendor/services/vendor/${id}`;
