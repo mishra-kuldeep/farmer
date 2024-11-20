@@ -24,14 +24,14 @@ import { MdOutlineLocationOn } from "react-icons/md";
 const Basket = () => {
   const user = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
-  const router = useRouter()
+  const router = useRouter();
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (user?.profile?.id) dispatch(getCart(user?.profile?.id));
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile]);
   // Add product to cart
   const addCartHandler = (id) => {
@@ -100,7 +100,7 @@ const Basket = () => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-        item?.quantity;
+          item?.quantity;
     return acc + discount;
   }, 0);
 
@@ -109,7 +109,7 @@ const Basket = () => {
   const deliveryCharges = finalTotal > 1000 ? 0 : 40;
 
   const handleCheckout = async () => {
-    router.push("/basket/placeOrder")
+    router.push("/basket/placeOrder");
     // if (!user?.isLoggedIn) {
     //   toast("Please login to proceed with the checkout!", {
     //     icon: "😢",
@@ -139,7 +139,7 @@ const Basket = () => {
     //   const response = await OrderService.checkoutCart(checkoutData);
     //   const res = await CartService.DeleteCartBuyer(user?.profile?.id);
     //   toast.success("Your Order is Placed for review successful!");
-    //   dispatch(clearCart()); 
+    //   dispatch(clearCart());
     // } catch (error) {
     //   toast.error("Checkout failed. Please try again.");
     //   console.error("Checkout Error:", error.message);
@@ -147,6 +147,12 @@ const Basket = () => {
     //   setIsCheckingOut(false);
     // }
   };
+console.log(cart)
+  useEffect(() => {
+    if (cart?.cart== null) {
+      router.push("/basket");
+    }
+  }, [cart?.cart ]);
 
   return (
     <div className="container">
@@ -176,21 +182,30 @@ const Basket = () => {
                   <div className="cartBaketDetail row">
                     <div className="col-md-6">
                       <h6>{val?.productDetail?.productDtlName}</h6>
-                      <h6>₹ {val?.productDetail?.price}/{val?.productDetail?.ProductUnit?.unitName}</h6>
+                      <h6>
+                        ₹ {val?.productDetail?.price}/
+                        {val?.productDetail?.ProductUnit?.unitName}
+                      </h6>
                       <div>
-                      <span>{val?.productDetail?.ProductGrade?.gradeName}{" "}grade</span>
-                      {" "}
-                      <span>{val?.productDetail?.quantity}{" "}{val?.productDetail?.ProductUnit?.unitName}</span>
+                        <span>
+                          {val?.productDetail?.ProductGrade?.gradeName} grade
+                        </span>{" "}
+                        <span>
+                          {val?.productDetail?.quantity}{" "}
+                          {val?.productDetail?.ProductUnit?.unitName}
+                        </span>
                       </div>
                       <div>
-                      <span>
-                        <IoIosPerson size={15} />
-                        <span className="fw-bold">{val?.productDetail?.User?.FirstName}</span>
-                      </span>
-                      <span>
-                        <MdOutlineLocationOn size={20} />
-                        {val?.productDetail?.User?.userInfo.City}
-                      </span>
+                        <span>
+                          <IoIosPerson size={15} />
+                          <span className="fw-bold">
+                            {val?.productDetail?.User?.FirstName}
+                          </span>
+                        </span>
+                        <span>
+                          <MdOutlineLocationOn size={20} />
+                          {val?.productDetail?.User?.userInfo.City}
+                        </span>
                       </div>
                     </div>
 
@@ -205,7 +220,7 @@ const Basket = () => {
                               onClick={() => decreaseQuantity(val.productDtlId)}
                             >
                               {loadingProductId === val.productDtlId &&
-                                loadingAction === "decrement" ? (
+                              loadingAction === "decrement" ? (
                                 <MiniLoader />
                               ) : (
                                 <FaMinus size={15} />
@@ -224,7 +239,7 @@ const Basket = () => {
                               onClick={() => increaseQuantity(val.productDtlId)}
                             >
                               {loadingProductId === val.productDtlId &&
-                                loadingAction === "increment" ? (
+                              loadingAction === "increment" ? (
                                 <MiniLoader />
                               ) : (
                                 <FaPlus size={15} />
@@ -248,9 +263,9 @@ const Basket = () => {
                         {val?.productDetail?.discountType === "fixed"
                           ? val?.productDetail?.discount * val?.quantity
                           : ((val?.productDetail?.price *
-                            val?.productDetail?.discount) /
-                            100) *
-                          val?.quantity}
+                              val?.productDetail?.discount) /
+                              100) *
+                            val?.quantity}
                       </h6>
                       <h6>
                         ₹{" "}
@@ -258,9 +273,9 @@ const Basket = () => {
                           (val?.productDetail?.discountType === "fixed"
                             ? val?.productDetail?.discount * val?.quantity
                             : ((val?.productDetail?.price *
-                              val?.productDetail?.discount) /
-                              100) *
-                            val?.quantity)}
+                                val?.productDetail?.discount) /
+                                100) *
+                              val?.quantity)}
                       </h6>
                     </div>
                   </div>
@@ -281,10 +296,10 @@ const Basket = () => {
                     <td>Discount</td>
                     <td>− ₹{totalDiscount}</td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td>Delivery Charges</td>
                     <td>₹{deliveryCharges > 0 ? deliveryCharges : "Free"}</td>
-                  </tr>
+                  </tr> */}
                   <tr>
                     <td>
                       <strong>Total Amount</strong>
@@ -314,7 +329,9 @@ const Basket = () => {
           </div>
         </div>
       ) : (
-        <div style={{ height: "80vh", display: "flex", justifyContent: "center" }}>
+        <div
+          style={{ height: "80vh", display: "flex", justifyContent: "center" }}
+        >
           <div style={{ height: "50vh", width: "50vh", textAlign: "center" }}>
             <img
               // src="https://cdn-icons-png.flaticon.com/512/11010/11010851.png"
@@ -324,7 +341,9 @@ const Basket = () => {
               alt="pic"
             />
             <h6 className="mb-4 text-secondary">Your cart is empty!</h6>
-            <button className="gohomeforshop" onClick={() => router.push("/")}>Shop Now</button>
+            <button className="gohomeforshop" onClick={() => router.push("/")}>
+              Shop Now
+            </button>
           </div>
         </div>
       )}

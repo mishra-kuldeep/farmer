@@ -7,64 +7,61 @@ import vendorMasterServices from "@/services/vendorMasterServices";
 
 import { useSelector } from "react-redux";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
-import "../../adverts/[...slug]/adverts.css"
+import "../../adverts/[...slug]/adverts.css";
 import { FaSearch } from "react-icons/fa";
 import { VscCircleLargeFilled } from "react-icons/vsc";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import Pagination from "@/component/reusableComponent/Pagination";
 
 const page = () => {
-
-  const router = useRouter()
+  const router = useRouter();
   const country = useSelector((state) => state.country);
   const { slug } = useParams();
   const [VendorList, setVendorList] = useState([]);
   const [Loader, setLoader] = useState(false);
   const [currencySymbol, seetcurrencySymbol] = useState("₹");
-  const [category, setCategory] = useState([])
+  const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [categorryFilter, setCategoryFilter] = useState(true);
-  const [location, setLocation] = useState("")
+  const [location, setLocation] = useState("");
   const user = useSelector((state) => state.auth);
-
+  const [page, setPage] = useState(1);
+  const [metaData, setmetaData] = useState({});
 
   const handleCategoryChange = (vendorId) => {
-    setSelectedCategory(vendorId)
-  }
-  const handleLocation = () => {
-
-  }
+    setSelectedCategory(vendorId);
+  };
+  const handleLocation = () => {};
   const handleInputChange = (e) => {
-    setSearchTerm(e.target.value)
-
-  }
+    setSearchTerm(e.target.value);
+  };
   const handleSearch = () => {
-    initApi()
-  }
+    apiCallservice();
+  };
 
   const Navigate = (serviceId) => {
-    router.push(`/vender/detail/${serviceId}`)
-  }
+    router.push(`/vender/detail/${serviceId}`);
+  };
 
   const initApi = () => {
     setLoader(true);
     vendorMasterServices
       .getAllactiveVendor(1)
       .then(({ data }) => {
-        setCategory(data)
-       
-      }).catch((err) => console.log(err))
-
-
-  }
+        setCategory(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const apiCallservice = () => {
     setLoader(true);
     const data = {
       status: "Approved",
       slug: selectedCategory,
-      page: "",
-      zip:location,
+      page: 1,
+      pageSize: 10,
+      zip: location,
       searchText: searchTerm,
       countryId: user?.profile?.country
         ? user?.profile?.country
@@ -76,30 +73,28 @@ const page = () => {
         .getAllVendorServices(data)
         .then(({ data }) => {
           setLoader(false);
-          setVendorList(data);
-
+          setVendorList(data?.data);
+          setmetaData(data?.meta);
         })
         .catch((err) => {
           console.log(err);
           setLoader(false);
-          setVendorList([])
-
+          setVendorList([]);
         });
     }
-  }
+  };
 
   useEffect(() => {
-    apiCallservice()
-  }, [user?.profile?.country, country?.country?.countryId, selectedCategory])
+    apiCallservice();
+  }, [user?.profile?.country, country?.country?.countryId, selectedCategory]);
 
   useEffect(() => {
-    setSelectedCategory(slug)
-    initApi()
+    setSelectedCategory(slug);
+    initApi();
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
     <>
-
       <div>
         <div className="container">
           <div className=" py-1">
@@ -122,17 +117,19 @@ const page = () => {
                 <hr className="m-0 my-2 p-0" />
                 <div>
                   <div>
-                    <input className='locationInput' type="text"
+                    <input
+                      className="locationInput"
+                      type="text"
                       value={location}
                       onChange={handleLocation}
-                      placeholder='location' />
+                      placeholder="location"
+                    />
                   </div>
                   <div
                     className="d-flex justify-content-between cursor"
                     onClick={() => setCategoryFilter(!categorryFilter)}
                   >
-
-                    <h6 className='my-2'>Category</h6>
+                    <h6 className="my-2">Category</h6>
                     <span>{categorryFilter ? "-" : "+"}</span>
                   </div>
                   {categorryFilter && (
@@ -141,14 +138,19 @@ const page = () => {
                         return (
                           <div
                             key={index}
-                            className={`${selectedCategory == category?.VendorServicesMasterId &&
+                            className={`${
+                              selectedCategory ==
+                                category?.VendorServicesMasterId &&
                               "filterSELECTED"
-                              } filterHover mb-1 p-1`}
+                            } filterHover mb-1 p-1`}
                             onClick={() =>
-                              handleCategoryChange(category?.VendorServicesMasterId)
+                              handleCategoryChange(
+                                category?.VendorServicesMasterId
+                              )
                             }
                           >
-                            {selectedCategory == category?.VendorServicesMasterId ? (
+                            {selectedCategory ==
+                            category?.VendorServicesMasterId ? (
                               <VscCircleLargeFilled
                                 size={22}
                                 color="var(--mainColor)"
@@ -158,10 +160,8 @@ const page = () => {
                             )}
                             <label className="ms-2">{category?.type}</label>
                           </div>
-                        )
-                      }
-
-                      )}
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -169,7 +169,7 @@ const page = () => {
             </div>
             <div className="col-md-9">
               <div className="d-flex justify-content-between">
-                <h3 className='my-2'> Ads for Booking Services</h3>
+                <h3 className="my-2"> Ads for Booking Services</h3>
               </div>
               {Loader ? (
                 <div style={{ height: "40vh" }} className="centerAllDiv">
@@ -178,10 +178,12 @@ const page = () => {
                 </div>
               ) : (
                 <div className="row">
-
                   {VendorList?.map((item, i) => (
-
-                    <div className="col-md-4" onClick={() => Navigate(item?.serviceId)} key={i}>
+                    <div
+                      className="col-md-4"
+                      onClick={() => Navigate(item?.serviceId)}
+                      key={i}
+                    >
                       <div className="servicevendercard">
                         <img
                           src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
@@ -230,38 +232,25 @@ const page = () => {
                   ))}
                 </div>
               )}
+              {metaData.totalItems > 29 && (
+                <div className="row">
+                  <div className="col-md-7">
+                    <Pagination
+                      page={page}
+                      setPage={setPage}
+                      List={VendorList}
+                      metaData={metaData}
+                      searchShow={false}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-
           </div>
-
         </div>
       </div>
-
     </>
   );
 };
 
 export default page;
-
-{
-  /* <div className="col-md-12" key={i}>
-              <div className="card">
-                <h2 className="service-name">{item.serviceName}</h2>
-                <p className="description">Description: {item.description}</p>
-                <details>
-                  <summary className="details-summary">View Details</summary>
-                  <div className="details">
-                    <p className="cost">cost: {item.cost}</p>
-                    <p className="available-offers">
-                      Offers:{" "}
-                      {item.availableOffers ? item.availableOffers : "0"}
-                    </p>
-                    <p className="duration">Duration: {item.duration}months</p>
-                    <p className="average-rating">
-                      Average Rating {item.averageRating}
-                    </p>
-                    </div>
-                    </details>
-                  </div>
-                </div> */
-}

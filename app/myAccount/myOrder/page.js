@@ -36,7 +36,7 @@ const MyOrder = () => {
   const [userId, setUserId] = useState(null);
   const [Errrors, setErrror] = useState([]);
   const [TransporterDelivery, setTransporterDelivery] = useState([]);
-const [isAdminReview,setIsAdminReview] = useState("")
+  const [isAdminReview, setIsAdminReview] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [totalProductChar, setTotalProductChar] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -55,10 +55,10 @@ const [isAdminReview,setIsAdminReview] = useState("")
   }, [status, page]);
 
   // Toggle div open/close
-  const toggleDiv = (index, orderId,review) => {
+  const toggleDiv = (index, orderId, review) => {
     setOpenIndex(openIndex === index ? null : index);
     showfullProductList(orderId);
-    setIsAdminReview(review)
+    setIsAdminReview(review);
   };
 
   const handleStatusChange = (value) => {
@@ -159,21 +159,23 @@ const [isAdminReview,setIsAdminReview] = useState("")
       sellerId: userId,
       totalDistance: maxDistance,
       totalTranportCharge: maxDistance * perKmCharge,
-      orderId: orderId
+      orderId: orderId,
     };
     VehicleServices.selectTranspoterForOrderProduct(data)
       .then(({ data }) => {
         if (data?.newDetail?.orderDetailId) {
-          OrderService.getTransporterDetailForOrderDetails(data?.newDetail?.orderDetailId)
+          OrderService.getTransporterDetailForOrderDetails(
+            data?.newDetail?.orderDetailId
+          )
             .then(({ data }) => {
               console.log(data);
-              
+
               setTransporterDelivery((pre) => [...pre, data]);
             })
             .catch((err) => {
               console.log(err);
             });
-        } 
+        }
         setSelectTransVehicalId(trans_Vehical);
         const index = productList
           .map((val) => val?.orderDetailId)
@@ -193,7 +195,7 @@ const [isAdminReview,setIsAdminReview] = useState("")
   //************  Opens the modal and sets the selected order ****************/
   const handleOpenModal = (order, price) => {
     setSelectedOrder(order);
-    setTotalProductChar(price)
+    setTotalProductChar(price);
     setShowModal(true);
   };
 
@@ -202,9 +204,9 @@ const [isAdminReview,setIsAdminReview] = useState("")
     setShowModal(false);
     setSelectedOrder(null);
   };
-console.log(productList);
+  console.log(productList);
   console.log(TransporterDelivery);
-  
+
   return (
     <div className="orderPage">
       <div className="d-flex">
@@ -296,19 +298,19 @@ console.log(productList);
                           <p className="text-secondary">
                             {ele.adminReview} by admin
                           </p>
-                          {ele.adminReviewDate &&
+                          {ele.adminReviewDate && (
                             <p className="text-secondary">
                               on {ele?.adminReviewDate?.substring(0, 10)}{" "}
                             </p>
-                          }
+                          )}
                           <p className="text-secondary">
                             {ele?.adminReviewComment}
                           </p>
-
-
                         </div>
                       </div>
-                      {ele.adminReview == 'Approved' && (ele?.paymentStatus == "Pending" || ele?.paymentStatus == "Failed") ? (
+                      {ele.adminReview == "Approved" &&
+                      (ele?.paymentStatus == "Pending" ||
+                        ele?.paymentStatus == "Failed") ? (
                         <>
                           {showModal && (
                             <PaymentOrder
@@ -317,27 +319,37 @@ console.log(productList);
                               onClose={handleCloseModal}
                             />
                           )}
-                          <button className="login_btn" style={{ whiteSpace: "nowrap" }} onClick={() => handleOpenModal(ele?.orderId, ele?.totalAmount)}>
+                          <button
+                            className="login_btn"
+                            style={{ whiteSpace: "nowrap" }}
+                            onClick={() =>
+                              handleOpenModal(ele?.orderId, ele?.totalAmount)
+                            }
+                          >
                             Pay now
                           </button>
-                          {ele?.paymentStatus == "Failed" &&
+                          {ele?.paymentStatus == "Failed" && (
                             <p>
                               <span className="text-secondary">Payment </span>
-                              <span className="text-danger">{ele?.paymentStatus}</span>
+                              <span className="text-danger">
+                                {ele?.paymentStatus}
+                              </span>
                             </p>
-                          }
+                          )}
                         </>
                       ) : (
                         <p>
-                          <span className="text-secondary">Payment </span><span className="text-info">{ele?.paymentStatus}</span>
+                          <span className="text-secondary">Payment </span>
+                          <span className="text-info">
+                            {ele?.paymentStatus}
+                          </span>
                         </p>
-                      )
-
-
-                      }
+                      )}
 
                       <IconButton
-                        onClick={() => toggleDiv(index, ele?.orderId ,ele.adminReview)}
+                        onClick={() =>
+                          toggleDiv(index, ele?.orderId, ele.adminReview)
+                        }
                       >
                         <IoIosArrowDown
                           style={{
@@ -387,12 +399,12 @@ console.log(productList);
                                         ₹{" "}
                                         {ele?.productDetail?.price -
                                           (ele?.productDetail?.discountType ===
-                                            "fixed"
+                                          "fixed"
                                             ? ele?.productDetail?.discount *
-                                            ele?.quantity
+                                              ele?.quantity
                                             : (ele?.productDetail?.price *
-                                              ele?.productDetail?.discount) /
-                                            100)}
+                                                ele?.productDetail?.discount) /
+                                              100)}
                                         /
                                         {
                                           ele?.productDetail?.ProductUnit
@@ -466,8 +478,11 @@ console.log(productList);
                                     <div className=" text-secondary">
                                       Transportation Charges: ₹
                                       {
-                                        (TransporterDelivery.find((val)=>val?.productDtlId == ele?.productDtlId))
-                                          ?.totalTranportCharge
+                                        TransporterDelivery.find(
+                                          (val) =>
+                                            val?.productDtlId ==
+                                            ele?.productDtlId
+                                        )?.totalTranportCharge
                                       }
                                     </div>
                                   )}
@@ -479,7 +494,6 @@ console.log(productList);
                                     Quantity: {ele?.quantity}{" "}
                                     {ele?.productDetail?.ProductUnit?.unitName}
                                   </div>
-
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
                                   {isAdminReview == "Pending" && (
@@ -503,11 +517,17 @@ console.log(productList);
                                       }
                                     >
                                       {ele?.transVehicalId == null ? (
-                                        <button className="login_btn" style={{ whiteSpace: "nowrap" }}>
+                                        <button
+                                          className="login_btn"
+                                          style={{ whiteSpace: "nowrap" }}
+                                        >
                                           Select Transports
                                         </button>
                                       ) : (
-                                        <button className="login_btn" style={{ whiteSpace: "nowrap" }}>
+                                        <button
+                                          className="login_btn"
+                                          style={{ whiteSpace: "nowrap" }}
+                                        >
                                           Change Transports
                                         </button>
                                       )}
@@ -517,7 +537,7 @@ console.log(productList);
                               </div>
                               <hr />
                               <details disabled>
-                                <summary style={{ color: "green" }} >
+                                <summary style={{ color: "green" }}>
                                   Transporter More Details
                                 </summary>
                                 <div className="accordion-content">
@@ -704,7 +724,7 @@ console.log(productList);
                     <div className="d-flex gap-2">
                       <p
                         className="orderstatuscircle mt-2"
-                      // style={{backgroundColor:"orange"}}
+                        // style={{backgroundColor:"orange"}}
                       ></p>
                       <div>
                         <p className="text-secondary">
@@ -724,10 +744,10 @@ console.log(productList);
                       style={{ width: "25px", height: "25px" }}
                     >
                       <input
-                        className="cursor"
-                        key={i}
-                        type="checkbox"
-                        // value={val?.transVehicalId}
+                        type="radio"
+                        className="radio"
+                        name="vehicle"
+                        value={val?.transVehicalId}
                         checked={val?.transVehicalId == selectTransVehicalId}
                         style={{ width: "20px", height: "20px" }}
                       />

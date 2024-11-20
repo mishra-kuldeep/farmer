@@ -21,7 +21,7 @@ const Placeorder = () => {
   const [errors, setErrors] = useState({});
   const [addressList, setAddressList] = useState([]);
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
   const [values, setValues] = useState({
     buyerId: user?.profile?.id,
     FirstName: "",
@@ -137,17 +137,21 @@ const Placeorder = () => {
       const response = await OrderService.checkoutCart(checkoutData);
       const res = await CartService.DeleteCartBuyer(user?.profile?.id);
       toast.success("To complete this order Please add Transpoter!!");
-      router.push('/myAccount/myOrder')
+      router.push("/myAccount/myOrder");
       dispatch(clearCart());
     } catch (error) {
-      toast.error("Checkout failed. Please try again.");
+      toast.error("Checkout failed. Please select Address.");
       console.error("Checkout Error:", error.message);
     } finally {
       setIsCheckingOut(false);
     }
   };
 
-
+  useEffect(() => {
+    if (cart?.cart == null) {
+      router.push("/basket");
+    }
+  }, [cart?.cart]);
   return (
     <div
       style={{ backgroundColor: "#f1f3f6", minHeight: "calc(100vh - 120px)" }}
@@ -156,7 +160,7 @@ const Placeorder = () => {
         <div className="row">
           <div className="col-md-9">
             <div className="border p-1 bg-white rounded ">
-              {addressList?.map((address,i) => (
+              {addressList?.map((address, i) => (
                 <label className="addressWrapper" key={i}>
                   <input
                     type="radio"
@@ -361,10 +365,10 @@ const Placeorder = () => {
                     <td>Discount</td>
                     <td>− ₹{totalDiscount}</td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td>Delivery Charges</td>
                     <td>₹{deliveryCharges > 0 ? deliveryCharges : "Free"}</td>
-                  </tr>
+                  </tr> */}
                   <tr>
                     <td>
                       <strong>Total Amount</strong>
