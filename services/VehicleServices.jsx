@@ -111,7 +111,7 @@ export default class VehicleServices {
 
     static async getAllTransportByVehicalId(vehicleId, data) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/transpoter/allhomepage/${vehicleId}?countryId=${data.country}&search=${data.search}&zip=${data.zip}`;
+        const url = `${BASE_URL}/transpoter/allhomepage/${vehicleId}?countryId=${data.country}&search=${data.search}&zip=${data.zip}&page=${data?.page}&pageSize=${data?.pageSize}`;
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,

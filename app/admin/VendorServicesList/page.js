@@ -29,9 +29,8 @@ const VendorServicesList = () => {
     };
     vendorMasterServices.getAllVendorServices(data)
       .then(({ data }) => {
-        console.log(data)
         setLoader(false);
-        setVendorList(data);
+        setVendorList(data?.data);
       })
       .catch((err) => console.log(err));
   }, [status, confirmLoader]);

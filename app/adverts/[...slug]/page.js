@@ -14,6 +14,7 @@ import { VscCircleLargeFilled } from "react-icons/vsc";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { IconBase } from "react-icons";
 import IconButton from "@/component/reusableComponent/IconButton";
+import Pagination from "@/component/reusableComponent/Pagination";
 
 const AdvertsCart = () => {
   const user = useSelector((state) => state.auth);
@@ -27,7 +28,9 @@ const AdvertsCart = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [Loader, setLoader] = useState(false);
   const router = useRouter();
-  
+  const [page, setPage] = useState(1);
+  const [metaData, setmetaData] = useState({});
+
   const farmServices = (id) => {
     router.push(`/adverts/details/${id}`);
   };
@@ -56,10 +59,12 @@ const AdvertsCart = () => {
         : country?.country?.countryId,
       rentCategoryId: selectedCategory || slug[0],
     };
-    console.log(FilterData);
+
     RentProductsServices.getAllRentProductHome(FilterData)
       .then(({ data }) => {
-        setproducts(data);
+        console.log(data);
+        setproducts(data?.data);
+        setmetaData(data?.meta);
         setLoader(false);
       })
       .catch((e) => {
@@ -221,6 +226,21 @@ const AdvertsCart = () => {
                     </div>
                   </div>
                 ))}
+                <div>
+                  {metaData.totalItems > 30 && (
+                    <div className="row">
+                      <div className="col-md-7">
+                        <Pagination
+                          page={page}
+                          setPage={setPage}
+                          List={products}
+                          metaData={metaData}
+                          searchShow={false}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
                 {products.length <= 0 && !Loader && (
                   <div
                     style={{

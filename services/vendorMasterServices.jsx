@@ -97,7 +97,7 @@ export default class vendorMasterServices {
   }
   static async getAllVendorServices(data) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/vendor/services?status=${data?.status}&id=${data?.slug}&page=${data?.page}&pageSize=${data?.pageSize}&searchText=${data?.searchText}&countryId=${data?.countryId}`;
+    const url = `${BASE_URL}/vendor/services?status=${data?.status}&id=${data?.slug}&page=${data?.page}&pageSize=${data?.pageSize}&searchText=${data?.searchText}&countryId=${data?.countryId}&location=${data?.location}`;
     return axios.get(url, {
       headers: {
         // 'Content-Type': 'multipart/form-data',

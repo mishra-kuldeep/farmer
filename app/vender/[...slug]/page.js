@@ -32,7 +32,9 @@ const page = () => {
   const handleCategoryChange = (vendorId) => {
     setSelectedCategory(vendorId);
   };
-  const handleLocation = () => {};
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
+  };
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -61,7 +63,7 @@ const page = () => {
       slug: selectedCategory,
       page: 1,
       pageSize: 10,
-      zip: location,
+      location:location,
       searchText: searchTerm,
       countryId: user?.profile?.country
         ? user?.profile?.country
@@ -86,7 +88,12 @@ const page = () => {
 
   useEffect(() => {
     apiCallservice();
-  }, [user?.profile?.country, country?.country?.countryId, selectedCategory]);
+  }, [
+    user?.profile?.country,
+    country?.country?.countryId,
+    location,
+    selectedCategory,
+  ]);
 
   useEffect(() => {
     setSelectedCategory(slug);
@@ -122,7 +129,7 @@ const page = () => {
                       type="text"
                       value={location}
                       onChange={handleLocation}
-                      placeholder="location"
+                      placeholder="Search by Pincode..."
                     />
                   </div>
                   <div
@@ -232,7 +239,7 @@ const page = () => {
                   ))}
                 </div>
               )}
-              {metaData.totalItems > 29 && (
+              {metaData.totalItems > 30 && (
                 <div className="row">
                   <div className="col-md-7">
                     <Pagination
@@ -245,6 +252,28 @@ const page = () => {
                   </div>
                 </div>
               )}
+                 {VendorList.length <= 0 && !Loader && (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "20px",
+                      fontSize: "18px",
+                      color: "#666",
+                      backgroundColor: "#f9f9f9",
+                      borderRadius: "8px",
+                      border: "1px solid #ddd",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <p style={{ marginBottom: "10px" }}>
+                      Sorry, there are no listings for this category.
+                    </p>
+                    <p style={{ marginBottom: "10px" }}>
+                      Please try another search or click here to see the latest
+                      ads.
+                    </p>
+                  </div>
+                )}
             </div>
           </div>
         </div>
