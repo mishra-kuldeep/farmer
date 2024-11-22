@@ -227,6 +227,7 @@ const EditVenderServices = ({ params }) => {
           type="number"
           className="form-control p-2 adjustLabel_input"
           name="duration"
+          placeholder="Duration is required number of day's"
           value={values.duration}
           onChange={onchangeHandeler}
         />
