@@ -189,7 +189,7 @@ const Page = () => {
                             <h6 style={{ fontSize: "13px" }}>
                               Name - {item?.User.FirstName}
                             </h6>
-                            <p
+                            {/* <p
                               style={{
                                 color: "grey",
                                 fontSize: "12px",
@@ -199,7 +199,7 @@ const Page = () => {
                               data-bs-toggle="tooltip"
                               data-bs-placement="bottom"
                               title={item?.description}
-                            ></p>
+                            >{item?.description}</p> */}
                           </div>
                           <div className="d-flex justify-content-between">
                             <p style={{ fontSize: "12px" }}>
