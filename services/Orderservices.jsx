@@ -109,20 +109,20 @@ export default class OrderService {
 
   // oder treck transpoter Delivery reposen
 
-  static async ShippedOrder(orderDetailId,data) {
+  static async ShippedOrder(orderDetailId) {
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderstatus/farmer/${orderDetailId}`;
-    return axios.put(url,{adminReviewComment:data}, {
+    return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
   }
 
-  static async DeliveredOrder(orderDetailId,data) {
+  static async DeliveredOrder(orderDetailId) {
     const token = getCookie("token");
     const url = `${BASE_URL}/order/orderstatus/transporter/${orderDetailId}`;
-    return axios.put(url,{adminReviewComment:data}, {
+    return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },

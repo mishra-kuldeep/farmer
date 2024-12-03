@@ -177,12 +177,12 @@ const ProductModal = ({
         ({ data }) => {
           setImageList(data?.images);
         }
-      );
+      ).catch((err)=>console.log(err));
       ProductUnitServices.getProductUnit(modalData?.unitId).then(({ data }) => {
         setUnitTitle(
           data.filter((data) => data?.unitId == modalData?.unitId)[0]?.unitName
         );
-      });
+      }).catch((err)=>console.log(err));
     }
     setInspectiondata((prevData) => ({
       ...prevData,

@@ -1,0 +1,62 @@
+.shopcategoryContainer{
+    width: 100%;
+    border: 1px solid gainsboro;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0px 5px 15px rgba(246, 245, 245, 0.8);
+
+}
+.viewAllList{
+    list-style: none;
+    padding-left: 0px;
+    
+}
+.viewAllList li{
+    padding-left: 2px;
+}
+.viewAllList li:hover{
+    background-color: #ddd;
+}
+.viewAllFilterheading{
+    color: black;
+    font-weight: bold;
+}
+.filterSELECTED{
+    background-color: #ebebeb;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .filterHover:hover{
+    background-color: #ebebeb;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .viewAllcartRow{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .viewAllcartCol{
+    width: 300px;
+  }
+  .showHideFilter{
+    border: 1px solid gainsboro;
+    width: 130px;
+    gap: 10px;
+    display: flex;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .filterContainerHeight{
+    /* height: auto; */
+    position: sticky;
+    top: 0px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .viewAllcartCol{
+  width: 280px;
+    }
+    
+  }

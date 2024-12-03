@@ -21,8 +21,7 @@ const Page = () => {
   const [metaData, setMetaData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null); // Track which accordion is open
   const [orderStatus, setorderStatus] = useState(""); // Track which accordion is open
-
-  useEffect(() => {
+  const initapi = () => {
     setLoading(true);
     VehicleMasterServices.CustomerOrderToTranspoterList(status)
       .then(({ data }) => {
@@ -32,6 +31,9 @@ const Page = () => {
         setLoading(false);
       })
       .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    initapi()
   }, [status]);
 
   const handleStatusChange = (id) => {
@@ -58,9 +60,10 @@ const Page = () => {
   }
   const handleApprove = () => {
     setconfirmLoader(true);
+    console.log(selectedId)
     OrderService.ShippedOrder(selectedId?.orderDetailId)
       .then(({ data }) => {
-        console.log(data);
+        
         setconfirmLoader(false);
         setOpen(false);
         toast(data?.message, {
@@ -71,6 +74,7 @@ const Page = () => {
             color: "#fff",
           },
         });
+        initapi()
       })
       .catch((err) => console.log(err));
   };
@@ -78,8 +82,7 @@ const Page = () => {
     setconfirmLoader(true);
     // DeliveredOrder
     OrderService.DeliveredOrder(selectedId?.orderDetailId)
-      .then(({ data }) => {
-        console.log(data);
+      .then(({ data }) => {    
         setconfirmLoader(false);
         setOpen(false);
         toast(data?.message, {
@@ -90,6 +93,7 @@ const Page = () => {
             color: "#fff",
           },
         });
+        initapi()
       })
       .catch((err) => console.log(err));
   };
@@ -163,15 +167,14 @@ const Page = () => {
               <div className="col-md-3">
                 {" "}
                 <div className="d-flex">
-                  <h6>Payment Status&nbsp;:</h6> &nbsp; 
+                  <h6>Payment Status&nbsp;:</h6> &nbsp;
                   <span
-                    className={`${
-                      ele?.Order?.paymentStatus == "Pending"
+                    className={`${ele?.Order?.paymentStatus == "Pending"
                         ? "text-warning"
                         : ele?.Order?.paymentStatus == "Paid"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
                   >
                     {ele?.Order?.paymentStatus}
                   </span>
@@ -262,48 +265,48 @@ const Page = () => {
               </div>
               {(ele.orderDetail.status === "Processing" ||
                 ele.orderDetail.status === "Shipped") && (
-                <div
-                  style={{
-                    backgroundColor: "#dadada",
-                    justifyContent: "center",
-                  }}
-                  className="d-flex align-items-center gap-4 p-3"
-                >
-                  <p>
-                    Please Update Product Order Tracker status{" "}
-                    <b>
-                      {ele?.orderDetail?.quantity}{" "}
-                      {ele?.productDetail?.ProductUnit?.unitName}
-                    </b>{" "}
-                    of {ele?.productDetail?.productDtlName}
-                  </p>
-                  {ele.orderDetail.status === "Processing" ? (
-                    <button
-                      className="admin_btn"
-                      onClick={() => {
-                        setelectedId({
-                          orderDetailId: ele?.orderDetailId,
-                        });
-                        setOpen(true);
-                      }}
-                    >
-                      Shipped
-                    </button>
-                  ) : (
-                    <button
-                      className="admin_btn"
-                      onClick={() => {
-                        setelectedId({
-                          orderDetailId: ele?.orderDetailId,
-                        });
-                        setOpen1(true);
-                      }}
-                    >
-                      Delivered
-                    </button>
-                  )}
-                </div>
-              )}
+                  <div
+                    style={{
+                      backgroundColor: "#dadada",
+                      justifyContent: "center",
+                    }}
+                    className="d-flex align-items-center gap-4 p-3"
+                  >
+                    <p>
+                      Please Update Product Order Tracker status{" "}
+                      <b>
+                        {ele?.orderDetail?.quantity}{" "}
+                        {ele?.productDetail?.ProductUnit?.unitName}
+                      </b>{" "}
+                      of {ele?.productDetail?.productDtlName}
+                    </p>
+                    {ele.orderDetail.status === "Processing" ? (
+                      <button
+                        className="admin_btn"
+                        onClick={() => {
+                          setelectedId({
+                            orderDetailId: ele?.orderDetail.orderDetailId,
+                          });
+                          setOpen(true);
+                        }}
+                      >
+                        Shipped
+                      </button>
+                    ) : (
+                      <button
+                        className="admin_btn"
+                        onClick={() => {
+                          setelectedId({
+                            orderDetailId: ele?.orderDetail.orderDetailId,
+                          });
+                          setOpen1(true);
+                        }}
+                      >
+                        Delivered
+                      </button>
+                    )}
+                  </div>
+                )}
             </div>
           )}
         </div>

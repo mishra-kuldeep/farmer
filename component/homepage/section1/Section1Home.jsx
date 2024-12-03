@@ -232,7 +232,7 @@ const Section1Home = () => {
         <div className="headerbestSeller p-2">
           <h5>Best Sellers</h5>
           <div className="arrowBtn_bestSeller">
-            <p className="Show_More_bestSeller">Show More</p>
+            <p className="Show_More_bestSeller" onClick={()=>router.push('/ViewAll/Product')}>Show More</p>
             <p
               className="next_btn_bestSeller"
               onClick={() => handleScroll("left")}

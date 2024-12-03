@@ -244,7 +244,7 @@ const EditProductModal = ({
     setmetaTitle("");
     setSlug("");
     setreview("");
-    setNextPage(!NextPage);
+    setNextPage(false);
     setinspectionDateerror("");
     setcomplianceLevelerror("");
     setinspectionStatusError("");
