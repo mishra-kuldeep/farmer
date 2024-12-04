@@ -13,6 +13,7 @@ import { isMobile } from "react-device-detect";
 import { IoIosCall } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { Image_URL } from "@/helper/common";
 
 const page = () => {
   const router = useRouter();
@@ -27,12 +28,13 @@ const page = () => {
   );
   const [Loader, setLoader] = useState(false);
   const { id } = useParams();
+  const [image, setImage] = useState("");
 
   const getApi = () => {
     FertilizersPesticideServices.getSinglFertilizersPesticide(id)
       .then((item) => {
         setFertilizer(item?.data);
-        console.log(item.data)
+        setImage(item?.data?.AdsImages[0]?.url);
         setDistributorsType(item?.data?.DistributorsType);
       })
       .catch((error) => console.log(error));
@@ -44,9 +46,9 @@ const page = () => {
       status: "Approved",
       slug: DistributorsType,
       page: 1,
-      pageSize:50,
+      pageSize: 50,
       searchText: "",
-      location:"",
+      location: "",
       countryId: user?.profile?.country
         ? user?.profile?.country
         : country?.country?.countryId,
@@ -105,22 +107,37 @@ const page = () => {
               <h4>{fertilizer?.serviceName || "N/A"}</h4>
               <h4></h4>
             </div>
-
             <div className="imagebigDiv my-3">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                src={
+                  fertilizer?.AdsImages?.length > 0
+                    ? `${Image_URL}/adsImages/${image}`
+                    : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                }
                 height="450px"
                 width="100%"
                 className="border rounder p-1"
               />
             </div>
-            <div className="multiImageWrapper d-flex gap-4">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
-                height="80px"
-                width="80px"
-                className="border rounder p-1"
-              />
+            <div className="imagebigDiv my-3">
+              {fertilizer?.AdsImages?.length > 0 ? (
+                fertilizer?.AdsImages?.map((val) => (
+                  <img
+                    src={`${Image_URL}/adsImages/${val.url}`}
+                    height="80px"
+                    width="80px"
+                    className="border rounder p-1"
+                    onClick={() => setImage(val.url)}
+                  />
+                ))
+              ) : (
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                  height="80px"
+                  width="80px"
+                  className="border rounder p-1"
+                />
+              )}
             </div>
 
             <div className="d-flex gap-3 mt-4">
@@ -286,9 +303,10 @@ const page = () => {
                 >
                   <div className="fertiliserDetailcard">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                      src={item?.AdsImages?.length > 0 ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}` : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
                       style={{ backgroundColor: "#dadada" }}
                       width="100%"
+                      height="150px"
                     />
                     <div className="p-2">
                       <h5 className="my-2">{item?.serviceName}</h5>
