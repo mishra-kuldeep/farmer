@@ -19,9 +19,8 @@ const AddVenderServices = () => {
   const [venderList, setVenderList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [isloading, setisLoading] = useState(false);
-  const [countrySymbol,setCountrySymbol] = useState([])
-  // vendorId, VendorServicesMasterId, serviceName, description, cost, availableOffers, duration
-
+  const [countrySymbol, setCountrySymbol] = useState([])
+  const [images, setImages] = useState([]);
   const [unitList, setUnitList] = useState([]);
   const [values, setValues] = useState({
     vendorId: "",
@@ -35,10 +34,16 @@ const AddVenderServices = () => {
     capacityUnit: "",
     countryId: "",
   });
+
   const onchangeHandeler = (e) => {
     const { name, value } = e.target;
     setValues((pre) => ({ ...pre, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+
+  const onImageChange = (e) => {
+    const files = Array.from(e.target.files); // Convert FileList to Array
+    setImages((prevImages) => [...prevImages, ...files]);
   };
 
   useEffect(() => {
@@ -56,8 +61,15 @@ const AddVenderServices = () => {
 
   const onSubmitHandler = async () => {
     setLoader(true);
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+    images?.forEach((image, index) => {
+      formData.append(`adImages`, image);
+    });
     try {
-      await vendorMasterServices?.addVendorServices(values);
+      await vendorMasterServices?.addVendorServices(formData);
       setErrors({});
       setValues({
         vendorId: "",
@@ -91,7 +103,7 @@ const AddVenderServices = () => {
 
   const initApi = () => {
     vendorMasterServices
-    .getAllactiveVendor(true)
+      .getAllactiveVendor(true)
       .then(({ data }) => {
         setVenderList(data);
       })
@@ -101,14 +113,14 @@ const AddVenderServices = () => {
   useEffect(() => initApi(), []);
 
   useEffect(() => {
-   
+
     if (user?.profile?.country) {
-      AuthService.getCountryList() .then(({ data }) => {
-        setCountrySymbol(data?.find((val)=>val?.countryId ==user.profile.country)?.currencySymbol);
+      AuthService.getCountryList().then(({ data }) => {
+        setCountrySymbol(data?.find((val) => val?.countryId == user.profile.country)?.currencySymbol);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .catch((err) => {
+          console.log(err);
+        });
       ProductUnitServices.getUnitBycountry(user?.profile?.country)
         .then(({ data }) => {
           console.log(data);
@@ -276,6 +288,21 @@ const AddVenderServices = () => {
                     <option value={val?.unitId}>{val?.unitName}</option>
                   ))}
                 </select>
+              </div>
+              <div className="col-md-4">
+              <label className="adjustLabel " style={{ marginLeft: "100px" }}>
+                  Upload Images
+                </label>
+                <input
+                  type="file"
+                  className="form-control p-2 adjustLabel_input"
+                  name="Product"
+                  multiple
+                  onChange={onImageChange}
+                />
+                {images?.length > 0 && (
+                  <p>{images?.length} image(s) selected</p>
+                )}
               </div>
               <div className="col-md-3 text-center mt-3">
                 <button
