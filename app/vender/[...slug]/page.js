@@ -12,6 +12,7 @@ import { FaSearch } from "react-icons/fa";
 import { VscCircleLargeFilled } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
+import { Image_URL } from "@/helper/common";
 
 const page = () => {
   const router = useRouter();
@@ -99,7 +100,9 @@ const page = () => {
     setSelectedCategory(slug);
     initApi();
   }, [user?.profile?.country, country?.country?.countryId]);
-
+ 
+  console.log(VendorList);
+  
   return (
     <>
       <div>
@@ -193,9 +196,10 @@ const page = () => {
                     >
                       <div className="servicevendercard">
                         <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                          src= {item?.AdsImages?.length>0?`${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
                           style={{ backgroundColor: "#dadada" }}
                           width="100%"
+                          height="150px"
                         />
                         <div className="p-2">
                           <h5 className="my-2">{item?.serviceName}</h5>
