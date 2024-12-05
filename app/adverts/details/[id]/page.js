@@ -8,12 +8,15 @@ import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { FcCallback } from "react-icons/fc";
 import { MdAddCall } from "react-icons/md";
+import { Image_URL } from "@/helper/common";
 
 const page = () => {
   const user = useSelector((state) => state.auth);
   const country = useSelector((state) => state.country)
   const [show, setshow] = useState(false);
   const [rentProduct, setRentProduct] = useState({});
+  const [mouseImage, setMouseImage] = useState("");
+  const [image, setImage] = useState("");
   const { id } = useParams();
 
   useEffect(() => {
@@ -21,6 +24,7 @@ const page = () => {
       RentProductsServices.getRentProductByIdHome(id[0])
         .then((data) => {
           setRentProduct(data?.data);
+          setImage(data?.data?.AdsImages[0]?.url);
         })
         .catch((e) => {
           console.log(e);
@@ -29,34 +33,34 @@ const page = () => {
   }, [id]);
 
   const price =
-    JSON.parse(rentProduct?.otherDetails || "{}")["Price"] ||
+    (rentProduct?.otherDetails || {})["Price"] ||
     "Price not available";
-  const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
+  const otherDetails = rentProduct?.otherDetails || {};
   console.log(rentProduct);
 
   function timeAgo(dateString) {
     const date = new Date(dateString);
     const now = new Date();
     const secondsAgo = Math.floor((now - date) / 1000);
-  
+
     const years = Math.floor(secondsAgo / (3600 * 24 * 365));
     if (years >= 1) return `${years} year${years > 1 ? 's' : ''} ago`;
-  
+
     const months = Math.floor(secondsAgo / (3600 * 24 * 30));
     if (months >= 1) return `${months} month${months > 1 ? 's' : ''} ago`;
-  
+
     const days = Math.floor(secondsAgo / (3600 * 24));
     if (days >= 1) return `${days} day${days > 1 ? 's' : ''} ago`;
-  
+
     const hours = Math.floor(secondsAgo / 3600);
     if (hours >= 1) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  
+
     const minutes = Math.floor(secondsAgo / 60);
     if (minutes >= 1) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  
+
     return `${secondsAgo} second${secondsAgo !== 1 ? 's' : ''} ago`;
   }
-  
+
   return (
     <div className="container pt-4">
       <div className="row m-0 ">
@@ -66,22 +70,39 @@ const page = () => {
               <h4>{rentProduct?.title}</h4>
               <h4>{price}</h4>
             </div>
-
             <div className="imagebigDiv my-3">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                src={
+                  rentProduct?.AdsImages?.length > 0
+                    ? `${Image_URL}/adsImages/${mouseImage||image}`
+                    : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                }
                 height="450px"
                 width="100%"
                 className="border rounder p-1"
               />
             </div>
             <div className="multiImageWrapper d-flex gap-4">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
-                height="80px"
-                width="80px"
-                className="border rounder p-1"
-              />
+              {rentProduct?.AdsImages?.length > 0 ? (
+                rentProduct?.AdsImages?.map((val) => (
+                  <img
+                    src={`${Image_URL}/adsImages/${val.url}`}
+                    height="80px"
+                    width="80px"
+                    className="border rounder p-1"
+                    onClick={() => setImage(val.url)}
+                    onMouseEnter={() => setMouseImage(val.url)}
+                    onMouseLeave={() => setMouseImage('')}
+                  />
+                ))
+              ) : (
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                  height="80px"
+                  width="80px"
+                  className="border rounder p-1"
+                />
+              )}
             </div>
 
             <div className="d-flex gap-3 mt-4">
@@ -152,7 +173,7 @@ const page = () => {
               <div className="d-flex gap-2 align-items-center my-1">
                 <FaFire />
                 <p>
-                  Active Ads &ensp;&ensp; <b>{rentProduct?.isAvailable?"Yes":"No"}</b>
+                  Active Ads &ensp;&ensp; <b>{rentProduct?.isAvailable ? "Yes" : "No"}</b>
                 </p>
               </div>
             </div>
@@ -184,7 +205,7 @@ const page = () => {
               )}
 
               <button className="mt-2 query_Buttom">
-                <MdAddCall size={25} color="#fff"/>{rentProduct?.phone}
+                <MdAddCall size={25} color="#fff" />{rentProduct?.phone}
               </button>
             </div>
           </div>

@@ -128,6 +128,7 @@ const page = () => {
                     width="80px"
                     className="border rounder p-1"
                     onClick={() => setImage(val.url)}
+                    onMouseEnter={() => setImage(val.url)}
                   />
                 ))
               ) : (

@@ -55,6 +55,7 @@ export default class RentProductsServices {
     const url = `${BASE_URL}/rentProduct`;
     return axios.post(url, data, {
       headers: {
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
@@ -64,6 +65,7 @@ export default class RentProductsServices {
     const url = `${BASE_URL}/rentProduct/${id}`;
     return axios.put(url, data, {
       headers: {
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
     });
