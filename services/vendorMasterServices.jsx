@@ -161,7 +161,7 @@ export default class vendorMasterServices {
     const url = `${BASE_URL}/vendor/services/${serviceId}`;
     return axios.put(url, data, {
       headers: {
-        // 'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
     });

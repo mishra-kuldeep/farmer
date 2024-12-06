@@ -18,6 +18,7 @@ const EditVenderServices = ({ params }) => {
   const [loader, setLoader] = useState(false);
   const [unitList, setUnitList] = useState([]);
   const [countrySymbol, setCountrySymbol] = useState([]);
+  const [images, setImages] = useState([]);
   const [values, setValues] = useState({
     vendorId: "",
     VendorServicesMasterId: "",
@@ -30,6 +31,7 @@ const EditVenderServices = ({ params }) => {
     capacityUnit: "",
     countryId: user?.profile?.country,
   });
+ 
   const onchangeHandeler = (e) => {
     const { name, files } = e.target;
     if (name == "vehicleNumber") {
@@ -41,10 +43,23 @@ const EditVenderServices = ({ params }) => {
     setErrors({});
   };
 
+  const onImageChange = (e) => {
+    const files = Array.from(e.target.files); // Convert FileList to Array
+    setImages((prevImages) => [...prevImages, ...files]);
+  };
+
   const onSubmitHandler = async () => {
     setLoader(true);
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+    images?.forEach((image, index) => {
+      formData.append(`adImages`, image);
+    });
+    console.log(values)
     try {
-      await vendorMasterServices?.UpdateVendorServices(params?.id, values);
+      await vendorMasterServices?.UpdateVendorServices(params?.id, formData);
       setErrors({});
       setValues({
         vendorId: "",
@@ -279,6 +294,21 @@ const EditVenderServices = ({ params }) => {
           ))}
         </select>
       </div>
+      <div className="col-md-4">
+                <label className="adjustLabel " style={{ marginLeft: "100px" }}>
+                  Upload Images
+                </label>
+                <input
+                  type="file"
+                  className="form-control p-2 adjustLabel_input"
+                  name="Product"
+                  multiple
+                  onChange={onImageChange}
+                />
+                {images?.length > 0 && (
+                  <p>{images?.length} image(s) selected</p>
+                )}
+              </div>
       <div className="col-md-3 text-center mt-3">
         <button
           className="login_btn"

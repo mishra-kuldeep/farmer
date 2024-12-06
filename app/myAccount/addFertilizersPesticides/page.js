@@ -61,7 +61,7 @@ const addFertilizersPesticides = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
+console.log(values)
   const onSubmitHandler = async () => {
     setLoader(true);
     const formData = new FormData();

@@ -18,10 +18,10 @@ const page = () => {
   const [mouseImage, setMouseImage] = useState("");
   const [image, setImage] = useState("");
   const { id } = useParams();
-
+console.log(id)
   useEffect(() => {
-    if (id[0]) {
-      RentProductsServices.getRentProductByIdHome(id[0])
+    if (id) {
+      RentProductsServices.getRentProductByIdHome(id)
         .then((data) => {
           setRentProduct(data?.data);
           setImage(data?.data?.AdsImages[0]?.url);
@@ -33,10 +33,10 @@ const page = () => {
   }, [id]);
 
   const price =
-    (rentProduct?.otherDetails || {})["Price"] ||
-    "Price not available";
-  const otherDetails = rentProduct?.otherDetails || {};
-  console.log(rentProduct);
+  JSON.parse(rentProduct?.otherDetails || "{}")["Price"] ||
+  "Price not available";
+const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
+
 
   function timeAgo(dateString) {
     const date = new Date(dateString);

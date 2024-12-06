@@ -15,6 +15,7 @@ import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { IconBase } from "react-icons";
 import IconButton from "@/component/reusableComponent/IconButton";
 import Pagination from "@/component/reusableComponent/Pagination";
+import { Image_URL } from "@/helper/common";
 
 const AdvertsCart = () => {
   const user = useSelector((state) => state.auth);
@@ -197,7 +198,7 @@ const AdvertsCart = () => {
                       <div className={`${grid && "d-flex"}`}>
                         <div style={{ width: grid ? "40%" : "100%" }}>
                           <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                             src= {product?.AdsImages?.length>0?`${Image_URL}/adsImages/${product?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
                             width="100%"
                             height="200px"
                             style={{ backgroundColor: "#dadada" }}

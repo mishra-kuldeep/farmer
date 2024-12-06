@@ -17,6 +17,7 @@ const page = () => {
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
   const [dynamicFields, setDynamicFields] = useState({});
+  const [images, setImages] = useState([]);
   const [values, setValues] = useState({
     countryId: "",
     UserId: "",
@@ -26,9 +27,15 @@ const page = () => {
     isForRent: false,
     otherDetails: {},
   });
+
   const onchangeHandeler = (e) => {
     const { name } = e.target;
     setValues((pre) => ({ ...pre, [name]: e.target.value }));
+  };
+
+  const onImageChange = (e) => {
+    const files = Array.from(e.target.files); // Convert FileList to Array
+    setImages((prevImages) => [...prevImages, ...files]);
   };
 
   const handleDynamicFieldChange = (e) => {
@@ -41,8 +48,19 @@ const page = () => {
 
   const onSubmitHandler = async () => {
     setLoader(true);
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      if(key == "otherDetails"){
+        formData.append("otherDetails", JSON.stringify(values.otherDetails));
+      }else
+      formData.append(key, values[key]);
+    });
+    images?.forEach((image, index) => {
+      formData.append(`adImages`, image);
+    });
+    
     try {
-      await RentProductsServices.addRentProducts(values);
+      await RentProductsServices.addRentProducts(formData);
       setErrors({});
       setValues({
         countryId: "",
@@ -74,7 +92,7 @@ const page = () => {
       setLoader(false);
     }
   };
- 
+
   useEffect(() => {
     if (user?.profile?.id) {
       setisLoading(true);
@@ -176,6 +194,21 @@ const page = () => {
                 />
                 {errors.phone && (
                   <span className="error_input_text">{errors.phone}</span>
+                )}
+              </div>
+              <div className="col-md-4">
+                <label className="adjustLabel " style={{ marginLeft: "100px" }}>
+                  Upload Images
+                </label>
+                <input
+                  type="file"
+                  className="form-control p-2 adjustLabel_input"
+                  name="Product"
+                  multiple
+                  onChange={onImageChange}
+                />
+                {images?.length > 0 && (
+                  <p>{images?.length} image(s) selected</p>
                 )}
               </div>
               <div className="col-md-4 mb-3 ms-md-0 ms-2">

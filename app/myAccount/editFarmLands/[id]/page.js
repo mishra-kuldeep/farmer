@@ -16,7 +16,7 @@ const page = ({ params }) => {
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
   const [dynamicFields, setDynamicFields] = useState({});
-
+  const [images, setImages] = useState([]);
   const [values, setValues] = useState({
     title: "",
     description: "",
@@ -33,6 +33,11 @@ const page = ({ params }) => {
     setValues((pre) => ({ ...pre, [name]: e.target.value }));
   };
 
+  const onImageChange = (e) => {
+    const files = Array.from(e.target.files); // Convert FileList to Array
+    setImages((prevImages) => [...prevImages, ...files]);
+  };
+
   const handleDynamicFieldChange = (e) => {
     const { name, value } = e.target;
     setValues((prev) => ({
@@ -40,11 +45,21 @@ const page = ({ params }) => {
       otherDetails: { ...prev.otherDetails, [name]: value },
     }));
   };
-
+console.log(values)
   const onSubmitHandler = async () => {
     setLoader(true);
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      if (key == "otherDetails") {
+        formData.append("otherDetails", JSON.stringify(values.otherDetails));
+      } else formData.append(key, values[key]);
+
+    });
+    images?.forEach((image, index) => {
+      formData.append(`adImages`, image);
+    });
     try {
-      await RentProductsServices.EditRentProducts(params?.id, values);
+      await RentProductsServices.EditRentProducts(params?.id, formData);
       setErrors({});
       setValues({
         countryId: "",
@@ -77,7 +92,7 @@ const page = ({ params }) => {
     }
   };
 
- 
+
 
   useEffect(() => {
     if (user?.profile?.id) {
@@ -132,7 +147,7 @@ const page = ({ params }) => {
         setDynamicFields(JSON.parse(selectedCategory.otherDetails));
         setValues((prev) => ({
           ...prev,
-          otherDetails: JSON.parse(values?.otherDetails || selectedCategory.otherDetails),
+          otherDetails: JSON.parse(values?.otherDetails || selectedCategory.otherDetails ),
         }));
       }
     }
@@ -141,10 +156,10 @@ const page = ({ params }) => {
   useEffect(() => {
     AuthService.getCountryList()
       .then(({ data }) => {
-        setCountrySymbol(
-          data?.find((val) => val?.countryId == user.profile.country)
-            ?.currencySymbol
-        );
+        // setCountrySymbol(
+        //   data?.find((val) => val?.countryId == user.profile.country)
+        //     ?.currencySymbol
+        // );
       })
       .catch((err) => {
         console.log(err);
@@ -162,7 +177,7 @@ const page = ({ params }) => {
         <>
           {profile?.IsVerified && profile?.isUpdate ? (
             <div className="row  m-0 px-md-3 mb-4">
-              <h4 className="text-secondary mb-3">Add Farm Lands</h4>
+              <h4 className="text-secondary mb-3">Edit Ads</h4>
               <hr />
               {/* Form content */}
               <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
@@ -202,6 +217,21 @@ const page = ({ params }) => {
                 />
                 {errors.phone && (
                   <span className="error_input_text">{errors.phone}</span>
+                )}
+              </div>
+              <div className="col-md-4">
+                <label className="adjustLabel " style={{ marginLeft: "100px" }}>
+                  Upload Images
+                </label>
+                <input
+                  type="file"
+                  className="form-control p-2 adjustLabel_input"
+                  name="Product"
+                  multiple
+                  onChange={onImageChange}
+                />
+                {images?.length > 0 && (
+                  <p>{images?.length} image(s) selected</p>
                 )}
               </div>
               <div className="col-md-4 mb-3 ms-md-0 ms-2">
