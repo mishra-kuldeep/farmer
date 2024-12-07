@@ -48,7 +48,7 @@ export default class VehicleServices {
         const url = `${BASE_URL}/transpoter/add`;
         return axios.post(url, data, {
             headers: {
-                // 'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`,
             },
         });
@@ -58,7 +58,7 @@ export default class VehicleServices {
         const url = `${BASE_URL}/transpoter/${id}`;
         return axios.put(url, data, {
             headers: {
-                // 'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`,
             },
         });

@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
+import { Image_URL } from "@/helper/common";
 
 const Page = () => {
   const user = useSelector((state) => state.auth);
@@ -135,10 +136,9 @@ const Page = () => {
                       {category.map((category, index) => (
                         <div
                           key={index}
-                          className={`${
-                            selectedCategory == category?.vehicleId &&
+                          className={`${selectedCategory == category?.vehicleId &&
                             "filterSELECTED"
-                          } filterHover mb-1 p-1`}
+                            } filterHover mb-1 p-1`}
                           onClick={() =>
                             handleCategoryChange(category?.vehicleId)
                           }
@@ -178,9 +178,10 @@ const Page = () => {
                       >
                         <div className="servicevendercard">
                           <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                            src={item?.AdsImages?.length > 0 ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}` : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
                             style={{ backgroundColor: "#dadada" }}
                             width="100%"
+                            height="150px"
                           />
                           <div className="p-2">
                             <h5 className="my-2">
@@ -240,27 +241,27 @@ const Page = () => {
                     </div>
                   )}
                   {transport.length <= 0 && !Loader && (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "20px",
-                      fontSize: "18px",
-                      color: "#666",
-                      backgroundColor: "#f9f9f9",
-                      borderRadius: "8px",
-                      border: "1px solid #ddd",
-                      marginTop: "20px",
-                    }}
-                  >
-                    <p style={{ marginBottom: "10px" }}>
-                      Sorry, there are no listings for this category.
-                    </p>
-                    <p style={{ marginBottom: "10px" }}>
-                      Please try another search or click here to see the latest
-                      ads.
-                    </p>
-                  </div>
-                )}
+                    <div
+                      style={{
+                        textAlign: "center",
+                        padding: "20px",
+                        fontSize: "18px",
+                        color: "#666",
+                        backgroundColor: "#f9f9f9",
+                        borderRadius: "8px",
+                        border: "1px solid #ddd",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <p style={{ marginBottom: "10px" }}>
+                        Sorry, there are no listings for this category.
+                      </p>
+                      <p style={{ marginBottom: "10px" }}>
+                        Please try another search or click here to see the latest
+                        ads.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

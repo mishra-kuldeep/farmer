@@ -10,6 +10,7 @@ import { IoIosArrowBack, IoIosArrowForward, IoIosCall } from 'react-icons/io';
 import MiniLoader from '@/component/reusableComponent/MiniLoader';
 import { isMobile } from 'react-device-detect';
 import { useRouter } from 'next/navigation';
+import { Image_URL } from '@/helper/common';
 
 
 const page = () => {
@@ -24,7 +25,7 @@ const page = () => {
   const [LoaderFirstSection, setLoaderFirstSection] = useState(false);
   const [transport, setTransportList] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-
+  const [image, setImage] = useState("");
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
       const containerWidth = scrollContainerRef.current.offsetWidth;
@@ -66,6 +67,7 @@ const page = () => {
       setvehicleId(userData?.vehicleId)
       setSingleTransportData(userData);
       setLoaderFirstSection(false)
+      setImage(userData?.AdsImages[0]?.url);
     }).catch((err) => {
       console.log(err)
       setLoaderFirstSection(false)
@@ -135,19 +137,35 @@ const page = () => {
 
                 <div className="imagebigDiv my-3">
                   <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                    src={
+                      singleTransportData?.AdsImages?.length > 0
+                        ? `${Image_URL}/adsImages/${image}`
+                        : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                    }
                     height="450px"
                     width="100%"
                     className="border rounder p-1"
                   />
                 </div>
                 <div className="multiImageWrapper d-flex gap-4">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
-                    height="80px"
-                    width="80px"
-                    className="border rounder p-1"
-                  />
+                  {singleTransportData?.AdsImages?.length > 0 ? (
+                    singleTransportData?.AdsImages?.map((val) => (
+                      <img
+                        src={`${Image_URL}/adsImages/${val.url}`}
+                        height="80px"
+                        width="80px"
+                        className="border rounder p-1"
+                        onClick={() => setImage(val.url)}
+                      />
+                    ))
+                  ) : (
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                      height="80px"
+                      width="80px"
+                      className="border rounder p-1"
+                    />
+                  )}
                 </div>
 
                 <div className="d-flex gap-3 mt-4">
@@ -328,9 +346,10 @@ const page = () => {
                     <div className="col-md-3 mt-4 cursor" onClick={() => headleSetobje(item)}>
                       <div className="fertiliserDetailcard">
                         <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                          src={item?.AdsImages?.length > 0 ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}` : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
                           style={{ backgroundColor: "#dadada" }}
                           width="100%"
+                          height="150px"
                         />
                         <div className="p-2">
                           <h5 className="my-2">{item?.TransportVehicle?.type}</h5>

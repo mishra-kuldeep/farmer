@@ -16,6 +16,7 @@ import { IconBase } from "react-icons";
 import IconButton from "@/component/reusableComponent/IconButton";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { Image_URL } from "@/helper/common";
+import toast from "react-hot-toast";
 
 const AdvertsCart = () => {
   const user = useSelector((state) => state.auth);
@@ -42,7 +43,16 @@ const AdvertsCart = () => {
 
   //** Call the handleSearch function with the search term */
   const handleSearch = () => {
-    ApiCall();
+    if(searchTerm.length>0){
+      ApiCall();
+    }else toast('Please type in side search Input',{
+      icon: "👏",
+      style: {
+        borderRadius: "1px",
+        background: "red",
+        color: "#fff",
+      },
+    })
   };
 
   const handleCategoryChange = (rentCategoryId) => {
@@ -199,12 +209,12 @@ const AdvertsCart = () => {
                         <div style={{ width: grid ? "40%" : "100%" }}>
                           <img
                              src= {product?.AdsImages?.length>0?`${Image_URL}/adsImages/${product?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
-                            width="100%"
-                            height="200px"
+                            width="290px"
+                            height="180px"
                             style={{ backgroundColor: "#dadada" }}
                           />
                         </div>
-                        <div className="p-2">
+                        <div className="p-2" style={{ width: grid ? "60%" : "100%" }}>
                           <h6>{product.title}</h6>
                           <p className="my-2">
                             Category:{" "}
