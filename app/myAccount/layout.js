@@ -24,6 +24,13 @@ const AccountLayout = ({ children }) => {
   const SideBarList = [
     {
       id: 0,
+      title: "Dashboard",
+      icon: <CgProfile size={22} />,
+      goesTo:"/myAccount",
+      status: true,
+    },
+    {
+      id: 0,
       title: "My Profile",
       icon: <CgProfile size={22} />,
       goesTo:
@@ -128,6 +135,13 @@ const AccountLayout = ({ children }) => {
       title: "Farm Lands List ",
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/FarmLandList ",
+      status: true,
+    },
+    {
+      id: 13,
+      title: "Total Sale Product",
+      icon: <CiBoxList size={22} />,
+      goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
       status: true,
     },
   ];

@@ -184,12 +184,13 @@ const AdvertsCart = () => {
               </div>
             ) : (
               <div className="row m-0">
-                {products.map((product) => (
+                {products.map((product,index) => (
                   <div
+                  key={index}
                     className={`${grid ? "col-md-12" : "col-md-4"}  mb-2 p-2`}
                   >
                     <div
-                      key={product.rentProductId}
+                     
                       className="product-card"
                       onClick={() => farmServices(product.rentProductId)}
                     >

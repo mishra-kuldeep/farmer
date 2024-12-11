@@ -170,9 +170,10 @@ const Page = () => {
                 </div>
               ) : (
                 <div className="row">
-                  {transport.map((item, id) => {
+                  {transport.map((item, i) => {
                     return (
                       <div
+                      key={i}
                         className="col-md-6 col-lg-4"
                         onClick={() => Navigate(item.transVehicalId)}
                       >

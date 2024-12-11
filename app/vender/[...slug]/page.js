@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { Image_URL } from "@/helper/common";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const country = useSelector((state) => state.country);
   const { slug } = useParams();
@@ -286,4 +286,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

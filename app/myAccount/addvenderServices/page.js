@@ -157,9 +157,9 @@ const AddVenderServices = () => {
                   onChange={onchangeHandeler}
                 >
                   <option value="" className="d-none"></option>
-                  {venderList?.map((ele) => (
+                  {venderList?.map((ele,i) => (
                     <option
-                      key={ele.VendorServicesMasterId}
+                      key={i}
                       value={ele.VendorServicesMasterId}
                     >
                       {ele?.type}
@@ -284,8 +284,8 @@ const AddVenderServices = () => {
                   name="capacityUnit"
                 >
                   <option value={""}></option>
-                  {unitList?.map((val) => (
-                    <option value={val?.unitId}>{val?.unitName}</option>
+                  {unitList?.map((val,i) => (
+                    <option key={i} value={val?.unitId}>{val?.unitName}</option>
                   ))}
                 </select>
               </div>

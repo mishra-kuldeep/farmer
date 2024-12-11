@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Image_URL } from "@/helper/common";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const scrollContainerRef = useRef(null);
   const user = useSelector((state) => state.auth);
@@ -352,4 +352,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

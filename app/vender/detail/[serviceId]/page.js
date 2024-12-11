@@ -13,7 +13,7 @@ import { IoIosArrowBack, IoIosArrowForward, IoIosCall } from "react-icons/io";
 import { isMobile } from "react-device-detect";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [VendorList, setVendorList] = useState([]);
   const [singleVendorData, setSingleVendorData] = useState({});
@@ -397,4 +397,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

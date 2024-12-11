@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import { Image_URL } from '@/helper/common';
 
 
-const page = () => {
+const Page = () => {
   const router = useRouter()
   const [singleTransportData, setSingleTransportData] = useState({})
   const user = useSelector((state) => state.auth);
@@ -343,7 +343,7 @@ const page = () => {
               <div className="row overflowscrollhidden" ref={scrollContainerRef}>
                 {transport?.reverse().map((item, i) => {
                   return (
-                    <div className="col-md-3 mt-4 cursor" onClick={() => headleSetobje(item)}>
+                    <div key={i} className="col-md-3 mt-4 cursor" onClick={() => headleSetobje(item)}>
                       <div className="fertiliserDetailcard">
                         <img
                           src={item?.AdsImages?.length > 0 ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}` : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
@@ -398,4 +398,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

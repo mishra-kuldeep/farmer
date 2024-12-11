@@ -11,7 +11,7 @@ import vendorMasterServices from "@/services/vendorMasterServices";
 import CountryServices from "@/services/CountryServices";
 import ProductUnitServices from "@/services/ProductUnitServices";
 
-const addFertilizersPesticides = () => {
+const AddFertilizersPesticides = () => {
   const router = useRouter();
   const user = useSelector((state) => state.auth);
   const [errors, setErrors] = useState({});
@@ -377,4 +377,4 @@ console.log(values)
   );
 };
 
-export default addFertilizersPesticides;
+export default AddFertilizersPesticides;

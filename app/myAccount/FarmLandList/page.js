@@ -14,7 +14,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import IconButton from "@/component/reusableComponent/IconButton";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const user = useSelector((state) => state.auth);
   const [servicesVenderList, setservicesVenderList] = useState([]);
@@ -256,4 +256,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -7,7 +7,7 @@ import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import AuthService from "@/services/AuthServices";
 import { useSelector } from "react-redux";
 import RentProductsServices from "@/services/RentProductServices";
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const router = useRouter();
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
@@ -398,4 +398,4 @@ console.log(values)
   );
 };
 
-export default page;
+export default Page;

@@ -8,7 +8,7 @@ import AuthService from "@/services/AuthServices";
 import { useSelector } from "react-redux";
 import RentProductsServices from "@/services/RentProductServices";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const user = useSelector((state) => state.auth);
   const [isloading, setisLoading] = useState(false);
@@ -375,4 +375,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

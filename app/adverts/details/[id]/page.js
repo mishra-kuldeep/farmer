@@ -10,7 +10,7 @@ import { FcCallback } from "react-icons/fc";
 import { MdAddCall } from "react-icons/md";
 import { Image_URL } from "@/helper/common";
 
-const page = () => {
+const Page = () => {
   const user = useSelector((state) => state.auth);
   const country = useSelector((state) => state.country)
   const [show, setshow] = useState(false);
@@ -128,7 +128,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
                   <table className="table">
                     <tbody>
                       {Object.entries(otherDetails).map(([key, value]) => (
-                        <tr>
+                        <tr key={key}>
                           <td>
                             <b>{key}</b>
                           </td>
@@ -217,4 +217,4 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
   );
 };
 
-export default page;
+export default Page;

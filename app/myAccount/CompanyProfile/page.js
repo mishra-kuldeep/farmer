@@ -265,8 +265,8 @@ const MyProfile = () => {
             name="CountryID"
           >
             <option value={""}></option>
-            {countryList?.map((val) => (
-              <option value={val?.countryId}>{val?.countryName}</option>
+            {countryList?.map((val,i) => (
+              <option key={i} value={val?.countryId}>{val?.countryName}</option>
             ))}
           </select>
           {Errors.CountryID && (

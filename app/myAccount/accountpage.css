@@ -2,12 +2,14 @@
   border-right: 1px solid rgb(158, 158, 158);
   height: calc(100vh - 150px);
 }
+
 .imageUrlStyle {
   border-radius: 50%;
   height: 180px;
   width: 180px;
   position: relative;
 }
+
 .imageEditIcon {
   position: absolute;
   bottom: 10px;
@@ -22,9 +24,11 @@
   font-size: 30px;
   cursor: pointer;
 }
+
 .imageEditIcon:hover {
   border: 1px solid #555;
 }
+
 .accListSide {
   display: flex;
   gap: 20px;
@@ -33,16 +37,20 @@
   transition: 0.3s;
   cursor: pointer;
 }
+
 .accListSide:hover {
   background-color: #ddd;
 }
+
 .accListSide:hover h6 {
   font-weight: bold;
 }
+
 .accListSideActive {
   background-color: #ddd;
   font-weight: bold;
 }
+
 .imageofProductaddbyFarmer {
   height: calc(100vh / 2);
   width: 400px;
@@ -50,26 +58,30 @@
   margin: 10px;
   background-color: #ddd;
 }
+
 .orderedWrapper {
   position: relative;
   border: 1px solid #dadada;
   margin-bottom: 10px;
-border-radius: 5px;
+  border-radius: 5px;
   padding: 10px;
   display: flex;
   gap: 10px;
+
   & img {
     width: 200px;
     height: 200px;
     border-radius: 5px;
   }
 }
+
 .highlight {
   background-color: rgb(217, 253, 217);
   padding: 5px;
   margin: 5px;
   font-weight: bold;
 }
+
 .customeraddress {
   background-color: #f1f1f1;
   padding: 10px;
@@ -85,14 +97,24 @@ border-radius: 5px;
     border-bottom: 1px solid rgb(158, 158, 158);
     margin-bottom: 20px;
   }
+
   .orderedWrapper {
     border: 1px solid #dadada;
     margin-bottom: 10px;
     flex-direction: column;
     padding: 10px;
+
     & img {
       width: 100%;
       height: auto;
     }
   }
+}
+
+.dashboard-container {
+  margin: 0;
+  padding: 0;
+  /* background-color: #1d2634; */
+  color: #9e9ea4;
+  /* font-family: 'Montserrat', sans-serif; */
 }

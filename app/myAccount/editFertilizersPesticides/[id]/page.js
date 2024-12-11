@@ -11,7 +11,7 @@ import AuthService from "@/services/AuthServices";
 import ProductUnitServices from "@/services/ProductUnitServices";
 import FertilizersPesticideServices from "@/services/FertilizersPesticideServices";
 
-const editFertilizersPesticides = ({ params }) => {
+const EditFertilizersPesticides = ({ params }) => {
   const user = useSelector((state) => state.auth);
   const router = useRouter();
   const [errors, setErrors] = useState({});
@@ -314,8 +314,8 @@ const editFertilizersPesticides = ({ params }) => {
           name="capacityUnit"
         >
           <option value={""}></option>
-          {unitList?.map((val) => (
-            <option value={val?.unitId}>{val?.unitName}</option>
+          {unitList?.map((val,i) => (
+            <option key={i} value={val?.unitId}>{val?.unitName}</option>
           ))}
         </select>
       </div>
@@ -348,4 +348,4 @@ const editFertilizersPesticides = ({ params }) => {
   );
 };
 
-export default editFertilizersPesticides;
+export default EditFertilizersPesticides;
