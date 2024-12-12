@@ -317,8 +317,8 @@ console.log(values)
                   name="capacityUnit"
                 >
                   <option value={""}></option>
-                  {unitList?.map((val) => (
-                    <option value={val?.unitId}>{val?.unitName}</option>
+                  {unitList?.map((val,i) => (
+                    <option key={i} value={val?.unitId}>{val?.unitName}</option>
                   ))}
                 </select>
               </div>

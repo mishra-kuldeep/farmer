@@ -14,6 +14,7 @@ import { IoIosCall } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Image_URL } from "@/helper/common";
+import MiniLoader from "@/component/reusableComponent/MiniLoader";
 
 const Page = () => {
   const router = useRouter();
@@ -121,8 +122,9 @@ const Page = () => {
             </div>
             <div className="imagebigDiv my-3">
               {fertilizer?.AdsImages?.length > 0 ? (
-                fertilizer?.AdsImages?.map((val) => (
+                fertilizer?.AdsImages?.map((val,i) => (
                   <img
+                  key={i}
                     src={`${Image_URL}/adsImages/${val.url}`}
                     height="80px"
                     width="80px"

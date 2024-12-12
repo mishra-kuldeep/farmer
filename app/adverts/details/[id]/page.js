@@ -84,8 +84,9 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
             </div>
             <div className="multiImageWrapper d-flex gap-4">
               {rentProduct?.AdsImages?.length > 0 ? (
-                rentProduct?.AdsImages?.map((val) => (
+                rentProduct?.AdsImages?.map((val,i) => (
                   <img
+                  key={i}
                     src={`${Image_URL}/adsImages/${val.url}`}
                     height="80px"
                     width="80px"

@@ -144,8 +144,9 @@ const Page = () => {
                 </div>
                 <div className="multiImageWrapper d-flex gap-4">
                   {singleVendorData?.AdsImages?.length > 0 ? (
-                    singleVendorData?.AdsImages?.map((val) => (
+                    singleVendorData?.AdsImages?.map((val,i) => (
                       <img
+                      key={i}
                         src={`${Image_URL}/adsImages/${val.url}`}
                         height="80px"
                         width="80px"
