@@ -138,11 +138,25 @@ const AccountLayout = ({ children }) => {
       status: true,
     },
     {
-      id: 13,
+      id: 14,
       title: "Total Sale Product",
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
-      status: true,
+      status: user?.profile?.role === 2,
+    },
+    {
+      id: 15,
+      title: "Purchase History",
+      icon: <CiBoxList size={22} />,
+      goesTo: "/myAccount/reports/buyerReports/totalPurchase",
+      status: user?.profile?.role === 3,
+    },
+    {
+      id: 15,
+      title: "Transportation History",
+      icon: <CiBoxList size={22} />,
+      goesTo: "/myAccount/reports/buyerReports/transportDetails",
+      status: user?.profile?.role === 3,
     },
   ];
   return (
