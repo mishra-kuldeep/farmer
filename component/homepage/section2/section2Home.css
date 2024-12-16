@@ -7,45 +7,61 @@
 
 .section2cardHome {
   background-color: var(--white);
-  margin-bottom: 10px;
-  border-radius: 0px 10px 10px 0px;
+  /* margin-bottom: 10px; */
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 7px;
+  cursor: pointer;
 }
 .overflowhiddenbutscroll {
   display: flex;
   flex-wrap: nowrap;
   overflow: auto;
 }
-.overflowhiddenbutscroll {
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
-}
-.overflowhiddenbutscroll::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
-}
+
 .section2cardHome .image_div {
   width: 100%;
-  padding-bottom: 70%;
   position: relative;
+  height: 130px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.section2cardHome img{
+  /* object-fit: cover; */
+  height: 130px;
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+.section2cardHome:hover.section2cardHome img{
+  transform: scale(1.1);
+}
+.section2cartTitle{
+  text-align: center;
+  margin-top: 5px;
+}
+.section2cartTitle span{
+  font-size: 15px;
 }
 
-.section2cardHome .image_div img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.section2cartTitle {
-  border-left: 4px solid var(--mainColor2);
-  padding: 5px;
-}
-/* .section2cardHome{
-  width: 60%;
-  margin: 50px;
-} */
 @media only screen and (max-width: 600px) {
 .section2cartTitle span{
   font-size: 13px;
+}
+.section2cardHome .image_div {
+  width: 100%;
+  position: relative;
+  height: 100px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.section2cardHome img{
+  /* object-fit: cover; */
+  height: 100px;
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.5s;
 }
 }
