@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { useRouter } from "next/navigation";
 import "../../../../admin/addProduct/addProduct.css"
-import ReportsServices from "@/services/reportsServices";
+import ReportsServices from "@/services/ReportServices";
 
 const Page = () => {
     const router = useRouter();

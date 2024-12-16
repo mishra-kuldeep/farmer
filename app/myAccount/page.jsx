@@ -1,11 +1,13 @@
 "use client"
+import BuyerBarChart from '@/component/myaccount/buyerDash/buyerBharchart';
+import BuyerSortInfo from '@/component/myaccount/buyerDash/buyerSortInfo';
+import SelectedTransporter from '@/component/myaccount/buyerDash/selectedTransporter';
+import BarChart from '@/component/myaccount/farmerDash/barChart';
+import LeastOrder from '@/component/myaccount/farmerDash/leastOrder';
+import Sortinfo from '@/component/myaccount/farmerDash/sortInfo';
 import React from 'react'
-import BarChart from '@/component/myaccount/farmerDash/barChart'
-import LeastOrder from '@/component/myaccount/farmerDash/leastOrder'
-import Sortinfo from '@/component/myaccount/farmerDash/sortInfo'
-import BuyerSortInfo from '@/component/myaccount/buyerDash/buyerSortInfo'
 import { useSelector } from 'react-redux'
-import SelectedTransporter from '@/component/myaccount/buyerDash/selectedTransporter'
+
 
 const MyAccount = () => {
   const user = useSelector((state) => state.auth);
@@ -15,7 +17,8 @@ const MyAccount = () => {
      { user?.profile?.role === 3 && <BuyerSortInfo/>}
       <div className='row'>
           <div className='col-md-7'>
-            <BarChart />
+          { user?.profile?.role === 2 &&  <BarChart />}
+          { user?.profile?.role === 3 &&  <BuyerBarChart />}
           </div>
           <div className='col-md-5'>
            { user?.profile?.role === 2 &&  <LeastOrder />}

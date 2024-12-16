@@ -5,9 +5,9 @@ import { BiSolidPurchaseTag } from "react-icons/bi";
 import { PiContactlessPaymentBold } from "react-icons/pi";
 import { FaTruckFront } from "react-icons/fa6";
 import { FaProductHunt } from "react-icons/fa";
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { FaShoppingCart } from "react-icons/fa";
 import "../farmerDash/farmerDesh.css"
-import ReportsServices from '@/services/ReportsServices';
+import ReportsServices from '@/services/ReportServices';
 const BuyerSortInfo = () => {
     const [totalProduct, setTotalProduct] = useState(null)
     const [totalPurchase, setTotalPurchase] = useState()
@@ -55,7 +55,7 @@ const BuyerSortInfo = () => {
     }, [])
 
     const totalPendingPrice = totalPurchase?.filter(item => item.paymentStatus === "Pending") // Filter items with "Pending" paymentStatus
-        .reduce((sum, item) => sum + item.priceAtPurchase, 0);
+        .reduce((sum, item) => sum + item.priceAtPurchase*item.quantity, 0);
 
     return (
         <div><main className='main-container '>
@@ -66,9 +66,9 @@ const BuyerSortInfo = () => {
             <div className='main-cards'>
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>Products</h3>
+                        <h3>Order</h3>
                         <div className='card_icon'>
-                            <FaProductHunt />
+                            <FaShoppingCart />
                         </div>
                     </div>
                     <h1>{totalProduct || 0}</h1>
@@ -80,11 +80,11 @@ const BuyerSortInfo = () => {
                             <BiSolidPurchaseTag />
                         </div>
                     </div>
-                    <h1>{totalPurchase?.reduce((sum, item) => sum + item.priceAtPurchase, 0)}</h1>
+                    <h1>{totalPurchase?.reduce((sum, item) => sum + item.priceAtPurchase*item.quantity , 0)}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>Transpor</h3>
+                        <h3>Transport</h3>
                         <div className='card_icon'>
                             <FaTruckFront />
                         </div>

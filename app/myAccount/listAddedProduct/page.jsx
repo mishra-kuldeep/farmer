@@ -12,6 +12,7 @@ import { Image_URL } from "@/helper/common";
 import "../../admin/addProduct/addProduct.css";
 import CountryServices from "@/services/CountryServices";
 import { useSelector } from "react-redux";
+import { RiApps2AddFill } from "react-icons/ri";
 
 const ListAddedProduct = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const ListAddedProduct = () => {
   const [searchText, setSearchText] = useState("");
   const user = useSelector((state) => state.auth);
 
-console.log(Countrylist)
+  console.log(productList)
   const editHandeler = (id) => {
     router.push(`/myAccount/editProduct/${id}`);
   };
@@ -51,6 +52,9 @@ console.log(Countrylist)
       .catch((err) => console.log(err));
   };
 
+  const addStockHandeler = () => {
+    // setShowConfirm(false);
+  };
   const handleCancel = () => {
     setShowConfirm(false);
   };
@@ -78,8 +82,8 @@ console.log(Countrylist)
   }, [page, searchText]);
 
   useEffect(() => {
- 
-      CountryServices.getCountrybyId(user?.profile?.country)
+
+    CountryServices.getCountrybyId(user?.profile?.country)
       .then(({ data }) => {
         setCountrylist(data);
       })
@@ -134,6 +138,18 @@ console.log(Countrylist)
           ></div>
           <p style={{ color: "grey", fontSize: "12px" }}>Rejected</p>
         </div>
+        <div className="d-flex gap-2">
+          <div
+            style={{
+              height: "20px",
+              width: "20px",
+              backgroundColor: "red",
+              border: "1px solid #ddd",
+              borderRadius: "5px",
+            }}
+          ></div>
+          <p style={{ color: "grey", fontSize: "12px" }}>Out Of Stock/Unavailable</p>
+        </div>
       </div>
       <div className="w-100">
         <div className="w-100 overflow-auto">
@@ -146,7 +162,7 @@ console.log(Countrylist)
                 <th>Product Type</th>
                 <th className="text-center">Price</th>
                 <th className="text-center">Discount</th>
-                <th className="text-center">Quantity/Unit</th>
+                <th className="text-center">Quantity-Unit</th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>
@@ -156,15 +172,14 @@ console.log(Countrylist)
                   return (
                     <tr key={item?.productDtlId}>
                       <td
-                        className={`${
-                          !item?.isVerify && !item?.rejected
-                            ? "bgwarning"
-                            : item?.isVerify
+                        className={`${!item?.isVerify && !item?.rejected
+                          ? "bgwarning"
+                          : item?.isVerify
                             ? "bgsuccess"
                             : item?.rejected
-                            ? "bgdanger"
-                            : ""
-                        }`}
+                              ? "bgdanger"
+                              : ""
+                          }`}
                       >
                         {i + 1}
                       </td>
@@ -181,14 +196,14 @@ console.log(Countrylist)
                       <td style={{ backgroundColor: "transparent" }}>
                         {item?.Product.productName}
                       </td>
-                      <td className="text-center">{Countrylist?.currencySymbol}{item?.price}</td>
+                      <td className="text-center">{Countrylist?.currencySymbol}{item?.price}/{item?.ProductUnit?.unitName}</td>
                       <td className="text-center">
                         {item?.discountType == "fixed" && Countrylist?.currencySymbol}
                         {item?.discount}
                         {item?.discountType == "percentage" && "%"}
                       </td>
-                      <td className="text-center">
-                        {item?.quantity}/{item?.ProductUnit?.unitName}
+                      <td className={`text-center ${item.available ? '' : 'bg-danger'}`}>
+                        {item?.quantity}-{item?.ProductUnit?.unitName}
                       </td>
                       <td className="text-center">
                         <div className="d-flex gap-2 justify-content-center">
@@ -218,7 +233,18 @@ console.log(Countrylist)
                               <MdDelete color="red" size={20} />
                             </IconButton>
                           ) : (
-                            <IconButton></IconButton>
+                            <>
+                              {!item.available && item.quantity == 0 ?
+
+                                <IconButton
+                                  tooltip="add stock"
+                                  onClick={() => addStockHandeler(item.productDtlId)}
+                                >
+                                  <RiApps2AddFill color="green" size={20} />
+                                </IconButton>
+                                : <IconButton></IconButton>
+                              }
+                            </>
                           )}
                         </div>
                       </td>
@@ -239,7 +265,7 @@ console.log(Countrylist)
       />
       <div
         className="offcanvas offcanvas-end"
-        style={{width: "470px"}}
+        style={{ width: "470px" }}
         tabIndex="-1"
         id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel"
@@ -254,16 +280,16 @@ console.log(Countrylist)
           ></button>
         </div>
         <div className="offcanvas-body">
-         <div style={{display:"flex",flexDirection:"column"}}>
-         {imageList?.map((val,i) => (
-            <img
-            key={i}
-              src={`${Image_URL}/products/${val.url}`}
-              alt={val.url}
-              className="imageofProductaddbyFarmer"
-            />
-          ))}
-         </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {imageList?.map((val, i) => (
+              <img
+                key={i}
+                src={`${Image_URL}/products/${val.url}`}
+                alt={val.url}
+                className="imageofProductaddbyFarmer"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

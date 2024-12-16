@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { BsFillGrid3X3GapFill, BsPeopleFill } from 'react-icons/bs'
+import { FaTruck } from "react-icons/fa";
 import { FaProductHunt } from "react-icons/fa";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { TbShoppingCartCheck } from "react-icons/tb";
 import "./farmerDesh.css"
-import ReportsServices from '@/services/ReportsServices';
+import ReportsServices from '@/services/ReportServices';
 const Sortinfo = () => {
     const [totalProduct, setTotalProduct] = useState()
     const [totalRevenue, setTotalRevenue] = useState()
@@ -45,7 +46,7 @@ const Sortinfo = () => {
         NoOfOrdersApiCall()
         TotalRevenueApiCall()
     }, [])
-  
+  console.log(totalRevenue)
     return (
         <div><main className='main-container '>
             <div className='main-title'>
@@ -67,7 +68,7 @@ const Sortinfo = () => {
                     <div className='card-inner'>
                         <h3>Order</h3>
                         <div className='card_icon'>
-                            <BsFillGrid3X3GapFill />
+                            <TbShoppingCartCheck />
                         </div>
                     </div>
                     <h1>{totalOrder?.reduce((total, item) => total + item.orderCount, 0)}</h1>
@@ -76,7 +77,7 @@ const Sortinfo = () => {
                     <div className='card-inner'>
                         <h3>Delivered</h3>
                         <div className='card_icon'>
-                            <BsPeopleFill />
+                            <FaTruck />
                         </div>
                     </div>
                     <h1>{totalDelivered?.orderCount}</h1>

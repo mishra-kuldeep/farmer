@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ReportsServices from "@/services/ReportsServices";
+import ReportsServices from "@/services/ReportServices";
 
 const LeastOrder = () => {
     const [leastOrderlist, setLeastOrderlist] = useState()

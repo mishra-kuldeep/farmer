@@ -101,9 +101,9 @@ export default class ReportsServices {
 
     // === Buyer Reports ===
 
-    static async PurchaseHistory() {
+    static async PurchaseHistory(filter) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/report/buyer/purchaseHistory`
+        const url = filter?`${BASE_URL}/report/buyer/purchaseHistory?paymentStatus=${filter}`:`${BASE_URL}/report/buyer/purchaseHistory`
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -111,9 +111,9 @@ export default class ReportsServices {
         });
     }
 
-    static async TransportDetails() {
+    static async TransportDetails(filter) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/report/buyer/transportDetail`
+        const url = filter?`${BASE_URL}/report/buyer/transportDetail?paymentStatus=${filter}`:`${BASE_URL}/report/buyer/transportDetail`
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -124,6 +124,15 @@ export default class ReportsServices {
     static async frequentlySelectedTransporter() {
         const token = getCookie("token");
         const url = `${BASE_URL}/report/buyer/frequentlySelectedTransporter`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async BuyerTotalExpenditure(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/report/buyer/totalExpenditure?startDate=${data?.startDate}&endDate=${data?.endDate}&duration=${data?.duration}`
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,

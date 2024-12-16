@@ -16,7 +16,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { FiHeart } from "react-icons/fi";
 import { CiBoxList } from "react-icons/ci";
 import { IoMdAddCircle } from "react-icons/io";
-
+import { AiTwotoneDashboard } from "react-icons/ai";
 const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
   const pathname = usePathname();
@@ -25,7 +25,7 @@ const AccountLayout = ({ children }) => {
     {
       id: 0,
       title: "Dashboard",
-      icon: <CgProfile size={22} />,
+      icon: <AiTwotoneDashboard size={22} />,
       goesTo:"/myAccount",
       status: true,
     },
@@ -125,14 +125,14 @@ const AccountLayout = ({ children }) => {
     },
     {
       id: 12,
-      title: "Farm Lands ",
+      title: "Add Ads ",
       icon: <IoMdAddCircle size={22} />,
       goesTo: "/myAccount/addFarmLands",
       status: true,
     },
     {
       id: 13,
-      title: "Farm Lands List ",
+      title: "Ads List ",
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/FarmLandList ",
       status: true,

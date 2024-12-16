@@ -1,8 +1,8 @@
 
 "use client"
 import React, { useEffect, useState } from 'react'
-import ReportsServices from '@/services/ReportsServices';
 import Pagination from '@/component/reusableComponent/Pagination';
+import ReportsServices from '@/services/ReportServices.jsx';
 
 const Page = () => {
   const [page, setPage] = useState(1);
@@ -11,7 +11,8 @@ const Page = () => {
   const [totalPurchase, setTotalPurchase] = useState([]);
 
   const TotalPurchaseHistoryApiCall = () => {
-    ReportsServices.PurchaseHistory()
+     const filter = "Paid"
+    ReportsServices.PurchaseHistory(filter)
       .then(({ data }) => {
         console.log(data)
         setTotalPurchase(data?.data);
@@ -37,7 +38,7 @@ const Page = () => {
       />
       <div className="d-flex gap-4 mb-3 ms-3" style={{ marginTop: "-40px" }}>
         <div className="d-flex gap-2">
-          <h4 style={{ color: "grey", }}>Total product Purchase</h4>
+          <h4 style={{ color: "grey", }}>Total Product Purchase</h4>
         </div>
       </div>
       <div className="w-100">
@@ -46,7 +47,7 @@ const Page = () => {
             <thead>
               <tr>
                 <th>SrNo</th>
-                <th>product</th>
+                <th>Product</th>
                 <th className="text-center">Total Quantity</th>
                 <th className="text-center">Product Purchase price </th>
                 <th className="text-center">Transpoter Charge</th>
@@ -67,13 +68,13 @@ const Page = () => {
                         data-bs-placement="bottom"
                         title={item?.quantity}
                       >
-                        {item?.quantity}{"/"}{item.unitName}
+                        {item?.quantity}{"-"}{item.unitName}
                       </td>
                       <td className="text-center" style={{ backgroundColor: "transparent" }}>
-                        {item?.priceAtPurchase}
+                        {item?.priceAtPurchase}{"/"}{item.unitName}
                       </td>
                       <td className="text-center">
-                      {item?.chargePerKm}/per km
+                      {item?.chargePerKm} per km
                       </td>
                       <td className="text-center">
                       {item?.deliveryStatus}

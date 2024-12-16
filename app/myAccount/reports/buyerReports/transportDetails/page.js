@@ -1,7 +1,7 @@
 
 "use client"
 import Pagination from '@/component/reusableComponent/Pagination';
-import ReportsServices from '@/services/ReportsServices';
+import ReportsServices from '@/services/ReportServices';
 import React, { useEffect, useState } from 'react'
 
 
@@ -13,7 +13,8 @@ const Page = () => {
 
 
   const TotalTransportDetailsApiCall = () => {
-    ReportsServices.TransportDetails()
+    const filter = 'Paid'
+    ReportsServices.TransportDetails(filter)
       .then(({ data }) => {
         console.log(data)
         setTotalTransportation(data?.data);
@@ -48,9 +49,9 @@ const Page = () => {
             <thead>
               <tr>
                 <th>SrNo</th>
-                <th>product</th>
+                <th>Products</th>
                 <th className="text-center">Total Quantity</th>
-                <th className="text-center">totalDistance</th>
+                <th className="text-center">Total Distance</th>
                 <th className="text-center">Transpoter Charge</th>
                 <th className="text-center">Delivery Status</th>
                 <th className="text-center">Payment Status</th>
@@ -62,26 +63,26 @@ const Page = () => {
                   return (
                     <tr key={i}>
                       <td>{i + 1}</td>
-                      <td>{item.productName||"N/A"}</td>
+                      <td>{item.productName || "N/A"}</td>
                       <td
                         className="text-center"
                         data-bs-toggle="tooltip"
                         data-bs-placement="bottom"
                         title={item?.quantity}
                       >
-                        {item?.quantity ||"N/A"}
+                        {item?.quantity || "N/A"}
                       </td>
                       <td className="text-center" style={{ backgroundColor: "transparent" }}>
-                        {item?.totalDistance ||"N/A"}
+                        {item?.totalDistance + "  km" || "N/A"}
                       </td>
                       <td className="text-center">
-                      {item?.transportCharge ||"N/A"}
+                        {item?.transportCharge || "N/A"}
                       </td>
                       <td className="text-center">
-                      {item?.deliveryStatus ||"N/A"}
+                        {item?.deliveryStatus || "N/A"}
                       </td>
                       <td className="text-center">
-                      {item?.paymentStatus ||"N/A"}
+                        {item?.paymentStatus || "N/A"}
                       </td>
                     </tr>
                   );
