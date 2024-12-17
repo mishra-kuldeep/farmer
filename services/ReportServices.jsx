@@ -100,7 +100,7 @@ export default class ReportsServices {
     }
 
     // === Buyer Reports ===
-
+ 
     static async PurchaseHistory(filter) {
         const token = getCookie("token");
         const url = filter?`${BASE_URL}/report/buyer/purchaseHistory?paymentStatus=${filter}`:`${BASE_URL}/report/buyer/purchaseHistory`
@@ -133,6 +133,56 @@ export default class ReportsServices {
     static async BuyerTotalExpenditure(data) {
         const token = getCookie("token");
         const url = `${BASE_URL}/report/buyer/totalExpenditure?startDate=${data?.startDate}&endDate=${data?.endDate}&duration=${data?.duration}`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+
+    
+    // === transpoter Reports ===
+
+    
+    static async totalVehicle() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/report/transpoter/totalVehicle`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async totalOrders() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/report/transpoter/totalOrders`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async totalRevenue() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/report/transpoter/totalRevenue`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async totalRevenueTimeWise(data) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/report/transpoter/totalRevenueTimeWise?startDate=${data?.startDate}&endDate=${data?.endDate}&duration=${data?.duration}`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+    static async latestPickupOrder() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/report/transpoter/latestOrder`
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,
