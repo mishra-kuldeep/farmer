@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 const LeastOrderpickup = () => {
     const [leastOrderlist, setLeastOrderlist] = useState()
     const router = useRouter()
+
     function formatDateToDDMMYYYY(isoDate) {
         const date = new Date(isoDate);
 
@@ -13,6 +14,7 @@ const LeastOrderpickup = () => {
 
         return `${day}-${month}-${year}`;
     }
+    
     const LeastOrderApiCall = () => {
         ReportsServices.latestPickupOrder()
             .then(({ data }) => {

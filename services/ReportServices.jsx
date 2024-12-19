@@ -57,9 +57,9 @@ export default class ReportsServices {
      * Fetches the latest orders placed with the farmer.
      * @returns {Promise} Axios response promise containing the latest orders.
      */
-    static async farmerLeastOrder() {
+    static async farmerLeastOrder(data) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/report/farmer/latestOrders`
+        const url = `${BASE_URL}/report/farmer/latestOrders?page=${data?.page}&pageSize=${data?.pageSize}`
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ export default class ReportsServices {
         });
     }
 
-    /**
+    /**page
     * Fetches the total sales data product-wise for the farmer.
     * @returns {Promise} Axios response promise containing the sales data.
     */

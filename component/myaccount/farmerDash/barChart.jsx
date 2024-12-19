@@ -122,7 +122,7 @@ export default function BarChart() {
   };
 
   return (
-    <div className="chart-container" style={{ height: "400px" }}>
+    <div className="chart-container my-2" style={{ height: "500px" }}>
       <div className="filter-options d-flex w-50 gap-4">
         <label className="cursor">
           <input
@@ -140,11 +140,10 @@ export default function BarChart() {
             checked={status === "year"}
             onChange={() => handleStatusChange("year")}
           />
-          <span className="m-1">Year</span>
+          <span className="m-1">Months</span>
         </label>
       </div>
       <Bar data={data} options={options} />
-
     </div>
   );
 }

@@ -120,6 +120,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
       setIsLoadingDetails(true);
       OrderService.getOrderDetailAdmin(modalData)
         .then(({ data }) => {
+          console.log(data)
           setOrderDetails(data?.data);
           setIsLoadingDetails(false);
         })
@@ -471,7 +472,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
             <div className="modal-footer justify-content-around">
               <button
                 type="button"
-                // disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
+                disabled={ OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-success w-25"
                 onClick={() => {
                   setConfirm(true);
@@ -483,7 +484,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
               </button>
               <button
                 type="button"
-                // disabled={OrderDetails.status != "Pending" || OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
+                disabled={ OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-danger w-25"
                 onClick={() => {
                   setConfirm(true);
