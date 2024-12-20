@@ -131,6 +131,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
         });
     }
   }, [modalData]);
+  console.log(OrderDetails?.TransporterVehicle?.TransporterDeliveryDetails)
   // Calculate total price, discount, and final total
   const totalPrice = OrderDetails.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;
@@ -147,6 +148,19 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
 
   const finalTotal = totalPrice - totalDiscount;
   const deliveryCharges = finalTotal > 1000 ? 0 : 40;
+
+  //To calculate the total sum of totalTranportCharge across all TransporterDeliveryDetails in this OrderDetails,
+  let totalTransportCharge = 0;
+  OrderDetails.forEach(order => {
+    if (order.TransporterDeliveryDetails) {
+      totalTransportCharge += order.TransporterDeliveryDetails.reduce(
+        (sum, detail) => sum + detail.totalTranportCharge,
+        0
+      );
+    }
+  });
+
+
   return (
     <>
       <div className="modal fade" id="exampleModal" tabIndex="-1">
@@ -419,7 +433,8 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                           <tr>
                             <td>Delivery Charges</td>
                             <td>
-                              ₹{deliveryCharges > 0 ? deliveryCharges : "Free"}
+                              {/* ₹{deliveryCharges > 0 ? deliveryCharges : "Free"} */}
+                              {totalTransportCharge || 0}
                             </td>
                           </tr>
                           <tr>
@@ -427,7 +442,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                               <strong>Total Amount</strong>
                             </td>
                             <td>
-                              <strong>₹{finalTotal + deliveryCharges}</strong>
+                              <strong>₹{finalTotal + totalTransportCharge}</strong>
                             </td>
                           </tr>
                           <tr>
@@ -472,7 +487,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
             <div className="modal-footer justify-content-around">
               <button
                 type="button"
-                disabled={ OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
+                disabled={OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-success w-25"
                 onClick={() => {
                   setConfirm(true);
@@ -484,7 +499,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
               </button>
               <button
                 type="button"
-                disabled={ OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
+                disabled={OrderDetails?.some((ele) => ele.TransporterVehicle == null)}
                 className="btn btn-danger w-25"
                 onClick={() => {
                   setConfirm(true);
