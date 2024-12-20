@@ -16,7 +16,7 @@ const Page = () => {
     const [searchText, setSearchText] = useState("");
     const tableRef = useRef();
 
- 
+
     useEffect(() => {
         ReportsServices.totalSaleProductWise(page, searchText)
             .then(({ data }) => {
@@ -36,7 +36,7 @@ const Page = () => {
                 setSearchText={setSearchText}
                 List={SaleProductList}
                 metaData={metaData}
-                searchShow={true}
+                searchShow={false}
             />
             <div className="d-flex gap-4 mb-3 ms-3" style={{ marginTop: "-40px" }}>
                 <div className="d-flex gap-2">
@@ -49,10 +49,10 @@ const Page = () => {
                         <thead>
                             <tr>
                                 <th>SrNo</th>
-                                <th>product</th>
-                                <th className="text-center">Total Quantity</th>
-                                <th className="text-center">Total Sale price</th>
-                                {/* <th className="text-center">Action</th> */}
+                                <th>Sale Product</th>
+                                <th className="text-center"> Sale Price</th>
+                                <th className="text-center">Sale Quantity</th>
+                                <th className="text-center">Amount</th>
                             </tr>
                         </thead>
                         {SaleProductList?.length > 0 && (
@@ -61,30 +61,29 @@ const Page = () => {
                                     return (
                                         <tr key={i}>
                                             <td>{i + 1}</td>
-                                            <td>{item['productDetail.productDtlName']}</td>
                                             <td
-                                                className="text-center"
                                                 data-bs-toggle="tooltip"
                                                 data-bs-placement="bottom"
-                                                title={item?.totalQuantity}
-                                            >
-                                                {item?.totalQuantity}{"/"}{item['productDetail.ProductUnit.unitName']}
-                                            </td>
+                                                title={item['productDetail.productDtlName']}
+                                            >{item['productDetail.productDtlName']}</td>
                                             <td className="text-center" style={{ backgroundColor: "transparent" }}>
-                                                {item?.totalRevenue}
+                                                {item?.totalRevenue}{"/"}{item['productDetail.ProductUnit.unitName']}
                                             </td>
-                                            {/* <td className="text-center">
-                                                <div className="d-flex gap-2 justify-content-center">
-                                                    <IconButton>
-                                                        <FaRegEdit color="green" size={20} />
-                                                    </IconButton>
-                                                </div>
-                                            </td> */}
+                                            <td className="text-center">
+                                                {item?.totalQuantity}{" "}{item['productDetail.ProductUnit.unitName']}
+                                            </td>
+                                            <td className="text-center">
+                                                {item?.totalRevenue * item?.totalQuantity}
+                                            </td>
                                         </tr>
                                     );
                                 })}
+                                {/* <td className="text-center">
+                                    {item?.totalRevenue * item?.totalQuantity}
+                                </td> */}
                             </tbody>
                         )}
+
                     </table>
                 </div>
             </div>

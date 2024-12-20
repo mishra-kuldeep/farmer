@@ -364,9 +364,10 @@ const Section1Home = () => {
                       data-bs-toggle="tooltip"
                       data-bs-placement="bottom"
                       title="Add to Cart"
+                      disabled={!ele?.available}
                       onClick={() => addCartHandler(ele.productDtlId)}
                     >
-                      Add
+                      {ele?.available ? "Add":"out of stock"}
                     </button>
                   )}
                 </div>

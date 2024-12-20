@@ -71,9 +71,9 @@ export default class ReportsServices {
     * Fetches the total sales data product-wise for the farmer.
     * @returns {Promise} Axios response promise containing the sales data.
     */
-    static async totalSaleProductWise() {
+    static async totalSaleProductWise(page, searchText) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/report/farmer/totalsale`
+        const url = `${BASE_URL}/report/farmer/totalsale?page=${page}&pageSize=10`
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`,
