@@ -40,6 +40,13 @@ const AccountLayout = ({ children }) => {
       status: true,
     },
     {
+      id: 4,
+      title: "My Order",
+      icon: <HiOutlineShoppingBag size={22} />,
+      goesTo: "/myAccount/myOrder",
+      status: true,
+    },
+    {
       id: 1,
       title: "My Wishlist",
       icon: <FiHeart size={22} />,
@@ -75,15 +82,8 @@ const AccountLayout = ({ children }) => {
       status: user?.profile?.role === 2,
     },
     {
-      id: 4,
-      title: "My Order",
-      icon: <HiOutlineShoppingBag size={22} />,
-      goesTo: "/myAccount/myOrder",
-      status: true,
-    },
-    {
       id: 5,
-      title: "Ordered Product",
+      title: "Ongoing Orders",
       icon: <PiVan size={22} />,
       goesTo: "/myAccount/orderedProduct",
       status: user?.profile?.role === 2,
@@ -124,22 +124,8 @@ const AccountLayout = ({ children }) => {
       status: user?.profile?.role === 9,
     },
     {
-      id: 12,
-      title: "Add Ads ",
-      icon: <IoMdAddCircle size={22} />,
-      goesTo: "/myAccount/addFarmLands",
-      status: true,
-    },
-    {
-      id: 13,
-      title: "Ads List ",
-      icon: <CiBoxList size={22} />,
-      goesTo: "/myAccount/FarmLandList ",
-      status: true,
-    },
-    {
       id: 14,
-      title: "Total Sale Product",
+      title: "Completed Orders",
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
       status: user?.profile?.role === 2,
@@ -157,6 +143,20 @@ const AccountLayout = ({ children }) => {
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/reports/buyerReports/transportDetails",
       status: user?.profile?.role === 3,
+    },
+    {
+      id: 12,
+      title: "Add Ads ",
+      icon: <IoMdAddCircle size={22} />,
+      goesTo: "/myAccount/addFarmLands",
+      status: true,
+    },
+    {
+      id: 13,
+      title: "Ads List ",
+      icon: <CiBoxList size={22} />,
+      goesTo: "/myAccount/FarmLandList ",
+      status: true,
     },
   ];
   return (

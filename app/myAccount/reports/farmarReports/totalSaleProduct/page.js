@@ -20,7 +20,6 @@ const Page = () => {
     useEffect(() => {
         ReportsServices.totalSaleProductWise(page, searchText)
             .then(({ data }) => {
-                console.log(data)
                 setSaleProductList(data?.data);
                 setMetaData(data?.meta);
             })

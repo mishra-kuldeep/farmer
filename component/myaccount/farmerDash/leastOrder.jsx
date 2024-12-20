@@ -12,7 +12,7 @@ const LeastOrder = () => {
             pageSize: 10
         }
         ReportsServices.farmerLeastOrder(data)
-            .then(({ data }) => {
+            .then(({ data }) => {  
                 setLeastOrderlist(data?.data);
             })
             .catch((error) => {
@@ -53,8 +53,8 @@ const LeastOrder = () => {
                                 > {item?.productName?.length < 16
                                     ? item?.productName
                                     : `${item?.productName.substring(0, 16)}...`}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.priceAtPurchase}</td>
+                                <td>{`${item.quantity} ${item?.unitName}`}</td>
+                                <td>{item.priceAtPurchase}/{item?.unitName}</td>
                                 <td>{item.status}</td>
                             </tr>
                         ))}
