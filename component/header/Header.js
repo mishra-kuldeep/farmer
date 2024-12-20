@@ -458,7 +458,7 @@ function Header() {
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
-                    <button className="offerZoneBtn centerAllDiv">
+                    <button className="offerZoneBtn centerAllDiv" style={{whiteSpace:"nowrap"}}>
                       <MdOutlineLocalOffer size={20} className="me-2" />
                       Offer Zone
                     </button>

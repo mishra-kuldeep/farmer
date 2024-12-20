@@ -8,6 +8,7 @@ import { store } from "@/redux/store";
 import { Provider } from "react-redux";
 import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/component/header/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const robotoSlab = Roboto_Slab({
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
           <div className={`${!isAdminRoute && "marginEveryPage"}`}>
             {children}
           </div>
+          {!isAdminRoute && <Footer />}
           <Toaster  position="bottom-center"/>
         </Provider>
         </Suspense>

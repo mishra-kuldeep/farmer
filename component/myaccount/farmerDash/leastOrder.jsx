@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReportsServices from "@/services/ReportServices";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const LeastOrder = () => {
     const router = useRouter()
@@ -26,12 +27,14 @@ const LeastOrder = () => {
 
     return (
         <div>
-            <div className="container mt-1">
-                <div className='my-2 d-flex justify-content-between '>
-                    <h5>Least Order</h5>
-                    <h5 className="cursor" onClick={() => router.push('myAccount/orderedProduct')}>Seen More</h5>
+            <div className="container mt-1 border rounded mt-3 ">
+                <div className='mt-4 mb-2 d-flex justify-content-between '>
+                    <h5 className='text-dark'>Least Order</h5>
+                    <Link href="myAccount/orderedProduct">Seen More</Link>
+                    {/* <h5 className="cursor" onClick={() => router.push('myAccount/orderedProduct')}>Seen More</h5> */}
                 </div>
-                <table className="table table-striped table-bordered">
+             <div style={{width:"100%",overflow:"auto"}}>
+             <table className="table table-striped table-bordered">
                     <thead className="table-dark">
                         <tr>
                             <th>S.No</th>
@@ -60,6 +63,7 @@ const LeastOrder = () => {
                         ))}
                     </tbody>
                 </table>
+             </div>
             </div>
         </div>
     )

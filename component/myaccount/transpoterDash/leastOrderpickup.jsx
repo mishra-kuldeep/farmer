@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReportsServices from "@/services/ReportServices";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 const LeastOrderpickup = () => {
     const [leastOrderlist, setLeastOrderlist] = useState()
     const router = useRouter()
@@ -32,10 +33,10 @@ const LeastOrderpickup = () => {
 
     return (
         <div>
-            <div className="container mt-1">
-                <div className='d-flex justify-content-between  '>
-                    <h5 className="mb-3">Least Order Pickup</h5>
-                    <h5 className="mb-3 cursor" onClick={() => router.push('myAccount/customerOrder')}>Seen More</h5>
+            <div className="container mt-1 border rounded mt-3">
+                <div className='mt-4 mb-2 d-flex justify-content-between '>
+                    <h5 className="text-dark">Least Order Pickup</h5>
+                    <Link href="myAccount/customerOrder">Seen More</Link>
                 </div>
                 <table className="table table-striped table-bordered">
                     <thead className="table-dark">

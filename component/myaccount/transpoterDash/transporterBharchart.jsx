@@ -151,7 +151,7 @@ export default function TransporterBarChart() {
     };
 
     return (
-        <div className="chart-container" style={{ height: "400px" }}>
+        <div className="chart-container my-2 border rounded mt-3 p-3 " >
             <div className="filter-options d-flex w-50 gap-4">
                 <label className="cursor">
                     <input
@@ -160,7 +160,7 @@ export default function TransporterBarChart() {
                         checked={status === "day"}
                         onChange={() => handleStatusChange("day")}
                     />
-                    <span className="m-1">Day</span>
+                    <span className="m-1 text-dark">Day</span>
                 </label>
                 <label>
                     <input
@@ -169,7 +169,7 @@ export default function TransporterBarChart() {
                         checked={status === "month"}
                         onChange={() => handleStatusChange("month")}
                     />
-                    <span className="m-1">Month</span>
+                    <span className="m-1 text-dark">Month</span>
                 </label>
             </div>
             <Bar data={data} options={options} />

@@ -162,25 +162,28 @@ const AccountLayout = ({ children }) => {
   return (
     <>
       <div className=" pt-3">
-        <div className="row px-md-3 m-0">
+        <div className="row m-0">
           <div className="col-md-2">
-            <div className="accountsidebar pe-md-3">
-              <h2> My Account</h2>
-              <hr />
+            <div className="accountsidebar ">
+              <h5 className="text-center mb-0"> My Account</h5>
+              <hr className="m-2 p-0"/>
               <UserProfile />
 
-              {SideBarList?.map((elem) => (
+             <div className="accsidescroll">
+             {SideBarList?.map((elem) => (
                 <div
                   key={elem.id}
                   className={`${
-                    pathname == elem.goesTo && "accListSideActive"
-                  } accListSide`}
+                    pathname == elem.goesTo && "accListSideActive p-2"
+                  } accListSide p-2`}
                   onClick={() => router.push(elem.goesTo)}
                   style={{ display: elem.status ? "flex" : "none" }}
                 >
                   {elem.icon} <h6>{elem.title}</h6>
                 </div>
               ))}
+              </div>
+
             </div>
           </div>
           <div className="col-md-10">{children}</div>

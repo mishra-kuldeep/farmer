@@ -52,7 +52,7 @@ const UserProfile = () => {
   return (
     <div>
       <div className="d-flex justify-content-center">
-        <div className="imageUrlStyle my-3">
+        <div className="imageUrlStyle mb-2">
           <img src={imageurl} alt="profile" className="imageUrlStyle" />
           <MdEdit className="imageEditIcon" onClick={handleIconClick} />
           <input

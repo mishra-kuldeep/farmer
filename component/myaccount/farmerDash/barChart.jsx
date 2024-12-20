@@ -122,7 +122,7 @@ export default function BarChart() {
   };
 
   return (
-    <div className="chart-container my-2" style={{ height: "500px" }}>
+    <div className="chart-container my-2 border rounded mt-3 p-3 " >
       <div className="filter-options d-flex w-50 gap-4">
         <label className="cursor">
           <input
@@ -131,7 +131,7 @@ export default function BarChart() {
             checked={status === "day"}
             onChange={() => handleStatusChange("day")}
           />
-          <span className="m-1">Day</span>
+          <span className="m-1 text-dark">Day</span>
         </label>
         <label>
           <input
@@ -140,7 +140,7 @@ export default function BarChart() {
             checked={status === "year"}
             onChange={() => handleStatusChange("year")}
           />
-          <span className="m-1">Months</span>
+          <span className="m-1 text-dark">Months</span>
         </label>
       </div>
       <Bar data={data} options={options} />

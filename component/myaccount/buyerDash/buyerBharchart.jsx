@@ -161,7 +161,7 @@ export default function BuyerBarChart() {
     };
 
     return (
-        <div className="chart-container" style={{ height: "400px" }}>
+        <div className="chart-container my-2 border rounded mt-3 p-3 ">
             <div className="filter-options d-flex w-50 gap-4">
                 <label className="cursor">
                     <input

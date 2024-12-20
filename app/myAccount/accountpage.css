@@ -1,6 +1,8 @@
 .accountsidebar {
   border-right: 1px solid rgb(158, 158, 158);
   height: calc(100vh - 150px);
+  position: sticky;
+  top:70px;
 }
 
 .imageUrlStyle {
@@ -88,6 +90,30 @@
   color: grey;
   font-size: 13px;
   margin-top: 15px;
+}
+.accsidescroll{
+  height: 48vh;
+  overflow: auto;
+}
+
+.accsidescroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+.accsidescroll::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.accsidescroll::-webkit-scrollbar-thumb {
+  background: #999; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.accsidescroll::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 @media only screen and (max-width: 600px) {
