@@ -1,0 +1,55 @@
+.rateprodBtn {
+    background-color: var(--adminMainColor);
+    color: var(--white);
+    border: none;
+    outline: none;
+    padding: 8px 50px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .review-container {
+    width: 500px;
+    background-color: #ddd;
+    /* border: 1px solid #ddd; */
+    border-radius: 4px;
+    overflow: hidden;
+    height: 8px;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 100%;
+    background-color: #4caf50; /* Green color */
+    width: 0; /* Default */
+    transition: width 0.5s ease-in-out; /* Smooth animation */
+  }
+  .progress-bar2 {
+    height: 100%;
+    background-color: orange; /* Green color */
+    width: 0; /* Default */
+    transition: width 0.5s ease-in-out; /* Smooth animation */
+  }
+  .progress-bar3 {
+    height: 100%;
+    background-color: orangered; /* Green color */
+    width: 0; /* Default */
+    transition: width 0.5s ease-in-out; /* Smooth animation */
+  }
+
+
+  /* Dynamically set width using the CSS variable */
+  .review-container {
+    --progress: 0%; /* Default progress */
+  }
+
+  .progress-bar {
+    width: var(--progress);
+  }
+  .progress-bar2 {
+    width: var(--progress);
+  }
+  .progress-bar3 {
+    width: var(--progress);
+  }

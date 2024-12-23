@@ -33,7 +33,7 @@ const Section1Home = () => {
   const [wishList, setWishList] = useState([]);
   const [showVerifiedModal, setShowVerifiedModal] = useState(false);
   const [wishFullList, setFullWishList] = useState([]);
-  const [loadingInspection, setLoadingInspection] = useState(false)
+  const [loadingInspection, setLoadingInspection] = useState(false);
   const [inspectionData, setInspectionData] = useState({});
   const country = useSelector((state) => state.country);
   const cart = useSelector((state) => state.cart);
@@ -218,13 +218,12 @@ const Section1Home = () => {
         console.log(err);
         setLoadingInspection(false);
       });
-  }
+  };
 
   const closeVerifiedModal = () => {
     setShowVerifiedModal(false);
     setSelectedProduct(null);
-    setInspectionData({})
-
+    setInspectionData({});
   };
   return (
     <div className="container">
@@ -232,7 +231,12 @@ const Section1Home = () => {
         <div className="headerbestSeller p-2">
           <h5>Best Sellers</h5>
           <div className="arrowBtn_bestSeller">
-            <p className="Show_More_bestSeller" onClick={()=>router.push('/ViewAll/Product')}>Show More</p>
+            <p
+              className="Show_More_bestSeller"
+              onClick={() => router.push("/ViewAll/Product")}
+            >
+              Show More
+            </p>
             <p
               className="next_btn_bestSeller"
               onClick={() => handleScroll("left")}
@@ -254,7 +258,7 @@ const Section1Home = () => {
           {Products.map((ele) => (
             <div className="col-md-3 px-2 " key={ele.productDtlId}>
               <div className="bestseller_cards">
-                <div >
+                <div>
                   <div className="image_div">
                     <img
                       src={`${Image_URL}/Products/${ele.ProductsImages[0]?.url}`}
@@ -263,8 +267,18 @@ const Section1Home = () => {
                     />
                   </div>
                   <h6 className="mt-2 mb-0">{ele.productDtlName}</h6>
-                  {ele.productInspection && <div class="verified-badge" onClick={() => openVerifiedModal(ele)}>Verified</div>}
-                  <div className="d-flex my-2 justify-content-between kisanNamelocation" onClick={() => router.push(`/product/${ele.slug}`)}>
+                  {ele.productInspection && (
+                    <div
+                      className="verified-badge"
+                      onClick={() => openVerifiedModal(ele)}
+                    >
+                      Verified
+                    </div>
+                  )}
+                  <div
+                    className="d-flex my-2 justify-content-between kisanNamelocation"
+                    onClick={() => router.push(`/product/${ele.slug}`)}
+                  >
                     <p>
                       <IoIosPerson size={15} />
                       <span className="ms-1">{ele.User.FirstName}</span>
@@ -277,11 +291,13 @@ const Section1Home = () => {
                   <div className="d-flex justify-content-between">
                     <div className="rating_wrap">
                       <p className="centerAllDiv rating">
-                        <span className="fw-bold">{ele.averageRating}.0</span>
+                        <span className="fw-bold">
+                          {ele.averageRating?.toFixed(1)}
+                        </span>
                         <FaStar size={10} className="ms-1" />
                       </p>
                       <span className="rating_unit">
-                        {ele.averageRating} Ratings
+                        {ele.numberOfRatings} Ratings
                       </span>
                     </div>
                     <span className="rating_unit">
@@ -333,7 +349,7 @@ const Section1Home = () => {
                         onClick={() => decreaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                          loadingAction === "decrement" ? (
+                        loadingAction === "decrement" ? (
                           <MiniLoader />
                         ) : (
                           <FaMinus size={15} />
@@ -351,7 +367,7 @@ const Section1Home = () => {
                         onClick={() => increaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                          loadingAction === "increment" ? (
+                        loadingAction === "increment" ? (
                           <MiniLoader />
                         ) : (
                           <FaPlus size={15} />
@@ -367,7 +383,7 @@ const Section1Home = () => {
                       disabled={!ele?.available}
                       onClick={() => addCartHandler(ele.productDtlId)}
                     >
-                      {ele?.available ? "Add":"out of stock"}
+                      {ele?.available ? "Add" : "out of stock"}
                     </button>
                   )}
                 </div>
@@ -382,17 +398,36 @@ const Section1Home = () => {
         </Modal.Header>
         <Modal.Body>
           {loadingInspection && <MediumLoader />}
-          {!loadingInspection&&inspectionData && (
+          {!loadingInspection && inspectionData && (
             <>
-              <p><strong>Product Name:</strong> {selectedProduct?.productDtlName}</p>
+              <p>
+                <strong>Product Name:</strong> {selectedProduct?.productDtlName}
+              </p>
               {/* <p><strong>Inspection ID:</strong> {inspectionData.inspectionId}</p> */}
-              <p><strong>Inspection Status:</strong> {inspectionData.inspectionStatus}</p>
-              <p><strong>Compliance Level:</strong> {inspectionData.complianceLevel}</p>
-              <p><strong>Inspected Quantity:</strong> {inspectionData.inspectedQuantity}</p>
-              <p><strong>Inspection Date:</strong> {inspectionData.inspectionDate}</p>
+              <p>
+                <strong>Inspection Status:</strong>{" "}
+                {inspectionData.inspectionStatus}
+              </p>
+              <p>
+                <strong>Compliance Level:</strong>{" "}
+                {inspectionData.complianceLevel}
+              </p>
+              <p>
+                <strong>Inspected Quantity:</strong>{" "}
+                {inspectionData.inspectedQuantity}
+              </p>
+              <p>
+                <strong>Inspection Date:</strong>{" "}
+                {inspectionData.inspectionDate}
+              </p>
               {/* <p><strong>Issues Found:</strong> {inspectionData.issuesFound}</p> */}
-              <p><strong>Next Inspection Due:</strong> {inspectionData.nextInspectionDue}</p>
-              <p><strong>Remarks:</strong> {inspectionData.remarks}</p>
+              <p>
+                <strong>Next Inspection Due:</strong>{" "}
+                {inspectionData.nextInspectionDue}
+              </p>
+              <p>
+                <strong>Remarks:</strong> {inspectionData.remarks}
+              </p>
               {/* <p><strong>Resolution Date:</strong> {inspectionData.resolutionDate}</p> */}
 
               {/* Download PDF if available */}
@@ -404,7 +439,7 @@ const Section1Home = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Download 
+                  Download
                 </Button>
               )}
             </>
