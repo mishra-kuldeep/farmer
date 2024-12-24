@@ -38,7 +38,7 @@ const RegisterPage = () => {
   };
 
   const initApi = async () => {
-    const R_List = await RoleServices.getRoleList();
+    const R_List = await RoleServices.getRoleListActive();
     setRoleList(R_List?.data);
   };
   const submitHandler = async () => {

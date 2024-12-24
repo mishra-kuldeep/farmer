@@ -14,7 +14,15 @@ export default class RoleServices {
             },
         });
     }
-
+    static async getRoleListActive() {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/role/roles/active`
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
     static async addRole(data) {
         const token = getCookie("token");
         const url = `${BASE_URL}/role/roles`;

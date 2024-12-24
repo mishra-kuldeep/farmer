@@ -22,7 +22,7 @@ const UsersListForAdmin = () => {
   const [open2, setOpen2] = useState(false);
   const [remark, setRemark] = useState("");
   const [Errors, setErrors] = useState({});
-
+ const [countryies, setCountry] = useState([]);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [status, setStatus] = useState("All");
@@ -45,7 +45,13 @@ const UsersListForAdmin = () => {
     setSelectedUser("");
     setInputOpen(false);
   };
-
+  useEffect(() => {
+    AuthService.getCountryList()
+      .then(({ data }) => {
+        setCountry(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   const handleReject = async () => {
     setLoader(true);
     AuthService.RejectedUser(selectedUser, { remark })
@@ -272,7 +278,7 @@ const UsersListForAdmin = () => {
                                 CountryID
                               </td>
                               <td className="text-secondary p-0 m-0">
-                                : {ele?.CountryID == 1 ? "India" : "America"}
+                                : {countryies.length>0 && (countryies.find((val)=>val.countryId ==ele?.CountryID).countryName) }
                               </td>
                             </tr>
                             <tr>
