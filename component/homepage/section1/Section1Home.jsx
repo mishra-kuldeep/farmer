@@ -281,18 +281,18 @@ const Section1Home = () => {
                   >
                     <p>
                       <IoIosPerson size={15} />
-                      <span className="ms-1">{ele.User.FirstName}</span>
+                      <span className="ms-1">{ele?.User?.FirstName}</span>
                     </p>
                     <p>
                       <MdOutlineLocationOn size={20} />
-                      <span className="ms-1">{ele.User.userInfo.City}</span>
+                      <span className="ms-1">{ele?.User?.userInfo?.City}</span>
                     </p>
                   </div>
                   <div className="d-flex justify-content-between">
                     <div className="rating_wrap">
                       <p className="centerAllDiv rating">
                         <span className="fw-bold">
-                          {ele.averageRating?.toFixed(1)}
+                          {ele?.averageRating?.toFixed(1)}
                         </span>
                         <FaStar size={10} className="ms-1" />
                       </p>

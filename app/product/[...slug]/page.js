@@ -213,7 +213,7 @@ const Product = () => {
           </p>
           <p>
             <MdOutlineLocationOn size={20} />
-            {singleProduct?.User?.userInfo.City}
+            {singleProduct?.User?.userInfo?.City}
           </p>
           <p>
             <MdProductionQuantityLimits size={20} />

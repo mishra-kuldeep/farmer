@@ -299,21 +299,21 @@ const Page = () => {
                                         <div className="d-flex my-2 justify-content-between kisanNamelocation" onClick={() => router.push(`/product/${ele?.slug}`)}>
                                             <p>
                                                 <IoIosPerson size={15} />
-                                                <span className="ms-1">{ele.User.FirstName}</span>
+                                                <span className="ms-1">{ele?.User?.FirstName}</span>
                                             </p>
                                             <p>
                                                 <MdOutlineLocationOn size={20} />
-                                                <span className="ms-1">{ele.User.userInfo.City}</span>
+                                                <span className="ms-1">{ele?.User?.userInfo?.City}</span>
                                             </p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <div className="rating_wrap">
                                                 <p className="centerAllDiv rating">
-                                                    <span className="fw-bold">{ele.averageRating}.0</span>
+                                                    <span className="fw-bold">{ele?.averageRating}.0</span>
                                                     <FaStar size={10} className="ms-1" />
                                                 </p>
                                                 <span className="rating_unit">
-                                                    {ele.averageRating} Ratings
+                                                    {ele?.averageRating} Ratings
                                                 </span>
                                             </div>
                                             <span className="rating_unit">
@@ -323,9 +323,9 @@ const Page = () => {
                                         <div className="d-flex justify-content-between align-items-center">
                                             <h5 className="mt-2 fw-bold fs-6">
                                                 ₹{" "}
-                                                {ele.discountType == "percentage"
-                                                    ? ele.price - (ele.price * ele.discount) / 100
-                                                    : ele.price - ele.discount}
+                                                {ele?.discountType == "percentage"
+                                                    ? ele?.price - (ele?.price * ele?.discount) / 100
+                                                    : ele?.price - ele?.discount}
                                                 /{ele?.ProductUnit?.unitName}
                                                 {ele.discount !== 0 && (
                                                     <sub className="ms-1">
