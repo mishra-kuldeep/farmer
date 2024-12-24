@@ -15,6 +15,7 @@ import "../../myAccount/customerOrder/customerOrder.css";
 import { calculateDistance } from "@/helper/utils";
 import { isMobile } from "react-device-detect";
 import PaymentOrder from "@/component/reusableComponent/PaymentOrder";
+import Link from "next/link";
 
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
@@ -309,8 +310,8 @@ const MyOrder = () => {
                         </div>
                       </div>
                       {ele.adminReview == "Approved" &&
-                      (ele?.paymentStatus == "Pending" ||
-                        ele?.paymentStatus == "Failed") ? (
+                        (ele?.paymentStatus == "Pending" ||
+                          ele?.paymentStatus == "Failed") ? (
                         <>
                           {showModal && (
                             <PaymentOrder
@@ -399,12 +400,12 @@ const MyOrder = () => {
                                         ₹{" "}
                                         {ele?.productDetail?.price -
                                           (ele?.productDetail?.discountType ===
-                                          "fixed"
+                                            "fixed"
                                             ? ele?.productDetail?.discount *
-                                              ele?.quantity
+                                            ele?.quantity
                                             : (ele?.productDetail?.price *
-                                                ele?.productDetail?.discount) /
-                                              100)}
+                                              ele?.productDetail?.discount) /
+                                            100)}
                                         /
                                         {
                                           ele?.productDetail?.ProductUnit
@@ -494,6 +495,11 @@ const MyOrder = () => {
                                     Quantity: {ele?.quantity}{" "}
                                     {ele?.productDetail?.ProductUnit?.unitName}
                                   </div>
+                                  {ele?.status == "Delivered" && (
+                                    <div className=" text-secondary">
+                                      <Link href={`/myAccount/rateProduct/${ele?.productDtlId}`}> ★ Rate & Review Product</Link>
+                                    </div>)
+                                  }
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
                                   {isAdminReview == "Pending" && (
@@ -724,7 +730,7 @@ const MyOrder = () => {
                     <div className="d-flex gap-2">
                       <p
                         className="orderstatuscircle mt-2"
-                        // style={{backgroundColor:"orange"}}
+                      // style={{backgroundColor:"orange"}}
                       ></p>
                       <div>
                         <p className="text-secondary">
