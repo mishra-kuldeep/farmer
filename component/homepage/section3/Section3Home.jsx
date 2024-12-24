@@ -44,7 +44,7 @@ const Section3Home = () => {
           {/* ////////////  Farm Land service   ///////////////// */}
           <div className="col-md-7 pr-2 ">
             <div style={{backgroundColor:"#f2f2f2"}} className="rounded shadow  border p-3">
-              <h5>Farm Land Service</h5>
+              <h5>Farm Land Services</h5>
             <div className="row overflowhiddenbutscroll " >
               {cardArr.map((ele, i) => (
                 <div className="col-md-4 col-5  mb-3 px-2 px-md-3 " key={ele.id}>
@@ -64,7 +64,7 @@ const Section3Home = () => {
           {/* ////////////  vender service   ///////////////// */}
           <div className="col-md-5 pl-2 ">
           <div style={{backgroundColor:"#f2f2f2"}} className="rounded shadow  border p-3">
-          <h5>Vender Service</h5>
+          <h5>Vendor Services</h5>
             <div className="row overflowhiddenbutscroll">
               {cardArr2.map((ele, i) => (
                 <div className="col-md-6 col-6  mb-3 px-2 px-md-3" key={ele.id}>

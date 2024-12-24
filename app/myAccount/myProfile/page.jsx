@@ -20,8 +20,6 @@ const MyProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-console.log(selectedCountry);
-
   const states = selectedCountry
     ? State.getStatesOfCountry(selectedCountry)
     : [];
@@ -49,7 +47,7 @@ console.log(selectedCountry);
     Zip: "",
     CompanyName: "",
     GSTNo: "",
-    Cultivating: "",
+    Cultivating:"",
   });
 
   const phonecode = countryList?.find(
@@ -60,7 +58,6 @@ console.log(selectedCountry);
     CountryServices.getAllCountry()
       .then(({ data }) => {
         setCountryList(data);
-        
       })
       .catch((err) => console.log(err));
     RoleServices.getRoleList()
@@ -72,43 +69,43 @@ console.log(selectedCountry);
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setisLoading(false);
         setValues({
-          FirstName: data.userProfile.FirstName,
-          LastName: data.userProfile.LastName
-            ? data.userProfile.LastName
+          FirstName: data?.userProfile?.FirstName,
+          LastName: data?.userProfile?.LastName
+            ? data?.userProfile?.LastName
             : null,
-          Phone: data.userProfile.Phone.split('-')[1],
-          Email: data.userProfile.Email,
-          Role: data.userProfile.Role,
-          CountryID: data.userProfile.CountryID,
-          Profile: data.userProfile.userInfo.Profile,
-          IdImage: data.userProfile.userInfo.IdImage,
-          AdharNo: data.userProfile.userInfo.AdharNo
-            ? data.userProfile.userInfo.AdharNo
+          Phone: data?.userProfile?.Phone.split("-")[1],
+          Email: data?.userProfile?.Email,
+          Role: data?.userProfile?.Role,
+          CountryID: data?.userProfile?.CountryID,
+          Profile: data?.userProfile?.userInfo?.Profile,
+          IdImage: data?.userProfile?.userInfo?.IdImage,
+          AdharNo: data?.userProfile?.userInfo?.AdharNo
+            ? data?.userProfile?.userInfo?.AdharNo
             : "",
-          Dob: data.userProfile.userInfo.Dob,
-          Gender: data.userProfile.userInfo.Gender,
-          Address1: data.userProfile.userInfo.Address1,
-          Address2: data.userProfile.userInfo.Address2,
-          City: data.userProfile.userInfo.City,
-          State: data.userProfile.userInfo.State,
-          Zip: data.userProfile.userInfo.Zip,
-          CompanyName: data.userProfile.userInfo.CompanyName,
-          GSTNo: data.userProfile.userInfo.GSTNo,
-          Cultivating: data.userProfile.userInfo.Cultivating,
+          Dob: data?.userProfile?.userInfo?.Dob,
+          Gender: data?.userProfile?.userInfo?.Gender,
+          Address1: data?.userProfile?.userInfo?.Address1,
+          Address2: data?.userProfile?.userInfo?.Address2,
+          City: data?.userProfile?.userInfo?.City,
+          State: data?.userProfile?.userInfo?.State,
+          Zip: data?.userProfile?.userInfo?.Zip,
+          CompanyName: data?.userProfile?.userInfo?.CompanyName,
+          GSTNo: data?.userProfile?.userInfo?.GSTNo,
+          Cultivating: data?.userProfile?.userInfo?.Cultivating,
         });
-        setSelectedState(data.userProfile.userInfo.State);
-        setSelectedCity(data.userProfile.userInfo.City);
+        setSelectedState(data?.userProfile?.userInfo?.State);
+        setSelectedCity(data?.userProfile?.userInfo?.City);
       });
     }
   }, [user?.profile?.id]);
-  useEffect(()=>{
-if(countryList.length && values.CountryID){
-  setSelectedCountry(
-    countryList.find((country) => country.countryId == values.CountryID)
-      ?.countryCode
-  );
-}
-  },[countryList.length,values.CountryID])
+  useEffect(() => {
+    if (countryList.length && values.CountryID) {
+      setSelectedCountry(
+        countryList.find((country) => country.countryId == values.CountryID)
+          ?.countryCode
+      );
+    }
+  }, [countryList.length, values.CountryID]);
   const updateProfileHandeler = () => {
     setLoading(true);
     if (!values?.Address1 || !values?.City || !values?.Zip) {
@@ -122,7 +119,7 @@ if(countryList.length && values.CountryID){
       setLoading(false);
       return;
     }
- 
+
     const filteredObject = Object.fromEntries(
       Object.entries(values).filter(
         ([_, value]) => value !== null && value !== ""
@@ -160,13 +157,19 @@ if(countryList.length && values.CountryID){
         countryList.find((country) => country.countryId == value)?.countryCode
       );
     }
+    if (name == "Cultivating") {
+      setValues({
+        ...values,
+        Cultivating:[...values.Cultivating,value]
+      })
+    }
     console.log(value);
-    
+
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
-console.log(values);
+  console.log(values);
 
   return (
     <>
@@ -227,8 +230,10 @@ console.log(values);
             name="CountryID"
           >
             <option value={""}></option>
-            {countryList?.map((val,i) => (
-              <option key={i} value={val?.countryId}>{val?.countryName}</option>
+            {countryList?.map((val, i) => (
+              <option key={i} value={val?.countryId}>
+                {val?.countryName}
+              </option>
             ))}
           </select>
           {Errors.CountryID && (

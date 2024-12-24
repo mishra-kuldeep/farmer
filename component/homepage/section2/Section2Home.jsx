@@ -65,7 +65,7 @@ const Section2Home = () => {
     <div className="container">
       <div className="p-md-3 p-1 my-3 rounded" style={{ backgroundColor: "#f2f2f2" }}>
         <div className="section2Heading">
-          <h5>All Service</h5>
+          <h5>All Services</h5>
         </div>
           <div className="row overflowhiddenbutscroll m-0 pb-3">
             {cardArr.map((ele, i) => (
