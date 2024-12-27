@@ -69,36 +69,37 @@ const MyProfile = () => {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setisLoading(false);
         setValues({
-          FirstName: data.userProfile.FirstName,
-          LastName: data.userProfile.LastName
-            ? data.userProfile.LastName
+          FirstName: data?.userProfile?.FirstName,
+          LastName: data?.userProfile?.LastName
+            ? data?.userProfile?.LastName
             : null,
           Phone: data?.userProfile?.Phone
             ? data?.userProfile?.Phone?.split("-")[1]
             : "",
-          Email: data.userProfile.Email,
-          Role: data.userProfile.Role,
-          CountryID: data.userProfile.CountryID,
-          Profile: data.userProfile.userInfo.Profile,
-          IdImage: data.userProfile.userInfo.IdImage,
-          AdharNo: data.userProfile.userInfo.AdharNo
-            ? data.userProfile.userInfo.AdharNo
+          Email: data?.userProfile?.Email,
+          Role: data?.userProfile?.Role,
+          CountryID: data?.userProfile?.CountryID,
+          Profile: data?.userProfile?.userInfo?.Profile,
+          IdImage: data?.userProfile?.userInfo?.IdImage,
+          AdharNo: data?.userProfile?.userInfo?.AdharNo
+            ? data?.userProfile?.userInfo?.AdharNo
             : "",
-          Dob: data.userProfile.userInfo.Dob,
-          Gender: data.userProfile.userInfo.Gender,
-          Address1: data.userProfile.userInfo.Address1,
-          Address2: data.userProfile.userInfo.Address2,
-          City: data.userProfile.userInfo.City,
-          State: data.userProfile.userInfo.State,
-          Zip: data.userProfile.userInfo.Zip,
-          CompanyName: data.userProfile.userInfo.CompanyName,
-          GSTNo: data.userProfile.userInfo.GSTNo,
+          Dob: data?.userProfile?.userInfo?.Dob,
+          Gender: data?.userProfile?.userInfo?.Gender,
+          Address1: data?.userProfile?.userInfo?.Address1,
+          Address2: data?.userProfile?.userInfo?.Address2,
+          City: data?.userProfile?.userInfo?.City,
+          State: data?.userProfile?.userInfo?.State,
+          Zip: data?.userProfile?.userInfo?.Zip,
+          CompanyName: data?.userProfile?.userInfo?.CompanyName,
+          GSTNo: data?.userProfile?.userInfo?.GSTNo,
         });
-        setSelectedState(data.userProfile.userInfo.State);
-        setSelectedCity(data.userProfile.userInfo.City);
+        setSelectedState(data?.userProfile?.userInfo?.State);
+        setSelectedCity(data?.userProfile?.userInfo?.City);
       });
     }
   }, [user?.profile?.id]);
+
   useEffect(() => {
     if (countryList.length && values.CountryID) {
       setSelectedCountry(
@@ -107,7 +108,7 @@ const MyProfile = () => {
       );
     }
   }, [countryList.length, values.CountryID]);
-  console.log(values);
+
 
   const updateProfileHandeler = () => {
     setLoading(true);
