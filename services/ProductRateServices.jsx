@@ -33,4 +33,14 @@ export default class ProductRateServices {
             },
         });
     }
+
+    static async getRatingDistributionById(productDtlId) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/rating/product/${productDtlId}/rating-distribution`;
+        return axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
 }

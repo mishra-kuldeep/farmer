@@ -268,7 +268,7 @@ const Product = () => {
       </div>
       <hr />
       <WhyProducthoose />
-      <ProductRating />
+      <ProductRating data={singleProduct} />
       <h6 className="mt-3">{slug[1]}</h6>
       <AboutTheProduct about={singleProduct?.productDtl} />
     </div>
