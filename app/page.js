@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <>
     <Slider/>
-    <Section1Home/>
     <Section2Home/>
+    <Section1Home/>
     <Section3Home/>
     {/* <Section4Home/> */}
     </>
