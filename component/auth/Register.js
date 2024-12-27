@@ -38,8 +38,13 @@ const RegisterPage = () => {
   };
 
   const initApi = async () => {
-    const R_List = await RoleServices.getRoleListActive();
-    setRoleList(R_List?.data);
+    try {
+      const R_List = await RoleServices.getRoleListActive();
+      setRoleList(R_List?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  
   };
   const submitHandler = async () => {
     if (cpawword == values.Password) {

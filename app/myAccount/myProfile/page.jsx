@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import CountryServices from "@/services/CountryServices";
 import RoleServices from "@/services/RoleServices";
 import { Country, State, City } from "country-state-city";
+import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
 
 const MyProfile = () => {
   const user = useSelector((state) => state.auth);
@@ -20,6 +22,8 @@ const MyProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [cultivatingList, setCultivatingList] = useState([]);
+
   const states = selectedCountry
     ? State.getStatesOfCountry(selectedCountry)
     : [];
@@ -47,24 +51,40 @@ const MyProfile = () => {
     Zip: "",
     CompanyName: "",
     GSTNo: "",
-    Cultivating:"",
+    Cultivating: "",
   });
 
   const phonecode = countryList?.find(
     (val) => val?.countryId == values?.CountryID
   )?.phoneCode;
+
   useEffect(() => {
     setisLoading(true);
+
     CountryServices.getAllCountry()
       .then(({ data }) => {
         setCountryList(data);
       })
       .catch((err) => console.log(err));
+
     RoleServices.getRoleList()
       .then(({ data }) => {
         setRoleList(data);
       })
       .catch((err) => console.log(err));
+
+    AuthService.getAllcultivating()
+      .then(({ data }) => {
+        console.log(data)
+        setCultivatingList(
+          data?.map(item => ({
+            label: item.CultivatingName?.toString().toLowerCase() || '',
+            value: item.CultivatingId?.toString().toLowerCase() || ''
+          })) || []
+        );
+      })
+      .catch((err) => console.log(err));
+
     if (user?.profile?.id) {
       AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
         setisLoading(false);
@@ -98,6 +118,8 @@ const MyProfile = () => {
       });
     }
   }, [user?.profile?.id]);
+
+
   useEffect(() => {
     if (countryList.length && values.CountryID) {
       setSelectedCountry(
@@ -157,19 +179,20 @@ const MyProfile = () => {
         countryList.find((country) => country.countryId == value)?.countryCode
       );
     }
-    if (name == "Cultivating") {
-      setValues({
-        ...values,
-        Cultivating:[...values.Cultivating,value]
-      })
-    }
-    console.log(value);
 
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setCompanyError("");
   };
-  console.log(values);
+
+  const handleOnchange = val => {
+    setValues({
+      ...values,
+      Cultivating: val
+    })
+
+  }
+  console.log(values?.Cultivating);
 
   return (
     <>
@@ -269,40 +292,18 @@ const MyProfile = () => {
             </span>
           )}
         </div>
+
         <div className="col-md-4">
           <label className="adjustLabel">Cultivating</label>
-          <select
-            className="form-select custom-select adjustLabel_input shadow-none"
-            aria-label="Default select example"
-            value={values.Cultivating || ""}
-            onChange={handleChange}
-            name="Cultivating"
-          >
-            <option value={""}></option>
-            <option value={1}>Cereal Crops</option>
-            <option value={2}>Legumes</option>
-            <option value={3}>Root Vegetables</option>
-            <option value={4}>Legumes</option>
-            <option value={5}>Leafy Greens</option>
-            <option value={6}>Fruits</option>
-          </select>
+          <MultiSelect
+            style={{ width: '97%', }}
+            onChange={handleOnchange}
+            options={cultivatingList}
+            selected={values.Cultivating}
+            defaultValue={values.Cultivating}
+            placeholder="Options..."
+          />
         </div>
-        {/* <div className="col-md-4">
-          <label className="adjustLabel">Category *</label>
-          <select
-            className="form-select custom-select adjustLabel_input shadow-none"
-            aria-label="Default select example"
-            disabled
-            value={values.Role}
-            // onChange={handleValues}
-            name="Role"
-          >
-            <option value={""}></option>
-            {RoleList.map((val) => (
-              <option value={val?.RoleId}>{val?.RoleName}</option>
-            ))}
-          </select>
-        </div> */}
       </div>
 
       <div className="row m-0">
@@ -477,7 +478,7 @@ const MyProfile = () => {
           )}
         </div>
 
-        <div className="col-md-4 ">
+        {/* <div className="col-md-4 ">
           <label className="adjustLabel">Zip Code *</label>
           <input
             type="text"
@@ -487,7 +488,43 @@ const MyProfile = () => {
             className="form-control adjustLabel_input shadow-none p-2"
           />
           {Errors.Zip && <span className="error_input_text">{Errors.Zip}</span>}
-        </div>
+        </div> */}
+        {values.CountryID == 1 ? (
+          <div className="col-md-2 ">
+            <label className="adjustLabel">
+              Zip Code{" "}
+              {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
+            </label>
+            <input
+              type="text"
+              name="Zip"
+              value={values.Zip || ""}
+              onChange={handleChange}
+              className="form-control adjustLabel_input shadow-none p-2"
+            />
+
+            {Errors.Zip && (
+              <span className="error_input_text">{Errors.Zip}</span>
+            )}
+          </div>
+        ) : (
+          <div className="col-md-2 ">
+            <label className="adjustLabel">
+              Postal Code{" "}
+              {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
+            </label>
+            <input
+              type="text"
+              name="Zip"
+              value={values.Zip || ""}
+              onChange={handleChange}
+              className="form-control adjustLabel_input shadow-none p-2"
+            />
+            {Errors.Zip && (
+              <span className="error_input_text">{Errors.Zip}</span>
+            )}
+          </div>
+        )}
 
         <div className="col-md-12 d-flex justify-content-center my-3">
           <button
