@@ -343,7 +343,7 @@ const EditProductModal = ({
                                 Product Price
                               </h6>
                             </td>
-                            <td>{modalData?.price}</td>
+                            <td>{modalData?.country?.currencySymbol}{modalData?.price}</td>
                           </tr>
                           <tr>
                             <td>

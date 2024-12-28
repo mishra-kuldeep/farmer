@@ -48,7 +48,7 @@ export default class ProductUnitServices {
   
   static async getSingeUnit(id) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/unit/units/${id}`;
+    const url = `${BASE_URL}/unit/unitSingle/${id}`;
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header

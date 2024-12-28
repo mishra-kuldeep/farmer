@@ -28,9 +28,15 @@ const Basket = () => {
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [prefix, setprefix] = useState('');
   const dispatch = useDispatch();
   useEffect(() => {
     if (user?.profile?.id) dispatch(getCart(user?.profile?.id));
+    if (cart?.cart?.length > 0) {
+      // Set the currency symbol from the first item's product detail.
+      const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
+      setprefix(currencySymbol)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile]);
   // Add product to cart
@@ -90,6 +96,12 @@ const Basket = () => {
     }
   };
 
+
+  // if (cart?.cart?.length > 0) {
+  //   // Set the currency symbol from the first item's product detail.
+  //   const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
+  //   setprefix(currencySymbol)
+  // }
   // Calculate total price, discount, and final total
   const totalPrice = cart?.cart?.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;
@@ -100,7 +112,7 @@ const Basket = () => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-          item?.quantity;
+        item?.quantity;
     return acc + discount;
   }, 0);
 
@@ -110,49 +122,13 @@ const Basket = () => {
 
   const handleCheckout = async () => {
     router.push("/basket/placeOrder");
-    // if (!user?.isLoggedIn) {
-    //   toast("Please login to proceed with the checkout!", {
-    //     icon: "😢",
-    //     style: { borderRadius: "10px", background: "red", color: "#fff" },
-    //   });
-    //   return;
-    // }
-    // const deliveryCharges = finalTotal > 1000 ? 0 : 40;
-    // const totalAmount = finalTotal + deliveryCharges;
-
-    // const products = cart.cart.map((item) => ({
-    //   productDtlId: item.productDtlId,
-    //   quantity: item.quantity,
-    //   price: item.productDetail.price,
-    //   discount: item.productDetail.discount,
-    //   discountType: item.productDetail.discountType,
-    // }));
-
-    // const checkoutData = {
-    //   buyerId: user?.profile?.id,
-    //   totalAmount,
-    //   products,
-    // };
-
-    // try {
-    //   setIsCheckingOut(true);
-    //   const response = await OrderService.checkoutCart(checkoutData);
-    //   const res = await CartService.DeleteCartBuyer(user?.profile?.id);
-    //   toast.success("Your Order is Placed for review successful!");
-    //   dispatch(clearCart());
-    // } catch (error) {
-    //   toast.error("Checkout failed. Please try again.");
-    //   console.error("Checkout Error:", error.message);
-    // } finally {
-    //   setIsCheckingOut(false);
-    // }
   };
-console.log(cart)
+
   useEffect(() => {
-    if (cart?.cart== null) {
+    if (cart?.cart == null) {
       router.push("/basket");
     }
-  }, [cart?.cart ]);
+  }, [cart?.cart]);
 
   return (
     <div className="container">
@@ -183,7 +159,7 @@ console.log(cart)
                     <div className="col-md-6">
                       <h6>{val?.productDetail?.productDtlName}</h6>
                       <h6>
-                        ₹ {val?.productDetail?.price}/
+                        {val?.productDetail?.country?.currencySymbol}{val?.productDetail?.price}/
                         {val?.productDetail?.ProductUnit?.unitName}
                       </h6>
                       <div>
@@ -220,7 +196,7 @@ console.log(cart)
                               onClick={() => decreaseQuantity(val.productDtlId)}
                             >
                               {loadingProductId === val.productDtlId &&
-                              loadingAction === "decrement" ? (
+                                loadingAction === "decrement" ? (
                                 <MiniLoader />
                               ) : (
                                 <FaMinus size={15} />
@@ -239,7 +215,7 @@ console.log(cart)
                               onClick={() => increaseQuantity(val.productDtlId)}
                             >
                               {loadingProductId === val.productDtlId &&
-                              loadingAction === "increment" ? (
+                                loadingAction === "increment" ? (
                                 <MiniLoader />
                               ) : (
                                 <FaPlus size={15} />
@@ -259,23 +235,23 @@ console.log(cart)
 
                     <div className="col-md-3">
                       <h6>
-                        Saved: ₹
+                        Saved: {val.productDetail?.country?.currencySymbol}
                         {val?.productDetail?.discountType === "fixed"
                           ? val?.productDetail?.discount * val?.quantity
                           : ((val?.productDetail?.price *
-                              val?.productDetail?.discount) /
-                              100) *
-                            val?.quantity}
+                            val?.productDetail?.discount) /
+                            100) *
+                          val?.quantity}
                       </h6>
                       <h6>
-                        ₹{" "}
+                        {val.productDetail?.country?.currencySymbol}{" "}
                         {val?.productDetail?.price * val?.quantity -
                           (val?.productDetail?.discountType === "fixed"
                             ? val?.productDetail?.discount * val?.quantity
                             : ((val?.productDetail?.price *
-                                val?.productDetail?.discount) /
-                                100) *
-                              val?.quantity)}
+                              val?.productDetail?.discount) /
+                              100) *
+                            val?.quantity)}
                       </h6>
                     </div>
                   </div>
@@ -290,11 +266,11 @@ console.log(cart)
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
-                    <td>₹{totalPrice}</td>
+                    <td>{prefix}{totalPrice}</td>
                   </tr>
                   <tr>
                     <td>Discount</td>
-                    <td>− ₹{totalDiscount}</td>
+                    <td> {prefix}{totalDiscount}</td>
                   </tr>
                   {/* <tr>
                     <td>Delivery Charges</td>
@@ -305,13 +281,13 @@ console.log(cart)
                       <strong>Total Amount</strong>
                     </td>
                     <td>
-                      <strong>₹{finalTotal + deliveryCharges}</strong>
+                      <strong>{prefix}{finalTotal}</strong>
                     </td>
                   </tr>
                   <tr>
                     <td colSpan="2" style={{ textAlign: "right" }}>
                       <span style={{ color: "green" }}>
-                        You will save ₹{totalDiscount} on this order
+                        You will save {prefix}{totalDiscount} on this order
                       </span>
                     </td>
                   </tr>

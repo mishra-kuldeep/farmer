@@ -322,7 +322,7 @@ const Page = () => {
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center">
                                             <h5 className="mt-2 fw-bold fs-6">
-                                                ₹{" "}
+                                                {ele?.country?.currencySymbol}{" "}
                                                 {ele?.discountType == "percentage"
                                                     ? ele?.price - (ele?.price * ele?.discount) / 100
                                                     : ele?.price - ele?.discount}
@@ -330,7 +330,7 @@ const Page = () => {
                                                 {ele.discount !== 0 && (
                                                     <sub className="ms-1">
                                                         <del className="text-secondary fw-light">
-                                                            ₹{ele.price}/{ele?.ProductUnit?.unitName}
+                                                            {ele?.country?.currencySymbol}{ele.price}/{ele?.ProductUnit?.unitName}
                                                         </del>
                                                     </sub>
                                                 )}

@@ -54,7 +54,7 @@ const Section1Home = () => {
       setProducts([]);
     }
   };
-
+console.log(country)
   const saveLaterList = () => {
     SaveForLaterServices.getAllWishList()
       .then(({ data }) => {
@@ -306,7 +306,7 @@ const Section1Home = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="mt-2 fw-bold fs-6">
-                      ₹{" "}
+                      {ele?.country?.currencySymbol}{" "}
                       {ele.discountType == "percentage"
                         ? ele.price - (ele.price * ele.discount) / 100
                         : ele.price - ele.discount}

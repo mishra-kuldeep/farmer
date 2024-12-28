@@ -192,9 +192,9 @@ const FarmerProductsList = () => {
                       )[0]?.subcategoryName
                     }
                   </td>
-                  <td className="text-center">{item?.price}</td>
+                  <td className="text-center">{item?.country?.currencySymbol}{item?.price}</td>
                   <td className="text-center">
-                    {item?.discountType == "fixed" && "₹"} {item?.discount}{" "}
+                    {item?.discountType == "fixed" && item?.country?.currencySymbol} {item?.discount}{" "}
                     {item?.discountType == "percentage" && "%"}
                   </td>
 

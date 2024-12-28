@@ -148,9 +148,9 @@ const decreaseQuantity = (id) => {
                   <span className="productNameSearch">{ele?.productDtlName}</span>
                 </div>
                 <div><span className="searchDeatailUnit"><span>Stock</span> <br/>{ele?.quantity} {ele?.ProductUnit?.unitName}</span></div>
-                <div><span className="searchDeatailprice">₹{ele.price}</span>/<span className="searchDeatailprice">{ele?.ProductUnit?.unitName}</span></div>
+                <div><span className="searchDeatailprice">{ele?.country?.currencySymbol}{ele.price}</span>/<span className="searchDeatailprice">{ele?.ProductUnit?.unitName}</span></div>
                 <div>
-                 <span className="searchDeatailOfer"> {ele.discountType === "fixed" && "₹"}
+                 <span className="searchDeatailOfer"> {ele.discountType === "fixed" && ele?.country?.currencySymbol}
                   {ele.discount}
                   {ele.discountType === "percentage" && "%"} OFF</span>
                 </div>

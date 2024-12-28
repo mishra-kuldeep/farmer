@@ -189,11 +189,11 @@ const Product = () => {
           <p className="mb-3">
             MRP:{" "}
             <del>
-              ₹{singleProduct?.price}.00/{singleProduct?.ProductUnit?.unitName}
+            {singleProduct.country?.currencySymbol}{singleProduct?.price}.00/{singleProduct?.ProductUnit?.unitName}
             </del>
           </p>
           <h6 className="fw-bold  mb-3">
-            Price: ₹{" "}
+            Price: {singleProduct.country?.currencySymbol}{" "}
             {singleProduct.discountType == "percentage"
               ? singleProduct.price -
                 (singleProduct.price * singleProduct.discount) / 100
