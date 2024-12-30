@@ -22,6 +22,7 @@ const Placeorder = () => {
   const [addressList, setAddressList] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [prefix, setprefix] = useState('');
   const [values, setValues] = useState({
     buyerId: user?.profile?.id,
     FirstName: "",
@@ -36,6 +37,9 @@ const Placeorder = () => {
 
   useEffect(() => {
     if (user?.profile) {
+      // Set the currency symbol from the first item's product detail.
+      const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
+      setprefix(currencySymbol)
       setValues((pre) => ({
         ...pre,
         ["buyerId"]: user?.profile?.id,
@@ -54,13 +58,13 @@ const Placeorder = () => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-          item?.quantity;
+        item?.quantity;
     return acc + discount;
   }, 0);
 
   const finalTotal = totalPrice - totalDiscount;
 
-  const deliveryCharges = finalTotal > 1000 ? 0 : 40;
+
 
   const onchangeHandeler = (e) => {
     const { name, value } = e.target;
@@ -113,8 +117,8 @@ const Placeorder = () => {
   }, []);
 
   const handleCheckout = async () => {
-    const deliveryCharges = finalTotal > 1000 ? 0 : 40;
-    const totalAmount = finalTotal + deliveryCharges;
+
+    const totalAmount = finalTotal;
 
     const products = cart.cart.map((item) => ({
       productDtlId: item.productDtlId,
@@ -290,18 +294,13 @@ const Placeorder = () => {
                   </div>
                   <div className="col-md-6 ps-4 ps-md-0">
                     <label className="adjustLabel">State *</label>
-                    <select
-                      className="form-select custom-select adjustLabel_input shadow-none"
-                      aria-label="Default select example"
+                    <input
+                      className="form-control p-2 adjustLabel_input shadow-none"
+                      // aria-label="Default select example"
                       name="state"
                       onChange={onchangeHandeler}
                       value={values.state}
-                    >
-                      <option value="" className="d-none"></option>
-                      <option key={"ele.productId"} value="uttar pradesh">
-                        uttar pradesh
-                      </option>
-                    </select>
+                    />
                     {errors.state && (
                       <span className="error_input_text">{errors.state}</span>
                     )}
@@ -359,28 +358,28 @@ const Placeorder = () => {
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
-                    <td>₹{totalPrice}</td>
+                    <td>{prefix}{totalPrice}</td>
                   </tr>
                   <tr>
                     <td>Discount</td>
-                    <td>− ₹{totalDiscount}</td>
+                    <td>{prefix}{totalDiscount}</td>
                   </tr>
                   {/* <tr>
                     <td>Delivery Charges</td>
-                    <td>₹{deliveryCharges > 0 ? deliveryCharges : "Free"}</td>
+                    <td>{prefix}{deliveryCharges > 0 ? deliveryCharges : "Free"}</td>
                   </tr> */}
                   <tr>
                     <td>
                       <strong>Total Amount</strong>
                     </td>
                     <td>
-                      <strong>₹{finalTotal + deliveryCharges}</strong>
+                      <strong>{prefix}{finalTotal}</strong>
                     </td>
                   </tr>
                   <tr>
                     <td colSpan="2">
                       <span className="fw-bold text-success">
-                        You will save ₹{totalDiscount} on this order
+                        You will save {prefix}{totalDiscount} on this order
                       </span>
                     </td>
                   </tr>
@@ -389,7 +388,7 @@ const Placeorder = () => {
               <button
                 className="CheckoutBtn w-100 mt-3"
                 onClick={handleCheckout}
-                // disabled={isCheckingOut}
+              // disabled={isCheckingOut}
               >
                 {isCheckingOut ? <MiniLoader /> : "Checkout"}
               </button>

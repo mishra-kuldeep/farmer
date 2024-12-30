@@ -391,13 +391,13 @@ const MyOrder = () => {
                                       </h6>
                                       <h6 className="mt-2">
                                         <del>
-                                          ₹ {ele?.productDetail?.price}/
+                                        {ele.productDetail.country?.currencySymbol}{ele?.productDetail?.price}/
                                           {
                                             ele?.productDetail?.ProductUnit
                                               ?.unitName
                                           }
                                         </del>{" "}
-                                        ₹{" "}
+                                      {ele.productDetail.country?.currencySymbol}{" "}
                                         {ele?.productDetail?.price -
                                           (ele?.productDetail?.discountType ===
                                             "fixed"
@@ -422,7 +422,7 @@ const MyOrder = () => {
                                       >
                                         You Save :{" "}
                                         {ele?.productDetail?.discountType ===
-                                          "fixed" && "₹"}
+                                          "fixed" && ele.productDetail.country?.currencySymbol}
                                         {ele?.productDetail?.discount}
                                         {ele?.productDetail?.discountType ===
                                           "percentage" && "%"}{" "}
@@ -477,7 +477,7 @@ const MyOrder = () => {
                                   </div>
                                   {ele?.transVehicalId != null && (
                                     <div className=" text-secondary">
-                                      Transportation Charges: ₹
+                                      Transportation Charges: {ele?.productDetail.country?.currencySymbol}
                                       {
                                         TransporterDelivery.find(
                                           (val) =>
@@ -488,7 +488,7 @@ const MyOrder = () => {
                                     </div>
                                   )}
                                   <div className=" text-secondary">
-                                    Purchase Price: ₹{ele?.priceAtPurchase}
+                                    Purchase Price: {ele?.productDetail?.country?.currencySymbol}{ele?.priceAtPurchase}
                                   </div>
                                   <div className=" text-secondary">
                                     {" "}
