@@ -53,3 +53,17 @@
   .progress-bar3 {
     width: var(--progress);
   }
+
+  @media only screen and (max-width: 600px) {
+  .review-container {
+    width: 100%;
+    background-color: #ddd;
+    /* border: 1px solid #ddd; */
+    border-radius: 4px;
+    overflow: hidden;
+    height: 8px;
+  }
+  .rateprodBtn {
+    padding: 8px 12px;
+  }
+}

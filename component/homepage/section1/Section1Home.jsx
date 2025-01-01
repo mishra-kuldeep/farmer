@@ -21,6 +21,8 @@ import SaveForLaterServices from "@/services/SaveForLaterServices";
 import { Modal, Button } from "react-bootstrap";
 import ProductFarmerServices from "@/services/ProductFarmerServices";
 import MediumLoader from "@/component/reusableComponent/MediumLoader";
+
+
 const Section1Home = () => {
   const router = useRouter();
   const scrollContainerRef = useRef(null);
@@ -74,13 +76,14 @@ console.log(country)
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
       const containerWidth = scrollContainerRef.current.offsetWidth;
+      console.log(containerWidth)
       if (direction === "left") {
         scrollContainerRef.current.scrollLeft -= isMobile
-          ? containerWidth
+          ? (containerWidth * 66.5) / 100
           : (containerWidth * 50) / 100;
       } else if (direction === "right") {
         scrollContainerRef.current.scrollLeft += isMobile
-          ? containerWidth
+          ? (containerWidth * 66.5) / 100
           : (containerWidth * 50) / 100;
       }
     }
@@ -229,7 +232,7 @@ console.log(country)
     <div className="container">
       <div className="bestSellerWrapper p-md-3 p-0">
         <div className="headerbestSeller p-2">
-          <h5>Best Sellers</h5>
+          <h5 className="mobilehome_title">Best Sellers</h5>
           <div className="arrowBtn_bestSeller">
             <p
               className="Show_More_bestSeller"
@@ -256,7 +259,7 @@ console.log(country)
           ref={scrollContainerRef}
         >
           {Products.map((ele) => (
-            <div className="col-md-3 px-2 " key={ele.productDtlId}>
+            <div className="col-md-3 col-8 px-2 " key={ele.productDtlId}>
               <div className="bestseller_cards">
                 <div>
                   <div className="image_div">
@@ -280,11 +283,11 @@ console.log(country)
                     onClick={() => router.push(`/product/${ele.slug}`)}
                   >
                     <p>
-                      <IoIosPerson size={15} />
+                      <IoIosPerson className="kisanNamelocationIcon" />
                       <span className="ms-1">{ele?.User?.FirstName}</span>
                     </p>
                     <p>
-                      <MdOutlineLocationOn size={20} />
+                      <MdOutlineLocationOn className="kisanNamelocationIcon" />
                       <span className="ms-1">{ele?.User?.userInfo?.City}</span>
                     </p>
                   </div>

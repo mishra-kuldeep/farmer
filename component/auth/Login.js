@@ -26,8 +26,7 @@ const LoginPage = () => {
         <img
           src={logo.src}
           alt="logo"
-          className="shadow mb-5"
-          style={{ height: "200px", width: "200px", borderRadius: "50%" }}
+          className="shadow mb-5 loginlogo"
         />
       </div>
       <div className="p-2 m20">

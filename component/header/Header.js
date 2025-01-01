@@ -304,7 +304,7 @@ function Header() {
                           </div>
                           <ul
                             className="dropdown-menu p-0"
-                            style={{ right: "0%", width: "300px", top: "10px" }}
+                            style={{ right: "0%", width: "auto", top: "10px" }}
                           >
                             {user?.profile?.role === 1 && (
                               <p

@@ -150,8 +150,7 @@ const Product = () => {
 
       <div className="product_basic_detail">
         <div
-          style={{ height: "500px", overflowY: "auto", overflowX: "hidden" }}
-          className="scrollThumbStyle px-2"
+          className="scrollThumbStyle px-md-2 singleproductImagesss"
         >
           <div className="product_imageList">
             {singleProduct?.ProductsImages?.map((image, i) => (
@@ -267,10 +266,11 @@ const Product = () => {
         <button className="saveforLaterProductBtn">Save for Later</button>
       </div>
       <hr />
-      <WhyProducthoose />
       <ProductRating data={singleProduct} />
       <h6 className="mt-3">{slug[1]}</h6>
       <AboutTheProduct about={singleProduct?.productDtl} />
+      <WhyProducthoose />
+
     </div>
   );
 };

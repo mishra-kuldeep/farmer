@@ -260,7 +260,7 @@ const RegisterPage = () => {
           Paword and confirm password is not same
         </p>
       )}
-      <div className="p-2 text-center mt-2 ">
+      <div className="p-2 text-center mt-2 mb-5">
         <button className="login_btn" onClick={submitHandler} disabled={loader}>
           {loader && <MiniLoader />}
           Register

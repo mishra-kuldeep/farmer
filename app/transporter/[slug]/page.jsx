@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { Image_URL } from "@/helper/common";
+import { isMobile } from "react-device-detect";
 
 const Page = () => {
   const user = useSelector((state) => state.auth);
@@ -79,6 +80,7 @@ const Page = () => {
     }
   };
   useEffect(() => {
+    setCategoryFilter(isMobile ? false : true);
     apiCallTransAds();
   }, [
     user?.profile?.country,
@@ -97,7 +99,7 @@ const Page = () => {
       <div>
         <div className="container pt-1">
           <div className=" py-1">
-            <div className="search_wrapper my-4">
+            <div className="search_wrapper my-2">
               <input
                 type="text"
                 placeholder="Search by company name..."
@@ -136,12 +138,14 @@ const Page = () => {
                       {category.map((category, index) => (
                         <div
                           key={index}
-                          className={`${selectedCategory == category?.vehicleId &&
+                          className={`${
+                            selectedCategory == category?.vehicleId &&
                             "filterSELECTED"
-                            } filterHover mb-1 p-1`}
-                          onClick={() =>
-                            handleCategoryChange(category?.vehicleId)
-                          }
+                          } filterHover mb-1 p-1`}
+                          onClick={() => {
+                            handleCategoryChange(category?.vehicleId);
+                            isMobile && setCategoryFilter(false);
+                          }}
                         >
                           {selectedCategory == category?.vehicleId ? (
                             <VscCircleLargeFilled
@@ -161,7 +165,7 @@ const Page = () => {
             </div>
             <div className="col-md-9">
               <div className="d-flex justify-content-between">
-                <h3 className="my-2"> Ads For Booking Transportation </h3>
+                <h3 className="mb-2 mobilehome_title"> Ads For Booking Transportation </h3>
               </div>
               {Loader ? (
                 <div style={{ height: "40vh" }} className="centerAllDiv">
@@ -173,13 +177,17 @@ const Page = () => {
                   {transport.map((item, i) => {
                     return (
                       <div
-                      key={i}
+                        key={i}
                         className="col-md-6 col-lg-4"
                         onClick={() => Navigate(item.transVehicalId)}
                       >
                         <div className="servicevendercard">
                           <img
-                            src={item?.AdsImages?.length > 0 ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}` : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
+                            src={
+                              item?.AdsImages?.length > 0
+                                ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`
+                                : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                            }
                             style={{ backgroundColor: "#dadada" }}
                             width="100%"
                             height="150px"
@@ -258,8 +266,8 @@ const Page = () => {
                         Sorry, there are no listings for this category.
                       </p>
                       <p style={{ marginBottom: "10px" }}>
-                        Please try another search or click here to see the latest
-                        ads.
+                        Please try another search or click here to see the
+                        latest ads.
                       </p>
                     </div>
                   )}

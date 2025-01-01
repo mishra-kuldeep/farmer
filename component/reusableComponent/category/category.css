@@ -18,9 +18,12 @@
 }
 @media only screen and (max-width: 600px) {
     .cat_list{
-     color: #d1d1d1 !important;
+     color: #030303 !important;
      border:none;
      font-size: 16px;
+    }
+    .cat_listsubtitle{
+        color: #444444 !important;
     }
   }
   

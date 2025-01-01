@@ -135,6 +135,11 @@ button:disabled {
   padding: 10px;
   margin: 0px 50px;
 }
+.loginlogo{
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
 .admin_btn {
   background-color: var(--adminMainColor);
   color: var(--white);
@@ -190,6 +195,15 @@ textarea:focus {
 .scrollThumbStyle::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+::-webkit-scrollbar{
+  height: 4px;
+  width: 4px;
+  background: rgb(223, 223, 223);
+}
+::-webkit-scrollbar-thumb:horizontal{
+  background: #a1a1a1;
+  border-radius: 10px;
+}
 @media only screen and (max-width: 600px) {
   .marginEveryPage {
     margin-top: 50px;
@@ -198,5 +212,14 @@ textarea:focus {
   .widthautoforAuth {
     width: 100% !important;
     z-index: 1000;
+  }
+  .loginlogo{
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+  }
+  .mobilehome_title{
+    font-size: 16px;
+    font-weight: bold;
   }
 }

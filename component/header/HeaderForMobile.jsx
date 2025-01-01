@@ -58,10 +58,11 @@ const HeaderForMobile = () => {
         tabIndex="-1"
         id="offcanvasExample1"
         aria-labelledby="offcanvasExampleLabel1"
-        style={{backgroundColor:"var(--mainColor)",width:"90%"}}
+        style={{backgroundColor:"#fff",width:"90%"}}
       >
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title text-light" id="offcanvasExampleLabel1">
+          <h5 className="offcanvas-title" id="offcanvasExampleLabel1"
+           style={{color:"var(--mainColor)"}}>
             All Category
           </h5>
           <button

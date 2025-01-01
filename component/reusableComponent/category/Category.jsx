@@ -48,7 +48,7 @@ const Category = () => {
       {categoryList?.map((ele) => (
         <div key={ele?.categoryName}>
           <p
-            className="cat_list text-white d-flex justify-content-between"
+            className="cat_list  d-flex justify-content-between"
             onClick={() => toggleCategory(ele?.categoryName)}
           >
             <span style={{width:"90%"}}>{ele?.categoryName}</span>
@@ -59,7 +59,7 @@ const Category = () => {
           {openCategory === ele?.categoryName && (
             <div>
               {ele?.SubCategories?.map((val) => (
-                <p key={val?.subcategoryName} className="cat_list text-white ms-3">
+                <p key={val?.subcategoryName} className="cat_list cat_listsubtitle  ms-3">
                   {val?.subcategoryName}
                 </p>
               ))}

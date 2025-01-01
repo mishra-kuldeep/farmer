@@ -65,7 +65,7 @@
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow: hidden !important;
   scroll-behavior: smooth;
   padding-bottom: 10px;
 }
