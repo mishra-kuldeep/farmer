@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./transporter.css";
 import "../../adverts/[...slug]/adverts.css";
+import "../../vender/[...slug]/vender.css";
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { VscCircleLargeFilled } from "react-icons/vsc";
@@ -165,7 +166,10 @@ const Page = () => {
             </div>
             <div className="col-md-9">
               <div className="d-flex justify-content-between">
-                <h3 className="mb-2 mobilehome_title"> Ads For Booking Transportation </h3>
+                <h3 className="mb-2 mobilehome_title">
+                  {" "}
+                  Ads For Booking Transportation{" "}
+                </h3>
               </div>
               {Loader ? (
                 <div style={{ height: "40vh" }} className="centerAllDiv">
@@ -178,7 +182,7 @@ const Page = () => {
                     return (
                       <div
                         key={i}
-                        className="col-md-6 col-lg-4"
+                        className="col-md-4 col-6 p-md-2 p-1"
                         onClick={() => Navigate(item.transVehicalId)}
                       >
                         <div className="servicevendercard">
@@ -189,11 +193,9 @@ const Page = () => {
                                 : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                             }
                             style={{ backgroundColor: "#dadada" }}
-                            width="100%"
-                            height="150px"
                           />
-                          <div className="p-2">
-                            <h5 className="my-2">
+                          <div className="p-md-2 p-1">
+                            <h5 className="my-md-2 my-1">
                               {item?.TransportVehicle?.type}
                             </h5>
                             <h6 style={{ fontSize: "13px" }}>
@@ -210,27 +212,26 @@ const Page = () => {
                               data-bs-placement="bottom"
                               title={item?.description}
                             >{item?.description}</p> */}
-                          </div>
-                          <div className="d-flex justify-content-between">
-                            <p style={{ fontSize: "12px" }}>
-                              <span className="transporterParagraph">
-                                Company Name
-                              </span>{" "}
-                              <br />
-                              {item?.User?.userInfo?.CompanyName}
-                            </p>
-                          </div>
-                          <div className="d-flex justify-content-between">
-                            <p style={{ fontSize: "12px" }}>
-                              <span className="transporterParagraph">
-                                Pincode
-                              </span>{" "}
-                              <br />
-                              {item?.User?.userInfo?.Zip}
-                            </p>
-                            <p className="venderservicephone">
-                              {item?.User?.Phone}
-                            </p>
+                            <div className="d-flex justify-content-between">
+                              <p style={{ fontSize: "12px" }}>
+                                <span className="transporterParagraph">
+                                  Company Name :
+                                </span>{" "}
+                                {item?.User?.userInfo?.CompanyName}
+                              </p>
+                            </div>
+                            <div className="d-md-flex justify-content-between">
+                              <p style={{ fontSize: "12px" }}>
+                                <span className="transporterParagraph">
+                                  Pincode :
+                                </span>
+                                <br className="d-md-block d-none" />
+                                {item?.User?.userInfo?.Zip}
+                              </p>
+                              <p className="venderservicephone" >
+                                {item?.User?.Phone}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -62,27 +62,25 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
   }
 
   return (
-    <div className="container pt-4">
-      <div className="row m-0 ">
-        <div className="col-md-9">
-          <div className="p-3 border rounded">
-            <div className="d-flex justify-content-between">
-              <h4>{rentProduct?.title}</h4>
-              <h4>{price}</h4>
+    <div className="container pt-md-4 pt-1">
+      <div className="row">
+        <div className="col-md-9 p-1">
+          <div className="p-md-3 border rounded">
+            <div className="d-flex justify-content-between px-2 pt-2">
+              <h4 className="mobilehome_title">{rentProduct?.title}</h4>
+              <h4 className="mobilehome_title">{price}</h4>
             </div>
-            <div className="imagebigDiv my-3">
+            <div className="imagebigDiv mb-md-3 p-1">
               <img
                 src={
                   rentProduct?.AdsImages?.length > 0
                     ? `${Image_URL}/adsImages/${mouseImage||image}`
                     : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                 }
-                height="450px"
-                width="100%"
                 className="border rounder p-1"
               />
             </div>
-            <div className="multiImageWrapper d-flex gap-4">
+            <div className="multiImageWrapper d-flex gap-4 px-1">
               {rentProduct?.AdsImages?.length > 0 ? (
                 rentProduct?.AdsImages?.map((val,i) => (
                   <img
@@ -106,7 +104,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
               )}
             </div>
 
-            <div className="d-flex gap-3 mt-4">
+            <div className="d-flex gap-3 mt-md-4 px-2">
               <div className="d-flex gap-2 align-items-center my-1">
                 <FaClock />
                 <p>{rentProduct?.createdAt && timeAgo(rentProduct?.createdAt)}</p>
@@ -116,12 +114,12 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
                 <p>{user?.profile?.countryName || country?.country?.countryName}</p>
               </div>
             </div>
-            <hr />
-            <div className="m-0 row mt-3">
+            <hr className="mt-0"/>
+            <div className="m-0 row mt-2">
               <div className="col-md-6">
                 <p>{rentProduct.description}</p>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 p-0">
                 <div
                   className="rounded p-1"
                   style={{ backgroundColor: "#f1f1f1" }}
@@ -143,7 +141,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
             </div>
           </div>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-3 p-md-2 p-1">
           <div className="user_details">
             <div className="d-flex gap-3 align-items-center">
               <img
@@ -179,7 +177,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
               </div>
             </div>
             <hr />
-            <div className="py-3">
+            <div className="py-md-3">
               <button onClick={() => setshow(!show)} className="query_Buttom">
                 Make An Enquiry
               </button>
@@ -206,14 +204,12 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
               )}
 
               <button className="mt-2 query_Buttom">
-                <MdAddCall size={25} color="#fff" />{rentProduct?.phone}
+                <MdAddCall size={20} color="#fff" />{rentProduct?.phone}
               </button>
             </div>
           </div>
         </div>
       </div>
-
-      <div style={{ height: "10vh" }}></div>
     </div>
   );
 };

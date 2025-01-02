@@ -70,6 +70,12 @@
   overflow-x: hidden;
 }
 @media only screen and (max-width: 600px) {
+
+  .product_categories_navigation {
+    margin-bottom: 0px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #dadada;
+  }
   .singleproductImagesss{
     height: auto;
     overflow-y: hidden;

@@ -63,7 +63,7 @@ const Section2Home = () => {
   const router = useRouter()
   return (
     <div className="container">
-      <div className="p-md-3 p-1 my-3 " style={{ backgroundColor: "var(--light)" }}>
+      <div className="p-md-3 p-1 my-md-3 my-2" style={{ backgroundColor: "var(--light)" }}>
         <div className="section2Heading">
           <h5 className="mobilehome_title ms-2 mt-2">All Services</h5>
         </div>

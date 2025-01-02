@@ -114,7 +114,7 @@ const Page = () => {
   }, [serviceId]);
 
   return (
-    <div className="container pt-4">
+    <div className="container pt-md-4 pt-2">
       {Loader ? (
         <div style={{ height: "80vh" }} className="centerAllDiv">
           <MiniLoader />
@@ -122,15 +122,15 @@ const Page = () => {
         </div>
       ) : (
         <>
-          <div className="row m-0 ">
-            <div className="col-md-9">
-              <div className="p-3 border rounded">
-                <div className="d-flex justify-content-between">
-                  <h4>{singleVendorData?.serviceName || "N/A"}</h4>
-                  <h4>Ratings: {singleVendorData?.numberOfRatings}</h4>
+          <div className="row">
+            <div className="col-md-9 p-md-2 p-1">
+              <div className="p-md-3 p-1 border rounded">
+                <div className="d-flex justify-content-between px-2">
+                  <h4 className="mobilehome_title">{singleVendorData?.serviceName || "N/A"}</h4>
+                  <h4 className="mobilehome_title">Ratings: {singleVendorData?.numberOfRatings}</h4>
                 </div>
 
-                <div className="imagebigDiv my-3">
+                <div className="imagebigDiv my-md-3 my-1">
                   <img
                     src={
                       singleVendorData?.AdsImages?.length > 0
@@ -142,7 +142,7 @@ const Page = () => {
                     className="border rounder p-1"
                   />
                 </div>
-                <div className="multiImageWrapper d-flex gap-4">
+                <div className="multiImageWrapper d-flex gap-2">
                   {singleVendorData?.AdsImages?.length > 0 ? (
                     singleVendorData?.AdsImages?.map((val,i) => (
                       <img
@@ -164,18 +164,18 @@ const Page = () => {
                   )}
                 </div>
 
-                <div className="d-flex gap-3 mt-4">
-                  <div className="d-flex gap-2 align-items-center my-1">
+                <div className="d-flex gap-3 mt-md-4 mt-1 px-2">
+                  <div className="d-flex gap-2 align-items-center mt-1">
                     <FaClock />
                     <p>{singleVendorData?.createdAt?.slice(0, 10)}</p>
                   </div>
-                  <div className="d-flex gap-2 align-items-center my-1">
+                  <div className="d-flex gap-2 align-items-center mt-1">
                     <FaLocationDot />
                     India
                   </div>
                 </div>
-                <hr />
-                <div className="m-0 row mt-3">
+                <hr className="mt-1 mt-md-3"/>
+                <div className="row mt-2">
                   <div className="col-md-6">{singleVendorData.description}</div>
                   <div className="col-md-6">
                     <h2 className="transporterDetailHeading py-2">
@@ -231,7 +231,7 @@ const Page = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3 p-md-2 p-1">
               <div className="user_details">
                 <div className="d-flex gap-3 align-items-center">
                   <img
@@ -302,9 +302,8 @@ const Page = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div style={{ height: "10vh" }}>
-            <div className="bestSellerWraper my-5 px-4">
+            <div style={{backgroundColor:"#ddd"}} className="p-md-3 p-2">
+            <div className="bestSellerWraper">
               <div className="headerbestSeller">
                 <h5>Related Ads</h5>
                 <div className="arrowBtn_bestSeller">
@@ -335,13 +334,13 @@ const Page = () => {
                 </div>
               ) : (
                 <div
-                  className="row overflowscrollhidden"
+                  className="row m-0 p-0 overflowscrollhidden"
                   ref={scrollContainerRef}
                 >
                   {VendorList?.data?.reverse()?.map((item, i) => {
                     return (
                       <div
-                        className="col-md-3 mt-4"
+                        className="col-md-3 p-0 p-md-2 col-7"
                         key={i}
                         onClick={() => headlefulldetail(item)}
                       >
@@ -352,7 +351,7 @@ const Page = () => {
                             width="100%"
                             height="150px"
                           />
-                          <div className="p-2">
+                          <div className="relatedAddTitle">
                             <h5 className="my-2">{item?.serviceName}</h5>
                             <h6 style={{ fontSize: "13px" }}>
                               cost Price - {currencySymbol} {item?.cost}
@@ -375,9 +374,9 @@ const Page = () => {
                               {`${item?.description.slice(0, 25)} ....`}
                             </p>
                           </div>
-                          <div className="d-flex justify-content-between">
+                          <div className="d-md-flex justify-content-between">
                             <p className="px-1" style={{ fontSize: "12px " }}>
-                              <b>Company Name</b> <br />
+                              <b>Company Name :</b> <br className="d-md-block d-none"/>
                               {item?.User?.userInfo?.CompanyName}
                             </p>
                             <p className="venderservicephone">
@@ -392,6 +391,8 @@ const Page = () => {
               )}
             </div>
           </div>
+          </div>
+        
         </>
       )}
     </div>

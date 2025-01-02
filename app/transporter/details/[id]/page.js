@@ -108,8 +108,8 @@ const Page = () => {
   }, [id])
 
   return (
-    <div className="container pt-4">
-      <div className="row m-0 ">
+    <div className="container pt-md-4 pt-1">
+      <div className="row">
         {LoaderFirstSection ?
           (
             <div style={{ height: "80vh" }} className="centerAllDiv">
@@ -118,7 +118,7 @@ const Page = () => {
             </div>
           )
           : (
-            <div className="col-md-9">
+            <div className="col-md-9 p-md-2 p-1">
               {/************
            ************
            ************
@@ -129,21 +129,20 @@ const Page = () => {
            ************
            ************
             */}
-              <div className="p-3 border rounded">
+              <div className="p-md-3 p-1 border rounded">
                 <div className="d-flex justify-content-between">
-                  <h4>{singleTransportData?.TransportVehicle?.type || "N/A"}</h4>
-                  <h4>Charge Per km{" "}{singleTransportData?.chargePerKm}</h4>
+                  <h4 className='mobilehome_title'>{singleTransportData?.TransportVehicle?.type || "N/A"}</h4>
+                  <h4 className='mobilehome_title'>Charge Per km{" "}{singleTransportData?.chargePerKm}</h4>
                 </div>
 
-                <div className="imagebigDiv my-3">
+                <div className="imagebigDiv my-md-3 my-1">
                   <img
                     src={
                       singleTransportData?.AdsImages?.length > 0
                         ? `${Image_URL}/adsImages/${image}`
                         : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                     }
-                    height="450px"
-                    width="100%"
+          
                     className="border rounder p-1"
                   />
                 </div>
@@ -180,7 +179,7 @@ const Page = () => {
                   </div>
                 </div>
                 <hr />
-                <div className="m-0 row mt-3">
+                <div className="row mt-md-3 mt-1">
                   <div className="col-md-6">
                     <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Vechical</span> {singleTransportData?.TransportVehicle?.type || "N/A"}</h2>
                     <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Capacity</span>  {singleTransportData?.TransportVehicle?.capacity || "N/A"}</h2>
@@ -313,8 +312,8 @@ const Page = () => {
  * ******************
  * ******************
  * ********/}
-      <div style={{ height: "10vh" }}>
-        <div className='bestSellerWraper my-5 px-4'>
+      <div style={{backgroundColor:"#ddd"}} className="p-md-3 p-2">
+        <div className='bestSellerWraper'>
           <div className="headerbestSeller">
             <h5>Related Ads</h5>
             <div className="arrowBtn_bestSeller">

@@ -90,5 +90,15 @@
   cursor: pointer;
   border-radius: 5px;
 }
+.imagebigDiv img {
+  height: 450px;
+  width: 100%;
+}
+@media only screen and (max-width: 600px) {
+  .imagebigDiv img {
+    height: 230px;
+    width: 100%;
+  }
+}
   
   

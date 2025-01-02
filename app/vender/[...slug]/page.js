@@ -196,7 +196,7 @@ const Page = () => {
                 <div className="row">
                   {VendorList?.map((item, i) => (
                     <div
-                      className="col-md-4"
+                      className="col-md-4 col-6 p-0 p-md-2"
                       onClick={() => Navigate(item?.serviceId)}
                       key={i}
                     >
@@ -208,12 +208,11 @@ const Page = () => {
                               : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                           }
                           style={{ backgroundColor: "#dadada" }}
-                          width="100%"
-                          height="150px"
+                 
                         />
-                        <div className="p-2">
-                          <h5 className="my-2">{item?.serviceName}</h5>
-                          <h6 style={{ fontSize: "13px" }}>
+                        <div className="p-md-2 p-1">
+                          <h5 className="my-md-2">{item?.serviceName}</h5>
+                          <h6 style={{ fontSize: "13px" }} className="mt-2">
                             Price - {currencySymbol} {item?.cost}
                           </h6>
                           <h6 style={{ fontSize: "13px" }}>
@@ -239,9 +238,9 @@ const Page = () => {
                               : `${item?.description?.substring(0, 100)}...`}
                           </p>
                         </div>
-                        <div className="d-flex justify-content-between">
+                        <div className="d-md-flex justify-content-between">
                           <p style={{ fontSize: "12px" }}>
-                            Company Name <br />
+                            Company Name <br className="d-md-block d-none"/> : 
                             {item?.User?.userInfo?.CompanyName}
                           </p>
                           <p className="venderservicephone">
