@@ -259,12 +259,12 @@ console.log(country)
           ref={scrollContainerRef}
         >
           {Products.map((ele) => (
-            <div className="col-md-3 col-8 px-2 " key={ele.productDtlId}>
+            <div className="col-md-3 col-8 px-2 mb-2" key={ele.productDtlId}>
               <div className="bestseller_cards">
                 <div>
                   <div className="image_div">
                     <img
-                      src={`${Image_URL}/Products/${ele.ProductsImages[0]?.url}`}
+                      src={`${Image_URL}/products/${ele.ProductsImages[0]?.url}`}
                       alt="product image"
                       onClick={() => router.push(`/product/${ele.slug}`)}
                     />

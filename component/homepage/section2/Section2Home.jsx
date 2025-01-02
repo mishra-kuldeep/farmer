@@ -63,14 +63,14 @@ const Section2Home = () => {
   const router = useRouter()
   return (
     <div className="container">
-      <div className="p-md-3 p-1 my-3 rounded" style={{ backgroundColor: "#f2f2f2" }}>
+      <div className="p-md-3 p-1 my-3 " style={{ backgroundColor: "var(--light)" }}>
         <div className="section2Heading">
           <h5 className="mobilehome_title ms-2 mt-2">All Services</h5>
         </div>
-          <div className="row overflowhiddenbutscroll m-0 pb-3">
+          <div className="row overflowhiddenbutscroll m-0">
             {cardArr.map((ele, i) => (
               <div className="col-md-2 col-5 p-md-3 p-1" key={ele.id} >
-                <div className="section2cardHome shadowcss" onClick={()=>router.push(ele?.goesTo)}>
+                <div className="section2cardHome " onClick={()=>router.push(ele?.goesTo)}>
                   <div className="image_div">
                     <img src={ele.image} alt="product image" />
                   </div>
