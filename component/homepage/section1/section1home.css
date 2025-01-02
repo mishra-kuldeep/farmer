@@ -29,12 +29,12 @@
   cursor: pointer;
 }
 .overflowscrollhidden {
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: hidden !important;
-    scroll-behavior: smooth;
-    padding-bottom: 10px;
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow: hidden !important;
+  scroll-behavior: smooth !important;
+  padding-bottom: 10px !important;
 }
 .bestseller_cards {
   background-color: var(--white);
