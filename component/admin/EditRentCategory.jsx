@@ -53,7 +53,6 @@ const EditRentCategory = ({ setState }) => {
       setLoader(true)
       RentServices.getRentCategoryById(editId)
         .then(({ data }) => {
-          console.log(data)
           setValues({
             categoryName: data?.name,
             description: data?.description,
@@ -74,7 +73,6 @@ const EditRentCategory = ({ setState }) => {
 
   const onSubmitHandler = () => {
     setLoader(true);
-    console.log(values)
     const formData = new FormData();
     formData.append("categoryName", values?.categoryName);
     formData.append("description", values?.description);
@@ -125,7 +123,6 @@ const EditRentCategory = ({ setState }) => {
 
   const addField = () => {
     setFields([...fields, { value: "" }]);
-    console.log(fields)
   };
 
   const handleInputChange = (index, event) => {
@@ -135,7 +132,6 @@ const EditRentCategory = ({ setState }) => {
   };
 
 
-  console.log(fields);
 
   return (
     <div className="row m-0 p-3">

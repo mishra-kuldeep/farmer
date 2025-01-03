@@ -31,7 +31,6 @@ const AllOrders = () => {
         console.log(err);
       });
   }, [page, searchText, actionPerformed]);
-  console.log(allPendingOrder)
   return (
     <div className="p-2">
       <Pagination

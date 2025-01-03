@@ -52,7 +52,6 @@ const Page = () => {
     VehicleMasterServices.getVehicle()
       .then(({ data }) => {
         setCategory(data);
-        console.log(data);
       })
       .catch((err) => console.log(err));
   };
@@ -83,6 +82,7 @@ const Page = () => {
   useEffect(() => {
     setCategoryFilter(isMobile ? false : true);
     apiCallTransAds();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -93,6 +93,7 @@ const Page = () => {
   useEffect(() => {
     initApi();
     setSelectedCategory(slug);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
@@ -193,6 +194,7 @@ const Page = () => {
                                 : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                             }
                             style={{ backgroundColor: "#dadada" }}
+                            alt="image"
                           />
                           <div className="p-md-2 p-1">
                             <h5 className="my-md-2 my-1">

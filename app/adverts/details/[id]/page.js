@@ -18,7 +18,6 @@ const Page = () => {
   const [mouseImage, setMouseImage] = useState("");
   const [image, setImage] = useState("");
   const { id } = useParams();
-console.log(id)
   useEffect(() => {
     if (id) {
       RentProductsServices.getRentProductByIdHome(id)
@@ -78,6 +77,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
                     : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                 }
                 className="border rounder p-1"
+                alt="image"
               />
             </div>
             <div className="multiImageWrapper d-flex gap-4 px-1">
@@ -92,6 +92,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
                     onClick={() => setImage(val.url)}
                     onMouseEnter={() => setMouseImage(val.url)}
                     onMouseLeave={() => setMouseImage('')}
+                    alt="image"
                   />
                 ))
               ) : (
@@ -100,6 +101,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
                   height="80px"
                   width="80px"
                   className="border rounder p-1"
+                  alt="image"
                 />
               )}
             </div>
@@ -147,6 +149,7 @@ const otherDetails = JSON.parse(rentProduct?.otherDetails || "{}");
               <img
                 src="https://www.farmersmarket.ie/assets/images/layout/user.jpg?mode=pad&anchor=center&width=180&height=180&upscale=false&bgcolor=fff"
                 className="user_avtar"
+                alt="avtar"
               />
               <h5>{rentProduct?.User?.FirstName}</h5>
             </div>

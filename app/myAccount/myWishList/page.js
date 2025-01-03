@@ -12,7 +12,6 @@ const WishList = () => {
     setLoading(true);
     SaveForLaterServices.getAllWishList()
       .then(({ data }) => {
-        console.log(data);
         setWishList(data);
         setLoading(false);
       })

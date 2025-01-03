@@ -65,13 +65,11 @@ const FertilizersPesticidesList = () => {
     setSelectedId(id);
     setShowConfirm(true);
   };
-console.log(user.profile?.id)
   useEffect(() => {
     if (user.profile?.id) {
       vendorMasterServices
         .getVendorServices(user.profile?.id, page, searchText)
         .then(({ data }) => {
-          console.log(data);
           setservicesVenderList(data);
           setMetaData(data?.meta);
         })

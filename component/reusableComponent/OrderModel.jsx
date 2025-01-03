@@ -120,7 +120,6 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
       setIsLoadingDetails(true);
       OrderService.getOrderDetailAdmin(modalData)
         .then(({ data }) => {
-          console.log(data)
           setOrderDetails(data?.data);
           setIsLoadingDetails(false);
         })
@@ -131,7 +130,6 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
         });
     }
   }, [modalData]);
-  console.log(OrderDetails?.TransporterVehicle?.TransporterDeliveryDetails)
   // Calculate total price, discount, and final total
   const totalPrice = OrderDetails.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;
@@ -209,7 +207,7 @@ const OrderModal = ({ modalData, setActionPerformed }) => {
                             key={val?.productDetail?.productDtlId}
                           >
                             <img
-                              src={`${Image_URL}/Products/${val?.productDetail?.ProductsImages[0]?.url}`}
+                              src={`${Image_URL}/products/${val?.productDetail?.ProductsImages[0]?.url}`}
                               alt="Product image"
                             />
                             <div className="cartBaketDetail row">

@@ -97,6 +97,7 @@ const Page = () => {
   };
   useEffect(() => {
     fertilizer();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -107,6 +108,7 @@ const Page = () => {
   useEffect(() => {
     isMobile && setCategoryFilter(false);
     setSelectedCategory(slug);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
@@ -210,6 +212,7 @@ const Page = () => {
                               style={{ backgroundColor: "#dadada" }}
                               width="100%"
                               height="150px"
+                              alt="images"
                             />
                             <div className="p-2">
                               <h5 className="my-2">{item?.serviceName}</h5>

@@ -177,7 +177,6 @@ const HeaderTopForMobile = () => {
       status: true,
     },
   ];
-console.log(user?.profile)
   return (
     <div className="mobile_Header container">
       <div className="row m-0 align-items-center" style={{ height: "50px" }}>

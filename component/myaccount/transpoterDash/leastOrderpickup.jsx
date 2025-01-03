@@ -19,7 +19,6 @@ const LeastOrderpickup = () => {
     const LeastOrderApiCall = () => {
         ReportsServices.latestPickupOrder()
             .then(({ data }) => {
-                console.log(data)
                 setLeastOrderlist(data?.data);
             })
             .catch((error) => {

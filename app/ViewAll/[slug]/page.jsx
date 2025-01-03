@@ -46,7 +46,6 @@ const Page = () => {
     const [selectedCategory, setSelectedCategory] = useState(0)
     const [showFilter, setShowFilter] = useState(true)
     const [showVerifiedModal, setShowVerifiedModal] = useState(false);
-    console.log(Products)
     const initApi = async () => {
         try {
             const searchResult = await ProductsDtlServices.getProductsDtl({
@@ -213,6 +212,7 @@ const Page = () => {
             initApi();
         }
         saveLaterList();
+          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user?.profile?.country, country?.country?.countryId]);
     const showHideFunction = () => {
         setShowFilter(!showFilter)
@@ -220,7 +220,6 @@ const Page = () => {
     const scrollContainerRef = useRef(null);
       // Handle the scroll event
   const handleScroll = (e) => {
-    console.log("scroll event",scrollContainerRef)
     if (scrollContainerRef.current) {
       const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of the first card
       scrollContainerRef.current.scrollBy({
@@ -289,7 +288,7 @@ const Page = () => {
                                     <div >
                                         <div className="image_div">
                                             <img
-                                                src={`${Image_URL}/Products/${ele?.ProductsImages[0]?.url}`}
+                                                src={`${Image_URL}/products/${ele?.ProductsImages[0]?.url}`}
                                                 alt="product image"
                                                 onClick={() => router.push(`/product/${ele?.slug}`)}
                                             />

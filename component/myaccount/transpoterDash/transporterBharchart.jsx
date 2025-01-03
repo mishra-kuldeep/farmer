@@ -75,7 +75,6 @@ export default function TransporterBarChart() {
 
         ReportsServices.totalRevenueTimeWise(filter)
             .then(({ data }) => {
-                console.log(data)
                 setDataSet(data?.data);
             })
             .catch((error) => {

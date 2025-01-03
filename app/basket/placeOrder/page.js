@@ -47,6 +47,7 @@ const Placeorder = () => {
         ["country"]: user?.profile?.country,
       }));
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile]);
 
   // Calculate total price, discount, and final total
@@ -154,6 +155,7 @@ const Placeorder = () => {
     if (cart?.cart == null) {
       router.push("/basket");
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart?.cart]);
   return (
     <div

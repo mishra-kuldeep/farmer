@@ -75,7 +75,6 @@ const MyProfile = () => {
 
     AuthService.getAllcultivating()
       .then(({ data }) => {
-        console.log(data)
         setCultivatingList(
           data?.map(item => ({
             label: item.CultivatingName?.toString().toLowerCase() || '',
@@ -127,6 +126,7 @@ const MyProfile = () => {
           ?.countryCode
       );
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryList.length, values.CountryID]);
   const updateProfileHandeler = () => {
     setLoading(true);
@@ -192,7 +192,6 @@ const MyProfile = () => {
     })
 
   }
-  console.log(values?.Cultivating);
 
   return (
     <>

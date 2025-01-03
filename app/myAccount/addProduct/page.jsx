@@ -176,7 +176,6 @@ const AddProductDtl = () => {
 
     ProductgradeServices.getProductgrades()
       .then(({ data }) => {
-        console.log(data);
         setgradelist(data);
       })
       .catch((err) => console.log(err));

@@ -28,7 +28,6 @@ const ListAddedProduct = () => {
   const [searchText, setSearchText] = useState("");
   const user = useSelector((state) => state.auth);
 
-  console.log(productList);
   const editHandeler = (id) => {
     router.push(`/myAccount/editProduct/${id}`);
   };
@@ -36,7 +35,6 @@ const ListAddedProduct = () => {
   const handleDelete = async () => {
     await ProductFarmerServices.deleteProductsFarmer(selectedId)
       .then(({ data }) => {
-        console.log(data);
         setProductList(
           productList.filter((ele) => ele.productDtlId !== selectedId)
         );

@@ -5,8 +5,6 @@ import axios from "axios";
 export default class RentServices {
 
     static async addRentCategory(data) {
-        console.log(data);
-        
         const token = getCookie("token");
         const url = `${BASE_URL}/rentCategory`;
         return axios.post(url, data, {

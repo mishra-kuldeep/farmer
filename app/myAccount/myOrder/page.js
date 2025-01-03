@@ -169,8 +169,6 @@ const MyOrder = () => {
             data?.newDetail?.orderDetailId
           )
             .then(({ data }) => {
-              console.log(data);
-
               setTransporterDelivery((pre) => [...pre, data]);
             })
             .catch((err) => {
@@ -205,8 +203,6 @@ const MyOrder = () => {
     setShowModal(false);
     setSelectedOrder(null);
   };
-  console.log(productList);
-  console.log(TransporterDelivery);
 
   return (
     <div className="orderPage">

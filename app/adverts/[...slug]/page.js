@@ -75,7 +75,6 @@ const AdvertsCart = () => {
 
     RentProductsServices.getAllRentProductHome(FilterData)
       .then(({ data }) => {
-        console.log(data);
         setproducts(data?.data);
         setmetaData(data?.meta);
         setLoader(false);
@@ -90,6 +89,7 @@ const AdvertsCart = () => {
     if (user?.profile?.country || country?.country?.countryId) {
       ApiCall();
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId, selectedCategory]);
 
   useEffect(() => {
@@ -100,6 +100,7 @@ const AdvertsCart = () => {
         setCategoryList(data);
       })
       .catch((e) => console.log(e));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
@@ -220,6 +221,7 @@ const AdvertsCart = () => {
                             width="100%"
                             height={isMobile?"100px":"180px"}
                             style={{ backgroundColor: "#dadada" }}
+                            alt="images"
                           />
                         </div>
                         <div

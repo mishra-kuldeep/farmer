@@ -56,7 +56,6 @@ const Section1Home = () => {
       setProducts([]);
     }
   };
-console.log(country)
   const saveLaterList = () => {
     SaveForLaterServices.getAllWishList()
       .then(({ data }) => {
@@ -76,7 +75,6 @@ console.log(country)
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
       const containerWidth = scrollContainerRef.current.offsetWidth;
-      console.log(containerWidth)
       if (direction === "left") {
         scrollContainerRef.current.scrollLeft -= isMobile
           ? (containerWidth * 66.5) / 100

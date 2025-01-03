@@ -6,7 +6,6 @@ import ProductRateServices from "@/services/ProductRateServices";
 const ProductRating = ({ data }) => {
   const [ratingDistribution, setRatingDistribution] = React.useState(null);
   const [ratingpercentages, setRatingpercentages] = React.useState(null);
-  console.log(data);
 
   useEffect(() => {
     if (data?.productDtlId) {

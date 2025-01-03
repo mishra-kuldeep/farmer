@@ -61,7 +61,6 @@ const AddFertilizersPesticides = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-console.log(values)
   const onSubmitHandler = async () => {
     setLoader(true);
     const formData = new FormData();
@@ -130,7 +129,6 @@ console.log(values)
         });
       ProductUnitServices.getUnitBycountry(user?.profile?.country)
         .then(({ data }) => {
-          console.log(data);
           setUnitList(data);
         })
         .catch((err) => {

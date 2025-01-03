@@ -103,6 +103,7 @@ const Page = () => {
         setisLoading(false);
       });
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const initApi = () => {

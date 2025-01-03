@@ -16,7 +16,6 @@ const Page = () => {
     const filter = 'Paid'
     ReportsServices.TransportDetails(filter)
       .then(({ data }) => {
-        console.log(data)
         setTotalTransportation(data?.data);
         setMetaData(data?.meta)
       })

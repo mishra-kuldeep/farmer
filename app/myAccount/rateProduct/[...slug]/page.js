@@ -56,7 +56,6 @@ const RateProduct = () => {
         // Fetch the rating and review data from the API
         ProductRateServices.getRate(slug)
             .then(({ data }) => {
-                console.log(data)
                 setProductDetail(data?.data);
                 setreviewId(data?.data?.ProductReviews[0]?.reviewId);
                 setRatingDetail(data?.data?.ProductReviews[0]);
@@ -65,6 +64,7 @@ const RateProduct = () => {
                 // setLoader(false);
             })
             .catch((err) => console.log(err));
+              // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -87,7 +87,7 @@ const RateProduct = () => {
                         </div>
                     </div>
                     {productDetail?.ProductsImages && productDetail?.ProductsImages.length > 0 &&
-                        <img src={`${Image_URL}/products/${productDetail?.ProductsImages[0]?.url}`} height="50px" width="50px" className='rounded-50' />
+                        <img src={`${Image_URL}/products/${productDetail?.ProductsImages[0]?.url}`} alt='images' height="50px" width="50px" className='rounded-50' />
                     }
                 </div>
             </div>

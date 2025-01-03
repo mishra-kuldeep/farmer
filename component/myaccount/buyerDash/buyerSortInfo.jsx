@@ -31,7 +31,6 @@ const BuyerSortInfo = () => {
     const TransportDetailsApiCall = () => {
         ReportsServices.TransportDetails()
             .then(({ data }) => {
-                console.log(data)
                 setTotalTransportation(data?.data);
             })
             .catch((error) => {

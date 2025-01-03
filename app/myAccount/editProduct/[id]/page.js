@@ -126,7 +126,6 @@ const EditProductFarmer = ({ params }) => {
   useEffect(() => {
     if (params?.id) {
       ProductFarmerServices.getSingleProductsFarmer(params?.id).then(({ data }) => {
-        console.log(data)
         const valuess = data?.product
         setValues({
           productDtlName: valuess?.productDtlName,

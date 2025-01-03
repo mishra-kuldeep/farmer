@@ -57,7 +57,6 @@ const Page = () => {
     if (data.countryId) {
       FertilizersPesticideServices.getAllFertilizersPesticide(data)
         .then(({ data }) => {
-          console.log(data)
           setFertilizersPesticidesList(data.data);
           setLoader(false);
         })
@@ -71,6 +70,7 @@ const Page = () => {
     if (DistributorsType) {
       fertiliserApi();
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -79,6 +79,7 @@ const Page = () => {
 
   useEffect(() => {
     getApi();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleScroll = (direction) => {
@@ -118,6 +119,7 @@ const Page = () => {
                 height="450px"
                 width="100%"
                 className="border rounder p-1"
+                alt="images"
               />
             </div>
             <div className="imagebigDiv my-3">
@@ -131,6 +133,7 @@ const Page = () => {
                     className="border rounder p-1"
                     onClick={() => setImage(val.url)}
                     onMouseEnter={() => setImage(val.url)}
+                    alt="image"
                   />
                 ))
               ) : (
@@ -139,6 +142,7 @@ const Page = () => {
                   height="80px"
                   width="80px"
                   className="border rounder p-1"
+                  alt="images"
                 />
               )}
             </div>
@@ -210,6 +214,7 @@ const Page = () => {
               <img
                 src="https://www.farmersmarket.ie/assets/images/layout/user.jpg?mode=pad&anchor=center&width=180&height=180&upscale=false&bgcolor=fff"
                 className="user_avtar"
+                alt="avtar"
               />
             </div>
             <hr />
@@ -310,6 +315,7 @@ const Page = () => {
                       style={{ backgroundColor: "#dadada" }}
                       width="100%"
                       height="150px"
+                      alt="images"
                     />
                     <div className="p-2">
                       <h5 className="my-2">{item?.serviceName}</h5>

@@ -128,6 +128,7 @@ const Basket = () => {
     if (cart?.cart == null) {
       router.push("/basket");
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart?.cart]);
 
   return (

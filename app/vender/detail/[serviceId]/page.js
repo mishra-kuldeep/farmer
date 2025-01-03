@@ -107,10 +107,12 @@ const Page = () => {
 
   useEffect(() => {
     getAllVendorApi();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId, RelatedState]);
 
   useEffect(() => {
     intiApi();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceId]);
 
   return (
@@ -126,8 +128,12 @@ const Page = () => {
             <div className="col-md-9 p-md-2 p-1">
               <div className="p-md-3 p-1 border rounded">
                 <div className="d-flex justify-content-between px-2">
-                  <h4 className="mobilehome_title">{singleVendorData?.serviceName || "N/A"}</h4>
-                  <h4 className="mobilehome_title">Ratings: {singleVendorData?.numberOfRatings}</h4>
+                  <h4 className="mobilehome_title">
+                    {singleVendorData?.serviceName || "N/A"}
+                  </h4>
+                  <h4 className="mobilehome_title">
+                    Ratings: {singleVendorData?.numberOfRatings}
+                  </h4>
                 </div>
 
                 <div className="imagebigDiv my-md-3 my-1">
@@ -140,18 +146,20 @@ const Page = () => {
                     height="450px"
                     width="100%"
                     className="border rounder p-1"
+                    alt="images"
                   />
                 </div>
                 <div className="multiImageWrapper d-flex gap-2">
                   {singleVendorData?.AdsImages?.length > 0 ? (
-                    singleVendorData?.AdsImages?.map((val,i) => (
+                    singleVendorData?.AdsImages?.map((val, i) => (
                       <img
-                      key={i}
+                        key={i}
                         src={`${Image_URL}/adsImages/${val.url}`}
                         height="80px"
                         width="80px"
                         className="border rounder p-1"
                         onClick={() => setImage(val.url)}
+                        alt="images"
                       />
                     ))
                   ) : (
@@ -160,6 +168,7 @@ const Page = () => {
                       height="80px"
                       width="80px"
                       className="border rounder p-1"
+                      alt="images"
                     />
                   )}
                 </div>
@@ -174,7 +183,7 @@ const Page = () => {
                     India
                   </div>
                 </div>
-                <hr className="mt-1 mt-md-3"/>
+                <hr className="mt-1 mt-md-3" />
                 <div className="row mt-2">
                   <div className="col-md-6">{singleVendorData.description}</div>
                   <div className="col-md-6">
@@ -241,6 +250,7 @@ const Page = () => {
                         : "https://www.farmersmarket.ie/assets/images/layout/user.jpg?mode=pad&anchor=center&width=180&height=180&upscale=false&bgcolor=fff"
                     }
                     className="user_avtar"
+                    alt="avtar"
                   />
                   <h5>{singleVendorData?.User?.FirstName}</h5>
                 </div>
@@ -302,97 +312,102 @@ const Page = () => {
                 </div>
               </div>
             </div>
-            <div style={{backgroundColor:"#ddd"}} className="p-md-3 p-2">
-            <div className="bestSellerWraper">
-              <div className="headerbestSeller">
-                <h5>Related Ads</h5>
-                <div className="arrowBtn_bestSeller">
-                  <p
-                    className="Show_More_bestSeller"
-                    onClick={() => router.push(`/vender/${RelatedState}`)}
-                  >
-                    Show More
-                  </p>
-                  <p
-                    className="next_btn_bestSeller"
-                    onClick={() => handleScroll("left")}
-                  >
-                    <IoIosArrowBack />
-                  </p>
-                  <p
-                    className="next_btn_bestSeller"
-                    onClick={() => handleScroll("right")}
-                  >
-                    <IoIosArrowForward />
-                  </p>
+            <div style={{ backgroundColor: "#ddd" }} className="p-md-3 p-2">
+              <div className="bestSellerWraper">
+                <div className="headerbestSeller">
+                  <h5>Related Ads</h5>
+                  <div className="arrowBtn_bestSeller">
+                    <p
+                      className="Show_More_bestSeller"
+                      onClick={() => router.push(`/vender/${RelatedState}`)}
+                    >
+                      Show More
+                    </p>
+                    <p
+                      className="next_btn_bestSeller"
+                      onClick={() => handleScroll("left")}
+                    >
+                      <IoIosArrowBack />
+                    </p>
+                    <p
+                      className="next_btn_bestSeller"
+                      onClick={() => handleScroll("right")}
+                    >
+                      <IoIosArrowForward />
+                    </p>
+                  </div>
                 </div>
-              </div>
-              {Loader ? (
-                <div style={{ height: "80vh" }} className="centerAllDiv">
-                  <MiniLoader />
-                  <span className="mr-3">Loading...</span>
-                </div>
-              ) : (
-                <div
-                  className="row m-0 p-0 overflowscrollhidden"
-                  ref={scrollContainerRef}
-                >
-                  {VendorList?.data?.reverse()?.map((item, i) => {
-                    return (
-                      <div
-                        className="col-md-3 p-0 p-md-2 col-7"
-                        key={i}
-                        onClick={() => headlefulldetail(item)}
-                      >
-                        <div className="fertiliserDetailcard">
-                          <img
-                            src= {item?.AdsImages?.length>0?`${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
-                            style={{ backgroundColor: "#dadada" }}
-                            width="100%"
-                            height="150px"
-                          />
-                          <div className="relatedAddTitle">
-                            <h5 className="my-2">{item?.serviceName}</h5>
-                            <h6 style={{ fontSize: "13px" }}>
-                              cost Price - {currencySymbol} {item?.cost}
-                            </h6>
-                            <h6 style={{ fontSize: "13px" }}>
-                              Capacity - {item?.capacity}{" "}
-                              {item?.ProductUnit?.unitName}
-                            </h6>
-                            <h6 style={{ fontSize: "13px" }}>
-                              Duration -{item?.duration}
-                            </h6>
-                            <p
-                              style={{
-                                color: "grey",
-                                fontSize: "12px",
-                                margin: "10px 0px 10px 0px",
-                              }}
-                            >
-                              description
-                              {`${item?.description.slice(0, 25)} ....`}
-                            </p>
-                          </div>
-                          <div className="d-md-flex justify-content-between">
-                            <p className="px-1" style={{ fontSize: "12px " }}>
-                              <b>Company Name :</b> <br className="d-md-block d-none"/>
-                              {item?.User?.userInfo?.CompanyName}
-                            </p>
-                            <p className="venderservicephone">
-                              <IoIosCall size={15} /> {item?.User?.Phone}
-                            </p>
+                {Loader ? (
+                  <div style={{ height: "80vh" }} className="centerAllDiv">
+                    <MiniLoader />
+                    <span className="mr-3">Loading...</span>
+                  </div>
+                ) : (
+                  <div
+                    className="row m-0 p-0 overflowscrollhidden"
+                    ref={scrollContainerRef}
+                  >
+                    {VendorList?.data?.reverse()?.map((item, i) => {
+                      return (
+                        <div
+                          className="col-md-3 p-0 p-md-2 col-7"
+                          key={i}
+                          onClick={() => headlefulldetail(item)}
+                        >
+                          <div className="fertiliserDetailcard">
+                            <img
+                              src={
+                                item?.AdsImages?.length > 0
+                                  ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`
+                                  : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                              }
+                              style={{ backgroundColor: "#dadada" }}
+                              width="100%"
+                              height="150px"
+                              alt="image"
+                            />
+                            <div className="relatedAddTitle">
+                              <h5 className="my-2">{item?.serviceName}</h5>
+                              <h6 style={{ fontSize: "13px" }}>
+                                cost Price - {currencySymbol} {item?.cost}
+                              </h6>
+                              <h6 style={{ fontSize: "13px" }}>
+                                Capacity - {item?.capacity}{" "}
+                                {item?.ProductUnit?.unitName}
+                              </h6>
+                              <h6 style={{ fontSize: "13px" }}>
+                                Duration -{item?.duration}
+                              </h6>
+                              <p
+                                style={{
+                                  color: "grey",
+                                  fontSize: "12px",
+                                  margin: "10px 0px 10px 0px",
+                                }}
+                              >
+                                description
+                                {`${item?.description.slice(0, 25)} ....`}
+                              </p>
+                            </div>
+                            <div className="d-md-flex justify-content-between">
+                              <p className="px-1" style={{ fontSize: "12px " }}>
+                                <b>Company Name :</b>{" "}
+                                <br className="d-md-block d-none" />
+                                {item?.User?.userInfo?.CompanyName}
+                              </p>
+                              <p className="venderservicephone">
+                                <IoIosCall size={15} /> {item?.User?.Phone}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          </div>
-        
         </>
       )}
     </div>

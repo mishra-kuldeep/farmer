@@ -13,7 +13,6 @@ const PaymentOrder = ({ selectedOrder, totalProductChar, onClose }) => {
             // Fetch inspection data for the selected order
             OrderService.getAllorderWithTranspoter(selectedOrder)
                 .then(({ data }) => {
-                    console.log(data)
                     setFullOrderData(data?.reduce(
                         (acc, detail) => acc + detail.totalTranportCharge,
                         0

@@ -90,6 +90,7 @@ const Page = () => {
 
   useEffect(() => {
     apiCallservice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -101,9 +102,8 @@ const Page = () => {
     setCategoryFilter(isMobile ? false : true);
     setSelectedCategory(slug);
     initApi();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
-
-  console.log(VendorList);
 
   return (
     <>
@@ -158,7 +158,7 @@ const Page = () => {
                             onClick={() => {
                               handleCategoryChange(
                                 category?.VendorServicesMasterId
-                              )
+                              );
                               isMobile && setCategoryFilter(false);
                             }}
                           >
@@ -208,7 +208,7 @@ const Page = () => {
                               : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                           }
                           style={{ backgroundColor: "#dadada" }}
-                 
+                          alt="images"
                         />
                         <div className="p-md-2 p-1">
                           <h5 className="my-md-2">{item?.serviceName}</h5>
@@ -240,7 +240,7 @@ const Page = () => {
                         </div>
                         <div className="d-md-flex justify-content-between">
                           <p style={{ fontSize: "12px" }}>
-                            Company Name <br className="d-md-block d-none"/> : 
+                            Company Name <br className="d-md-block d-none" /> :
                             {item?.User?.userInfo?.CompanyName}
                           </p>
                           <p className="venderservicephone">

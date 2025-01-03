@@ -89,7 +89,6 @@ const Page = () => {
     if (user.profile?.id) {
       RentProductsServices.getAllRentProduct(user.profile?.id, page, searchText)
         .then(({ data }) => {
-          console.log(data);
           setservicesVenderList(data);
           setMetaData(data?.meta);
         })

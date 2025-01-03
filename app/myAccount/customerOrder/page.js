@@ -25,7 +25,6 @@ const Page = () => {
     setLoading(true);
     VehicleMasterServices.CustomerOrderToTranspoterList(status)
       .then(({ data }) => {
-        console.log(data);
         setOrderDetails(data?.data);
         setMetaData(data?.meta);
         setLoading(false);
@@ -34,6 +33,7 @@ const Page = () => {
   }
   useEffect(() => {
     initapi()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   const handleStatusChange = (id) => {
@@ -60,7 +60,6 @@ const Page = () => {
   }
   const handleApprove = () => {
     setconfirmLoader(true);
-    console.log(selectedId)
     OrderService.ShippedOrder(selectedId?.orderDetailId)
       .then(({ data }) => {
         
@@ -97,7 +96,6 @@ const Page = () => {
       })
       .catch((err) => console.log(err));
   };
-  console.log(orderDetails);
   return (
     <>
       <div className="d-md-flex justify-content-between">

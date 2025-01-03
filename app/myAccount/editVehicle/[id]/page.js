@@ -90,7 +90,6 @@ const EditVehicle = ({ params }) => {
     const initApi = () => {
         VehicleServices.getVehicleType()
             .then(({ data }) => {
-                console.log(data)
                 setVehicleList(data);
             })
             .catch((err) => console.log(err));

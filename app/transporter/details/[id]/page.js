@@ -86,7 +86,6 @@ const Page = () => {
       };
       VehicleServices.getAllTransportByVehicalId(vehicleId, data)
         .then(({ data }) => {
-          console.log(data)
           setTransportList(data?.data);
           // setmetaData(data.meta);
           setLoader(false);
@@ -101,10 +100,12 @@ const Page = () => {
 
   useEffect(() => {
     getTransporterDetailApi()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vehicleId])
 
   useEffect(() => {
     intiApi()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   return (
@@ -142,7 +143,7 @@ const Page = () => {
                         ? `${Image_URL}/adsImages/${image}`
                         : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                     }
-          
+          alt='images'
                     className="border rounder p-1"
                   />
                 </div>
@@ -156,6 +157,7 @@ const Page = () => {
                         width="80px"
                         className="border rounder p-1"
                         onClick={() => setImage(val.url)}
+                        alt='images'
                       />
                     ))
                   ) : (
@@ -164,6 +166,7 @@ const Page = () => {
                       height="80px"
                       width="80px"
                       className="border rounder p-1"
+                      alt='images'
                     />
                   )}
                 </div>
@@ -245,6 +248,7 @@ const Page = () => {
               <img
                 src="https://www.farmersmarket.ie/assets/images/layout/user.jpg?mode=pad&anchor=center&width=180&height=180&upscale=false&bgcolor=fff"
                 className="user_avtar"
+                alt='images'
               />
               <h5>{singleTransportData?.User?.FirstName} {singleTransportData?.User?.LastName}</h5>
             </div>
@@ -350,6 +354,7 @@ const Page = () => {
                           style={{ backgroundColor: "#dadada" }}
                           width="100%"
                           height="150px"
+                          alt='image'
                         />
                         <div className="p-2">
                           <h5 className="my-2">{item?.TransportVehicle?.type}</h5>

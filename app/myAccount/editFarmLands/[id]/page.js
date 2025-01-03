@@ -45,7 +45,6 @@ const Page = ({ params }) => {
       otherDetails: { ...prev.otherDetails, [name]: value },
     }));
   };
-console.log(values)
   const onSubmitHandler = async () => {
     setLoader(true);
     const formData = new FormData();
@@ -104,6 +103,7 @@ console.log(values)
         setisLoading(false);
       });
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const initApi = () => {
@@ -136,6 +136,7 @@ console.log(values)
     if (params?.id) {
       initApi();
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
 
   useEffect(() => {
@@ -151,6 +152,7 @@ console.log(values)
         }));
       }
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.rentCategoryId, rentCategorieslist]);
 
   useEffect(() => {
