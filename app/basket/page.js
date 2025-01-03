@@ -28,14 +28,15 @@ const Basket = () => {
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [prefix, setprefix] = useState('');
+  const [prefix, setprefix] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
     if (user?.profile?.id) dispatch(getCart(user?.profile?.id));
     if (cart?.cart?.length > 0) {
       // Set the currency symbol from the first item's product detail.
-      const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
-      setprefix(currencySymbol)
+      const currencySymbol =
+        cart.cart[0]?.productDetail?.country?.currencySymbol || "";
+      setprefix(currencySymbol);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile]);
@@ -96,7 +97,6 @@ const Basket = () => {
     }
   };
 
-
   // if (cart?.cart?.length > 0) {
   //   // Set the currency symbol from the first item's product detail.
   //   const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
@@ -112,7 +112,7 @@ const Basket = () => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-        item?.quantity;
+          item?.quantity;
     return acc + discount;
   }, 0);
 
@@ -134,143 +134,224 @@ const Basket = () => {
     <div className="container">
       {cart?.cart?.length > 0 ? (
         <div className="row">
-          <div>
-            <h4>Your Basket</h4>
+          <div className=" col-12 mb-2 px-2 mt-2">
+            <h4 className="mobilehome_title border p-2">Your Basket</h4>
           </div>
-          <div className="col-md-9">
-            <div className="row ">
-              <div className="cardBasket">
-                <div className="col-md-4 text-center">
-                  Items {cart?.cart?.length}
-                </div>
-                <div className="col-md-4 text-center">Quantity</div>
-
-                <div className="col-md-4 text-center">Sub-total</div>
+          <div className="col-md-9 mb-2 px-2">
+            <div className="row m-0 d-md-flex d-none">
+              <div className="col-md-2 border p-2 text-center"></div>
+              <div className="col-md-5 border p-2 text-center">
+                Items {cart?.cart?.length}
               </div>
+              <div className="col-md-2 border p-2 text-center">Quantity</div>
+
+              <div className="col-md-3 border p-2 text-center">Sub-total</div>
             </div>
             <div className="productlistWrapper">
               {cart?.cart?.map((val) => (
-                <div className="cardBasket" key={val.productDtlId}>
-                  <img
-                    src={`${Image_URL}/Products/${val?.productDetail?.ProductsImages[0]?.url}`}
-                    alt="image"
-                  />
-                  <div className="cartBaketDetail row">
-                    <div className="col-md-6">
-                      <h6>{val?.productDetail?.productDtlName}</h6>
-                      <h6>
-                        {val?.productDetail?.country?.currencySymbol}{val?.productDetail?.price}/
-                        {val?.productDetail?.ProductUnit?.unitName}
-                      </h6>
-                      <div>
-                        <span>
-                          {val?.productDetail?.ProductGrade?.gradeName} grade
-                        </span>{" "}
-                        <span>
-                          {val?.productDetail?.quantity}{" "}
-                          {val?.productDetail?.ProductUnit?.unitName}
-                        </span>
+                <div className="row m-0 mb-2" key={val.productDtlId}>
+                  <div className="col-md-2 border p-2">
+                    <div className="row">
+                      <div className="col-md-12 col-6">
+                        <img
+                          src={`${Image_URL}/products/${val?.productDetail?.ProductsImages[0]?.url}`}
+                          alt="image"
+                          width="100%"
+                        />
                       </div>
-                      <div>
-                        <span>
-                          <IoIosPerson size={15} />
-                          <span className="fw-bold">
-                            {val?.productDetail?.User?.FirstName}
-                          </span>
-                        </span>
-                        <span>
-                          <MdOutlineLocationOn size={20} />
-                          {val?.productDetail?.User?.userInfo.City}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="col-md-3">
-                      <div className="d-flex justify-content-between align-items-center">
-                        {cart?.cart?.find(
-                          (item) => item.productDtlId === val.productDtlId
-                        ) ? (
-                          <div className="quantitywrap">
-                            <span
-                              className="minus"
-                              onClick={() => decreaseQuantity(val.productDtlId)}
-                            >
-                              {loadingProductId === val.productDtlId &&
+                      <div className="col-md-12 col-6 d-md-none d-block">
+                        <div className="d-flex justify-content-between align-items-center my-3">
+                          {cart?.cart?.find(
+                            (item) => item.productDtlId === val.productDtlId
+                          ) ? (
+                            <div className="quantitywrap w-100">
+                              <span
+                                className="minus"
+                                onClick={() =>
+                                  decreaseQuantity(val.productDtlId)
+                                }
+                              >
+                                {loadingProductId === val.productDtlId &&
                                 loadingAction === "decrement" ? (
-                                <MiniLoader />
-                              ) : (
-                                <FaMinus size={15} />
-                              )}
-                            </span>
-                            <span>
-                              {
-                                cart?.cart?.find(
-                                  (item) =>
-                                    item.productDtlId === val.productDtlId
-                                )?.quantity
-                              }
-                            </span>
-                            <span
-                              className="plus"
-                              onClick={() => increaseQuantity(val.productDtlId)}
-                            >
-                              {loadingProductId === val.productDtlId &&
+                                  <MiniLoader />
+                                ) : (
+                                  <FaMinus size={15} />
+                                )}
+                              </span>
+                              <span>
+                                {
+                                  cart?.cart?.find(
+                                    (item) =>
+                                      item.productDtlId === val.productDtlId
+                                  )?.quantity
+                                }
+                              </span>
+                              <span
+                                className="plus"
+                                onClick={() =>
+                                  increaseQuantity(val.productDtlId)
+                                }
+                              >
+                                {loadingProductId === val.productDtlId &&
                                 loadingAction === "increment" ? (
-                                <MiniLoader />
-                              ) : (
-                                <FaPlus size={15} />
-                              )}
-                            </span>
-                          </div>
-                        ) : (
-                          <button
-                            className="addtoCart_btn"
-                            onClick={() => addCartHandler(val.productDtlId)}
-                          >
-                            Add
-                          </button>
-                        )}
+                                  <MiniLoader />
+                                ) : (
+                                  <FaPlus size={15} />
+                                )}
+                              </span>
+                            </div>
+                          ) : (
+                            <button
+                              className="addtoCart_btn"
+                              onClick={() => addCartHandler(val.productDtlId)}
+                            >
+                              Add
+                            </button>
+                          )}
+                        </div>
+                        <div>
+                          <h6>
+                            Saved: {val.productDetail?.country?.currencySymbol}
+                            {val?.productDetail?.discountType === "fixed"
+                              ? val?.productDetail?.discount * val?.quantity
+                              : ((val?.productDetail?.price *
+                                  val?.productDetail?.discount) /
+                                  100) *
+                                val?.quantity}
+                          </h6>
+                          <h6>
+                            {val.productDetail?.country?.currencySymbol}{" "}
+                            {val?.productDetail?.price * val?.quantity -
+                              (val?.productDetail?.discountType === "fixed"
+                                ? val?.productDetail?.discount * val?.quantity
+                                : ((val?.productDetail?.price *
+                                    val?.productDetail?.discount) /
+                                    100) *
+                                  val?.quantity)}
+                          </h6>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="col-md-3">
-                      <h6>
-                        Saved: {val.productDetail?.country?.currencySymbol}
-                        {val?.productDetail?.discountType === "fixed"
-                          ? val?.productDetail?.discount * val?.quantity
-                          : ((val?.productDetail?.price *
+                  </div>
+                  <div className="col-md-5 border p-2">
+                    <h6>{val?.productDetail?.productDtlName}</h6>
+                    <h6>
+                      {val?.productDetail?.country?.currencySymbol}
+                      {val?.productDetail?.price}/
+                      {val?.productDetail?.ProductUnit?.unitName}
+                    </h6>
+                    <div>
+                      <span>
+                        {val?.productDetail?.ProductGrade?.gradeName} grade
+                      </span>{" "}
+                      <span>
+                        {val?.productDetail?.quantity}{" "}
+                        {val?.productDetail?.ProductUnit?.unitName}
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        <IoIosPerson size={15} />
+                        <span className="fw-bold">
+                          {val?.productDetail?.User?.FirstName}
+                        </span>
+                      </span>
+                      <span>
+                        <MdOutlineLocationOn size={20} />
+                        {val?.productDetail?.User?.userInfo.City}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-md-2 border p-2 d-md-block d-none">
+                    <div className="d-flex justify-content-between align-items-center">
+                      {cart?.cart?.find(
+                        (item) => item.productDtlId === val.productDtlId
+                      ) ? (
+                        <div className="quantitywrap w-100">
+                          <span
+                            className="minus"
+                            onClick={() => decreaseQuantity(val.productDtlId)}
+                          >
+                            {loadingProductId === val.productDtlId &&
+                            loadingAction === "decrement" ? (
+                              <MiniLoader />
+                            ) : (
+                              <FaMinus size={15} />
+                            )}
+                          </span>
+                          <span>
+                            {
+                              cart?.cart?.find(
+                                (item) => item.productDtlId === val.productDtlId
+                              )?.quantity
+                            }
+                          </span>
+                          <span
+                            className="plus"
+                            onClick={() => increaseQuantity(val.productDtlId)}
+                          >
+                            {loadingProductId === val.productDtlId &&
+                            loadingAction === "increment" ? (
+                              <MiniLoader />
+                            ) : (
+                              <FaPlus size={15} />
+                            )}
+                          </span>
+                        </div>
+                      ) : (
+                        <button
+                          className="addtoCart_btn"
+                          onClick={() => addCartHandler(val.productDtlId)}
+                        >
+                          Add
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-md-3 border p-2 d-md-block d-none text-center">
+                    <h6>
+                      Saved: {val.productDetail?.country?.currencySymbol}
+                      {val?.productDetail?.discountType === "fixed"
+                        ? val?.productDetail?.discount * val?.quantity
+                        : ((val?.productDetail?.price *
                             val?.productDetail?.discount) /
                             100) *
                           val?.quantity}
-                      </h6>
-                      <h6>
-                        {val.productDetail?.country?.currencySymbol}{" "}
-                        {val?.productDetail?.price * val?.quantity -
-                          (val?.productDetail?.discountType === "fixed"
-                            ? val?.productDetail?.discount * val?.quantity
-                            : ((val?.productDetail?.price *
+                    </h6>
+                    <h6>
+                      {val.productDetail?.country?.currencySymbol}{" "}
+                      {val?.productDetail?.price * val?.quantity -
+                        (val?.productDetail?.discountType === "fixed"
+                          ? val?.productDetail?.discount * val?.quantity
+                          : ((val?.productDetail?.price *
                               val?.productDetail?.discount) /
                               100) *
                             val?.quantity)}
-                      </h6>
-                    </div>
+                    </h6>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="col-md-3">
-            <div className="detailWrapper border p-3 rounded shadow">
-              <h5 className="mb-4">Price Details</h5>
+          <div className="col-md-3 px-2">
+            <div className="detailWrapper border p-md-3 p-2">
+              <h5 className="mb-md-4 mb-2 mobilehome_title">Price Details</h5>
               <table className="table table-bordered">
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
-                    <td>{prefix}{totalPrice}</td>
+                    <td>
+                      {prefix}
+                      {totalPrice}
+                    </td>
                   </tr>
                   <tr>
                     <td>Discount</td>
-                    <td> {prefix}{totalDiscount}</td>
+                    <td>
+                      {" "}
+                      {prefix}
+                      {totalDiscount}
+                    </td>
                   </tr>
                   {/* <tr>
                     <td>Delivery Charges</td>
@@ -281,20 +362,24 @@ const Basket = () => {
                       <strong>Total Amount</strong>
                     </td>
                     <td>
-                      <strong>{prefix}{finalTotal}</strong>
+                      <strong>
+                        {prefix}
+                        {finalTotal}
+                      </strong>
                     </td>
                   </tr>
                   <tr>
                     <td colSpan="2" style={{ textAlign: "right" }}>
                       <span style={{ color: "green" }}>
-                        You will save {prefix}{totalDiscount} on this order
+                        You will save {prefix}
+                        {totalDiscount} on this order
                       </span>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <button
-                className="CheckoutBtn w-100 mt-3"
+                className="CheckoutBtn w-100 mt-md-3 p-1 p-md-2"
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
               >

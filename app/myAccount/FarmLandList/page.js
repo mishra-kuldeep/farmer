@@ -13,6 +13,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import IconButton from "@/component/reusableComponent/IconButton";
+import { isMobile } from "react-device-detect";
 
 const Page = () => {
   const router = useRouter();
@@ -108,7 +109,7 @@ const Page = () => {
         metaData={metaData}
         searchShow={true}
       />
-      <div className="d-flex gap-4 mb-3 ms-3" style={{ marginTop: "-40px" }}>
+      <div className="d-flex gap-4 mb-3 ms-3" style={{ marginTop: !isMobile&&"-40px" }}>
         <div className="d-flex gap-2">
           <div
             style={{
@@ -146,7 +147,7 @@ const Page = () => {
           <p style={{ color: "grey", fontSize: "12px" }}>Rejected</p>
         </div>
       </div>
-      <div>
+      <div className="w-100 overflow-auto">
         <table className="table table-striped table-bordered">
           <thead>
             <tr>

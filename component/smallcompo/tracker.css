@@ -57,22 +57,22 @@
   }
   
   /* Media query for mobile view */
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .step-circle {
         width: 15px;
         height: 15px;
         font-size: 10px;
     }
     .order-tracker {
-      flex-direction: column; /* Stack steps vertically */
+      flex-direction: row;
     }
   
     .step {
-      margin-bottom: 20px; /* Space between steps */
+      margin-bottom: 20px; 
     }
   
     .step::before {
-      width: 2px; /* Vertical line between steps */
+      width: 2px; 
       height: 20px;
       top: 30px;
       right: 48%;
@@ -80,15 +80,15 @@
     }
   
     .step-label {
-      margin-top: 0px; /* Adjust label margin for vertical view */
+      margin-top: 0px; 
       font-size: 10px;
     }
   
     .step:last-child::before {
-      display: none; /* No line after the last step */
+      display: none; 
     }
     .step:last-child {
        margin-bottom: 0px;
       }
   }
-  
+   */

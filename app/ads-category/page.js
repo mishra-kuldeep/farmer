@@ -47,8 +47,8 @@ const Page = () => {
   ];
 
   return (
-    <div className="container pt-3">
-      <div className="search_wrapper mb-3">
+    <div className="container pt-md-3 pt-1 px-1">
+      <div className="search_wrapper mb-md-3 mb-1">
         <input
           type="text"
           placeholder="Search categories..."
@@ -59,10 +59,10 @@ const Page = () => {
           <FaSearch color="#fff" />
         </button>
       </div>
-      <div className="rounded py-3" style={{ border: "5px solid #ddd" }}>
+      <div className="rounded py-3 p-1" style={{ border: "4px solid #ddd" }}>
         <div className="d-flex justify-content-between mb-3 px-3">
-          <h5>All categories</h5>
-          <p onClick={viewAll}>
+          <h5 className="mobilehome_title">All categories</h5>
+          <p onClick={viewAll} className="mobilehome_title">
             <u>View all categories</u>
           </p>
         </div>

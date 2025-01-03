@@ -22,7 +22,7 @@ const Placeorder = () => {
   const [addressList, setAddressList] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [prefix, setprefix] = useState('');
+  const [prefix, setprefix] = useState("");
   const [values, setValues] = useState({
     buyerId: user?.profile?.id,
     FirstName: "",
@@ -36,10 +36,11 @@ const Placeorder = () => {
   });
 
   useEffect(() => {
-    if (user?.profile) {
+    if (user?.profile && cart?.cart?.length) {
       // Set the currency symbol from the first item's product detail.
-      const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
-      setprefix(currencySymbol)
+      const currencySymbol =
+        cart?.cart[0]?.productDetail?.country?.currencySymbol || "";
+      setprefix(currencySymbol);
       setValues((pre) => ({
         ...pre,
         ["buyerId"]: user?.profile?.id,
@@ -58,13 +59,11 @@ const Placeorder = () => {
       item?.productDetail?.discountType === "fixed"
         ? item?.productDetail?.discount * item?.quantity
         : ((item?.productDetail?.price * item?.productDetail?.discount) / 100) *
-        item?.quantity;
+          item?.quantity;
     return acc + discount;
   }, 0);
 
   const finalTotal = totalPrice - totalDiscount;
-
-
 
   const onchangeHandeler = (e) => {
     const { name, value } = e.target;
@@ -77,6 +76,7 @@ const Placeorder = () => {
     AddressServices.addAddress(values)
       .then(({ data }) => {
         setLoader(false);
+        setAddressList((preval) => [...preval, data?.newAddress]);
         setValues({
           buyerId: user?.profile?.id,
           FirstName: "",
@@ -117,7 +117,6 @@ const Placeorder = () => {
   }, []);
 
   const handleCheckout = async () => {
-
     const totalAmount = finalTotal;
 
     const products = cart.cart.map((item) => ({
@@ -162,10 +161,10 @@ const Placeorder = () => {
     >
       <div className="container">
         <div className="row">
-          <div className="col-md-9">
-            <div className="border p-1 bg-white rounded ">
+          <div className="col-md-9 px-md-2 px-1">
+            <div className="border bg-white rounded ">
               {addressList?.map((address, i) => (
-                <label className="addressWrapper" key={i}>
+                <label className="addressWrapper p-md-2 p-1" key={i}>
                   <input
                     type="radio"
                     value="All"
@@ -218,7 +217,7 @@ const Placeorder = () => {
                   transition: "max-height 1s ease", // Smooth transition for max-height
                 }}
               >
-                <div className="row m-0 p-3 ps-md-5">
+                <div className="row m-0 p-md-3 ps-md-5">
                   <div className="col-md-6 ps-4 ps-md-0">
                     <label className="adjustLabel">Name *</label>
                     <input
@@ -351,18 +350,24 @@ const Placeorder = () => {
             </div>
           </div>
 
-          <div className="col-md-3">
-            <div className="detailWrapper border p-3 rounded shadow">
-              <h5 className="mb-4">Price Details</h5>
+          <div className="col-md-3 px-md-2 px-1">
+            <div className="detailWrapper border p-3 ">
+              <h5 className="mb-md-4 mb-2 mobilehome_title">Price Details</h5>
               <table className="table table-bordered">
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
-                    <td>{prefix}{totalPrice}</td>
+                    <td>
+                      {prefix}
+                      {totalPrice}
+                    </td>
                   </tr>
                   <tr>
                     <td>Discount</td>
-                    <td>{prefix}{totalDiscount}</td>
+                    <td>
+                      {prefix}
+                      {totalDiscount}
+                    </td>
                   </tr>
                   {/* <tr>
                     <td>Delivery Charges</td>
@@ -373,22 +378,26 @@ const Placeorder = () => {
                       <strong>Total Amount</strong>
                     </td>
                     <td>
-                      <strong>{prefix}{finalTotal}</strong>
+                      <strong>
+                        {prefix}
+                        {finalTotal}
+                      </strong>
                     </td>
                   </tr>
                   <tr>
                     <td colSpan="2">
                       <span className="fw-bold text-success">
-                        You will save {prefix}{totalDiscount} on this order
+                        You will save {prefix}
+                        {totalDiscount} on this order
                       </span>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <button
-                className="CheckoutBtn w-100 mt-3"
+                className="CheckoutBtn w-100 mt-md-3 p-md-2 p-1"
                 onClick={handleCheckout}
-              // disabled={isCheckingOut}
+                // disabled={isCheckingOut}
               >
                 {isCheckingOut ? <MiniLoader /> : "Checkout"}
               </button>

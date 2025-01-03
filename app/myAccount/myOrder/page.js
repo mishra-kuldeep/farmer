@@ -210,8 +210,8 @@ const MyOrder = () => {
 
   return (
     <div className="orderPage">
-      <div className="d-flex">
-        <div className="w-50 gap-4 d-flex m-2">
+      <div className="d-md-flex">
+        <div className="w-100 gap-4 d-flex m-2">
           <label className="cursor">
             <input
               type="radio"
@@ -250,7 +250,7 @@ const MyOrder = () => {
             <span className="m-1">Rejected</span>
           </label>
         </div>
-        <div className="w-50">
+        <div className="w-100">
           <Pagination
             page={page}
             setPage={setPage}

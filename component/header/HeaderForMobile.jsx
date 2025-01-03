@@ -7,6 +7,8 @@ import { FaSearch } from "react-icons/fa";
 import Search from "../reusableComponent/search/Search";
 import Category from "../reusableComponent/category/Category";
 import { useRouter } from "next/navigation";
+import { IoIosHeadset } from "react-icons/io";
+
 
 const HeaderForMobile = () => {
   const router = useRouter()
@@ -38,13 +40,13 @@ const HeaderForMobile = () => {
           >
             <FaSearch size={20} color="var(--white)" />
           </div>
-          <div className="tabsMobile">
+          <div className="tabsMobile" onClick={()=>router.push("/ads-category")}>
             <div>
-              <MdLocalOffer size={20} color="var(--mainColor)" />
-              <p>OfferZone</p>
+              <IoIosHeadset size={25} color="var(--mainColor)" />
+              <p>All Ads</p>
             </div>
           </div>
-          <div className="tabsMobile">
+          <div className="tabsMobile" onClick={()=>router.push("/basket")}>
             <div>
               <FaShoppingCart size={20} color="var(--mainColor)" />
               <p>Cart</p>

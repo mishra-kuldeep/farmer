@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./accountpage.css";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiProductHuntLine } from "react-icons/ri";
 import {
   MdFormatListBulleted,
+  MdMenu,
   MdOutlineCleaningServices,
 } from "react-icons/md";
 import { PiVan } from "react-icons/pi";
@@ -17,16 +18,21 @@ import { FiHeart } from "react-icons/fi";
 import { CiBoxList } from "react-icons/ci";
 import { IoMdAddCircle } from "react-icons/io";
 import { AiTwotoneDashboard } from "react-icons/ai";
+import { RiMenuFold4Line } from "react-icons/ri";
+import { isMobile } from "react-device-detect";
+import { RxCross2 } from "react-icons/rx";
+
 const AccountLayout = ({ children }) => {
   const user = useSelector((state) => state.auth);
   const pathname = usePathname();
+  const [open, setOpen] = useState(true);
   const router = useRouter();
   const SideBarList = [
     {
       id: 0,
       title: "Dashboard",
       icon: <AiTwotoneDashboard size={22} />,
-      goesTo:"/myAccount",
+      goesTo: "/myAccount",
       status: true,
     },
     {
@@ -159,34 +165,72 @@ const AccountLayout = ({ children }) => {
       status: true,
     },
   ];
+  useEffect(() => {
+    isMobile && setOpen(false);
+  }, []);
   return (
     <>
       <div className=" pt-3">
         <div className="row m-0">
-          <div className="col-md-2">
-            <div className="accountsidebar ">
-              <h5 className="text-center mb-0"> My Account</h5>
-              <hr className="m-2 p-0"/>
-              <UserProfile />
-
-             <div className="accsidescroll">
-             {SideBarList?.map((elem) => (
-                <div
-                  key={elem.id}
-                  className={`${
-                    pathname == elem.goesTo && "accListSideActive p-2"
-                  } accListSide p-2`}
-                  onClick={() => router.push(elem.goesTo)}
-                  style={{ display: elem.status ? "flex" : "none" }}
-                >
-                  {elem.icon} <h6>{elem.title}</h6>
+          {open && (
+            <div className="col-md-2 pe-0">
+              <div className="accountsidebar ">
+                <div className="d-flex justify-content-between">
+                  <h5 className="text-center mb-0"> My Account</h5>
+                  <div
+                    onClick={() => setOpen(false)}
+                    className="cursor p-1 me-2"
+                    style={{ backgroundColor: "#999" }}
+                  >
+                    <RxCross2 size={20} color="#fff" />
+                  </div>
                 </div>
-              ))}
-              </div>
+                <hr className="m-2 p-0" />
+                <UserProfile />
 
+                <div className="accsidescroll">
+                  {SideBarList?.map((elem) => (
+                    <div
+                      key={elem.id}
+                      className={`${
+                        pathname == elem.goesTo && "accListSideActive p-2"
+                      } accListSide p-2`}
+                      onClick={() => {
+                        router.push(elem.goesTo);
+                       isMobile&& setOpen(false);
+                      }}
+                      style={{ display: elem.status ? "flex" : "none" }}
+                    >
+                      {elem.icon} <h6>{elem.title}</h6>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+          )}
+
+          <div
+            className={`${
+              open ? "col-md-10" : "col-md-12 px-md-5"
+            } position-relative`}
+          >
+            {!open && (
+              <span
+                className="p-2 cursor"
+                style={{
+                  backgroundColor: "#999",
+                  position: "absolute",
+                  left: "0px",
+                  top: "-16px",
+                  zIndex:800
+                }}
+                onClick={() => setOpen(true)}
+              >
+                <RiMenuFold4Line size={20} color="#fff" />
+              </span>
+            )}
+            {children}
           </div>
-          <div className="col-md-10">{children}</div>
         </div>
       </div>
     </>

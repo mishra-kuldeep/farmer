@@ -10,17 +10,19 @@ const OrderTracker = ({ status }) => {
   const currentStepIndex = steps.indexOf(status);
 
   return (
-    <div className="order-tracker">
+  <div className="w-100 overflow-auto">
+      <div className="order-tracker">
       {steps.map((step, index) => (
         <div
           key={index}
           className={`step ${index <= currentStepIndex ? "active" : ""}`}
         >
           <div className="step-circle">{index + 1}</div>
-          <p className= {`step-label ${index <= currentStepIndex ? "fw-bold text-success" : ""}`}>{step}</p>
+          <p className= {`step-label mx-4 ${index <= currentStepIndex ? "fw-bold text-success" : ""}`}>{step}</p>
         </div>
       ))}
     </div>
+  </div>
   );
 };
 

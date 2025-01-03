@@ -117,11 +117,26 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .imageUrlStyle {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    position: relative;
+  }
+  .imageEditIcon {
+    bottom: 0px;
+    right: 0px;
+  }
   .accountsidebar {
     border-right: none;
     height: auto;
     border-bottom: 1px solid rgb(158, 158, 158);
     margin-bottom: 20px;
+    height: fit-content !important;
+  }
+  .accsidescroll{
+    height: auto;
+    overflow: auto;
   }
 
   .orderedWrapper {
