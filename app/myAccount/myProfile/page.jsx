@@ -7,8 +7,8 @@ import toast from "react-hot-toast";
 import CountryServices from "@/services/CountryServices";
 import RoleServices from "@/services/RoleServices";
 import { Country, State, City } from "country-state-city";
-import MultiSelect from 'react-multiple-select-dropdown-lite'
-import 'react-multiple-select-dropdown-lite/dist/index.css'
+import MultiSelect from "react-multiple-select-dropdown-lite";
+import "react-multiple-select-dropdown-lite/dist/index.css";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.auth);
@@ -75,9 +75,9 @@ const MyProfile = () => {
     AuthService.getAllcultivating()
       .then(({ data }) => {
         setCultivatingList(
-          data?.map(item => ({
-            label: item.CultivatingName?.toString().toLowerCase() || '',
-            value: item.CultivatingId?.toString().toLowerCase() || ''
+          data?.map((item) => ({
+            label: item.CultivatingName?.toString().toLowerCase() || "",
+            value: item.CultivatingId?.toString().toLowerCase() || "",
           })) || []
         );
       })
@@ -117,7 +117,6 @@ const MyProfile = () => {
     }
   }, [user?.profile?.id]);
 
-
   useEffect(() => {
     if (countryList.length && values.CountryID) {
       setSelectedCountry(
@@ -125,7 +124,7 @@ const MyProfile = () => {
           ?.countryCode
       );
     }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryList.length, values.CountryID]);
   const updateProfileHandeler = () => {
     setLoading(true);
@@ -184,13 +183,12 @@ const MyProfile = () => {
     setCompanyError("");
   };
 
-  const handleOnchange = val => {
+  const handleOnchange = (val) => {
     setValues({
       ...values,
-      Cultivating: val
-    })
-
-  }
+      Cultivating: val,
+    });
+  };
 
   return (
     <>
@@ -262,7 +260,10 @@ const MyProfile = () => {
           )}
         </div>
 
-        <div className="col-md-4 pe-0 pe-md-3 " style={{ position: "relative" }}>
+        <div
+          className="col-md-4 pe-0 pe-md-3 "
+          style={{ position: "relative" }}
+        >
           <label htmlFor="phone" className="adjustLabel ms-5">
             Phone No
           </label>
@@ -294,7 +295,7 @@ const MyProfile = () => {
         <div className="col-md-4 pe-0 pe-md-3">
           <label className="adjustLabel">Cultivating</label>
           <MultiSelect
-            style={{ width: '97%', }}
+            style={{ width: "97%" }}
             onChange={handleOnchange}
             options={cultivatingList}
             selected={values.Cultivating}
@@ -336,7 +337,8 @@ const MyProfile = () => {
         <>
           <div className="col-md-4 pe-0 pe-md-3 ">
             <label className="adjustLabel">
-              Adhar Number {values?.CountryID == 1 && "*"}
+              {values.CountryID == 1 ? "Adhar" : "CPH"} Number *
+              {/* {values?.CountryID == 1 && "*"} */}
             </label>
             <input
               type="text"
@@ -351,19 +353,22 @@ const MyProfile = () => {
               <span className="error_input_text">{Errors.AdharNo}</span>
             )}
           </div>
-          <div className="col-md-4 pe-0 pe-md-3 ">
-            <label className="adjustLabel " style={{ marginLeft: "100px" }}>
-              Upload Adhar
-            </label>
-            <input
-              type="file"
-              name="IdImage"
-              onChange={(e) =>
-                setValues((prev) => ({ ...prev, IdImage: e.target.files[0] }))
-              }
-              className="form-control adjustLabel_input shadow-none p-2"
-            />
-          </div>
+          {values.CountryID == 1 && (
+            <div className="col-md-4 pe-0 pe-md-3 ">
+              <label className="adjustLabel " style={{ marginLeft: "100px" }}>
+                Upload Adhar
+              </label>
+              <input
+                type="file"
+                name="IdImage"
+                onChange={(e) =>
+                  setValues((prev) => ({ ...prev, IdImage: e.target.files[0] }))
+                }
+                className="form-control adjustLabel_input shadow-none p-2"
+              />
+            </div>
+          )}
+
           {values.IdImage && (
             <>
               {typeof values.IdImage === "string" ? (

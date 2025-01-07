@@ -69,10 +69,8 @@ const Auth = () => {
         <div className="offcanvas-body">
         <p className="fw-bold text-danger text-center">{auth.error}</p>
         {loginState ? <LoginPage /> : <RegisterPage />}
-        </div>
         <div
-          className="position-absolute w-100 me-5 cursor"
-          style={{ bottom: 0 }}
+          className="w-100 cursor"
          
         >
           <p className="text-center bg-light p-2">
@@ -81,6 +79,8 @@ const Auth = () => {
             </u>
           </p>
         </div>
+        </div>
+      
       </div>
     </>
   );

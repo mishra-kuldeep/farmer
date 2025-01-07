@@ -29,7 +29,7 @@ const cardArr = [
   },
   {
     id: 4,
-    title: 'Vender',
+    title: 'Vendor',
     goesTo:"/vender/4",
 
     image:

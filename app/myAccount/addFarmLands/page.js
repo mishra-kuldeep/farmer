@@ -352,7 +352,7 @@ const Page = () => {
               <div>
                 {!profile?.isUpdate && (
                   <p>
-                    Please go first to update your profile to add you product{" "}
+                    Please go first to update your profile to add you ads{" "}
                     <span
                       onClick={() => router.push("/myAccount/myProfile")}
                       className="admin_btn cursor"
@@ -364,7 +364,7 @@ const Page = () => {
                 {!profile?.IsVerified && profile?.isUpdate && (
                   <p>
                     Please wait for admin verfication, after verfication you can
-                    add you product here
+                    add you ads here
                   </p>
                 )}
               </div>

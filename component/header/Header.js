@@ -120,22 +120,84 @@ function Header() {
       title: "Farmers",
       // goesTo: "/myAccount/myProfile",
       status:
+        !user.isLoggedIn 
+
+    },
+    {
+      id: 11,
+      title: "Farmers",
+      // goesTo: "/myAccount/listAddedProduct",
+      status:user?.profile?.role === 2,
+      subMenu: [
+        {
+          id: 11,
+          title: "Sell product",
+          goesTo: "/myAccount/addProduct",
+          status: true,
+        },
+        {
+          id: 12,
+          title: "List of sell product",
+          goesTo: "/myAccount/listAddedProduct",
+          status: true,
+        },
+        {
+          id: 11,
+          title: "Ongoing Orders",
+          goesTo: "/myAccount/orderedProduct",
+          status: true,
+        },
+        {
+          id: 12,
+          title: "Completed Orders",
+          goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
+          status: true,
+        },
+      ],
+    },
+
+    {
+      id: 2,
+      title: "Buyer",
+      // goesTo: "/myAccount/addProduct",
+      status: !user.isLoggedIn ,
+    },
+    {
+      id: 11,
+      title: "Buyer",
+      // goesTo: "/myAccount/listAddedProduct",
+      status:user?.profile?.role === 3,
+      subMenu: [
+        {
+          id: 11,
+          title: "My order",
+          goesTo: "/myAccount/myOrder",
+          status: true,
+        },
+        {
+          id: 12,
+          title: "My wishList",
+          goesTo: "/myAccount/myWishList",
+          status: true,
+        },
+        {
+          id: 11,
+          title: "Purchase History",
+          goesTo: "/myAccount/reports/buyerReports/totalPurchase",
+          status: true,
+        },
+      ],
+    },
+    {
+      id: 4,
+      title: "Transportation",
+      // goesTo: "/myAccount/listAddedProduct",
+      status:
         !user.isLoggedIn ||
-        (user?.profile?.role === 2 && user?.profile?.role !== 3),
-      // subMenu:[
-      //   {
-      //     id: 11,
-      //     title: "Vegitable and Fruit",
-      //     goesTo: "/myAccount/myProfile",
-      //     status: user?.profile?.role === 2,
-      //   },
-      //   {
-      //     id: 12,
-      //     title: "Plots",
-      //     goesTo: "/myAccount/myProfile",
-      //     status: user?.profile?.role === 2,
-      //   },
-      // ]
+        user?.profile?.role == 4 ||
+        user?.profile?.role == 3 ||
+        user?.profile?.role == 2,
+      subMenu: transporterList,
     },
     {
       id: 1,
@@ -167,24 +229,7 @@ function Header() {
         },
       ],
     },
-    {
-      id: 2,
-      title: "Buyer",
-      // goesTo: "/myAccount/addProduct",
-      status: !user.isLoggedIn || user?.profile?.role === 3,
-    },
-
-    {
-      id: 4,
-      title: "Transportation",
-      // goesTo: "/myAccount/listAddedProduct",
-      status:
-        !user.isLoggedIn ||
-        user?.profile?.role == 4 ||
-        user?.profile?.role == 3 ||
-        user?.profile?.role == 2,
-      subMenu: transporterList,
-    },
+   
     {
       id: 5,
       title: "Vendor",
@@ -348,7 +393,7 @@ function Header() {
                               className="cat_list"
                               onClick={() => router.push("/basket")}
                             >
-                              My Basket (0) item
+                              My Basket ({cart?.cart?.length}) item
                             </p>
                             <p className="cat_list" onClick={handleLogout}>
                               logout
@@ -438,7 +483,9 @@ function Header() {
                             >
                               {ele?.subMenu?.map((subEle, subIndex) => (
                                 <div
-                                  onClick={() => router.push(subEle?.goesTo)}
+                                  onClick={() => {router.push(subEle?.goesTo) 
+                                    toggleSubMenu(index)}
+                                  }
                                   className="px-3 py-1 cursor submenu"
                                   key={subIndex}
                                 >
@@ -469,7 +516,7 @@ function Header() {
                     <button
                       className="offerZoneBtn centerAllDiv"
                       style={{ whiteSpace: "nowrap" }}
-                      onClick={()=>router.push("/ads-category")}
+                      onClick={() => router.push("/ads-category")}
                     >
                       <IoIosHeadset size={20} className="me-2" />
                       All Ads

@@ -8,9 +8,7 @@
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     border-top: 4px solid var(--mainColor); /* Highlighted left border */
 }
-.servicevendercard:hover{
-  outline: 1px solid black;
-}
+
 .transporterParagraph{
   font-weight: bold;
 }

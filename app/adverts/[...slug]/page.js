@@ -104,7 +104,7 @@ const AdvertsCart = () => {
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
-    <>
+    <div style={{minHeight:"calc(100vh - 100px)"}}>
       <div className="container pt-1">
         <div className="my-md-3 my-2">
           <div className="search_wrapper">
@@ -143,7 +143,7 @@ const AdvertsCart = () => {
                         } filterHover mb-1 p-1`}
                         onClick={() => {
                           handleCategoryChange(category?.rentCategoryId);
-                          setCategoryFilter(false);
+                          isMobile&&setCategoryFilter(false);
                         }}
                       >
                         {selectedCategory == category?.rentCategoryId ? (
@@ -166,8 +166,7 @@ const AdvertsCart = () => {
           <div className="col-md-9">
             <div className="d-flex justify-content-between">
               <h3 className="mobilehome_title">
-                Ads For Sale in{" "}
-                {user?.profile?.countryName || country?.country?.countryName}
+                Ads For Sale 
               </h3>
               <div className="d-md-flex align-items-center gap-3 cursor d-none">
                 <FaThList
@@ -211,7 +210,7 @@ const AdvertsCart = () => {
                         )}
                       </div>
                       <div className={`${grid && "d-flex"}`}>
-                        <div style={{ width: grid ? "40%" : "100%" }}>
+                        <div style={{ width: grid ? "30%" : "100%" }}>
                           <img
                             src={
                               product?.AdsImages?.length > 0
@@ -292,7 +291,7 @@ const AdvertsCart = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

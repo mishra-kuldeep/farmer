@@ -107,7 +107,7 @@ const Page = () => {
 
   return (
     <>
-      <div>
+      <div style={{minHeight:"calc(100vh - 100px)"}}>
         <div className="container">
           <div className=" py-1">
             <div className="search_wrapper my-2">
@@ -240,7 +240,7 @@ const Page = () => {
                         </div>
                         <div className="d-md-flex justify-content-between">
                           <p style={{ fontSize: "12px" }}>
-                            Company Name <br className="d-md-block d-none" /> :
+                            Company Name :<br className="d-md-block d-none" />
                             {item?.User?.userInfo?.CompanyName}
                           </p>
                           <p className="venderservicephone">

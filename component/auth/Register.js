@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registration } from "@/redux/auth/authSlice";
 import MiniLoader from "../reusableComponent/MiniLoader";
 import AuthService from "@/services/AuthServices";
 import RoleServices from "@/services/RoleServices";
+import { IoMdEye, IoIosEyeOff } from "react-icons/io";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const country = useSelector((state) => state.country);
   const [countryies, setCountry] = useState([]);
   const [cpawword, setCpawword] = useState("");
   const [loader, setLoader] = useState(false);
+  const [secure, setSecure] = useState(true);
+  const [secure2, setSecure2] = useState(true);
   const [values, setValues] = useState({
     FirstName: "",
     LastName: "",
     Email: "",
     Phone: "",
-    Mobile:"",
+    Mobile: "",
     Password: "",
     CompanyName: "",
     CountryID: "",
@@ -23,9 +27,19 @@ const RegisterPage = () => {
   });
   const [RoleList, setRoleList] = useState([]);
   const phonecode = countryies?.find(
-    (val) => val?.countryId == values?.CountryID
-  )?.phoneCode
+    (val) =>
+      val?.countryId == values?.CountryID 
+  )?.phoneCode;
 
+  useEffect(()=>{
+    if(country?.country?.countryId&&countryies?.length>0){
+      setValues((prev) => ({
+        ...prev,
+        ["CountryID"]: country?.country?.countryId,
+      }));
+    }
+  },[country?.country?.countryId,countryies?.length>0])
+console.log(countryies)
   const handleValues = (e) => {
     let { name, value } = e.target;
     // if(name =="Phone"){
@@ -44,12 +58,11 @@ const RegisterPage = () => {
     } catch (error) {
       console.log(error);
     }
-  
   };
   const submitHandler = async () => {
     if (cpawword == values.Password) {
       setLoader(true);
-      values.Phone = `${phonecode}-${values.Mobile}`
+      values.Phone = `${phonecode}-${values.Mobile}`;
       await dispatch(registration(values));
       setLoader(false);
     }
@@ -59,6 +72,7 @@ const RegisterPage = () => {
     initApi();
     AuthService.getCountryList()
       .then(({ data }) => {
+        console.log(data)
         setCountry(data);
       })
       .catch((err) => console.log(err));
@@ -154,6 +168,7 @@ const RegisterPage = () => {
           aria-label="Default select example"
           onChange={handleValues}
           name="CountryID"
+          value={values?.CountryID}
         >
           <option value={""}></option>
           {countryies?.map((val) => (
@@ -166,7 +181,9 @@ const RegisterPage = () => {
         values.Role != 6 &&
         values.Role != 9 && (
           <div className="p-2 m20" style={{ position: "relative" }}>
-            <label className="adjustLabel" style={{marginLeft:"30px"}}>Mobile No *</label>
+            <label className="adjustLabel" style={{ marginLeft: "30px" }}>
+              Mobile No *
+            </label>
             <input
               type="text"
               id="phone"
@@ -176,11 +193,10 @@ const RegisterPage = () => {
               className="form-control adjustLabel_input shadow-none"
               style={{ padding: `9px ${phonecode?.length * 16}px ` }}
             />
-             
             <span
               style={{
                 position: "absolute",
-                left: "-2px",
+                left: "0px",
                 // right:"350px",
                 top: "23px",
                 backgroundColor: "#dadada",
@@ -196,18 +212,23 @@ const RegisterPage = () => {
         values.Role == 4 ||
         values.Role == 6 ||
         values.Role == 9) && (
-          <div className="p-2 m20" style={{ position: "relative" }}>
-          <label className="adjustLabel" style={{marginLeft:"30px"}}>Mobile No *</label>
+        <div className="p-2 m20" style={{ position: "relative" }}>
+          <label className="adjustLabel" style={{ marginLeft: "30px" }}>
+            Mobile No *
+          </label>
           <input
             type="text"
             id="phone"
             name="Mobile"
             value={values.Mobile}
             onChange={handleValues}
+            min={2}
+            required={true}
             className="form-control adjustLabel_input shadow-none"
             style={{ padding: `9px ${phonecode?.length * 16}px ` }}
           />
-           
+          <p>error</p>
+
           <span
             style={{
               position: "absolute",
@@ -237,30 +258,64 @@ const RegisterPage = () => {
             />
           </div>
         )}
-      <div className="p-2 m20">
+      <div className="p-2 m20 position-relative">
         <label className="adjustLabel">Password *</label>
         <input
-          type="password"
+          type={secure ? "password" : "text"}
           className="form-control p-2 adjustLabel_input"
           onChange={handleValues}
           name="Password"
         />
+        {secure ? (
+          <IoIosEyeOff
+            color="#555"
+            className="cursor"
+            size={20}
+            onClick={() => setSecure(!secure)}
+            style={{ position: "absolute", right: "30px", top: "48%" }}
+          />
+        ) : (
+          <IoMdEye
+            color="#555"
+            className="cursor"
+            size={20}
+            onClick={() => setSecure(!secure)}
+            style={{ position: "absolute", right: "30px", top: "48%" }}
+          />
+        )}
       </div>
-      <div className="p-2 m20">
+      <div className="p-2 m20 position-relative">
         <label className="adjustLabel">Confirm Password *</label>
         <input
-          type="password"
+          type={secure2 ? "password" : "text"}
           className="form-control p-2 adjustLabel_input"
           onChange={(e) => setCpawword(e.target.value)}
           name="Password"
         />
+        {secure2 ? (
+          <IoIosEyeOff
+            color="#555"
+            className="cursor"
+            size={20}
+            onClick={() => setSecure2(!secure2)}
+            style={{ position: "absolute", right: "30px", top: "48%" }}
+          />
+        ) : (
+          <IoMdEye
+            color="#555"
+            className="cursor"
+            size={20}
+            onClick={() => setSecure2(!secure2)}
+            style={{ position: "absolute", right: "30px", top: "48%" }}
+          />
+        )}
       </div>
       {cpawword !== values.Password && cpawword.length > 0 && (
-        <p className="error_input_text">
+        <p className="error_input_text ms-3">
           Paword and confirm password is not same
         </p>
       )}
-      <div className="p-2 text-center mt-2 mb-5">
+      <div className="p-2 text-center mt-2 ">
         <button className="login_btn" onClick={submitHandler} disabled={loader}>
           {loader && <MiniLoader />}
           Register

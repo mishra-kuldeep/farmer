@@ -97,7 +97,7 @@ const Page = () => {
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
-    <div>
+    <div style={{minHeight:"calc(100vh - 100px)"}}>
       <div>
         <div className="container pt-1">
           <div className=" py-1">

@@ -16,11 +16,13 @@ import { Image_URL } from "@/helper/common";
 import { useRouter } from "next/navigation";
 import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
+import AuthService from "@/services/AuthServices";
 
 const Basket = () => {
   const user = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
   const router = useRouter();
+  const [profile, setprofile] = useState([]);
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -84,10 +86,13 @@ const Basket = () => {
     } else if (cartItem.quantity === 1) {
       dispatch(deleteCart(cartItem?.cartId));
     }
-  };  
+  };
 
-    // Set the currency symbol from the first item's product detail.
-    const currencySymbol = cart?.cart?.length>0 && cart?.cart[0]?.productDetail?.country?.currencySymbol || '';
+  // Set the currency symbol from the first item's product detail.
+  const currencySymbol =
+    (cart?.cart?.length > 0 &&
+      cart?.cart[0]?.productDetail?.country?.currencySymbol) ||
+    "";
   // Calculate total price, discount, and final total
   const totalPrice = cart?.cart?.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;
@@ -106,7 +111,24 @@ const Basket = () => {
 
   const deliveryCharges = finalTotal > 1000 ? 0 : 40;
 
+  console.log(user);
+
+  useEffect(() => {
+    if (user?.profile?.id) {
+      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+        setprofile(data?.userProfile);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
   const handleCheckout = async () => {
+    if (user?.profile?.role == 3 && !profile?.IsVerified && profile?.isUpdate) {
+      toast("Please wait until admin verify you", {
+        icon: "😢",
+        style: { borderRadius: "10px", background: "red", color: "#fff" },
+      });
+      return;
+    }
     router.push("/basket/placeOrder");
   };
 
@@ -114,8 +136,10 @@ const Basket = () => {
     if (cart?.cart == null) {
       router.push("/basket");
     }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart?.cart]);
+
+  console.log(cart?.cart);
 
   return (
     <div className="container">
@@ -222,11 +246,30 @@ const Basket = () => {
                   </div>
                   <div className="col-md-5 border p-2">
                     <h6>{val?.productDetail?.productDtlName}</h6>
-                    <h6>
+                    <h6 className="mt-2 fs-6">
+                      {val?.productDetail?.country?.currencySymbol}
+                      {val?.productDetail?.discountType == "percentage"
+                        ? val?.productDetail?.price -
+                          (val?.productDetail?.price *
+                            val?.productDetail?.discount) /
+                            100
+                        : val?.productDetail?.price -
+                          val?.productDetail?.discount}
+                      /{val?.productDetail?.ProductUnit?.unitName}
+                      {val?.productDetail?.discount !== 0 && (
+                        <sub className="ms-1">
+                          <del className="text-secondary">
+                            ₹{val?.productDetail?.price}/
+                            {val?.productDetail?.ProductUnit?.unitName}
+                          </del>
+                        </sub>
+                      )}
+                    </h6>
+                    {/* <h6>
                       {val?.productDetail?.country?.currencySymbol}
                       {val?.productDetail?.price}/
                       {val?.productDetail?.ProductUnit?.unitName}
-                    </h6>
+                    </h6> */}
                     <div>
                       <span>
                         {val?.productDetail?.ProductGrade?.gradeName} grade
@@ -327,11 +370,18 @@ const Basket = () => {
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
-                    <td>{currencySymbol}{totalPrice}</td>
+                    <td>
+                      {currencySymbol}
+                      {totalPrice}
+                    </td>
                   </tr>
                   <tr>
                     <td>Discount</td>
-                    <td> {currencySymbol}{totalDiscount}</td>
+                    <td>
+                      {" "}
+                      {currencySymbol}
+                      {totalDiscount}
+                    </td>
                   </tr>
                   {/* <tr>
                     <td>Delivery Charges</td>
@@ -342,13 +392,17 @@ const Basket = () => {
                       <strong>Total Amount</strong>
                     </td>
                     <td>
-                      <strong>{currencySymbol}{finalTotal}</strong>
+                      <strong>
+                        {currencySymbol}
+                        {finalTotal}
+                      </strong>
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="2" >
+                    <td colSpan="2">
                       <span style={{ color: "green" }}>
-                        You will save {currencySymbol}{totalDiscount} on this order
+                        You will save {currencySymbol}
+                        {totalDiscount} on this order
                       </span>
                     </td>
                   </tr>

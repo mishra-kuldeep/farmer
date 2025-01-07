@@ -113,7 +113,8 @@ const Page = () => {
 
   return (
     <>
-      <div>
+          <div style={{minHeight:"calc(100vh - 100px)"}}>
+
         <div className="container">
           <div className=" py-1">
             <div className="search_wrapper my-md-4 my-1">
