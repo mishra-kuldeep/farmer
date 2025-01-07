@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
           <div className={`${!isAdminRoute && "marginEveryPage"}`}>
             {children}
           </div>
-          {!isAdminRoute && <Footer />}
+          {!isAdminRoute  && !router.startsWith("/myAccount") &&<Footer />}
           <Toaster  position="bottom-center"/>
         </Provider>
         </Suspense>

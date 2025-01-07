@@ -23,7 +23,7 @@ const AccountLayout = ({ children }) => {
   const router = useRouter();
   const SideBarList = [
     {
-      id: 0,
+      id: 21,
       title: "Dashboard",
       icon: <AiTwotoneDashboard size={22} />,
       goesTo:"/myAccount",
@@ -138,7 +138,7 @@ const AccountLayout = ({ children }) => {
       status: user?.profile?.role === 3,
     },
     {
-      id: 15,
+      id: 22,
       title: "Transportation History",
       icon: <CiBoxList size={22} />,
       goesTo: "/myAccount/reports/buyerReports/transportDetails",

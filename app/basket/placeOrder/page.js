@@ -117,9 +117,7 @@ const Placeorder = () => {
   }, []);
 
   const handleCheckout = async () => {
-
     const totalAmount = finalTotal;
-
     const products = cart.cart.map((item) => ({
       productDtlId: item.productDtlId,
       quantity: item.quantity,
@@ -140,8 +138,10 @@ const Placeorder = () => {
       setIsCheckingOut(true);
       const response = await OrderService.checkoutCart(checkoutData);
       const res = await CartService.DeleteCartBuyer(user?.profile?.id);
+      // router.push("/myAccount/myOrder");
+      window.location.href = "/myAccount/myOrder";
       toast.success("To complete this order Please add Transpoter!!");
-      router.push("/myAccount/myOrder");
+    
       dispatch(clearCart());
     } catch (error) {
       toast.error("Checkout failed. Please select Address.");

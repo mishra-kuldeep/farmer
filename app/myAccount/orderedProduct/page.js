@@ -23,7 +23,7 @@ const OrderedProduct = () => {
 
   return (
     <div className="">
-      {orderedList?.map((elem, i) => {
+      {orderedList.length>0 ? orderedList?.map((elem, i) => {
         if (statuses.includes(elem?.status))
           return (
             <div className="orderedWrapper" key={i}>
@@ -130,7 +130,11 @@ const OrderedProduct = () => {
               </div>
             </div>
           );
-      })}
+      }):
+      <div className="w-100 d-flex align-items-center justify-content-center" style={{height:"80vh"}}>
+        <h6>No Ongoin Order Available</h6>
+      </div>
+      }
     </div>
   );
 };

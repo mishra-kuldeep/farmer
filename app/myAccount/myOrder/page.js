@@ -7,7 +7,6 @@ import { IoIosArrowDown, IoIosPerson } from "react-icons/io";
 import IconButton from "@/component/reusableComponent/IconButton";
 import { Image_URL } from "@/helper/common";
 import Pagination from "@/component/reusableComponent/Pagination";
-import { TbTruckDelivery } from "react-icons/tb";
 import VehicleServices from "@/services/VehicleServices";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
 import { MdOutlineLocationOn } from "react-icons/md";
@@ -41,7 +40,7 @@ const MyOrder = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [totalProductChar, setTotalProductChar] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
+const [CurrencyPrefix,setCurrencyPrefix] = useState('')
   useEffect(() => {
     setloading(true);
     OrderService.BuyerOrderList(status, page)
@@ -76,6 +75,7 @@ const MyOrder = () => {
     setMiniloading(true);
     OrderService.BuyerOrderSingleList(orderId)
       .then(({ data }) => {
+        setCurrencyPrefix(data?.data[0]?.productDetail?.country?.currencySymbol)
         setTransporterDelivery([]);
         data?.data.map((ele) => {
           if (ele.transVehicalId) {
@@ -144,7 +144,6 @@ const MyOrder = () => {
         setErrror(err?.response?.data?.message);
       });
   };
-
   const hendleSelectTranspot = (trans_Vehical, trans_porterId, perKmCharge) => {
     // setMiniloading(true);
     const selectedDistance = distanceArr.find(
@@ -205,8 +204,6 @@ const MyOrder = () => {
     setShowModal(false);
     setSelectedOrder(null);
   };
-  console.log(productList);
-  console.log(TransporterDelivery);
 
   return (
     <div className="orderPage">
@@ -707,7 +704,7 @@ const MyOrder = () => {
                   </div>
                   <div className="col-md-2">
                     <p className="text-secondary">
-                      Charge Per Km : {val?.chargePerKm}
+                      Charge Per Km :{CurrencyPrefix} {val?.chargePerKm}
                     </p>
                     <p
                       style={{

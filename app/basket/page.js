@@ -8,15 +8,11 @@ import toast from "react-hot-toast";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import {
   addToCart,
-  clearCart,
   deleteCart,
-  deleteCartBuyer,
   getCart,
   updateCart,
 } from "@/redux/cart/cartSlice";
 import { Image_URL } from "@/helper/common";
-import CartService from "@/services/CartSevices";
-import OrderService from "@/services/Orderservices";
 import { useRouter } from "next/navigation";
 import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
@@ -28,15 +24,9 @@ const Basket = () => {
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [loadingAction, setLoadingAction] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [prefix, setprefix] = useState('');
   const dispatch = useDispatch();
   useEffect(() => {
     if (user?.profile?.id) dispatch(getCart(user?.profile?.id));
-    if (cart?.cart?.length > 0) {
-      // Set the currency symbol from the first item's product detail.
-      const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
-      setprefix(currencySymbol)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile]);
   // Add product to cart
@@ -97,11 +87,10 @@ const Basket = () => {
   };
 
 
-  // if (cart?.cart?.length > 0) {
-  //   // Set the currency symbol from the first item's product detail.
-  //   const currencySymbol = cart.cart[0]?.productDetail?.country?.currencySymbol || '';
-  //   setprefix(currencySymbol)
-  // }
+  
+
+    // Set the currency symbol from the first item's product detail.
+    const currencySymbol = cart?.cart?.length>0 && cart?.cart[0]?.productDetail?.country?.currencySymbol || '';
   // Calculate total price, discount, and final total
   const totalPrice = cart?.cart?.reduce((acc, item) => {
     return acc + item?.productDetail?.price * item?.quantity;
@@ -266,11 +255,11 @@ const Basket = () => {
                 <tbody>
                   <tr>
                     <td>Price ({cart?.cart?.length} items)</td>
-                    <td>{prefix}{totalPrice}</td>
+                    <td>{currencySymbol}{totalPrice}</td>
                   </tr>
                   <tr>
                     <td>Discount</td>
-                    <td> {prefix}{totalDiscount}</td>
+                    <td> {currencySymbol}{totalDiscount}</td>
                   </tr>
                   {/* <tr>
                     <td>Delivery Charges</td>
@@ -281,13 +270,13 @@ const Basket = () => {
                       <strong>Total Amount</strong>
                     </td>
                     <td>
-                      <strong>{prefix}{finalTotal}</strong>
+                      <strong>{currencySymbol}{finalTotal}</strong>
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="2" style={{ textAlign: "right" }}>
+                    <td colSpan="2" >
                       <span style={{ color: "green" }}>
-                        You will save {prefix}{totalDiscount} on this order
+                        You will save {currencySymbol}{totalDiscount} on this order
                       </span>
                     </td>
                   </tr>

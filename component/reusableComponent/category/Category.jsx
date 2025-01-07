@@ -28,8 +28,9 @@ const Category = () => {
         className="d-none d-md-flex"
       >
         <div style={{ width: "300px", backgroundColor: "#555" }}>
-          {categoryList?.map((ele) => (
+          {categoryList?.map((ele,i) => (
             <p
+            key={i}
               className="cat_list text-white"
               onMouseEnter={() => setSubCategoryList(ele?.SubCategories)}
             >
