@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser, fetchUserInfo } from "@/redux/auth/authSlice";
 import { deleteCookie } from "@/helper/common";
 import { clearCart, getCart } from "@/redux/cart/cartSlice";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosHeadset } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import vendorMasterServices from "@/services/vendorMasterServices";
 import VehicleMasterServices from "@/services/VehicleMasterServices";
@@ -67,7 +67,7 @@ function Header() {
             const country = data.data.find(
               (ele) => ele.countryCode == countrys.country_code
             );
-            dispatch(fetchCountry(country))
+            dispatch(fetchCountry(country));
           });
         });
       });
@@ -113,8 +113,6 @@ function Header() {
   };
 
   useEffect(() => initApi(), []);
-
-
 
   const HeaderMenu = [
     {
@@ -191,7 +189,11 @@ function Header() {
       id: 5,
       title: "Vendor",
       // goesTo: "/myAccount/listAddedProduct",
-      status: !user.isLoggedIn || user?.profile?.role == 6 || user?.profile?.role == 3|| user?.profile?.role == 2,
+      status:
+        !user.isLoggedIn ||
+        user?.profile?.role == 6 ||
+        user?.profile?.role == 3 ||
+        user?.profile?.role == 2,
       subMenu: venderList,
     },
     {
@@ -225,12 +227,12 @@ function Header() {
         },
       ],
     },
-    {
-      id: 3,
-      title: "Ads",
-      goesTo: "/ads-category",
-      status: true,
-    },
+    // {
+    //   id: 3,
+    //   title: "Ads",
+    //   goesTo: "/ads-category",
+    //   status: true,
+    // },
   ];
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
@@ -304,7 +306,7 @@ function Header() {
                           </div>
                           <ul
                             className="dropdown-menu p-0"
-                            style={{ right: "0%", width: "300px", top: "10px" }}
+                            style={{ right: "0%", width: "auto", top: "10px" }}
                           >
                             {user?.profile?.role === 1 && (
                               <p
@@ -394,10 +396,16 @@ function Header() {
                   <div className="col-md-9 p-0">
                     <div className="category_inline_header" ref={menuRef}>
                       {HeaderMenu?.map((ele, index) => (
-                        <div key={index} onClick={() => ele?.goesTo && router.push(ele?.goesTo)}>
+                        <div
+                          key={index}
+                          onClick={() =>
+                            ele?.goesTo && router.push(ele?.goesTo)
+                          }
+                        >
                           <p
-                            className={`${openMenuIndex === index ? "activee" : ""
-                              }`}
+                            className={`${
+                              openMenuIndex === index ? "activee" : ""
+                            }`}
                             onClick={() => toggleSubMenu(index)}
                             style={{
                               cursor: "pointer",
@@ -458,9 +466,13 @@ function Header() {
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
-                    <button className="offerZoneBtn centerAllDiv" style={{whiteSpace:"nowrap"}}>
-                      <MdOutlineLocalOffer size={20} className="me-2" />
-                      Offer Zone
+                    <button
+                      className="offerZoneBtn centerAllDiv"
+                      style={{ whiteSpace: "nowrap" }}
+                      onClick={()=>router.push("/ads-category")}
+                    >
+                      <IoIosHeadset size={20} className="me-2" />
+                      All Ads
                     </button>
                   </div>
                 </div>

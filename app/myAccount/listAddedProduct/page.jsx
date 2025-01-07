@@ -13,13 +13,14 @@ import "../../admin/addProduct/addProduct.css";
 import CountryServices from "@/services/CountryServices";
 import { useSelector } from "react-redux";
 import { RiApps2AddFill } from "react-icons/ri";
+import { isMobile } from "react-device-detect";
 
 const ListAddedProduct = () => {
   const router = useRouter();
   const [productList, setProductList] = useState([]);
   const [imageList, setImageList] = useState([]);
   const [metaData, setMetaData] = useState({});
-  const [Countrylist, setCountrylist] = useState([])
+  const [Countrylist, setCountrylist] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
@@ -27,7 +28,6 @@ const ListAddedProduct = () => {
   const [searchText, setSearchText] = useState("");
   const user = useSelector((state) => state.auth);
 
-  console.log(productList)
   const editHandeler = (id) => {
     router.push(`/myAccount/editProduct/${id}`);
   };
@@ -35,7 +35,6 @@ const ListAddedProduct = () => {
   const handleDelete = async () => {
     await ProductFarmerServices.deleteProductsFarmer(selectedId)
       .then(({ data }) => {
-        console.log(data);
         setProductList(
           productList.filter((ele) => ele.productDtlId !== selectedId)
         );
@@ -64,7 +63,7 @@ const ListAddedProduct = () => {
   };
 
   const getImage = (id) => {
-    setImageList([])
+    setImageList([]);
     ProductFarmerServices.getAllImage(id)
       .then(({ data }) => {
         setImageList(data?.images);
@@ -82,17 +81,16 @@ const ListAddedProduct = () => {
   }, [page, searchText]);
 
   useEffect(() => {
-
     CountryServices.getCountrybyId(user?.profile?.country)
       .then(({ data }) => {
         setCountrylist(data);
       })
       .catch((err) => console.log(err));
-
   }, [user?.profile?.country]);
   return (
     <div>
-      <Pagination
+     <div className="w-100">
+     <Pagination
         page={page}
         setPage={setPage}
         searchText={searchText}
@@ -101,54 +99,62 @@ const ListAddedProduct = () => {
         metaData={metaData}
         searchShow={true}
       />
-      <div className="d-flex gap-4 mb-3 ms-3" style={{ marginTop: "-40px" }}>
-        <div className="d-flex gap-2">
-          <div
-            style={{
-              height: "20px",
-              width: "20px",
-              backgroundColor: "#fffb0e",
-              border: "1px solid #ddd",
-              borderRadius: "5px",
-            }}
-          ></div>
-          <p style={{ color: "grey", fontSize: "12px" }}>Pending</p>
-        </div>
-        <div className="d-flex gap-2">
-          <div
-            style={{
-              height: "20px",
-              width: "20px",
-              backgroundColor: "#ceff95",
-              border: "1px solid #ddd",
-              borderRadius: "5px",
-            }}
-          ></div>
-          <p style={{ color: "grey", fontSize: "12px" }}>Approved</p>
-        </div>
-        <div className="d-flex gap-2">
-          <div
-            style={{
-              height: "20px",
-              width: "20px",
-              backgroundColor: "#ffadad",
-              border: "1px solid #ddd",
-              borderRadius: "5px",
-            }}
-          ></div>
-          <p style={{ color: "grey", fontSize: "12px" }}>Rejected</p>
-        </div>
-        <div className="d-flex gap-2">
-          <div
-            style={{
-              height: "20px",
-              width: "20px",
-              backgroundColor: "red",
-              border: "1px solid #ddd",
-              borderRadius: "5px",
-            }}
-          ></div>
-          <p style={{ color: "grey", fontSize: "12px" }}>Out Of Stock/Unavailable</p>
+     </div>
+      <div className="">
+        <div
+          className="d-flex gap-4 mb-md-3 p-md-0 p-2 w-100 overflow-auto"
+          style={{ marginTop: !isMobile && "-40px" }}
+        >
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#fffb0e",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" }}>Pending</p>
+          </div>
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#ceff95",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" }}>Approved</p>
+          </div>
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#ffadad",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" }}>Rejected</p>
+          </div>
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "red",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" ,whiteSpace:"nowrap"}}>
+              Out Of Stock/Unavailable
+            </p>
+          </div>
         </div>
       </div>
       <div className="w-100">
@@ -172,14 +178,15 @@ const ListAddedProduct = () => {
                   return (
                     <tr key={item?.productDtlId}>
                       <td
-                        className={`${!item?.isVerify && !item?.rejected
-                          ? "bgwarning"
-                          : item?.isVerify
+                        className={`${
+                          !item?.isVerify && !item?.rejected
+                            ? "bgwarning"
+                            : item?.isVerify
                             ? "bgsuccess"
                             : item?.rejected
-                              ? "bgdanger"
-                              : ""
-                          }`}
+                            ? "bgdanger"
+                            : ""
+                        }`}
                       >
                         {i + 1}
                       </td>
@@ -196,13 +203,21 @@ const ListAddedProduct = () => {
                       <td style={{ backgroundColor: "transparent" }}>
                         {item?.Product.productName}
                       </td>
-                      <td className="text-center">{Countrylist?.currencySymbol}{item?.price}/{item?.ProductUnit?.unitName}</td>
                       <td className="text-center">
-                        {item?.discountType == "fixed" && Countrylist?.currencySymbol}
+                        {Countrylist?.currencySymbol}
+                        {item?.price}/{item?.ProductUnit?.unitName}
+                      </td>
+                      <td className="text-center">
+                        {item?.discountType == "fixed" &&
+                          Countrylist?.currencySymbol}
                         {item?.discount}
                         {item?.discountType == "percentage" && "%"}
                       </td>
-                      <td className={`text-center ${item.available ? '' : 'bg-danger'}`}>
+                      <td
+                        className={`text-center ${
+                          item.available ? "" : "bg-danger"
+                        }`}
+                      >
                         {item?.quantity}-{item?.ProductUnit?.unitName}
                       </td>
                       <td className="text-center">
@@ -234,16 +249,18 @@ const ListAddedProduct = () => {
                             </IconButton>
                           ) : (
                             <>
-                              {!item.available && item.quantity == 0 ?
-
+                              {!item.available && item.quantity == 0 ? (
                                 <IconButton
                                   tooltip="add stock"
-                                  onClick={() => addStockHandeler(item.productDtlId)}
+                                  onClick={() =>
+                                    addStockHandeler(item.productDtlId)
+                                  }
                                 >
                                   <RiApps2AddFill color="green" size={20} />
                                 </IconButton>
-                                : <IconButton></IconButton>
-                              }
+                              ) : (
+                                <IconButton></IconButton>
+                              )}
                             </>
                           )}
                         </div>

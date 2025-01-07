@@ -13,6 +13,7 @@ import { VscCircleLargeFilled } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { Image_URL } from "@/helper/common";
+import { isMobile } from "react-device-detect";
 
 const Page = () => {
   const router = useRouter();
@@ -64,7 +65,7 @@ const Page = () => {
       slug: selectedCategory,
       page: 1,
       pageSize: 10,
-      location:location,
+      location: location,
       searchText: searchTerm,
       countryId: user?.profile?.country
         ? user?.profile?.country
@@ -89,6 +90,7 @@ const Page = () => {
 
   useEffect(() => {
     apiCallservice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -97,18 +99,18 @@ const Page = () => {
   ]);
 
   useEffect(() => {
+    setCategoryFilter(isMobile ? false : true);
     setSelectedCategory(slug);
     initApi();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
- 
-  console.log(VendorList);
-  
+
   return (
     <>
       <div>
         <div className="container">
           <div className=" py-1">
-            <div className="search_wrapper my-4">
+            <div className="search_wrapper my-2">
               <input
                 type="text"
                 placeholder="Search by service name..."
@@ -153,11 +155,12 @@ const Page = () => {
                                 category?.VendorServicesMasterId &&
                               "filterSELECTED"
                             } filterHover mb-1 p-1`}
-                            onClick={() =>
+                            onClick={() => {
                               handleCategoryChange(
                                 category?.VendorServicesMasterId
-                              )
-                            }
+                              );
+                              isMobile && setCategoryFilter(false);
+                            }}
                           >
                             {selectedCategory ==
                             category?.VendorServicesMasterId ? (
@@ -179,7 +182,10 @@ const Page = () => {
             </div>
             <div className="col-md-9">
               <div className="d-flex justify-content-between">
-                <h3 className="my-2"> Ads for Booking Services</h3>
+                <h3 className="mb-2 mobilehome_title">
+                  {" "}
+                  Ads for Booking Services
+                </h3>
               </div>
               {Loader ? (
                 <div style={{ height: "40vh" }} className="centerAllDiv">
@@ -190,20 +196,23 @@ const Page = () => {
                 <div className="row">
                   {VendorList?.map((item, i) => (
                     <div
-                      className="col-md-4"
+                      className="col-md-4 col-6 p-0 p-md-2"
                       onClick={() => Navigate(item?.serviceId)}
                       key={i}
                     >
                       <div className="servicevendercard">
                         <img
-                          src= {item?.AdsImages?.length>0?`${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
+                          src={
+                            item?.AdsImages?.length > 0
+                              ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`
+                              : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                          }
                           style={{ backgroundColor: "#dadada" }}
-                          width="100%"
-                          height="150px"
+                          alt="images"
                         />
-                        <div className="p-2">
-                          <h5 className="my-2">{item?.serviceName}</h5>
-                          <h6 style={{ fontSize: "13px" }}>
+                        <div className="p-md-2 p-1">
+                          <h5 className="my-md-2">{item?.serviceName}</h5>
+                          <h6 style={{ fontSize: "13px" }} className="mt-2">
                             Price - {currencySymbol} {item?.cost}
                           </h6>
                           <h6 style={{ fontSize: "13px" }}>
@@ -229,9 +238,9 @@ const Page = () => {
                               : `${item?.description?.substring(0, 100)}...`}
                           </p>
                         </div>
-                        <div className="d-flex justify-content-between">
+                        <div className="d-md-flex justify-content-between">
                           <p style={{ fontSize: "12px" }}>
-                            Company Name <br />
+                            Company Name <br className="d-md-block d-none" /> :
                             {item?.User?.userInfo?.CompanyName}
                           </p>
                           <p className="venderservicephone">
@@ -256,28 +265,28 @@ const Page = () => {
                   </div>
                 </div>
               )}
-                 {VendorList.length <= 0 && !Loader && (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "20px",
-                      fontSize: "18px",
-                      color: "#666",
-                      backgroundColor: "#f9f9f9",
-                      borderRadius: "8px",
-                      border: "1px solid #ddd",
-                      marginTop: "20px",
-                    }}
-                  >
-                    <p style={{ marginBottom: "10px" }}>
-                      Sorry, there are no listings for this category.
-                    </p>
-                    <p style={{ marginBottom: "10px" }}>
-                      Please try another search or click here to see the latest
-                      ads.
-                    </p>
-                  </div>
-                )}
+              {VendorList.length <= 0 && !Loader && (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "20px",
+                    fontSize: "18px",
+                    color: "#666",
+                    backgroundColor: "#f9f9f9",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                    marginTop: "20px",
+                  }}
+                >
+                  <p style={{ marginBottom: "10px" }}>
+                    Sorry, there are no listings for this category.
+                  </p>
+                  <p style={{ marginBottom: "10px" }}>
+                    Please try another search or click here to see the latest
+                    ads.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

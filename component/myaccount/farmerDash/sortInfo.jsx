@@ -46,7 +46,6 @@ const Sortinfo = () => {
         NoOfOrdersApiCall()
         TotalRevenueApiCall()
     }, [])
-  console.log(totalRevenue)
     return (
         <div><main className='main-container '>
             <div className='main-title'>

@@ -71,7 +71,7 @@
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow: hidden !important;
   scroll-behavior: smooth;
   padding-bottom: 10px;
 }
@@ -89,6 +89,16 @@
 .venderservicephone:hover{
   cursor: pointer;
   border-radius: 5px;
+}
+.imagebigDiv img {
+  height: 450px;
+  width: 100%;
+}
+@media only screen and (max-width: 600px) {
+  .imagebigDiv img {
+    height: 230px;
+    width: 100%;
+  }
 }
   
   

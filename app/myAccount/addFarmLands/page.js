@@ -103,6 +103,7 @@ const Page = () => {
         setisLoading(false);
       });
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const initApi = () => {
@@ -245,7 +246,7 @@ const Page = () => {
                   />
                 </div>
               ))}
-              <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
+              <div className="col-md-2 col-4 my-3 d-flex align-items-center justify-content-center">
                 <div className="form-check">
                   <input
                     className="form-check-input custom-checkbox cursor"
@@ -275,7 +276,7 @@ const Page = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
+              <div className="col-md-2 col-4 my-3 d-flex align-items-center justify-content-center">
                 <div className="form-check">
                   <input
                     className="form-check-input custom-checkbox cursor"
@@ -305,7 +306,7 @@ const Page = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
+              <div className="col-md-2 col-4 my-3 d-flex align-items-center justify-content-center">
                 <div className="form-check">
                   <input
                     className="form-check-input custom-checkbox cursor"

@@ -13,6 +13,7 @@ import { VscCircleLargeFilled } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { Image_URL } from "@/helper/common";
+import { isMobile } from "react-device-detect";
 
 const catFilter = [
   {
@@ -69,7 +70,6 @@ const Page = () => {
   };
 
   const fertilizer = () => {
-   
     const data = {
       status: "Approved",
       slug: selectedCategory,
@@ -88,7 +88,6 @@ const Page = () => {
           setFertilizersPesticidesList(data.data);
           setmetaData(data.meta);
           setLoader(false);
-
         })
         .catch((err) => {
           console.log(err);
@@ -98,6 +97,7 @@ const Page = () => {
   };
   useEffect(() => {
     fertilizer();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -106,7 +106,9 @@ const Page = () => {
   ]);
 
   useEffect(() => {
+    isMobile && setCategoryFilter(false);
     setSelectedCategory(slug);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
@@ -114,7 +116,7 @@ const Page = () => {
       <div>
         <div className="container">
           <div className=" py-1">
-            <div className="search_wrapper my-4">
+            <div className="search_wrapper my-md-4 my-1">
               <input
                 type="text"
                 placeholder="Search by fertilizer-pesticide name..."
@@ -158,7 +160,10 @@ const Page = () => {
                               selectedCategory == category?.id &&
                               "filterSELECTED"
                             } filterHover mb-1 p-1`}
-                            onClick={() => handleCategoryChange(category?.id)}
+                            onClick={() => {
+                              handleCategoryChange(category?.id);
+                              isMobile && setCategoryFilter(false);
+                            }}
                           >
                             {selectedCategory == category?.id ? (
                               <VscCircleLargeFilled
@@ -180,7 +185,7 @@ const Page = () => {
 
             <div className="col-md-9">
               <div className="d-flex justify-content-between">
-                <h3 className="my-2"> Ads For Fertilizers & Pesticides </h3>
+                <h3 className="my-2 mobilehome_title"> Ads For Fertilizers & Pesticides </h3>
               </div>
               {Loader ? (
                 <div style={{ height: "40vh" }} className="centerAllDiv">
@@ -195,16 +200,19 @@ const Page = () => {
                         <div
                           className="col-md-4 mt-4"
                           key={i}
-                          onClick={() =>
-                            changeRouterPage(item?.serviceId)
-                          }
+                          onClick={() => changeRouterPage(item?.serviceId)}
                         >
                           <div className="servicevendercard">
                             <img
-                              src= {item?.AdsImages?.length>0?`${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
+                              src={
+                                item?.AdsImages?.length > 0
+                                  ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`
+                                  : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                              }
                               style={{ backgroundColor: "#dadada" }}
                               width="100%"
                               height="150px"
+                              alt="images"
                             />
                             <div className="p-2">
                               <h5 className="my-2">{item?.serviceName}</h5>

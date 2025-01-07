@@ -5,7 +5,7 @@
 }
 @media only screen and (max-width: 600px) {
     .sliderImage{
-        height: 150px;
+        height: 180px;
         width: 100%;
         object-fit: cover;
     }

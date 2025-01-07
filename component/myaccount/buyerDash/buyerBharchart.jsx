@@ -75,7 +75,6 @@ export default function BuyerBarChart() {
 
         ReportsServices.BuyerTotalExpenditure(filter)
             .then(({ data }) => {
-                console.log(data)
                 setDataSet(data.data);
             })
             .catch((error) => {

@@ -65,61 +65,61 @@ const Search = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
- // Add product to cart
- const addCartHandler = (id) => {
-  if (!user?.isLoggedIn) {
-    toast("Please login to add products to the cart!", {
-      icon: "😢",
-      style: { borderRadius: "10px", background: "red", color: "#fff" },
-    });
-  } else {
-    const cartObj = {
-      buyerId: user?.profile?.id,
-      productDtlId: id,
-      quantity: 1,
-    };
-    dispatch(addToCart(cartObj));
-  }
-};
-// Update product quantity in the cart
-const updateCartQuantity = (productDtlId, newQuantity, action) => {
-  const cartItem = cart?.cart?.find(
-    (item) => item.productDtlId === productDtlId
-  );
-  if (cartItem) {
-    const updatedCart = {
-      buyerId: user?.profile?.id,
-      quantity: newQuantity,
-      productDtlId,
-    };
-    setLoadingProductId(productDtlId);
-    setLoadingAction(action);
-    dispatch(
-      updateCart({ cartId: cartItem.cartId, data: updatedCart })
-    ).finally(() => {
-      setLoadingProductId(null);
-      setLoadingAction(null);
-    });
-  }
-};
+  // Add product to cart
+  const addCartHandler = (id) => {
+    if (!user?.isLoggedIn) {
+      toast("Please login to add products to the cart!", {
+        icon: "😢",
+        style: { borderRadius: "10px", background: "red", color: "#fff" },
+      });
+    } else {
+      const cartObj = {
+        buyerId: user?.profile?.id,
+        productDtlId: id,
+        quantity: 1,
+      };
+      dispatch(addToCart(cartObj));
+    }
+  };
+  // Update product quantity in the cart
+  const updateCartQuantity = (productDtlId, newQuantity, action) => {
+    const cartItem = cart?.cart?.find(
+      (item) => item.productDtlId === productDtlId
+    );
+    if (cartItem) {
+      const updatedCart = {
+        buyerId: user?.profile?.id,
+        quantity: newQuantity,
+        productDtlId,
+      };
+      setLoadingProductId(productDtlId);
+      setLoadingAction(action);
+      dispatch(
+        updateCart({ cartId: cartItem.cartId, data: updatedCart })
+      ).finally(() => {
+        setLoadingProductId(null);
+        setLoadingAction(null);
+      });
+    }
+  };
 
-// Handle quantity increase
-const increaseQuantity = (id) => {
-  const cartItem = cart?.cart?.find((item) => item.productDtlId === id);
-  if (cartItem) {
-    updateCartQuantity(id, cartItem.quantity + 1, "increment");
-  }
-};
+  // Handle quantity increase
+  const increaseQuantity = (id) => {
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === id);
+    if (cartItem) {
+      updateCartQuantity(id, cartItem.quantity + 1, "increment");
+    }
+  };
 
-// Handle quantity decrease
-const decreaseQuantity = (id) => {
-  const cartItem = cart?.cart?.find((item) => item.productDtlId === id);
-  if (cartItem && cartItem.quantity > 1) {
-    updateCartQuantity(id, cartItem.quantity - 1, "decrement");
-  } else if (cartItem.quantity == 1) {
-    dispatch(deleteCart(cartItem?.cartId));
-  }
-};
+  // Handle quantity decrease
+  const decreaseQuantity = (id) => {
+    const cartItem = cart?.cart?.find((item) => item.productDtlId === id);
+    if (cartItem && cartItem.quantity > 1) {
+      updateCartQuantity(id, cartItem.quantity - 1, "decrement");
+    } else if (cartItem.quantity == 1) {
+      dispatch(deleteCart(cartItem?.cartId));
+    }
+  };
   return (
     <div className="w-100 position-relative">
       <input
@@ -137,24 +137,42 @@ const decreaseQuantity = (id) => {
           {searchProduct?.map((ele, i) => (
             <div className="singleProductWrap">
               <img
-                src={`${Image_URL}/Products/${ele.ProductsImages[0]?.url}`}
+                src={`${Image_URL}/products/${ele.ProductsImages[0]?.url}`}
                 alt="image"
                 className="searchImagesss"
               />
               <div className="searchDeatailwrap">
-                <div
-                  onClick={() => handlegoSingleProduct(ele?.slug)}
-                >
-                  <span className="productNameSearch">{ele?.productDtlName}</span>
+                <div onClick={() => handlegoSingleProduct(ele?.slug)}>
+                  <span className="productNameSearch">
+                    {ele?.productDtlName}
+                  </span>
                 </div>
-                <div><span className="searchDeatailUnit"><span>Stock</span> <br/>{ele?.quantity} {ele?.ProductUnit?.unitName}</span></div>
-                <div><span className="searchDeatailprice">{ele?.country?.currencySymbol}{ele.price}</span>/<span className="searchDeatailprice">{ele?.ProductUnit?.unitName}</span></div>
                 <div>
-                 <span className="searchDeatailOfer"> {ele.discountType === "fixed" && ele?.country?.currencySymbol}
-                  {ele.discount}
-                  {ele.discountType === "percentage" && "%"} OFF</span>
+                  <span className="searchDeatailUnit">
+                    <span>Stock</span> -
+                    {ele?.quantity} {ele?.ProductUnit?.unitName}
+                  </span>
                 </div>
-                <div>{cart?.cart?.find(
+                <div>
+                  <span className="searchDeatailprice">
+                    {ele?.country?.currencySymbol}
+                    {ele.price}
+                  </span>
+                  /
+                  <span className="searchDeatailprice">
+                    {ele?.ProductUnit?.unitName}
+                  </span>
+                </div>
+                <div>
+                  <span className="searchDeatailOfer">
+                    {ele.discountType === "fixed" &&
+                      ele?.country?.currencySymbol}
+                    {ele.discount}
+                    {ele.discountType === "percentage" && "%"} OFF
+                  </span>
+                </div>
+                <div>
+                  {cart?.cart?.find(
                     (item) => item.productDtlId === ele.productDtlId
                   ) ? (
                     <button className="searchDeatailaddBtn d-flex justify-content-around ">

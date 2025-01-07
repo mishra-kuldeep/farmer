@@ -7,15 +7,18 @@ import { FaSearch } from "react-icons/fa";
 import Search from "../reusableComponent/search/Search";
 import Category from "../reusableComponent/category/Category";
 import { useRouter } from "next/navigation";
+import { IoIosHeadset } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const HeaderForMobile = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const cart = useSelector((state) => state.cart);
   const [searchOpen, setSearchOpen] = useState(false);
   return (
     <>
       <div className="mobile_navbar">
         <div className="mobile_tabs">
-          <div className="tabsMobile" onClick={()=>router.push("/")}>
+          <div className="tabsMobile" onClick={() => router.push("/")}>
             <div>
               <IoHomeSharp size={20} color="var(--mainColor)" />
               <p>Home</p>
@@ -38,14 +41,22 @@ const HeaderForMobile = () => {
           >
             <FaSearch size={20} color="var(--white)" />
           </div>
-          <div className="tabsMobile">
+          <div
+            className="tabsMobile"
+            onClick={() => router.push("/ads-category")}
+          >
             <div>
-              <MdLocalOffer size={20} color="var(--mainColor)" />
-              <p>OfferZone</p>
+              <IoIosHeadset size={25} color="var(--mainColor)" />
+              <p>All Ads</p>
             </div>
           </div>
-          <div className="tabsMobile">
+          <div className="tabsMobile position-relative" onClick={() => router.push("/basket")}>
             <div>
+              {cart?.cart?.length > 0 ? (
+                <span className="cart-count-for-mobile">{cart?.cart?.length}</span>
+              ) : (
+                <span className="cart-count-for-mobile">0</span>
+              )}
               <FaShoppingCart size={20} color="var(--mainColor)" />
               <p>Cart</p>
             </div>
@@ -58,10 +69,14 @@ const HeaderForMobile = () => {
         tabIndex="-1"
         id="offcanvasExample1"
         aria-labelledby="offcanvasExampleLabel1"
-        style={{backgroundColor:"var(--mainColor)",width:"90%"}}
+        style={{ backgroundColor: "#fff", width: "90%" }}
       >
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title text-light" id="offcanvasExampleLabel1">
+          <h5
+            className="offcanvas-title"
+            id="offcanvasExampleLabel1"
+            style={{ color: "var(--mainColor)" }}
+          >
             All Category
           </h5>
           <button
@@ -74,9 +89,9 @@ const HeaderForMobile = () => {
         <div className="offcanvas-body p-2">
           <Category />
         </div>
-        </div>
-        {/* /////////////////////// saerch div /////////////////////// */}
-    
+      </div>
+      {/* /////////////////////// saerch div /////////////////////// */}
+
       {searchOpen && (
         <div className="searchBarForMobile">
           <Search />

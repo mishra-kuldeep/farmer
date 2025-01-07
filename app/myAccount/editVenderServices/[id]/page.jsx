@@ -57,7 +57,6 @@ const EditVenderServices = ({ params }) => {
     images?.forEach((image, index) => {
       formData.append(`adImages`, image);
     });
-    console.log(values)
     try {
       await vendorMasterServices?.UpdateVendorServices(params?.id, formData);
       setErrors({});
@@ -115,6 +114,7 @@ const EditVenderServices = ({ params }) => {
         })
         .catch((err) => console.log(err));
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
   const initApis = () => {
     vendorMasterServices
@@ -141,7 +141,6 @@ const EditVenderServices = ({ params }) => {
         });
       ProductUnitServices.getUnitBycountry(user?.profile?.country)
         .then(({ data }) => {
-          console.log(data);
           setUnitList(data);
         })
         .catch((err) => {

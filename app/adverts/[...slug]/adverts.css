@@ -1,22 +1,22 @@
-.product-card{
-    padding: 10px;
-    border: 1px solid #dadada;
-    position: relative;
-    border-radius: 5px;
+.product-card {
+  padding: 10px;
+  border: 1px solid #dadada;
+  position: relative;
+  border-radius: 5px;
 }
-.product-card:hover{
-    border: 1px solid var(--mainColor);
-    cursor: pointer;
+.product-card:hover {
+  border: 1px solid var(--mainColor);
+  cursor: pointer;
 }
-.product-card h6{
-    color: var(--mainColor);
+.product-card h6 {
+  color: var(--mainColor);
 }
-.rentstatus{
-    position:absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    gap: 10px;
+.rentstatus {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  gap: 10px;
 }
 .search_wrapper {
   /* background-color: red; */
@@ -32,7 +32,7 @@
   width: 89%;
   border: none;
   outline: none;
-  padding: 10px;
+  padding: 5px;
   font-size: 20px;
   border-radius: 10px 0px 0px 10px;
 }
@@ -44,19 +44,19 @@
   font-size: 20px;
   background-color: var(--mainColor);
   color: #fff;
-  border-radius:0px 10px 10px 0px;
+  border-radius: 0px 10px 10px 0px;
 }
-.filterSELECTED{
+.filterSELECTED {
   background-color: #ebebeb;
   border-radius: 4px;
   cursor: pointer;
 }
-.filterHover:hover{
+.filterHover:hover {
   background-color: #ebebeb;
   border-radius: 4px;
   cursor: pointer;
 }
-.filterSection{
+.filterSection {
   padding: 10px;
   border: 1px solid #dadada;
   border-radius: 5px;
@@ -64,28 +64,55 @@
   overflow: auto;
 }
 
+.plotsale[data-status="isForRent"] {
+  padding: 5px;
+  background-color: orange;
+  border-radius: 5px 0px 0px 0px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+}
+.plotsale[data-status="isForSale"] {
+  padding: 5px;
+  background-color: green;
+  border-radius: 5px 0px 0px 0px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+}
+.adsCardTitles{
+  padding: 5px;
+}
 @media only screen and (max-width: 600px) {
-  .filterSection{
-    max-height: 20vh;
-    margin-bottom: 20px;
+  .filterSection {
+    margin-bottom: 10px;
   }
-  
-}
-.plotsale[data-status="isForRent"]{
-   
+  .search_wrapper {
+    border-radius: 5px;
+    padding: 3px;
+  }
+  .search_wrapper input {
+    width: 79%;
+    padding: 0px 10px;
+    font-size: 13px;
+    border-radius: 5px 0px 0px 5px;
+  }
+  .search_wrapper button {
+    width: 20%;
+    padding: 2px;
+    font-size: 15px;
+    border-radius: 0px 5px 5px 0px;
+  }
+  .product-card {
     padding: 5px;
-    background-color: orange;
-    border-radius: 5px 0px 0px 0px;
-    color: #fff;
-    font-weight: bold;
+  }
+  .adsCardTitles{
+    padding: 3px 3px 0px 3px;
+  }
+  .adsCardTitles h6 {
+    font-size: 14px;
+  }
+  .adsCardTitles p {
     font-size: 12px;
-}
-.plotsale[data-status="isForSale"]{
-   
-    padding: 5px;
-    background-color: green;
-    border-radius: 5px 0px 0px 0px;
-    color: #fff;
-    font-weight: bold;
-    font-size: 12px;
+  }
 }

@@ -123,7 +123,6 @@ const AddVenderServices = () => {
         });
       ProductUnitServices.getUnitBycountry(user?.profile?.country)
         .then(({ data }) => {
-          console.log(data);
           setUnitList(data);
         })
         .catch((err) => {

@@ -1,6 +1,5 @@
 .bestSellerWrapper {
   background-color: var(--light);
-  margin-top: 20px;
 }
 .headerbestSeller {
   display: flex;
@@ -29,12 +28,12 @@
   cursor: pointer;
 }
 .overflowscrollhidden {
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    scroll-behavior: smooth;
-    padding-bottom: 10px;
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow: hidden !important;
+  scroll-behavior: smooth !important;
+  padding-bottom: 10px !important;
 }
 .bestseller_cards {
   background-color: var(--white);
@@ -127,7 +126,9 @@
   border-radius: 4px;
   box-shadow: 3px 3px 5px #afafaf;
 }
-
+.kisanNamelocationIcon{
+  font-size: 15px !important;
+}
 @media only screen and (max-width: 600px) {
   .addtoCart_btn {
     border: none;
@@ -138,8 +139,16 @@
     font-size: 12px;
   }
   .bestseller_cards h6{
+    height: auto;
     font-size: 14px;
   }
+  .kisanNamelocation{
+    font-size: 10px;
+  }
+  .kisanNamelocationIcon{
+    font-size: 12px !important;
+  }
+ 
 }
 
 .quantitywrap {

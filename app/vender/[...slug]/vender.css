@@ -1,34 +1,61 @@
-
 .servicevendercard {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin: 5px;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    border-top: 4px solid var(--mainColor); /* Highlighted left border */
+  background-color: #fff;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+  padding: 10px;
+  border: 1px solid #dadada;
+  margin: 5px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  /* border-top: 4px solid var(--mainColor); Highlighted left border */
 }
-.venderservicephone{
-    background-color: green;
-    color: #fff;
-    font-weight: bold;
-    height: 30px;
-    display: flex;
-    font-size: 12px;
-    justify-content: space-around;
-    align-items: center;
-    width: 40%;
+.venderservicephone {
+  background-color: green;
+  color: #fff;
+  font-weight: bold;
+  height: 30px;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-around;
+  align-items: center;
+  width: 40%;
 }
-.venderservicephone:hover{
-    cursor: pointer;
+.venderservicephone:hover {
+  cursor: pointer;
+  border-radius: 5px;
+}
+.locationInput {
+  border-radius: 2px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid gray;
+  outline: none;
+  padding-left: 10px;
+}
+.servicevendercard img {
+  width: 100%;
+  height: 150px;
+}
+@media only screen and (max-width: 600px) {
+  .servicevendercard {
     border-radius: 5px;
-}
-.locationInput{
-    border-radius: 2px;
-    background-color:#fff;
-    border-radius: 5px;
-    border: 1px solid gray;
-    outline: none;
-    padding-left: 10px;
-  
+    padding: 6px;
+    margin: 3px;
   }
+  .servicevendercard img {
+    width: 100%;
+    height: 100px;
+  }
+  .servicevendercard h5 {
+    font-size: 14px;
+  }
+  .venderservicephone {
+    height: 20px !important;
+    width: 80% !important;
+    text-align: center !important;
+    padding: 0px 10px;
+    margin-top: 10px;
+  }
+    .relatedAddTitle h5{
+      font-size: 13px !important;
+    }
+}

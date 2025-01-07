@@ -235,3 +235,37 @@ header {
   align-items: center;
   font-size: 12px;
 }
+.cart-count-for-mobile{
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+.headerdropdownmenusopen{
+  display: none;
+
+}
+.headerdropdownmenusclose{
+  display: block;
+  position: absolute;
+  top: 37px;
+  border: 1px solid #dadada;
+  width: 300px;
+  height: 100vh;
+  left: -12px;
+  background-color: #fff;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 20px;
+}

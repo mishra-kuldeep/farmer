@@ -9,7 +9,7 @@
   background-color: var(--white);
   /* margin-bottom: 10px; */
   margin-top: 10px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   padding: 7px;
   cursor: pointer;
 }
@@ -25,13 +25,13 @@
   height: 130px;
   width: 100%;
   overflow: hidden;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 .section2cardHome img{
   /* object-fit: cover; */
   height: 130px;
   width: 100%;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   transition: 0.5s;
 }
 .section2cardHome:hover.section2cardHome img{
@@ -49,19 +49,22 @@
 .section2cartTitle span{
   font-size: 13px;
 }
+.section2cardHome {
+  border-radius: 0px;
+}
 .section2cardHome .image_div {
   width: 100%;
   position: relative;
   height: 100px;
   width: 100%;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 0px;
 }
 .section2cardHome img{
   /* object-fit: cover; */
   height: 100px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 0px;
   transition: 0.5s;
 }
 }

@@ -86,7 +86,6 @@ const Page = () => {
       };
       VehicleServices.getAllTransportByVehicalId(vehicleId, data)
         .then(({ data }) => {
-          console.log(data)
           setTransportList(data?.data);
           // setmetaData(data.meta);
           setLoader(false);
@@ -101,15 +100,17 @@ const Page = () => {
 
   useEffect(() => {
     getTransporterDetailApi()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vehicleId])
 
   useEffect(() => {
     intiApi()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   return (
-    <div className="container pt-4">
-      <div className="row m-0 ">
+    <div className="container pt-md-4 pt-1">
+      <div className="row">
         {LoaderFirstSection ?
           (
             <div style={{ height: "80vh" }} className="centerAllDiv">
@@ -118,7 +119,7 @@ const Page = () => {
             </div>
           )
           : (
-            <div className="col-md-9">
+            <div className="col-md-9 p-md-2 p-1">
               {/************
            ************
            ************
@@ -129,21 +130,20 @@ const Page = () => {
            ************
            ************
             */}
-              <div className="p-3 border rounded">
+              <div className="p-md-3 p-1 border rounded">
                 <div className="d-flex justify-content-between">
-                  <h4>{singleTransportData?.TransportVehicle?.type || "N/A"}</h4>
-                  <h4>Charge Per km{" "}{singleTransportData?.chargePerKm}</h4>
+                  <h4 className='mobilehome_title'>{singleTransportData?.TransportVehicle?.type || "N/A"}</h4>
+                  <h4 className='mobilehome_title'>Charge Per km{" "}{singleTransportData?.chargePerKm}</h4>
                 </div>
 
-                <div className="imagebigDiv my-3">
+                <div className="imagebigDiv my-md-3 my-1">
                   <img
                     src={
                       singleTransportData?.AdsImages?.length > 0
                         ? `${Image_URL}/adsImages/${image}`
                         : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
                     }
-                    height="450px"
-                    width="100%"
+          alt='images'
                     className="border rounder p-1"
                   />
                 </div>
@@ -157,6 +157,7 @@ const Page = () => {
                         width="80px"
                         className="border rounder p-1"
                         onClick={() => setImage(val.url)}
+                        alt='images'
                       />
                     ))
                   ) : (
@@ -165,6 +166,7 @@ const Page = () => {
                       height="80px"
                       width="80px"
                       className="border rounder p-1"
+                      alt='images'
                     />
                   )}
                 </div>
@@ -180,7 +182,7 @@ const Page = () => {
                   </div>
                 </div>
                 <hr />
-                <div className="m-0 row mt-3">
+                <div className="row mt-md-3 mt-1">
                   <div className="col-md-6">
                     <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Vechical</span> {singleTransportData?.TransportVehicle?.type || "N/A"}</h2>
                     <h2 className='transporterHeadFont'><span className='transporterDetailHeading'>Capacity</span>  {singleTransportData?.TransportVehicle?.capacity || "N/A"}</h2>
@@ -246,6 +248,7 @@ const Page = () => {
               <img
                 src="https://www.farmersmarket.ie/assets/images/layout/user.jpg?mode=pad&anchor=center&width=180&height=180&upscale=false&bgcolor=fff"
                 className="user_avtar"
+                alt='images'
               />
               <h5>{singleTransportData?.User?.FirstName} {singleTransportData?.User?.LastName}</h5>
             </div>
@@ -313,8 +316,8 @@ const Page = () => {
  * ******************
  * ******************
  * ********/}
-      <div style={{ height: "10vh" }}>
-        <div className='bestSellerWraper my-5 px-4'>
+      <div style={{backgroundColor:"#ddd"}} className="p-md-3 p-2">
+        <div className='bestSellerWraper'>
           <div className="headerbestSeller">
             <h5>Related Ads</h5>
             <div className="arrowBtn_bestSeller">
@@ -351,6 +354,7 @@ const Page = () => {
                           style={{ backgroundColor: "#dadada" }}
                           width="100%"
                           height="150px"
+                          alt='image'
                         />
                         <div className="p-2">
                           <h5 className="my-2">{item?.TransportVehicle?.type}</h5>

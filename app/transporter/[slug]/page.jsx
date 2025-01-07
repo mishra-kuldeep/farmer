@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./transporter.css";
 import "../../adverts/[...slug]/adverts.css";
+import "../../vender/[...slug]/vender.css";
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { VscCircleLargeFilled } from "react-icons/vsc";
@@ -12,6 +13,7 @@ import { useParams } from "next/navigation";
 import Pagination from "@/component/reusableComponent/Pagination";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { Image_URL } from "@/helper/common";
+import { isMobile } from "react-device-detect";
 
 const Page = () => {
   const user = useSelector((state) => state.auth);
@@ -50,7 +52,6 @@ const Page = () => {
     VehicleMasterServices.getVehicle()
       .then(({ data }) => {
         setCategory(data);
-        console.log(data);
       })
       .catch((err) => console.log(err));
   };
@@ -79,7 +80,9 @@ const Page = () => {
     }
   };
   useEffect(() => {
+    setCategoryFilter(isMobile ? false : true);
     apiCallTransAds();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     user?.profile?.country,
     country?.country?.countryId,
@@ -90,6 +93,7 @@ const Page = () => {
   useEffect(() => {
     initApi();
     setSelectedCategory(slug);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
@@ -97,7 +101,7 @@ const Page = () => {
       <div>
         <div className="container pt-1">
           <div className=" py-1">
-            <div className="search_wrapper my-4">
+            <div className="search_wrapper my-2">
               <input
                 type="text"
                 placeholder="Search by company name..."
@@ -136,12 +140,14 @@ const Page = () => {
                       {category.map((category, index) => (
                         <div
                           key={index}
-                          className={`${selectedCategory == category?.vehicleId &&
+                          className={`${
+                            selectedCategory == category?.vehicleId &&
                             "filterSELECTED"
-                            } filterHover mb-1 p-1`}
-                          onClick={() =>
-                            handleCategoryChange(category?.vehicleId)
-                          }
+                          } filterHover mb-1 p-1`}
+                          onClick={() => {
+                            handleCategoryChange(category?.vehicleId);
+                            isMobile && setCategoryFilter(false);
+                          }}
                         >
                           {selectedCategory == category?.vehicleId ? (
                             <VscCircleLargeFilled
@@ -161,7 +167,10 @@ const Page = () => {
             </div>
             <div className="col-md-9">
               <div className="d-flex justify-content-between">
-                <h3 className="my-2"> Ads For Booking Transportation </h3>
+                <h3 className="mb-2 mobilehome_title">
+                  {" "}
+                  Ads For Booking Transportation{" "}
+                </h3>
               </div>
               {Loader ? (
                 <div style={{ height: "40vh" }} className="centerAllDiv">
@@ -173,19 +182,22 @@ const Page = () => {
                   {transport.map((item, i) => {
                     return (
                       <div
-                      key={i}
-                        className="col-md-6 col-lg-4"
+                        key={i}
+                        className="col-md-4 col-6 p-md-2 p-1"
                         onClick={() => Navigate(item.transVehicalId)}
                       >
                         <div className="servicevendercard">
                           <img
-                            src={item?.AdsImages?.length > 0 ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}` : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
+                            src={
+                              item?.AdsImages?.length > 0
+                                ? `${Image_URL}/adsImages/${item?.AdsImages[0]?.url}`
+                                : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                            }
                             style={{ backgroundColor: "#dadada" }}
-                            width="100%"
-                            height="150px"
+                            alt="image"
                           />
-                          <div className="p-2">
-                            <h5 className="my-2">
+                          <div className="p-md-2 p-1">
+                            <h5 className="my-md-2 my-1">
                               {item?.TransportVehicle?.type}
                             </h5>
                             <h6 style={{ fontSize: "13px" }}>
@@ -202,27 +214,26 @@ const Page = () => {
                               data-bs-placement="bottom"
                               title={item?.description}
                             >{item?.description}</p> */}
-                          </div>
-                          <div className="d-flex justify-content-between">
-                            <p style={{ fontSize: "12px" }}>
-                              <span className="transporterParagraph">
-                                Company Name
-                              </span>{" "}
-                              <br />
-                              {item?.User?.userInfo?.CompanyName}
-                            </p>
-                          </div>
-                          <div className="d-flex justify-content-between">
-                            <p style={{ fontSize: "12px" }}>
-                              <span className="transporterParagraph">
-                                Pincode
-                              </span>{" "}
-                              <br />
-                              {item?.User?.userInfo?.Zip}
-                            </p>
-                            <p className="venderservicephone">
-                              {item?.User?.Phone}
-                            </p>
+                            <div className="d-flex justify-content-between">
+                              <p style={{ fontSize: "12px" }}>
+                                <span className="transporterParagraph">
+                                  Company Name :
+                                </span>{" "}
+                                {item?.User?.userInfo?.CompanyName}
+                              </p>
+                            </div>
+                            <div className="d-md-flex justify-content-between">
+                              <p style={{ fontSize: "12px" }}>
+                                <span className="transporterParagraph">
+                                  Pincode :
+                                </span>
+                                <br className="d-md-block d-none" />
+                                {item?.User?.userInfo?.Zip}
+                              </p>
+                              <p className="venderservicephone" >
+                                {item?.User?.Phone}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -258,8 +269,8 @@ const Page = () => {
                         Sorry, there are no listings for this category.
                       </p>
                       <p style={{ marginBottom: "10px" }}>
-                        Please try another search or click here to see the latest
-                        ads.
+                        Please try another search or click here to see the
+                        latest ads.
                       </p>
                     </div>
                   )}

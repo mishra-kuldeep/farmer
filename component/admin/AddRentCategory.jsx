@@ -84,14 +84,12 @@ const AddRentCategory = ({ setState }) => {
   const addField = () => {
     setFields([...fields, { value: "" }]);
   };
-console.log(fields);
 
   const handleInputChange = (index, event) => {
     const updatedFields = [...fields];
     updatedFields[index].value = event.target.value;
     setFields(updatedFields);
   };
-  console.log(fields);
 
   return (
     <div className="row m-0 p-3">

@@ -68,7 +68,6 @@ const FarmerProductsAlllist = () => {
         console.log(err);
       });
   }, [intiapicall, page, searchText, actionPerformed]);
-console.log(allFarmerProducts)
   return (
     <div className="p-2">
       <Pagination

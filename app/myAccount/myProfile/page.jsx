@@ -74,7 +74,6 @@ const MyProfile = () => {
 
     AuthService.getAllcultivating()
       .then(({ data }) => {
-        console.log(data)
         setCultivatingList(
           data?.map(item => ({
             label: item.CultivatingName?.toString().toLowerCase() || '',
@@ -126,6 +125,7 @@ const MyProfile = () => {
           ?.countryCode
       );
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryList.length, values.CountryID]);
   const updateProfileHandeler = () => {
     setLoading(true);
@@ -191,14 +191,13 @@ const MyProfile = () => {
     })
 
   }
-  console.log(values?.Cultivating);
 
   return (
     <>
       <div className="row m-0">
         <h4 className="text-secondary mb-3">Personal Information</h4>
         <hr />
-        <div className="col-md-4 ">
+        <div className="col-md-4 pe-0 pe-md-3 pe-0 pe-md-3">
           <label className="adjustLabel"> First Name</label>
           <input
             type="text"
@@ -208,7 +207,7 @@ const MyProfile = () => {
             className="form-control adjustLabel_input shadow-none p-2"
           />
         </div>
-        <div className="col-md-4 ">
+        <div className="col-md-4 pe-0 pe-md-3 ">
           <label className="adjustLabel">Last Name</label>
           <input
             type="text"
@@ -222,7 +221,7 @@ const MyProfile = () => {
           )}
         </div>
 
-        <div className="col-md-4 ">
+        <div className="col-md-4 pe-0 pe-md-3 ">
           <label className="adjustLabel">Email</label>
           <input
             type="text"
@@ -233,7 +232,7 @@ const MyProfile = () => {
             className="form-control adjustLabel_input shadow-none p-2"
           />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-4 pe-0 pe-md-3">
           <label className="adjustLabel">Country</label>
           <select
             className="form-select custom-select adjustLabel_input shadow-none"
@@ -263,7 +262,7 @@ const MyProfile = () => {
           )}
         </div>
 
-        <div className="col-md-4 " style={{ position: "relative" }}>
+        <div className="col-md-4 pe-0 pe-md-3 " style={{ position: "relative" }}>
           <label htmlFor="phone" className="adjustLabel ms-5">
             Phone No
           </label>
@@ -292,7 +291,7 @@ const MyProfile = () => {
           )}
         </div>
 
-        <div className="col-md-4">
+        <div className="col-md-4 pe-0 pe-md-3">
           <label className="adjustLabel">Cultivating</label>
           <MultiSelect
             style={{ width: '97%', }}
@@ -335,7 +334,7 @@ const MyProfile = () => {
         </div>
 
         <>
-          <div className="col-md-4 ">
+          <div className="col-md-4 pe-0 pe-md-3 ">
             <label className="adjustLabel">
               Adhar Number {values?.CountryID == 1 && "*"}
             </label>
@@ -352,7 +351,7 @@ const MyProfile = () => {
               <span className="error_input_text">{Errors.AdharNo}</span>
             )}
           </div>
-          <div className="col-md-4 ">
+          <div className="col-md-4 pe-0 pe-md-3 ">
             <label className="adjustLabel " style={{ marginLeft: "100px" }}>
               Upload Adhar
             </label>
@@ -368,7 +367,7 @@ const MyProfile = () => {
           {values.IdImage && (
             <>
               {typeof values.IdImage === "string" ? (
-                <div className="col-md-4 ">
+                <div className="col-md-4 pe-0 pe-md-3 ">
                   <img
                     src={`${Image_URL}/${values.IdImage}`}
                     alt="idImage"
@@ -380,7 +379,7 @@ const MyProfile = () => {
                   />
                 </div>
               ) : (
-                <div className="col-md-4 ">
+                <div className="col-md-4 pe-0 pe-md-3 ">
                   <img
                     src={URL.createObjectURL(values.IdImage)}
                     alt="idImage"
@@ -424,7 +423,7 @@ const MyProfile = () => {
         </div>
 
         {values.CountryID != 2 && (
-          <div className="col-md-4 ">
+          <div className="col-md-4 pe-0 pe-md-3 ">
             <label className="adjustLabel">State *</label>
             <select
               value={selectedState}
@@ -450,7 +449,7 @@ const MyProfile = () => {
           </div>
         )}
 
-        <div className="col-md-4 ">
+        <div className="col-md-4 pe-0 pe-md-3 ">
           <label className="adjustLabel">
             City{" "}
             {(user?.profile?.role === 2 || user?.profile?.role === 4) && "*"}
@@ -477,7 +476,7 @@ const MyProfile = () => {
           )}
         </div>
 
-        {/* <div className="col-md-4 ">
+        {/* <div className="col-md-4 pe-0 pe-md-3 ">
           <label className="adjustLabel">Zip Code *</label>
           <input
             type="text"

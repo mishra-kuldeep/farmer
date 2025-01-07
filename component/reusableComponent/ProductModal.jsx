@@ -260,7 +260,7 @@ const ProductModal = ({
                         {ImageList?.length > 0 &&
                           ImageList?.map((image, i) => (
                             <img
-                              src={`${Image_URL}/Products/${image.url}`}
+                              src={`${Image_URL}/products/${image.url}`}
                               alt="image"
                               key={i}
                               onClick={() => setIndex(i)}
@@ -274,7 +274,7 @@ const ProductModal = ({
                       style={{ height: "300px", width: "300px" }}
                     >
                       <img
-                        src={`${Image_URL}/Products/${ImageList[Index]?.url}`}
+                        src={`${Image_URL}/products/${ImageList[Index]?.url}`}
                         alt="image"
                         style={{ objectFit: "fill" }}
                       />

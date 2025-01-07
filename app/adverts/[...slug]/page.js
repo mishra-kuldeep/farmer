@@ -17,6 +17,7 @@ import IconButton from "@/component/reusableComponent/IconButton";
 import Pagination from "@/component/reusableComponent/Pagination";
 import { Image_URL } from "@/helper/common";
 import toast from "react-hot-toast";
+import { isMobile } from "react-device-detect";
 
 const AdvertsCart = () => {
   const user = useSelector((state) => state.auth);
@@ -43,16 +44,17 @@ const AdvertsCart = () => {
 
   //** Call the handleSearch function with the search term */
   const handleSearch = () => {
-    if(searchTerm.length>0){
+    if (searchTerm.length > 0) {
       ApiCall();
-    }else toast('Please type in side search Input',{
-      icon: "👏",
-      style: {
-        borderRadius: "1px",
-        background: "red",
-        color: "#fff",
-      },
-    })
+    } else
+      toast("Please type in side search Input", {
+        icon: "👏",
+        style: {
+          borderRadius: "1px",
+          background: "red",
+          color: "#fff",
+        },
+      });
   };
 
   const handleCategoryChange = (rentCategoryId) => {
@@ -73,7 +75,6 @@ const AdvertsCart = () => {
 
     RentProductsServices.getAllRentProductHome(FilterData)
       .then(({ data }) => {
-        console.log(data);
         setproducts(data?.data);
         setmetaData(data?.meta);
         setLoader(false);
@@ -88,21 +89,24 @@ const AdvertsCart = () => {
     if (user?.profile?.country || country?.country?.countryId) {
       ApiCall();
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId, selectedCategory]);
 
   useEffect(() => {
+    isMobile && setCategoryFilter(false);
     RentServices?.getRentCategory()
       .then(({ data }) => {
         setSelectedCategory(slug[0]);
         setCategoryList(data);
       })
       .catch((e) => console.log(e));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.profile?.country, country?.country?.countryId]);
 
   return (
     <>
       <div className="container pt-1">
-        <div className="my-3">
+        <div className="my-md-3 my-2">
           <div className="search_wrapper">
             <input
               type="text"
@@ -137,9 +141,10 @@ const AdvertsCart = () => {
                           selectedCategory == category?.rentCategoryId &&
                           "filterSELECTED"
                         } filterHover mb-1 p-1`}
-                        onClick={() =>
-                          handleCategoryChange(category?.rentCategoryId)
-                        }
+                        onClick={() => {
+                          handleCategoryChange(category?.rentCategoryId);
+                          setCategoryFilter(false);
+                        }}
                       >
                         {selectedCategory == category?.rentCategoryId ? (
                           <VscCircleLargeFilled
@@ -160,11 +165,11 @@ const AdvertsCart = () => {
 
           <div className="col-md-9">
             <div className="d-flex justify-content-between">
-              <h3>
+              <h3 className="mobilehome_title">
                 Ads For Sale in{" "}
                 {user?.profile?.countryName || country?.country?.countryName}
               </h3>
-              <div className="d-flex align-items-center gap-3 cursor ">
+              <div className="d-md-flex align-items-center gap-3 cursor d-none">
                 <FaThList
                   size={25}
                   onClick={() => setGrid(1)}
@@ -183,14 +188,13 @@ const AdvertsCart = () => {
                 <span className="ms-3">Loading...</span>
               </div>
             ) : (
-              <div className="row m-0">
-                {products.map((product,index) => (
+              <div className="row">
+                {products.map((product, index) => (
                   <div
-                  key={index}
-                    className={`${grid ? "col-md-12" : "col-md-4"}  mb-2 p-2`}
+                    key={index}
+                    className={`${grid ? "col-md-12" : "col-md-4 col-6"}  p-md-2 p-1`}
                   >
                     <div
-                     
                       className="product-card"
                       onClick={() => farmServices(product.rentProductId)}
                     >
@@ -209,13 +213,21 @@ const AdvertsCart = () => {
                       <div className={`${grid && "d-flex"}`}>
                         <div style={{ width: grid ? "40%" : "100%" }}>
                           <img
-                             src= {product?.AdsImages?.length>0?`${Image_URL}/adsImages/${product?.AdsImages[0]?.url}`:"https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}
-                            width="290px"
-                            height="180px"
+                            src={
+                              product?.AdsImages?.length > 0
+                                ? `${Image_URL}/adsImages/${product?.AdsImages[0]?.url}`
+                                : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                            }
+                            width="100%"
+                            height={isMobile?"100px":"180px"}
                             style={{ backgroundColor: "#dadada" }}
+                            alt="images"
                           />
                         </div>
-                        <div className="p-2" style={{ width: grid ? "60%" : "100%" }}>
+                        <div
+                          className="adsCardTitles"
+                          style={{ width: grid ? "60%" : "100%" }}
+                        >
                           <h6>{product.title}</h6>
                           <p className="my-2">
                             Category:{" "}

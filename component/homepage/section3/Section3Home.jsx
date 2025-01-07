@@ -42,13 +42,13 @@ const Section3Home = () => {
       <div className="container">
         <div className="row">
           {/* ////////////  Farm Land service   ///////////////// */}
-          <div className="col-md-7 pr-2 ">
-            <div style={{backgroundColor:"#f2f2f2"}} className="rounded shadow  border p-3">
-              <h5>Farm Land Services</h5>
+          <div className="col-md-7 ">
+            <div style={{backgroundColor:"var(--light)"}} className=" mt-2 border p-3 pb-0">
+              <h5 className="mobilehome_title">Farm Land Services</h5>
             <div className="row overflowhiddenbutscroll " >
               {cardArr.map((ele, i) => (
                 <div className="col-md-4 col-5  mb-3 px-2 px-md-3 " key={ele.id}>
-                  <div className="section2cardHome shadowcss">
+                  <div className="section2cardHome">
                     <div className="image_div">
                       <img src={ele.image} alt="product image" />
                     </div>
@@ -62,13 +62,13 @@ const Section3Home = () => {
             </div>
           </div>
           {/* ////////////  vender service   ///////////////// */}
-          <div className="col-md-5 pl-2 ">
-          <div style={{backgroundColor:"#f2f2f2"}} className="rounded shadow  border p-3">
-          <h5>Vendor Services</h5>
+          <div className="col-md-5">
+          <div style={{backgroundColor:"var(--light)"}} className=" mt-2 border p-3">
+          <h5 className="mobilehome_title">Vendor Services</h5>
             <div className="row overflowhiddenbutscroll">
               {cardArr2.map((ele, i) => (
-                <div className="col-md-6 col-6  mb-3 px-2 px-md-3" key={ele.id}>
-                  <div className="section2cardHome shadowcss">
+                <div className="col-md-6 col-6 px-2 px-md-3" key={ele.id}>
+                  <div className="section2cardHome">
                     <div className="image_div">
                       <img src={ele.image} alt="product image" />
                     </div>

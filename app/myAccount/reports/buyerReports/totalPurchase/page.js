@@ -14,7 +14,6 @@ const Page = () => {
      const filter = "Paid"
     ReportsServices.PurchaseHistory(filter)
       .then(({ data }) => {
-        console.log(data)
         setTotalPurchase(data?.data);
         setMetaData(data?.meta)
       })

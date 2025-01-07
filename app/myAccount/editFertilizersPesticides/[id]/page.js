@@ -99,7 +99,6 @@ const EditFertilizersPesticides = ({ params }) => {
     if (params?.id) {
       FertilizersPesticideServices.getSinglFertilizersPesticide(params?.id)
         .then(({ data }) => {
-          console.log(data);
           const valuess = data;
           setValues({
             vendorId: valuess.vendorId,
@@ -117,6 +116,7 @@ const EditFertilizersPesticides = ({ params }) => {
         })
         .catch((err) => console.log(err));
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
   const initApis = () => {
     vendorMasterServices
@@ -143,7 +143,6 @@ const EditFertilizersPesticides = ({ params }) => {
         });
       ProductUnitServices.getUnitBycountry(user?.profile?.country)
         .then(({ data }) => {
-          console.log(data);
           setUnitList(data);
         })
         .catch((err) => {
