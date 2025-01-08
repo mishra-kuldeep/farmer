@@ -65,7 +65,7 @@ const VendorServicesList = () => {
 
   const handleRject = () => {
     setConfirmLoader(true);
-    const data ={adminReview:"Rejected"}
+    const data ={adminReview:"Rejected",adminReviewComment:"your detail not valid, please recheck"}
     vendorMasterServices.reviewVendorServices(selectedUser,data)
       .then(({ data }) => {
         setConfirmLoader(false);
@@ -97,9 +97,9 @@ const VendorServicesList = () => {
         <label>
           <input
             type="radio"
-            value="Approved"
-            checked={status == "Approved"}
-            onChange={() => handleStatusChange("Approved")}
+            value="Approvedadminside"
+            checked={status == "Approvedadminside"}
+            onChange={() => handleStatusChange("Approvedadminside")}
           />
           <span className="m-1">Approved</span>
         </label>

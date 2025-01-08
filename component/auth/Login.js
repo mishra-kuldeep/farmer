@@ -4,6 +4,10 @@ import { useDispatch } from "react-redux";
 import { fetchUserInfo, login } from "@/redux/auth/authSlice";
 import MiniLoader from "../reusableComponent/MiniLoader";
 import { IoMdEye, IoIosEyeOff } from "react-icons/io";
+import ForgotPassword from "./ForgotPassword";
+import { MdBackup } from "react-icons/md";
+import { FaArrowLeftLong } from "react-icons/fa6";
+
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -11,6 +15,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
   const [secure, setSecure] = useState(true);
+  const [changepass, setchangepass] = useState(false);
 
   const handleSubmit = () => {
     setLoader(true);
@@ -23,7 +28,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+  <>
+  { !changepass&& <div>
       <div className="text-center">
         <img src={logo.src} alt="logo" className="shadow mb-5 loginlogo" />
       </div>
@@ -62,13 +68,21 @@ const LoginPage = () => {
           />
         )}
       </div>
+      <div className="text-end pe-4 py-1" onClick={() => setchangepass(true)}>
+        ForgotPassword
+      </div>
       <div className="p-2 text-center mt-4">
         <button className="login_btn" onClick={handleSubmit} disabled={loader}>
           {loader && <MiniLoader />}
           Login
         </button>
       </div>
-    </div>
+    
+    </div>}
+    {changepass && <p className="p-2 cursor" onClick={() => setchangepass(false)}><FaArrowLeftLong/></p>}
+      {changepass && <ForgotPassword setchangepass={setchangepass}/>}
+  </>
+
   );
 };
 
