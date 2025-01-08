@@ -10,9 +10,10 @@ ul{
 
 .footer-col h4{
 	font-size: 18px;
-	color: #000000;
+	color: #555;
+	margin-top: 20px;
 	text-transform: capitalize;
-	margin-bottom: 35px !important;
+	margin-bottom: 10px !important;
 	font-weight: 900;
 	position: relative;
 }
@@ -21,7 +22,7 @@ ul{
 	position: absolute;
 	left:0;
 	bottom: -10px;
-	background-color: var(--mainColor);
+	/* background-color: var(--mainColor); */
 	height: 4px;
 	box-sizing: border-box;
 	width: 50px;

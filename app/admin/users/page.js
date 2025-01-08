@@ -198,7 +198,7 @@ const UsersListForAdmin = () => {
                 >
                   <button type="button">
                     <span>
-                      {i}. {ele.FirstName} {ele.LastName}
+                      {i+1}. {ele.FirstName} {ele.LastName}
                     </span>
                     <IoIosArrowDown
                       className={`${stylesss["accordion-button-icon"]} ${

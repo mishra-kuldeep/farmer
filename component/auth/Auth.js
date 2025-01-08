@@ -30,8 +30,18 @@ const Auth = () => {
           router.push("/admin");
         }
       }
+    }else if (auth?.error){
+      toast(auth.error, {
+        icon: "😢",
+        style: {
+          borderRadius: "10px",
+          background: "red",
+          color: "#fff",
+        }
+      })
     }
   }, [auth.success]);
+
 
   return (
     <>
@@ -67,7 +77,7 @@ const Auth = () => {
           ></button>
         </div>
         <div className="offcanvas-body">
-        <p className="fw-bold text-danger text-center">{auth.error}</p>
+        {/* <p className="fw-bold text-danger text-center">{auth.error}</p> */}
         {loginState ? <LoginPage /> : <RegisterPage />}
         <div
           className="w-100 cursor"

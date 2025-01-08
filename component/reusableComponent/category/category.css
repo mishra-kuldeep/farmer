@@ -4,6 +4,13 @@
     cursor: pointer;
     font-size: 14px;
 }
+.cat_list_disable{
+    padding: 5px 10px;
+    border-bottom: 0.5px solid #ddd;
+    cursor: inherit;
+    font-size: 14px;
+    color: #888;
+}
 .cat_list:hover{
    font-weight: bold;
 }
@@ -16,6 +23,36 @@
 .cat_list1:hover{
    font-weight: bold;
 }
+.hovercatlist:hover{
+    background-color: #dddddd !important;
+}
+.activecat{
+    background-color: #dddddd !important;
+}
+.activecat p{
+    color: #000000 !important;
+}
+.activecat .iconcatlist{
+    color: #000000 !important;
+}
+.hovercatlist:hover p{
+    color: #000000 !important;
+}
+.hovercatlist .iconcatlist{
+    color: #ffffff !important;
+}
+.hovercatlist:hover .iconcatlist{
+    color: #000000 !important;
+}
+.catsublisthover{
+    background-color: #f2f2f2;
+}
+.catsublisthover:hover{
+    background-color: var(--mainColor);
+    color: #fff !important;
+}
+
+
 @media only screen and (max-width: 600px) {
     .cat_list{
      color: #030303 !important;

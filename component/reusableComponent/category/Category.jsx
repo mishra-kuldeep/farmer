@@ -3,11 +3,14 @@ import "./category.css";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import CategoryServices from "@/services/CategoryServices";
 import { IoMdArrowDropright } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const Category = () => {
+  const router = useRouter();
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [openCategory, setOpenCategory] = useState(null);
+  const [subId, setsubId] = useState(null);
 
   const toggleCategory = (categoryName) => {
     if (openCategory === categoryName) {
@@ -22,29 +25,47 @@ const Category = () => {
     });
   }, []);
 
+  console.log(categoryList);
+  console.log(subId);
+
   return (
     <>
       <div
         style={{ width: "600px", display: "flex" }}
         className="d-none d-md-flex p-0"
       >
-        <div style={{ width: "300px", backgroundColor: "#dddddd" }}>
+        <div style={{ width: "300px", backgroundColor: "var(--mainColor)" }}>
           {categoryList?.map((ele, i) => (
             <div
-              className="cat_list d-flex justify-content-between pe-2 align-items-center cursor"
-              style={{borderBottom:"0.1px solid rgb(175, 175, 175)"}}
-              onMouseEnter={() => setSubCategoryList(ele?.SubCategories)}
+              onClick={() => router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)}
+              className={`${
+                ele?.categoryId == subId && "activecat"
+              } cat_list hovercatlist d-flex justify-content-between pe-2 align-items-center cursor`}
+              style={{ borderBottom: "0.1px solid rgb(175, 175, 175)" }}
+              onMouseEnter={() => {
+                setSubCategoryList(ele?.SubCategories);
+                setsubId(ele?.categoryId);
+              }}
             >
-              <p key={i} className=" text-dark">
+              <p key={i} className=" text-white">
                 {ele?.categoryName}
               </p>
-              {!!ele.SubCategories.length && <IoMdArrowDropright />}
+              {!!ele.SubCategories.length && (
+                <IoMdArrowDropright
+                  className={`${ele?.categoryId !== subId && "iconcatlist"}`}
+                />
+              )}
             </div>
           ))}
         </div>
-        <div style={{ width: "300px", backgroundColor: "#f2f2f2" }}>
+        <div style={{ width: "300px" }}>
           {subCategoryList?.map((ele) => (
-            <p className="cat_list text-dark">{ele?.subcategoryName}</p>
+            <p
+              className="cat_list catsublisthover text-dark"
+              onClick={() => router.push(`/ViewAll/product?subcategotyId=${ele?.subcategoryId}`)}
+            >
+              {ele?.subcategoryName}
+            </p>
           ))}
         </div>
       </div>

@@ -205,7 +205,7 @@ export default class CategoryServices {
   }
   static async statusUpdateProduct(id, stat) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/product/products/status/${id}`;
+    const url = `${BASE_URL}/product/productStatus/${id}`;
     return axios.put(url, { status: stat }, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header

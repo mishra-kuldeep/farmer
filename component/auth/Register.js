@@ -5,6 +5,7 @@ import MiniLoader from "../reusableComponent/MiniLoader";
 import AuthService from "@/services/AuthServices";
 import RoleServices from "@/services/RoleServices";
 import { IoMdEye, IoIosEyeOff } from "react-icons/io";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,11 @@ const RegisterPage = () => {
     (val) =>
       val?.countryId == values?.CountryID 
   )?.phoneCode;
-
+  const phoneLength = countryies?.find(
+    (val) =>
+      val?.countryId == values?.CountryID 
+  )?.phoneLength;
+console.log(phoneLength)
   useEffect(()=>{
     if(country?.country?.countryId&&countryies?.length>0){
       setValues((prev) => ({
@@ -60,12 +65,32 @@ console.log(countryies)
     }
   };
   const submitHandler = async () => {
+
+    if(phoneLength!= values.Mobile?.length){
+      toast("invalid phone number", {
+        icon: "😢",
+        style: {
+          borderRadius: "10px",
+          background: "red",
+          color: "#fff",
+        }
+      })
+      return
+    }
     if (cpawword == values.Password) {
       setLoader(true);
       values.Phone = `${phonecode}-${values.Mobile}`;
+      // delete values.Mobile;
       await dispatch(registration(values));
       setLoader(false);
-    }
+    }else toast("Password and confirm password is not same", {
+      icon: "😢",
+      style: {
+        borderRadius: "10px",
+        background: "red",
+        color: "#fff",
+      }
+    })
   };
 
   useEffect(() => {
@@ -189,6 +214,7 @@ console.log(countryies)
               id="phone"
               name="Mobile"
               value={values.Mobile}
+              maxLength={phoneLength}
               onChange={handleValues}
               className="form-control adjustLabel_input shadow-none"
               style={{ padding: `9px ${phonecode?.length * 16}px ` }}
@@ -223,6 +249,7 @@ console.log(countryies)
             value={values.Mobile}
             onChange={handleValues}
             min={2}
+            maxLength={phoneLength}
             required={true}
             className="form-control adjustLabel_input shadow-none"
             style={{ padding: `9px ${phonecode?.length * 16}px ` }}
@@ -309,11 +336,11 @@ console.log(countryies)
           />
         )}
       </div>
-      {cpawword !== values.Password && cpawword.length > 0 && (
+      {/* {cpawword !== values.Password && cpawword.length > 0 && (
         <p className="error_input_text ms-3">
-          Paword and confirm password is not same
+          Password and confirm password is not same
         </p>
-      )}
+      )} */}
       <div className="p-2 text-center mt-2 ">
         <button className="login_btn" onClick={submitHandler} disabled={loader}>
           {loader && <MiniLoader />}

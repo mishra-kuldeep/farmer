@@ -281,7 +281,7 @@ const HeaderTopForMobile = () => {
                 </div>
                 <ul
                   className="dropdown-menu p-0"
-                  style={{ right: "0%", width: "auto", top: "10px" }}
+                  // style={{ right: "0%", width: "auto", top: "10px" }}
                 >
                   <p
                     className="cat_list1"

@@ -119,15 +119,13 @@ function Header() {
       id: 1,
       title: "Farmers",
       // goesTo: "/myAccount/myProfile",
-      status:
-        !user.isLoggedIn 
-
+      status: !user.isLoggedIn,
     },
     {
       id: 11,
       title: "Farmers",
       // goesTo: "/myAccount/listAddedProduct",
-      status:user?.profile?.role === 2,
+      status: user?.profile?.role === 2,
       subMenu: [
         {
           id: 11,
@@ -160,13 +158,13 @@ function Header() {
       id: 2,
       title: "Buyer",
       // goesTo: "/myAccount/addProduct",
-      status: !user.isLoggedIn ,
+      status: !user.isLoggedIn,
     },
     {
       id: 11,
       title: "Buyer",
       // goesTo: "/myAccount/listAddedProduct",
-      status:user?.profile?.role === 3,
+      status: user?.profile?.role === 3,
       subMenu: [
         {
           id: 11,
@@ -189,12 +187,38 @@ function Header() {
       ],
     },
     {
+      id: 41,
+      title: "Transporter",
+      // goesTo: "/myAccount/listAddedProduct",
+      status: user?.profile?.role === 4,
+      subMenu: [
+        {
+          id: 42,
+          title: "Add Vehicles",
+          goesTo: "/myAccount/addVehicle",
+          status: true,
+        },
+        {
+          id: 43,
+          title: "Vehicles List",
+          goesTo: "/myAccount/vehicleList",
+          status: true,
+        },
+        {
+          id: 44,
+          title: "Customer Order",
+          goesTo: "/myAccount/customerOrder",
+          status: true,
+        },
+      ],
+    },
+    {
       id: 4,
       title: "Transportation",
       // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
-        user?.profile?.role == 4 ||
+        user?.profile?.role !== 4 ||
         user?.profile?.role == 3 ||
         user?.profile?.role == 2,
       subMenu: transporterList,
@@ -229,7 +253,7 @@ function Header() {
         },
       ],
     },
-   
+
     {
       id: 5,
       title: "Vendor",
@@ -340,7 +364,7 @@ function Header() {
                             className="mt-1"
                             style={{ textTransform: "capitalize" }}
                           >
-                            {user?.profile?.name}
+                            {user?.profile?.name.split(" ")[0]}
                           </h6>
                           <div
                             className="avtar"
@@ -351,8 +375,11 @@ function Header() {
                           </div>
                           <ul
                             className="dropdown-menu p-0"
-                            style={{ right: "0%", width: "auto", top: "10px" }}
+                            // style={{ right: "0px", width: "100px", top: "10px" ,inset: "0px 0 auto 0px"}}
                           >
+                            <p className="cat_list_disable">
+                              {user?.profile?.name}
+                            </p>
                             {user?.profile?.role === 1 && (
                               <p
                                 className="cat_list"
@@ -361,40 +388,44 @@ function Header() {
                                 Dashboard
                               </p>
                             )}
-                            <p
-                              className="cat_list"
-                              onClick={() => router.push("/myAccount")}
-                            >
-                              My Account
-                            </p>
-                            <p
-                              className="cat_list"
-                              onClick={() =>
-                                router.push(
-                                  user?.profile?.role != 2
-                                    ? "/myAccount/CompanyProfile"
-                                    : "/myAccount/myProfile"
-                                )
-                              }
-                            >
-                              My Profile
-                            </p>
-                            {user?.isLoggedIn && (
-                              <p
-                                className="cat_list"
-                                onClick={() =>
-                                  router.push("/myAccount/myWishList")
-                                }
-                              >
-                                My Wishlist
-                              </p>
+                            {user?.isLoggedIn && user?.profile?.role !== 1 && (
+                              <>
+                                <p
+                                  className="cat_list"
+                                  onClick={() => router.push("/myAccount")}
+                                >
+                                  My Account
+                                </p>
+                                <p
+                                  className="cat_list"
+                                  onClick={() =>
+                                    router.push(
+                                      user?.profile?.role != 2
+                                        ? "/myAccount/CompanyProfile"
+                                        : "/myAccount/myProfile"
+                                    )
+                                  }
+                                >
+                                  My Profile
+                                </p>
+                                {user?.isLoggedIn && (
+                                  <p
+                                    className="cat_list"
+                                    onClick={() =>
+                                      router.push("/myAccount/myWishList")
+                                    }
+                                  >
+                                    My Wishlist
+                                  </p>
+                                )}
+                                <p
+                                  className="cat_list"
+                                  onClick={() => router.push("/basket")}
+                                >
+                                  My Basket ({cart?.cart?.length}) item
+                                </p>
+                              </>
                             )}
-                            <p
-                              className="cat_list"
-                              onClick={() => router.push("/basket")}
-                            >
-                              My Basket ({cart?.cart?.length}) item
-                            </p>
                             <p className="cat_list" onClick={handleLogout}>
                               logout
                             </p>
@@ -483,9 +514,10 @@ function Header() {
                             >
                               {ele?.subMenu?.map((subEle, subIndex) => (
                                 <div
-                                  onClick={() => {router.push(subEle?.goesTo) 
-                                    toggleSubMenu(index)}
-                                  }
+                                  onClick={() => {
+                                    router.push(subEle?.goesTo);
+                                    toggleSubMenu(index);
+                                  }}
                                   className="px-3 py-1 cursor submenu"
                                   key={subIndex}
                                 >

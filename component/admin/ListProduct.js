@@ -12,20 +12,20 @@ import ConfirmModel from "../reusableComponent/ConfirmModel";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-const ListProduct = ({setState}) => {
-  const router = useRouter()
+const ListProduct = ({ setState }) => {
+  const router = useRouter();
   const [page, setPage] = useState(1);
-  const [searchText,setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("");
   const [catList, setCatList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const initApi = async () => {
-    const catList = await CategoryServices.getProducts(page,searchText);
+    const catList = await CategoryServices.getProducts(page, searchText);
     setCatList(catList?.data?.data);
   };
   useEffect(() => {
     initApi();
-  }, [page,searchText]);
+  }, [page, searchText]);
 
   const handlePage = (dir) => {
     if (dir == "prev") {
@@ -38,16 +38,16 @@ const ListProduct = ({setState}) => {
   const handleDelete = async () => {
     await CategoryServices.deleteProduct(selectedId).then((data) => {
       setCatList(catList.filter((ele) => ele.productId !== selectedId));
-    setShowConfirm(false);
-    toast("product deleted successfully!", {
-      icon: "👏",
-      style: {
-        borderRadius: "10px",
-        background: "green",
-        color: "#fff",
-      },
+      setShowConfirm(false);
+      toast("product deleted successfully!", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "green",
+          color: "#fff",
+        },
+      });
     });
-  });
   };
 
   const handleCancel = () => {
@@ -61,8 +61,15 @@ const ListProduct = ({setState}) => {
     setState("2");
     router.push(`/admin/addProduct?editId=${id}`);
   };
-  const statusUpdate = (id,status) =>{
-    CategoryServices.statusUpdateProduct(id,status).then(({data})=>{
+  const statusUpdate = (id, status) => {
+    CategoryServices.statusUpdateProduct(id, status).then(({ data }) => {
+      console.log(data);
+      const updatedCatlist = catList?.map(
+        (product) =>
+          product.productId == data?.newProduct?.productId ? data?.newProduct:""
+      );
+
+      console.log(updatedCatlist);
       toast(data.message, {
         icon: "👏",
         style: {
@@ -71,8 +78,8 @@ const ListProduct = ({setState}) => {
           color: "#fff",
         },
       });
-    })
-  }
+    });
+  };
   return (
     <div className="p-2">
       <table className="table table-striped table-bordered">
@@ -94,13 +101,19 @@ const ListProduct = ({setState}) => {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td>{item?.productName}</td>
-                  <td className="text-center">{item?.Brand?.brandName ? item?.Brand?.brandName:"----"}</td>
-                  <td className="text-center">{item?.Category?.categoryName}</td>
+                  <td className="text-center">
+                    {item?.Brand?.brandName ? item?.Brand?.brandName : "----"}
+                  </td>
+                  <td className="text-center">
+                    {item?.Category?.categoryName}
+                  </td>
                   <td className="text-center">
                     {item?.SubCategory?.subcategoryName}
                   </td>
                   <td className="d-flex justify-content-center">
-                    <IconButton onClick={()=>statusUpdate(item.productId,item.status)}>
+                    <IconButton
+                      onClick={() => statusUpdate(item.productId, item.status)}
+                    >
                       {item.status ? (
                         <IoEye color="green" />
                       ) : (
@@ -110,7 +123,9 @@ const ListProduct = ({setState}) => {
                   </td>
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
-                      <IconButton   onClick={() => deleteHandeler(item.productId)}>
+                      <IconButton
+                        onClick={() => deleteHandeler(item.productId)}
+                      >
                         <MdDelete color="red" />
                       </IconButton>
                       <IconButton onClick={() => editHandeler(item.productId)}>
@@ -132,15 +147,16 @@ const ListProduct = ({setState}) => {
           <h6>No Category Found</h6>
         </div>
       )}
-       <div className="paginationWrapper">
-       <input
-        type="search"
-        className="form-control categorySearch"
-        onChange={(e)=>{setSearchText(e.target.value)
-          setPage(1)
-        }}
-        placeholder="Search for Products ..."
-      />
+      <div className="paginationWrapper">
+        <input
+          type="search"
+          className="form-control categorySearch"
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            setPage(1);
+          }}
+          placeholder="Search for Products ..."
+        />
         <h6>page ( {page} )</h6>
         <div
           className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
@@ -149,7 +165,7 @@ const ListProduct = ({setState}) => {
           <IoIosArrowBack color="#fff" size={20} />
         </div>
         <div
-          className={`${catList?.length <10 ? "arrwleftdisable" : "arrwleft"}`}
+          className={`${catList?.length < 10 ? "arrwleftdisable" : "arrwleft"}`}
           onClick={() => handlePage("next")}
         >
           <IoIosArrowForward color="#fff" size={20} />
