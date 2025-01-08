@@ -25,8 +25,9 @@ const EditVehicle = ({ setState }) => {
     };
 
     const onSubmitHandeler = () => {
+        console.log("first")
         setLoader(true);
-        ProductgradeServices.editGrade(values, editId)
+        VehicleMasterServices.editVehicle(values, editId)
             .then((data) => {
                 setErrors({});
                 setLoader(false);

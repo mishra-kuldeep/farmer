@@ -49,6 +49,7 @@ export default class ProductgradeServices {
     });
   }
   static async editGrade(data, id) {
+    console.log(data, id)
     const token = getCookie("token");
     const url = `${BASE_URL}/grade/grades/${id}`;
     return axios.put(url, data, {

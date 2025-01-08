@@ -5,7 +5,24 @@ import axios from "axios";
 //this is Vehicle Master router
 export default class VehicleMasterServices {
 
-
+    static async editVehicle(data, id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vehicle/${id}`;
+        return axios.put(url, data,{
+          headers: {
+            Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+          },
+        });
+      }
+      static async editVehicleStatus( id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vehicle/status/${id}`;
+        return axios.put(url,"dg",{
+          headers: {
+            Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+          },
+        });
+      }
     static async getVehicle(page = 1, search = "") {
         const token = getCookie("token");
         const url = `${BASE_URL}/vehicle/all`;

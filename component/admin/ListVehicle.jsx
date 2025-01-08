@@ -25,6 +25,21 @@ const ListVehicle = ({setState}) => {
     setState("2");
     router.push(`/admin/addVehicle?editId=${id}`);
   };
+  const changeStatus = (id) => {
+    VehicleMasterServices.editVehicleStatus(id).then(({data})=>{
+      initApi()
+      toast("status updated successfully", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "green",
+          color: "#fff",
+        },
+      });
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
   return (
     <div className="p-3">
       <table className="table table-striped table-bordered">
@@ -47,7 +62,7 @@ const ListVehicle = ({setState}) => {
                   <td style={{ backgroundColor: "transparent" }}>
                     {item?.capacity}
                   </td>
-                  <td className="d-flex justify-content-center">
+                  <td className="d-flex justify-content-center" onClick={()=>changeStatus(item?.vehicleId)}>
                     <IconButton>
                       {item.status ? (
                         <IoEye color="green" size={20}/>

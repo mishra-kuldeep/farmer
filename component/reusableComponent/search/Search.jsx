@@ -19,11 +19,12 @@ const Search = () => {
   const router = useRouter();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
+  const country = useSelector((state) => state.country);
   const dispatch = useDispatch();
   const handleSearch = (e) => {
     const query = e.target.value;
     setquery(query);
-    if (query.length >= 2) {
+    if (query.length > 2) {
       setOpen(true);
     } else {
       setOpen(false);
@@ -36,6 +37,12 @@ const Search = () => {
       const searchResult = await ProductsDtlServices.getProductsDtl({
         page: 1,
         search: val,
+        category: "",
+        subCategory: "",
+        brand: "",
+        countryId: user?.profile?.country
+        ? user?.profile?.country
+        : country?.country?.countryId,
       });
       setSearchProduct(searchResult?.data?.data || []);
     } catch (error) {

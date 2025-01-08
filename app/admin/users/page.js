@@ -132,7 +132,7 @@ const UsersListForAdmin = () => {
           </select>
         </div>
 
-        <div className="col-md-5 mb-3">
+        <div className="col-md-10 mb-3">
           <div className="gap-4 d-flex m-2">
             <label className="cursor">
               <input
@@ -174,7 +174,7 @@ const UsersListForAdmin = () => {
           </div>
         </div>
 
-        <div className="col-md-5 mb-3">
+        <div className="col-md-12 mb-3">
           <Pagination
             page={page}
             setPage={setPage}

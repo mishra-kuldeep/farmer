@@ -46,6 +46,9 @@ const Section1Home = () => {
       const searchResult = await ProductsDtlServices.getProductsDtl({
         page: 1,
         search: "",
+        category:"",
+        subCategory: "",
+        brand: "",
         countryId: user?.profile?.country
           ? user?.profile?.country
           : country?.country?.countryId,

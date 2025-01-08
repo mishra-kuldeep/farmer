@@ -62,23 +62,21 @@ const ListProduct = ({ setState }) => {
     router.push(`/admin/addProduct?editId=${id}`);
   };
   const statusUpdate = (id, status) => {
-    CategoryServices.statusUpdateProduct(id, status).then(({ data }) => {
-      console.log(data);
-      const updatedCatlist = catList?.map(
-        (product) =>
-          product.productId == data?.newProduct?.productId ? data?.newProduct:""
-      );
-
-      console.log(updatedCatlist);
-      toast(data.message, {
-        icon: "👏",
-        style: {
-          borderRadius: "10px",
-          background: "green",
-          color: "#fff",
-        },
+    CategoryServices.statusUpdateProduct(id, status)
+      .then(({ data }) => {
+        initApi();
+        toast(data.message, {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+      })
+      .catch((e) => {
+        console.error(e);
       });
-    });
   };
   return (
     <div className="p-2">
