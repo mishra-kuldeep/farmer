@@ -87,7 +87,7 @@ const Footer = () => {
     <footer className="mt-4 mb-md-0 mb-5" style={{ backgroundColor: "#dddddd" }}>
       <div className="text-center p-md-5 p-2">
         <h6>
-          <b>Office Address -</b> 146 starflower way, Mickleover, Derby De3 0FD
+          <b>Office Address -</b> 146 Starflower Way, Mickleover, Derby,<br/> United Kingdom, Post Code - De3 0FD
         </h6>
         <div className="footer-col ">
           <h4>follow us</h4>
