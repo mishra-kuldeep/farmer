@@ -458,8 +458,7 @@ const [CurrencyPrefix,setCurrencyPrefix] = useState('')
                                       >
                                         <MdOutlineLocationOn size={18} />
                                         {
-                                          ele?.productDetail?.User?.userInfo
-                                            .City
+                                          ele?.productDetail?.User?.userInfo?.City
                                         }
                                       </span>
                                     </div>

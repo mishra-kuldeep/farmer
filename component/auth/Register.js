@@ -227,7 +227,6 @@ console.log(countryies)
             className="form-control adjustLabel_input shadow-none"
             style={{ padding: `9px ${phonecode?.length * 16}px ` }}
           />
-          <p>error</p>
 
           <span
             style={{

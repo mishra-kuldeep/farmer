@@ -122,7 +122,7 @@ const Basket = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   const handleCheckout = async () => {
-    if (user?.profile?.role == 3 && !profile?.IsVerified && profile?.isUpdate) {
+    if (!profile?.IsVerified && profile?.isUpdate) {
       toast("Please wait until admin verify you", {
         icon: "😢",
         style: { borderRadius: "10px", background: "red", color: "#fff" },
@@ -288,7 +288,7 @@ const Basket = () => {
                       </span>
                       <span>
                         <MdOutlineLocationOn size={20} />
-                        {val?.productDetail?.User?.userInfo.City}
+                        {val?.productDetail?.User?.userInfo?.City}
                       </span>
                     </div>
                   </div>
