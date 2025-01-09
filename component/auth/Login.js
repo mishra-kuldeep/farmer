@@ -68,8 +68,8 @@ const LoginPage = () => {
           />
         )}
       </div>
-      <div className="text-end pe-4 py-1" onClick={() => setchangepass(true)}>
-        ForgotPassword
+      <div className="text-end pe-4 py-1 cursor" onClick={() => setchangepass(true)}>
+        <u>ForgotPassword?</u>
       </div>
       <div className="p-2 text-center mt-4">
         <button className="login_btn" onClick={handleSubmit} disabled={loader}>

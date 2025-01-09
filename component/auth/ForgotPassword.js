@@ -2,25 +2,147 @@ import React, { useState } from "react";
 import logo from "../../public/header/logo1.jpg";
 import MiniLoader from "../reusableComponent/MiniLoader";
 import OtpInput from "react-otp-input";
-
+import ForgotPasswordServices from "@/services/ForgotPasswordServices";
+import toast from "react-hot-toast";
+//  forget password section start --------
 const ForgotPassword = ({ setchangepass }) => {
+  // State variables for managing component state
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
   const [otp, setOtp] = useState("");
   const [newpassForm, setNewPassForm] = useState(false);
+  const [newpassword, setNewpassword] = useState('');
+  const [cnewpassword, setCNewpassword] = useState('');
 
-  const getotphandler = () => {
-    setShow(true);
-    // setLoader(true);
+
+  // Handler for requesting OTP
+  const getOTPhandler = () => {
+    setLoader(true);
+     // Validation: Check if email is provided
+    if (!email) {
+      toast("Email is required", {
+        icon: "😟",
+        style: {
+          borderRadius: "5px",
+          background: "red",
+          color: "#fff",
+        },
+      });
+      setLoader(false);
+      return;
+    } else
+      ForgotPasswordServices.forgotPassword({ email: email })
+        .then(({ data }) => {
+          if (data?.susses == true) {
+            setShow(true);// Show OTP input form
+            toast("OTP send sussesfully! at your Email", {
+              icon: "✅",
+              style: {
+                borderRadius: "5px",
+                background: "green",
+                color: "#fff",
+              },
+            });
+          }
+        }).catch((e) => {
+          console.log(e);
+          toast("invalid Email! Please check Now", {
+            icon: "😟",
+            style: {
+              borderRadius: "5px",
+              background: "red",
+              color: "#fff",
+            },
+          });
+        }).finally(() => {
+          setLoader(false); // Stop the loader after the operation
+        });
   };
 
+// Handler for verifying OTP
   const verifyHandeler = () => {
-    setNewPassForm(true);
-  };
+    setLoader(true);
+    ForgotPasswordServices.verifyOTP({ email: email, otp: otp })
+      .then(({ data }) => {
+        if (data?.susses == true) {
+          setNewPassForm(true);// Show new password form
+          toast("OTP verify sussesfully! Please Enter New Password", {
+            icon: "✅",
+            style: {
+              borderRadius: "5px",
+              background: "green",
+              color: "#fff",
+            },
+          });
+        }
+      }).catch((e) => {
+        console.log(e);
+        toast("invalid OTP Number! Please Recheck Now", {
+          icon: "😟",
+          style: {
+            borderRadius: "5px",
+            background: "red",
+            color: "#fff",
+          },
+        });
+      }).finally(() => {
+        setLoader(false); // Stop the loader after the operation
+      });
 
+  };
+ // Handler for changing password
   const changepasHandeler = () => {
-    setchangepass(false);
+    if (newpassword.length < 6) {
+      toast("Your Password should be 6 Character ", {
+        icon: "😟",
+        style: {
+          borderRadius: "5px",
+          background: "red",
+          color: "#fff",
+        },
+      });
+      return;
+    } else if (newpassword != cnewpassword) {
+      toast("Your New Password & Confirm not match!! Please fill Try again", {
+        icon: "😟",
+        style: {
+          borderRadius: "5px",
+          background: "red",
+          color: "#fff",
+        },
+      });
+      return;
+    } else {
+      setLoader(true);
+      ForgotPasswordServices.changePassword({ email: email, newPassword: newpassword })
+        .then(({ data }) => {
+          if (data?.susses == true) {
+            setchangepass(false);// Close password change flow
+            toast("Password change sussesfully! Please login", {
+              icon: "✅",
+              style: {
+                borderRadius: "5px",
+                background: "green",
+                color: "#fff",
+              },
+            });
+            setLoader(false);
+          }
+        }).catch((e) => {
+          console.log(e);
+          toast("Password change failed! Please Try again", {
+            icon: "😟",
+            style: {
+              borderRadius: "5px",
+              background: "red",
+              color: "#fff",
+            },
+          });
+        }).finally(() => {
+          setLoader(false); // Stop the loader after the operation
+        });
+    }
   };
 
   return (
@@ -30,10 +152,11 @@ const ForgotPassword = ({ setchangepass }) => {
       </div>
       {!show ? (
         <>
+          {/* Email input form */}
           <div className="p-2 m20">
             <label className="adjustLabel">Email *</label>
             <input
-              type="email"
+              type="email *"
               className="form-control adjustLabel_input p-2"
               onChange={(e) => setEmail(e.target.value)}
               name="email"
@@ -42,7 +165,7 @@ const ForgotPassword = ({ setchangepass }) => {
           <div className="p-2 text-center mt-4">
             <button
               className="login_btn"
-              onClick={getotphandler}
+              onClick={getOTPhandler}
               disabled={loader}
             >
               {loader && <MiniLoader />}
@@ -54,6 +177,7 @@ const ForgotPassword = ({ setchangepass }) => {
         <>
           {!newpassForm && (
             <>
+             {/* // OTP verification form */}
               <div className="d-flex align-items-center flex-column mt-4">
                 <h6 className="mb-3">Enter Verification code</h6>
                 <OtpInput
@@ -88,12 +212,13 @@ const ForgotPassword = ({ setchangepass }) => {
 
       {newpassForm && (
         <>
+         {/* // New password form */}
           <div className="p-2 m20">
             <label className="adjustLabel">New Password *</label>
             <input
               type="email"
               className="form-control adjustLabel_input p-2"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setNewpassword(e.target.value)}
               name="email"
             />
           </div>
@@ -102,7 +227,7 @@ const ForgotPassword = ({ setchangepass }) => {
             <input
               type="email"
               className="form-control adjustLabel_input p-2"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setCNewpassword(e.target.value)}
               name="email"
             />
           </div>
