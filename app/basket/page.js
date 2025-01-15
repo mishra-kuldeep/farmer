@@ -122,13 +122,13 @@ const Basket = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   const handleCheckout = async () => {
-    if (!profile?.IsVerified && profile?.isUpdate) {
-      toast("Please wait until admin verify you", {
-        icon: "😢",
-        style: { borderRadius: "10px", background: "red", color: "#fff" },
-      });
-      return;
-    }
+    // if (!profile?.IsVerified && profile?.isUpdate) {
+    //   toast("Please wait until admin verify you", {
+    //     icon: "😢",
+    //     style: { borderRadius: "10px", background: "red", color: "#fff" },
+    //   });
+    //   return;
+    // }
     router.push("/basket/placeOrder");
   };
 

@@ -98,8 +98,8 @@ const VendorServicesList = () => {
           <input
             type="radio"
             value="Approvedadminside"
-            checked={status == "Approvedadminside"}
-            onChange={() => handleStatusChange("Approvedadminside")}
+            checked={status == "Approved"}
+            onChange={() => handleStatusChange("Approved")}
           />
           <span className="m-1">Approved</span>
         </label>

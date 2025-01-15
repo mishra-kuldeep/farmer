@@ -63,8 +63,11 @@ const AdminHeader = ({ toggleidebar }) => {
           // style={{ right: "0px", width: "100px", top: "10px" ,inset: "0px 0 auto 0px"}}
         >
           <p className="cat_list_disable text-center" style={{height:"35px",lineHeight:"35px"}}>{user?.profile?.name}</p>
+          <div className=" p-0 m-0 text-center cursor" style={{height:"35px",lineHeight:"35px"}} onClick={()=>router.push('/admin')}>
+          Dashboard
+          </div>
           <div className=" p-0 m-0 text-center cursor" style={{height:"35px",lineHeight:"35px"}} onClick={handleLogout}>
-            logout
+            Logout
           </div>
         </ul>
       </div>

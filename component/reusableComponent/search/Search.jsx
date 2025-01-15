@@ -41,8 +41,8 @@ const Search = () => {
         subCategory: "",
         brand: "",
         countryId: user?.profile?.country
-        ? user?.profile?.country
-        : country?.country?.countryId,
+          ? user?.profile?.country
+          : country?.country?.countryId,
       });
       setSearchProduct(searchResult?.data?.data || []);
     } catch (error) {
@@ -129,13 +129,18 @@ const Search = () => {
   };
   return (
     <div className="w-100 position-relative">
-      <input
-        type="search"
-        className="form-control"
-        value={queryes}
-        onChange={handleSearch}
-        placeholder="Search for Products ..."
-      />
+      <form autoComplete="off">
+        <input type="text" name="dummy" style={{ display: "none" }} />
+        <input
+          type="search"
+          className="form-control"
+          value={queryes}
+          onChange={handleSearch}
+          placeholder="Search for Products ..."
+          name="searchQuery"
+          autoComplete="off"
+        />
+      </form>
       {open && (
         <div className="search_list_wrapper">
           <p className="titless">
@@ -188,7 +193,7 @@ const Search = () => {
                         onClick={() => decreaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                        loadingAction === "decrement" ? (
+                          loadingAction === "decrement" ? (
                           <MiniLoader />
                         ) : (
                           <FaMinus size={12} />
@@ -206,7 +211,7 @@ const Search = () => {
                         onClick={() => increaseQuantity(ele.productDtlId)}
                       >
                         {loadingProductId === ele.productDtlId &&
-                        loadingAction === "increment" ? (
+                          loadingAction === "increment" ? (
                           <MiniLoader />
                         ) : (
                           <FaPlus size={12} />

@@ -108,6 +108,8 @@ const UsersListForAdmin = () => {
     setStatus(id);
     setPage(1);
   };
+  console.log(userList);
+  
   return (
     <>
       <div className="row  align-items-center shadow px-2 mb-3">
@@ -239,6 +241,7 @@ const UsersListForAdmin = () => {
                             />
                           )}
                         </div>
+                        {(!ele?.IsVerified  &&  !ele?.IsRejected) &&
                         <div className="d-flex justify-content-center gap-5 mt-3">
                           <IconButton
                             tooltip="Approve"
@@ -255,7 +258,7 @@ const UsersListForAdmin = () => {
                           >
                             <RxCross2 color="red" fontSize={50} />
                           </IconButton>
-                        </div>
+                        </div>}
                       </div>
 
                       <div className="w-100">
