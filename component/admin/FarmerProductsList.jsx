@@ -61,7 +61,7 @@ const FarmerProductsList = () => {
       .then(({ data }) => {
         setAllFarmerProducts(data?.data);
         setmetaData(data?.meta);
-        setActionPerformed(false)
+        setActionPerformed(false);
       })
       .catch((err) => {
         console.log(err);
@@ -70,15 +70,18 @@ const FarmerProductsList = () => {
 
   return (
     <div className="p-2">
-      <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={allFarmerProducts}
-        metaData={metaData}
-        searchShow={true}
-      />
+      <div style={{ marginTop: "-60px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          List={allFarmerProducts}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
+
       <div className="row">
         <div className="col-md-3 mb-3">
           <label className="adjustLabel">Farmer List</label>
@@ -192,10 +195,14 @@ const FarmerProductsList = () => {
                       )[0]?.subcategoryName
                     }
                   </td>
-                  <td className="text-center">{item?.country?.currencySymbol}{item?.price}</td>
                   <td className="text-center">
-                    {item?.discountType == "fixed" && item?.country?.currencySymbol} {item?.discount}{" "}
-                    {item?.discountType == "percentage" && "%"}
+                    {item?.country?.currencySymbol}
+                    {item?.price}
+                  </td>
+                  <td className="text-center">
+                    {item?.discountType == "fixed" &&
+                      item?.country?.currencySymbol}{" "}
+                    {item?.discount} {item?.discountType == "percentage" && "%"}
                   </td>
 
                   <td>

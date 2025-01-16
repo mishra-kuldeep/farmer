@@ -28,7 +28,7 @@
     width: 50%;
     gap: 20px;
     align-items: center;
-    position: absolute;
+    /* position: absolute; */
     top: 15px;
     margin-left: 45%;
 }

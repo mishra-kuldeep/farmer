@@ -176,7 +176,7 @@ const UsersListForAdmin = () => {
           </div>
         </div>
 
-        <div className="col-md-12 mb-3">
+        <div className="col-md-12 mb-3" style={{marginTop:"-60px"}}>
           <Pagination
             page={page}
             setPage={setPage}
