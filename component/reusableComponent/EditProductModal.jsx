@@ -644,7 +644,7 @@ const EditProductModal = ({
                         setActionType("approve");
                       }}
                     >
-                      Approve it
+                      Update it
                     </button>
                   ) : (
                     <button

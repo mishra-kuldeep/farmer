@@ -76,7 +76,7 @@ const TranspoterSortInfo = () => {
                             <FaTruck />
                         </div>
                     </div>
-                    <h1>{totalVehicle}</h1>
+                    <h1>{totalVehicle || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
@@ -85,7 +85,7 @@ const TranspoterSortInfo = () => {
                             <GiTakeMyMoney />
                         </div>
                     </div>
-                    <h1>{totalRevenue?.reduce((sum, current) => sum + current.totalRevenue, 0)}</h1>
+                    <h1>{totalRevenue?.reduce((sum, current) => sum + current.totalRevenue, 0).toFixed(2) || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>

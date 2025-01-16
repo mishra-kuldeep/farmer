@@ -7,23 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser, fetchUserInfo } from "@/redux/auth/authSlice";
 import { deleteCookie } from "@/helper/common";
 
-const AdminHeader = ({ toggleidebar }) => {
+const AdminHeader = ({ toggleidebar ,sideOpen}) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
   const router = useRouter();
+  useEffect(() => {
+    if (!user.isLoggedIn && dispatch && !user.isLoading) {
+      dispatch(fetchUserInfo());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.isLoggedIn, user?.profile]);
 
-    useEffect(() => {
-      if (!user.isLoggedIn && dispatch && !user.isLoading) {
-        dispatch(fetchUserInfo());
-      } 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user.isLoggedIn, user?.profile]);
-
-    const handleLogout = () => {
-        deleteCookie("token");
-        dispatch(clearUser()); // Action to clear user data in Redux
-        router.push("/"); // Redirect to the login page
-      };
+  const handleLogout = () => {
+    deleteCookie("token");
+    dispatch(clearUser()); // Action to clear user data in Redux
+    router.push("/"); // Redirect to the login page
+  };
 
   return (
     <div className="adminHeaderWrapper row m-0">
@@ -32,7 +31,7 @@ const AdminHeader = ({ toggleidebar }) => {
           fontSize={25}
           color="var(--adminwhite)"
           className="cursor"
-          onClick={toggleidebar}
+          onClick={()=>toggleidebar(!sideOpen)}
         />
         <div className="centerAllDiv cursor" onClick={() => router.push("/")}>
           <img
@@ -60,13 +59,13 @@ const AdminHeader = ({ toggleidebar }) => {
         </div>
         <ul
           className="dropdown-menu p-0"
-          // style={{ right: "0px", width: "100px", top: "10px" ,inset: "0px 0 auto 0px"}}
+        // style={{ right: "0px", width: "100px", top: "10px" ,inset: "0px 0 auto 0px"}}
         >
-          <p className="cat_list_disable text-center" style={{height:"35px",lineHeight:"35px"}}>{user?.profile?.name}</p>
-          <div className=" p-0 m-0 text-center cursor" style={{height:"35px",lineHeight:"35px"}} onClick={()=>router.push('/admin')}>
-          Dashboard
+          <p className="cat_list_disable text-center" style={{ height: "35px", lineHeight: "35px" }}>{user?.profile?.name}</p>
+          <div className=" p-0 m-0 text-center cursor" style={{ height: "35px", lineHeight: "35px" }} onClick={() => router.push('/admin')}>
+            Dashboard
           </div>
-          <div className=" p-0 m-0 text-center cursor" style={{height:"35px",lineHeight:"35px"}} onClick={handleLogout}>
+          <div className=" p-0 m-0 text-center cursor" style={{ height: "35px", lineHeight: "35px" }} onClick={handleLogout}>
             Logout
           </div>
         </ul>

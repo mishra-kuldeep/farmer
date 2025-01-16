@@ -13,7 +13,7 @@ const BuyerSortInfo = () => {
     const [totalPurchase, setTotalPurchase] = useState()
     const [totalRevenue, setTotalRevenue] = useState()
     const [totalTransportation, setTotalTransportation] = useState()
- 
+
 
     const TotalPurchaseApiCall = () => {
         ReportsServices.PurchaseHistory()
@@ -54,7 +54,7 @@ const BuyerSortInfo = () => {
     }, [])
 
     const totalPendingPrice = totalPurchase?.filter(item => item.paymentStatus === "Pending") // Filter items with "Pending" paymentStatus
-        .reduce((sum, item) => sum + item.priceAtPurchase*item.quantity, 0);
+        .reduce((sum, item) => sum + item.priceAtPurchase * item.quantity, 0);
 
     return (
         <div><main className='main-container '>
@@ -79,7 +79,7 @@ const BuyerSortInfo = () => {
                             <BiSolidPurchaseTag />
                         </div>
                     </div>
-                    <h1>{totalPurchase?.reduce((sum, item) => sum + item.priceAtPurchase*item.quantity , 0)}</h1>
+                    <h1>{totalPurchase?.reduce((sum, item) => sum + item.priceAtPurchase * item.quantity, 0).toFixed(2) || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
@@ -88,7 +88,7 @@ const BuyerSortInfo = () => {
                             <FaTruckFront />
                         </div>
                     </div>
-                    <h1>{totalTransportation?.reduce((sum, item) => sum + (item?.transportCharge || 0), 0)}</h1>
+                    <h1>{totalTransportation?.reduce((sum, item) => sum + (item?.transportCharge || 0), 0).toFixed(2) || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
@@ -97,7 +97,7 @@ const BuyerSortInfo = () => {
                             <PiContactlessPaymentBold />
                         </div>
                     </div>
-                    <h1>{totalPendingPrice}</h1>
+                    <h1>{totalPendingPrice?.toFixed(2) || 0}</h1>
                 </div>
             </div>
             <hr />

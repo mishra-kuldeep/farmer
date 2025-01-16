@@ -1,9 +1,9 @@
 import React from "react";
 import { MdCategory } from "react-icons/md";
-import { FaProductHunt,FaServicestack } from "react-icons/fa6";
+import { FaProductHunt, FaServicestack } from "react-icons/fa6";
 import { MdOutlineDashboard } from "react-icons/md";
 import { SiBrandfolder } from "react-icons/si";
-import { FaRegListAlt,FaListUl } from "react-icons/fa";
+import { FaRegListAlt, FaListUl } from "react-icons/fa";
 import { SiUnpkg } from "react-icons/si";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { GiUpgrade } from "react-icons/gi";
@@ -80,19 +80,19 @@ const sidebarArray = [
     id: 11,
     title: "Add Vehicle",
     url: "/admin/addVehicle",
-    icon: <AiFillTruck  size={28} />,
+    icon: <AiFillTruck size={28} />,
   },
   {
     id: 12,
     title: "Transporter Vehicle List",
     url: "/admin/transportList",
-    icon: <AiFillTruck  size={28} />,
+    icon: <AiFillTruck size={28} />,
   },
   {
     id: 13,
     title: "Transportation Status",
     url: "/admin/transportationStatus",
-    icon: <MdOutlineEmojiTransportation  size={28} />,
+    icon: <MdOutlineEmojiTransportation size={28} />,
   },
   {
     id: 15,
@@ -118,12 +118,16 @@ const sidebarArray = [
     url: "/admin/addrentCategory",
     icon: <BiSolidCategoryAlt size={25} />,
   },
-  
+
 ];
 
 const AdminSidebar = ({ sideOpen, toggleidebar }) => {
   const pathname = usePathname();
   const router = useRouter();
+
+  const hendleSidebar = (data) => {
+    toggleidebar
+  }
   return (
     <div
       className="adminSIdebarWrapper"
@@ -133,23 +137,27 @@ const AdminSidebar = ({ sideOpen, toggleidebar }) => {
             ? "300px"
             : "55px"
           : sideOpen
-          ? "100vw"
-          : "0px",
+            ? "100vw"
+            : "0px",
         overflow: "auto",
+        
       }}
+      onMouseLeave={()=>toggleidebar(false)}
+      onMouseEnter={()=>toggleidebar(true)}
+     
     >
       {sidebarArray.map((items) => {
         return (
           <div
+          // onMouseLeave={()=>hendleSidebar(false)}
             key={items.id}
-            className={`${
-              pathname !== items.url
+            className={`${pathname !== items.url
                 ? "sidebarListItemsActive"
                 : "sidebarListItems"
-            }`}
+              }`}
             onClick={() => {
               router.push(items.url);
-             isMobile&& toggleidebar();
+              isMobile && toggleidebar();
             }}
           >
             {items.icon} {sideOpen && items.title}

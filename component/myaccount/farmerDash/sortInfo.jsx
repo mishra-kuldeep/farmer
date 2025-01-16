@@ -61,7 +61,7 @@ const Sortinfo = () => {
                         </div>
                     </div>
                     <h1>{totalProduct?.reduce((total, item) =>
-                        total + item.verifiedProducts + item.pendingProducts + item.rejectedProducts, 0)}</h1>
+                        total + item.verifiedProducts + item.pendingProducts + item.rejectedProducts, 0) || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
@@ -70,7 +70,7 @@ const Sortinfo = () => {
                             <TbShoppingCartCheck />
                         </div>
                     </div>
-                    <h1>{totalOrder?.reduce((total, item) => total + item.orderCount, 0)}</h1>
+                    <h1>{totalOrder?.reduce((total, item) => total + item.orderCount, 0) || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
@@ -79,7 +79,7 @@ const Sortinfo = () => {
                             <FaTruck />
                         </div>
                     </div>
-                    <h1>{totalDelivered?.orderCount}</h1>
+                    <h1>{totalDelivered?.orderCount || 0}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
@@ -88,7 +88,7 @@ const Sortinfo = () => {
                             <FaMoneyBillTrendUp />
                         </div>
                     </div>
-                    <h1>{totalRevenue?.TotalRevenue}</h1>
+                    <h1>{totalRevenue?.TotalRevenue?.toFixed(2)||0}</h1>
                 </div>
             </div>
             <hr />
