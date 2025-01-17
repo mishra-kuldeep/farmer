@@ -108,7 +108,6 @@ const UsersListForAdmin = () => {
     setStatus(id);
     setPage(1);
   };
-  console.log(userList);
   
   return (
     <>
