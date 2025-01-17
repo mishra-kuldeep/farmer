@@ -25,19 +25,25 @@ const Category = () => {
     });
   }, []);
 
-  console.log(categoryList);
-  console.log(subId);
-
   return (
     <>
       <div
-        style={{ width: "600px", display: "flex" }}
+        style={{ width: "600px", height: "70vh", overflow: "auto" }}
         className="d-none d-md-flex p-0"
       >
-        <div style={{ width: "300px", backgroundColor: "var(--mainColor)" }}>
+        <div
+          style={{
+            width: "300px",
+            height: "70vh",
+            overflow: "auto",
+            backgroundColor: "var(--mainColor)",
+          }}
+        >
           {categoryList?.map((ele, i) => (
             <div
-              onClick={() => router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)}
+              onClick={() =>
+                router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)
+              }
               className={`${
                 ele?.categoryId == subId && "activecat"
               } cat_list hovercatlist d-flex justify-content-between pe-2 align-items-center cursor`}
@@ -62,7 +68,11 @@ const Category = () => {
           {subCategoryList?.map((ele) => (
             <p
               className="cat_list catsublisthover text-dark"
-              onClick={() => router.push(`/ViewAll/product?subcategotyId=${ele?.subcategoryId}`)}
+              onClick={() =>
+                router.push(
+                  `/ViewAll/product?subcategotyId=${ele?.subcategoryId}`
+                )
+              }
             >
               {ele?.subcategoryName}
             </p>
@@ -73,25 +83,45 @@ const Category = () => {
       <div className="d-md-none d-block">
         {categoryList?.map((ele) => (
           <div key={ele?.categoryName}>
-            <p
-              className="cat_list  d-flex justify-content-between"
-              onClick={() => toggleCategory(ele?.categoryName)}
-            >
-              <span style={{ width: "90%" }}>{ele?.categoryName}</span>
-              <span style={{ width: "10%", textAlign: "center" }}>
-                {openCategory === ele?.categoryName ? (
-                  <IoIosArrowUp />
-                ) : (
-                  <IoIosArrowDown />
-                )}
+            <p className="cat_list  d-flex justify-content-between">
+              <span
+                type="button"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+                style={{ width: "90%" }}
+                onClick={() =>
+                  router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)
+                }
+              >
+                {ele?.categoryName}
               </span>
+              {!!ele.SubCategories.length && (
+                <span
+                  style={{ width: "10%", textAlign: "center" }}
+                  onClick={() => toggleCategory(ele?.categoryName)}
+                >
+                  {openCategory === ele?.categoryName ? (
+                    <IoIosArrowUp />
+                  ) : (
+                    <IoIosArrowDown />
+                  )}
+                </span>
+              )}
             </p>
             {openCategory === ele?.categoryName && (
               <div>
                 {ele?.SubCategories?.map((val) => (
                   <p
+                    type="button"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
                     key={val?.subcategoryName}
                     className="cat_list cat_listsubtitle  ms-3"
+                    onClick={() =>
+                      router.push(
+                        `/ViewAll/product?subcategotyId=${val?.subcategoryId}`
+                      )
+                    }
                   >
                     {val?.subcategoryName}
                   </p>
