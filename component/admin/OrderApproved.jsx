@@ -102,6 +102,7 @@ const OrderApproved = () => {
                         // categoryList={categoryList}
                         // subCategoryList={subCategoryList}
                         setActionPerformed={setActionPerformed}
+                        isHide={true}
                       />
                     </div>
                   </td>

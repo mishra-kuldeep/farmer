@@ -80,7 +80,7 @@ const AllOrders = () => {
                   </td>
 
                   <td>
-                    {item?.adminReview == "Pending" &&
+                    
                       <div className="d-flex gap-2 justify-content-center">
                         <div
                           data-bs-toggle="modal"
@@ -102,9 +102,10 @@ const AllOrders = () => {
                           // categoryList={categoryList}
                           // subCategoryList={subCategoryList}
                           setActionPerformed={setActionPerformed}
+                          isHide={true}
                         />
                       </div>
-                    }
+                   
                   </td>
                 </tr>
               );

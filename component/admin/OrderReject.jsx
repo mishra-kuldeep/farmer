@@ -6,6 +6,7 @@ import { GrOverview } from "react-icons/gr";
 import Pagination from "../reusableComponent/Pagination";
 import ProductModal from "../reusableComponent/ProductModal";
 import OrderService from "@/services/Orderservices";
+import OrderModal from "../reusableComponent/OrderModel";
 
 const OrderReject = () => {
   const [page, setPage] = useState(1);
@@ -23,14 +24,14 @@ const OrderReject = () => {
       search: searchText,
     })
       .then(({ data }) => {
-        
+
         setAllPendingOrders(data?.data);
         setmetaData(data?.meta);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [ page, searchText, actionPerformed]);
+  }, [page, searchText, actionPerformed]);
 
   return (
     <div className="p-2">
@@ -43,7 +44,7 @@ const OrderReject = () => {
         metaData={metaData}
         searchShow={true}
       />
-     
+
 
       <table className="table table-striped table-bordered">
         <thead>
@@ -67,24 +68,24 @@ const OrderReject = () => {
                   <td>{i + 1}</td>
                   <td>{item?.User?.FirstName}</td>
                   <td className="text-center">
-                  {item?.User?.Phone?item?.User?.Phone:"---"}
+                    {item?.User?.Phone ? item?.User?.Phone : "---"}
                   </td>
                   <td className="text-center">
-                  {item?.User?.Email}
-                   
+                    {item?.User?.Email}
+
                   </td>
                   <td className="text-center">
-                  {item?.totalAmount}
+                    {item?.totalAmount}
                   </td>
-                  <td className="text-center">{item?.orderDate?.slice(0,10)}</td>
+                  <td className="text-center">{item?.orderDate?.slice(0, 10)}</td>
                   <td className="text-center">
-                    {item?.adminReviewDate?.slice(0,10)}
+                    {item?.adminReviewDate?.slice(0, 10)}
                   </td>
                   <td className="text-center">
                     {item?.adminReviewComment}
                   </td>
                   <td>
-                    {/* <div className="d-flex gap-2 justify-content-center">
+                    <div className="d-flex gap-2 justify-content-center">
                       <div
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
@@ -94,18 +95,20 @@ const OrderReject = () => {
                           borderRadius: "50%",
                         }}
                       >
-                        <IconButton onClick={() => setModalData(item)}>
+
+                        < IconButton onClick={() => setModalData(item?.orderId)}>
                           <GrOverview color="green" size={20} />
                         </IconButton>
                       </div>
-                      <ProductModal
+                      <OrderModal
                         modalData={modalData}
-                        brandList={brandList}
-                        categoryList={categoryList}
-                        subCategoryList={subCategoryList}
+                        // brandList={brandList}
+                        // categoryList={categoryList}
+                        // subCategoryList={subCategoryList}
                         setActionPerformed={setActionPerformed}
+                        isHide={true}
                       />
-                    </div> */}
+                    </div>
                   </td>
                 </tr>
               );

@@ -102,6 +102,7 @@ const PendingOrder = () => {
                         // categoryList={categoryList}
                         // setOrderId={setOrderId}
                         setActionPerformed={setActionPerformed}
+                        isHide={false}
                       />
                     </div>
                   </td>
