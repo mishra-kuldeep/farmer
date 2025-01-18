@@ -60,7 +60,7 @@ const ReajectFarmerProductslist = () => {
 
   useEffect(() => {
     ProductFarmerServices.getAllproductsAdmin({
-      name:"isRejected",
+      name: "isRejected",
       page: page,
       search: searchText,
       category: values?.category,
@@ -75,7 +75,7 @@ const ReajectFarmerProductslist = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [intiapicall, page, searchText,actionPerformed]);
+  }, [intiapicall, page, searchText, actionPerformed]);
 
   useEffect(() => {
     initApi();
@@ -83,15 +83,17 @@ const ReajectFarmerProductslist = () => {
 
   return (
     <div className="p-2">
-      <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={allFarmerProducts}
-        metaData={metaData}
-        searchShow={true}
-      />
+      <div style={{ marginTop: "-60px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          List={allFarmerProducts}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
       <div className="row">
         <div className="col-md-3 mb-3">
           <label className="adjustLabel">Farmer List</label>
@@ -206,8 +208,8 @@ const ReajectFarmerProductslist = () => {
                     }
                   </td>
                   <td className="text-center">{item?.country?.currencySymbol}{item?.price}</td>
-                  <td className="text-center">{item?.discountType=="fixed"&& item?.country?.currencySymbol} {item?.discount} {item?.discountType=="percentage"&&"%"}</td>
-                
+                  <td className="text-center">{item?.discountType == "fixed" && item?.country?.currencySymbol} {item?.discount} {item?.discountType == "percentage" && "%"}</td>
+
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
                       <div

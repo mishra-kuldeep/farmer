@@ -70,6 +70,7 @@ const FarmerProductsAlllist = () => {
   }, [intiapicall, page, searchText, actionPerformed]);
   return (
     <div className="p-2">
+      <div style={{ marginTop: "-60px" }}>
       <Pagination
         page={page}
         setPage={setPage}
@@ -79,6 +80,7 @@ const FarmerProductsAlllist = () => {
         metaData={metaData}
         searchShow={true}
       />
+      </div>
       <div className="row">
         <div className="col-md-3 mb-3">
           <label className="adjustLabel">Farmer List</label>

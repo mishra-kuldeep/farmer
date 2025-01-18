@@ -35,16 +35,17 @@ const OrderReject = () => {
 
   return (
     <div className="p-2">
-      <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={allPendingOrder}
-        metaData={metaData}
-        searchShow={true}
-      />
-
+      <div style={{ marginTop: "-60px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          List={allPendingOrder}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
 
       <table className="table table-striped table-bordered">
         <thead>

@@ -80,6 +80,30 @@ const ListProduct = ({ setState }) => {
   };
   return (
     <div className="p-2">
+      <div className="paginationWrapper" style={{ marginTop: "-60px" }}>
+        <input
+          type="search"
+          className="form-control categorySearch"
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            setPage(1);
+          }}
+          placeholder="Search for Products ..."
+        />
+        <h6>page ( {page} )</h6>
+        <div
+          className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
+          onClick={() => handlePage("prev")}
+        >
+          <IoIosArrowBack color="#fff" size={20} />
+        </div>
+        <div
+          className={`${catList?.length < 10 ? "arrwleftdisable" : "arrwleft"}`}
+          onClick={() => handlePage("next")}
+        >
+          <IoIosArrowForward color="#fff" size={20} />
+        </div>
+      </div>
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
@@ -145,30 +169,7 @@ const ListProduct = ({ setState }) => {
           <h6>No Category Found</h6>
         </div>
       )}
-      <div className="paginationWrapper">
-        <input
-          type="search"
-          className="form-control categorySearch"
-          onChange={(e) => {
-            setSearchText(e.target.value);
-            setPage(1);
-          }}
-          placeholder="Search for Products ..."
-        />
-        <h6>page ( {page} )</h6>
-        <div
-          className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
-          onClick={() => handlePage("prev")}
-        >
-          <IoIosArrowBack color="#fff" size={20} />
-        </div>
-        <div
-          className={`${catList?.length < 10 ? "arrwleftdisable" : "arrwleft"}`}
-          onClick={() => handlePage("next")}
-        >
-          <IoIosArrowForward color="#fff" size={20} />
-        </div>
-      </div>
+
       <ConfirmModel
         show={showConfirm}
         onConfirm={handleDelete}

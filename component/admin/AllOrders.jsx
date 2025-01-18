@@ -33,16 +33,17 @@ const AllOrders = () => {
   }, [page, searchText, actionPerformed]);
   return (
     <div className="p-2">
-      <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={allPendingOrder}
-        metaData={metaData}
-        searchShow={true}
-      />
-
+      <div style={{ marginTop: "-60px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          List={allPendingOrder}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
 
       <table className="table table-striped table-bordered">
         <thead>
@@ -80,32 +81,32 @@ const AllOrders = () => {
                   </td>
 
                   <td>
-                    
-                      <div className="d-flex gap-2 justify-content-center">
-                        <div
-                          data-bs-toggle="modal"
-                          data-bs-target="#exampleModal"
-                          style={{
-                            height: "30px",
-                            width: "30px",
-                            borderRadius: "50%",
-                          }}
-                        >
 
-                          < IconButton onClick={() => setModalData(item?.orderId)}>
-                            <GrOverview color="green" size={20} />
-                          </IconButton>
-                        </div>
-                        <OrderModal
-                          modalData={modalData}
-                          // brandList={brandList}
-                          // categoryList={categoryList}
-                          // subCategoryList={subCategoryList}
-                          setActionPerformed={setActionPerformed}
-                          isHide={true}
-                        />
+                    <div className="d-flex gap-2 justify-content-center">
+                      <div
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        style={{
+                          height: "30px",
+                          width: "30px",
+                          borderRadius: "50%",
+                        }}
+                      >
+
+                        < IconButton onClick={() => setModalData(item?.orderId)}>
+                          <GrOverview color="green" size={20} />
+                        </IconButton>
                       </div>
-                   
+                      <OrderModal
+                        modalData={modalData}
+                        // brandList={brandList}
+                        // categoryList={categoryList}
+                        // subCategoryList={subCategoryList}
+                        setActionPerformed={setActionPerformed}
+                        isHide={true}
+                      />
+                    </div>
+
                   </td>
                 </tr>
               );

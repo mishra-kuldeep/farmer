@@ -35,7 +35,7 @@ const TransportationStatus = () => {
   return (
     <>
       <div className="d-md-flex">
-        <div className="gap-4 d-flex w-100">
+        <div className="gap-4 d-flex">
           <label className="cursor">
             <input
               type="radio"
@@ -73,16 +73,15 @@ const TransportationStatus = () => {
             <span className="m-1">Rejected</span>
           </label>
         </div>
-        <div className="w-100">
-          {" "}
-          <Pagination
-            page={page}
-            setPage={setPage}
-            List={orderDetails}
-            metaData={metaData}
-            searchShow={true}
-          />
-        </div>
+      </div>
+      <div  style={{ marginTop: "-30px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          List={orderDetails}
+          metaData={metaData}
+          searchShow={true}
+        />
       </div>
       {loading && (
         <div className="centerAllDiv" style={{ height: "80vh" }}>

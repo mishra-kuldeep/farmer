@@ -34,6 +34,7 @@ const PendingOrder = () => {
 
   return (
     <div className="p-2">
+      <div style={{ marginTop: "-60px" }}>
       <Pagination
         page={page}
         setPage={setPage}
@@ -43,7 +44,7 @@ const PendingOrder = () => {
         metaData={metaData}
         searchShow={true}
       />
-     
+     </div>
 
       <table className="table table-striped table-bordered">
         <thead>

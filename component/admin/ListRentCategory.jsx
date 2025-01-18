@@ -75,6 +75,21 @@ const ListRentCategory = ({ setState }) => {
 
     return (
         <div className="p-2 ">
+            <div className="paginationWrapper" style={{marginTop:"-60px"}}>
+                <h6>page ( {page} )</h6>
+                <div
+                    className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
+                    onClick={() => handlePage("prev")}
+                >
+                    <IoIosArrowBack color="#fff" size={20} />
+                </div>
+                <div
+                    className={`${catList?.length < 10 ? "arrwleftdisable" : "arrwleft"}`}
+                    onClick={() => handlePage("next")}
+                >
+                    <IoIosArrowForward color="#fff" size={20} />
+                </div>
+            </div>
             {IsLoader ?
                 <div className="text-center"><MiniLoader /> </div>
                 :
@@ -109,11 +124,6 @@ const ListRentCategory = ({ setState }) => {
                                         </td>
                                         <td>
                                             <div className="d-flex justify-content-center gap-2">
-                                                {/* <IconButton
-                        onClick={() => deleteHandeler(item.categoryId)}
-                      >
-                        <MdDelete color="red" size={20} />
-                      </IconButton> */}
                                                 <IconButton onClick={() => editHandeler(item.rentCategoryId)}>
                                                     <FaRegEdit color="green" size={20} />
                                                 </IconButton>
@@ -133,21 +143,7 @@ const ListRentCategory = ({ setState }) => {
                     <h6>No Category Found</h6>
                 </div>
             )}
-            <div className="paginationWrapper">
-                <h6>page ( {page} )</h6>
-                <div
-                    className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
-                    onClick={() => handlePage("prev")}
-                >
-                    <IoIosArrowBack color="#fff" size={20} />
-                </div>
-                <div
-                    className={`${catList?.length < 10 ? "arrwleftdisable" : "arrwleft"}`}
-                    onClick={() => handlePage("next")}
-                >
-                    <IoIosArrowForward color="#fff" size={20} />
-                </div>
-            </div>
+
             <ConfirmModel
                 show={showConfirm}
                 onConfirm={handleDelete}

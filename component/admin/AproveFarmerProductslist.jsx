@@ -51,14 +51,14 @@ const AproveFarmerProductslist = () => {
 
   useEffect(() => {
     ProductFarmerServices.getAllproductsAdmin({
-      name:"isApproved",
+      name: "isApproved",
       page: page,
       search: searchText,
       category: values?.category,
       subCategory: values?.subCategory,
       brand: values?.brand,
       sellerId: values?.FarmerId,
-      
+
     })
       .then(({ data }) => {
         setAllFarmerProducts(data?.data);
@@ -67,20 +67,22 @@ const AproveFarmerProductslist = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [intiapicall, page, searchText,actionPerformed]);
+  }, [intiapicall, page, searchText, actionPerformed]);
 
 
   return (
     <div className="p-2">
-      <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={allFarmerProducts}
-        metaData={metaData}
-        searchShow={true}
-      />
+      <div style={{ marginTop: "-60px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          List={allFarmerProducts}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
       <div className="row">
         <div className="col-md-3 mb-3">
           <label className="adjustLabel">Farmer List</label>
@@ -155,11 +157,11 @@ const AproveFarmerProductslist = () => {
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th style={{whiteSpace:"nowrap"}}>sr no</th>
-            <th style={{whiteSpace:"nowrap"}}>product name</th>
-            <th style={{whiteSpace:"nowrap"}} className="text-center">brand name</th>
-            <th style={{whiteSpace:"nowrap"}} className="text-center">category name</th>
-            <th style={{whiteSpace:"nowrap"}} className="text-center">sub category name</th>
+            <th style={{ whiteSpace: "nowrap" }}>sr no</th>
+            <th style={{ whiteSpace: "nowrap" }}>product name</th>
+            <th style={{ whiteSpace: "nowrap" }} className="text-center">brand name</th>
+            <th style={{ whiteSpace: "nowrap" }} className="text-center">category name</th>
+            <th style={{ whiteSpace: "nowrap" }} className="text-center">sub category name</th>
             <th className="text-center">price</th>
             <th className="text-center">discount</th>
             <th className="text-center">action</th>
@@ -195,8 +197,8 @@ const AproveFarmerProductslist = () => {
                     }
                   </td>
                   <td className="text-center">{item?.country?.currencySymbol}{item?.price}</td>
-                  <td className="text-center">{item?.discountType=="fixed"&& item?.country?.currencySymbol} {item?.discount} {item?.discountType=="percentage"&&"%"}</td>
-                
+                  <td className="text-center">{item?.discountType == "fixed" && item?.country?.currencySymbol} {item?.discount} {item?.discountType == "percentage" && "%"}</td>
+
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
                       <div

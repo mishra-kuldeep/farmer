@@ -35,6 +35,7 @@ const OrderApproved = () => {
 
   return (
     <div className="p-2">
+       <div style={{ marginTop: "-60px" }}>
       <Pagination
         page={page}
         setPage={setPage}
@@ -44,7 +45,7 @@ const OrderApproved = () => {
         metaData={metaData}
         searchShow={true}
       />
-     
+     </div>
 
       <table className="table table-striped table-bordered">
         <thead>
