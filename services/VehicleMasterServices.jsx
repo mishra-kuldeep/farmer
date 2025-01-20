@@ -112,7 +112,7 @@ export default class VehicleMasterServices {
     }
     static async CustomerOrderToTranspoter(data) {
         const token = getCookie("token");
-        const url = `${BASE_URL}/transpoterDelivery/admin/${data}`;
+        const url = `${BASE_URL}/transpoterDelivery/admin/${data.status}?page=${data.page}&search=${data.searchText}`;
         return axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`, // Set the token in the Authorization header

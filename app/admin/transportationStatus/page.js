@@ -10,19 +10,20 @@ const TransportationStatus = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
+    const [searchText, setSearchText] = useState("");
   const [orderDetails, setOrderDetails] = useState([]);
   const [metaData, setMetaData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null); // Track which accordion is open
   useEffect(() => {
     setLoading(true);
-    VehicleMasterServices.CustomerOrderToTranspoter(status)
+    VehicleMasterServices.CustomerOrderToTranspoter({status,page,searchText})
       .then(({ data }) => {
         setOrderDetails(data?.data);
         setMetaData(data?.meta);
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [status]);
+  }, [status,page,searchText]);
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -79,6 +80,8 @@ const TransportationStatus = () => {
           page={page}
           setPage={setPage}
           List={orderDetails}
+          searchText={searchText}
+          setSearchText={setSearchText}
           metaData={metaData}
           searchShow={true}
         />
@@ -97,6 +100,7 @@ const TransportationStatus = () => {
               onClick={() => toggleAccordion(index)}
             >
               <h6>
+              {10 * (page - 1) + (index + 1)}.{" "}
                 You have to deliver{" "}
                 <span>
                   {ele?.orderDetail?.quantity}{" "}

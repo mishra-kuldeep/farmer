@@ -40,6 +40,7 @@ const PendingOrder = () => {
         setPage={setPage}
         searchText={searchText}
         setSearchText={setSearchText}
+        placeholdertext='search by email...'
         List={allPendingOrder}
         metaData={metaData}
         searchShow={true}
@@ -64,7 +65,7 @@ const PendingOrder = () => {
             {allPendingOrder?.map((item, i) => {
               return (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{10 * (page - 1) + (i + 1)}. </td>
                   <td>{item?.User?.FirstName}</td>
                   <td className="text-center">
                   {item?.User?.Phone?item?.User?.Phone:"---"}

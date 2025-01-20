@@ -109,7 +109,7 @@ const ListRentCategory = ({ setState }) => {
                             {catList?.map((item, i) => {
                                 return (
                                     <tr key={i}>
-                                        <td>{i + 1}</td>
+                                        <td>{10 * (page - 1) + (i + 1)}. </td>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
                                         <td>{Object.keys(JSON.parse(item?.otherDetails)).map((val) => val) + ", "}</td>

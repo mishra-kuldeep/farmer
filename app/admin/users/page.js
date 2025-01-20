@@ -108,7 +108,7 @@ const UsersListForAdmin = () => {
     setStatus(id);
     setPage(1);
   };
-  
+  console.log(metaData)
   return (
     <>
       <div className="row  align-items-center shadow px-2 mb-3">
@@ -199,7 +199,7 @@ const UsersListForAdmin = () => {
                 >
                   <button type="button">
                     <span>
-                      {i+1}. {ele.FirstName} {ele.LastName}
+                    {10 * (page - 1) + (i + 1)}. {ele.FirstName} {ele.LastName}
                     </span>
                     <IoIosArrowDown
                       className={`${stylesss["accordion-button-icon"]} ${

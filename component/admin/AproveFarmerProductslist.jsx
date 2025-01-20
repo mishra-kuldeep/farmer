@@ -77,6 +77,7 @@ const AproveFarmerProductslist = () => {
           page={page}
           setPage={setPage}
           searchText={searchText}
+          placeholdertext='search by product name...'
           setSearchText={setSearchText}
           List={allFarmerProducts}
           metaData={metaData}
@@ -172,7 +173,7 @@ const AproveFarmerProductslist = () => {
             {allFarmerProducts?.map((item, i) => {
               return (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td> {10 * (page - 1) + (i + 1)}.</td>
                   <td>{item?.productDtlName}</td>
                   <td className="text-center">
                     {

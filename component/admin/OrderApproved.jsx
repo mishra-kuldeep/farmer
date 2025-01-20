@@ -24,28 +24,29 @@ const OrderApproved = () => {
       search: searchText,
     })
       .then(({ data }) => {
-        
+
         setAllPendingOrders(data?.data);
         setmetaData(data?.meta);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [ page, searchText, actionPerformed]);
+  }, [page, searchText, actionPerformed]);
 
   return (
     <div className="p-2">
-       <div style={{ marginTop: "-60px" }}>
-      <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={allPendingOrder}
-        metaData={metaData}
-        searchShow={true}
-      />
-     </div>
+      <div style={{ marginTop: "-60px" }}>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          placeholdertext='search by email...'
+          List={allPendingOrder}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
 
       <table className="table table-striped table-bordered">
         <thead>
@@ -65,21 +66,21 @@ const OrderApproved = () => {
             {allPendingOrder?.map((item, i) => {
               return (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{10 * (page - 1) + (i + 1)}. </td>
                   <td>{item?.User?.FirstName}</td>
                   <td className="text-center">
-                  {item?.User?.Phone?item?.User?.Phone:"---"}
+                    {item?.User?.Phone ? item?.User?.Phone : "---"}
                   </td>
                   <td className="text-center">
-                  {item?.User?.Email}
-                   
+                    {item?.User?.Email}
+
                   </td>
                   <td className="text-center">
-                  {item?.totalAmount}
+                    {item?.totalAmount}
                   </td>
-                  <td className="text-center">{item?.orderDate?.slice(0,10)}</td>
+                  <td className="text-center">{item?.orderDate?.slice(0, 10)}</td>
                   <td className="text-center">
-                    {item?.adminReviewDate?.slice(0,10)}
+                    {item?.adminReviewDate?.slice(0, 10)}
                   </td>
 
                   <td>

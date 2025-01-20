@@ -121,7 +121,7 @@ const ListProduct = ({ setState }) => {
             {catList?.map((item, i) => {
               return (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{10 * (page - 1) + (i + 1)}.</td>
                   <td>{item?.productName}</td>
                   <td className="text-center">
                     {item?.Brand?.brandName ? item?.Brand?.brandName : "----"}

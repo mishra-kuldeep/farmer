@@ -99,7 +99,7 @@ const ListCategory = ({ setState }) => {
             {catList?.map((item, i) => {
               return (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{10 * (page - 1) + (i + 1)}. </td>
                   <td>{item.categoryName}</td>
                   <td>{item.description}</td>
                   <td className="d-flex justify-content-center">

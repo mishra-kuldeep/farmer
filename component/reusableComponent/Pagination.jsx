@@ -7,6 +7,7 @@ const Pagination = ({
   setPage,
   searchText,
   setSearchText,
+  placeholdertext,
   searchShow,
   metaData,
 }) => {
@@ -32,7 +33,7 @@ const Pagination = ({
             setSearchText(e.target.value);
             setPage(1); // Reset to page 1 whenever search text changes
           }}
-          placeholder="Search ..."
+          placeholder={placeholdertext ? placeholdertext : "Search ..."}
         />
       )}
       <h6>
@@ -46,10 +47,9 @@ const Pagination = ({
         <IoIosArrowBack color="#fff" size={20} />
       </button>
       <button
-        disabled={ (metaData?.totalPages == 0)||(page == metaData?.totalPages) }
-        className={`${
-          page == metaData?.totalPages ? "arrwleftdisable" : "arrwleft"
-        }`}
+        disabled={(metaData?.totalPages == 0) || (page == metaData?.totalPages)}
+        className={`${page == metaData?.totalPages ? "arrwleftdisable" : "arrwleft"
+          }`}
         onClick={() => handlePage("next")} // Prevent clicking on disabled button
       >
         <IoIosArrowForward color="#fff" size={20} />
