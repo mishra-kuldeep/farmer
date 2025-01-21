@@ -60,15 +60,15 @@ const SortinfoDash = ({ dateRange }) => {
                         <div className="mt-3">
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Farmer </h6>
-                                <h6 className="text-dark w-25"> : {totalUser?.find(role => role?.roleName == "Farmers")?.totalUsers}</h6>
+                                <h6 className="text-dark w-25"> : {totalUser?.find(role => role?.roleName == "Farmers")?.totalUsers || 0}</h6>
                             </div>
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Buyers </h6>
-                                <h6 className="text-dark w-25"> : {totalUser?.find(role => role?.roleName == "Buyers")?.totalUsers}</h6>
+                                <h6 className="text-dark w-25"> : {totalUser?.find(role => role?.roleName == "Buyers")?.totalUsers || 0}</h6>
                             </div>
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Transporters </h6>
-                                <h6 className="text-dark w-25"> : {totalUser?.find(role => role?.roleName == "Transportation")?.totalUsers}</h6>
+                                <h6 className="text-dark w-25"> : {totalUser?.find(role => role?.roleName == "Transportation")?.totalUsers || 0}</h6>
                             </div>
                         </div>
                     </div>
@@ -84,15 +84,15 @@ const SortinfoDash = ({ dateRange }) => {
                         <div className="mt-3">
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Total Orders </h6>
-                                <h6 className="text-dark w-25"> : {totalOrder?.totalOrders}</h6>
+                                <h6 className="text-dark w-25"> : {totalOrder?.totalOrders || 0}</h6>
                             </div>
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Total Amounts </h6>
-                                <h6 className="text-dark w-25"> : {totalOrder?.totalAmount}</h6>
+                                <h6 className="text-dark w-25"> : {totalOrder?.totalAmount || 0}</h6>
                             </div>
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Avg Orders Values </h6>
-                                <h6 className="text-dark w-25"> : {totalOrder?.avgOrderValue?.toFixed(2)}</h6>
+                                <h6 className="text-dark w-25"> : {totalOrder?.avgOrderValue?.toFixed(2) || 0}</h6>
                             </div>
                         </div>
                     </div>
@@ -108,15 +108,15 @@ const SortinfoDash = ({ dateRange }) => {
                         <div className="mt-3">
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">Advertisments </h6>
-                                <h6 className="text-dark w-25"> : {totalAds?.totalRentOrSaleProducts}</h6>
+                                <h6 className="text-dark w-25"> : {totalAds?.totalRentOrSaleProducts || 0}</h6>
                             </div>
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75">For Rent  </h6>
-                                <h6 className="text-dark w-25"> : {totalAds?.totalRentProducts}</h6>
+                                <h6 className="text-dark w-25"> : {totalAds?.totalRentProducts || 0}</h6>
                             </div>
                             <div className="d-flex justify-content-between mb-2 w-100">
                                 <h6 className="text-secondary w-75"> For Sale</h6>
-                                <h6 className="text-dark w-25"> : {totalAds?.totalSaleProducts}</h6>
+                                <h6 className="text-dark w-25"> : {totalAds?.totalSaleProducts || 0}</h6>
                             </div>
                         </div>
                     </div>
