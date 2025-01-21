@@ -3,6 +3,7 @@ import "./basket.css";
 import { FaMinus, FaPlus, FaRegBookmark } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Lottie from "react-lottie";
 import toast from "react-hot-toast";
 
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
@@ -17,6 +18,15 @@ import { useRouter } from "next/navigation";
 import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
 import AuthService from "@/services/AuthServices";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: require("../../public/cart.json"),
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 const Basket = () => {
   const user = useSelector((state) => state.auth);
@@ -423,14 +433,8 @@ const Basket = () => {
         <div
           style={{ height: "80vh", display: "flex", justifyContent: "center" }}
         >
-          <div style={{ height: "50vh", width: "50vh", textAlign: "center" }}>
-            <img
-              // src="https://cdn-icons-png.flaticon.com/512/11010/11010851.png"
-              src="https://static.vecteezy.com/system/resources/previews/005/006/007/non_2x/no-item-in-the-shopping-cart-click-to-go-shopping-now-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
-              height="100%"
-              width="100%"
-              alt="pic"
-            />
+          <div style={{ marginTop:"100px", textAlign: "center" }}>
+            <Lottie options={defaultOptions} height={300} width={300} />
             <h6 className="mb-4 text-secondary">Your cart is empty!</h6>
             <button className="gohomeforshop" onClick={() => router.push("/")}>
               Shop Now
