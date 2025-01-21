@@ -13,9 +13,9 @@ export default class RentProductsServices {
       },
     });
   }
-  static async getAllRentProduct(userId, page, searchText) {
+  static async getAllRentProduct( page, searchText) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/rentProduct?page=${page}&searchText=${searchText}`;
+    const url = `${BASE_URL}/rentProduct?page=${page}&search=${searchText}`;
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header

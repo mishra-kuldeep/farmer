@@ -17,7 +17,6 @@ import { isMobile } from "react-device-detect";
 
 const Page = () => {
   const router = useRouter();
-  const user = useSelector((state) => state.auth);
   const [servicesVenderList, setservicesVenderList] = useState([]);
 
   const [metaData, setMetaData] = useState({});
@@ -86,16 +85,16 @@ const Page = () => {
   };
 
   useEffect(() => {
-    if (user.profile?.id) {
-      RentProductsServices.getAllRentProduct(user.profile?.id, page, searchText)
+
+      RentProductsServices.getAllRentProduct( page, searchText)
         .then(({ data }) => {
           setservicesVenderList(data);
           setMetaData(data?.meta);
         })
         .catch((err) => console.log(err));
-    }
+ 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.profile?.id, page, searchText]);
+  }, [ page, searchText]);
 
   return (
     <div>
@@ -104,6 +103,7 @@ const Page = () => {
         setPage={setPage}
         searchText={searchText}
         setSearchText={setSearchText}
+        placeholdertext='Search by title...'
         List={servicesVenderList}
         metaData={metaData}
         searchShow={true}
