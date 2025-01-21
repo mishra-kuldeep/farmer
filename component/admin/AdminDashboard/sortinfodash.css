@@ -1,0 +1,10 @@
+.dahAdmimcard{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding:10px;
+}
+.iconswrapadmin{
+    background-color: var(--adminMainColor);
+    padding: 10px;
+    border-radius: 50%;
+}
