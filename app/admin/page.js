@@ -1,5 +1,7 @@
 "use client";
 
+import OrderBarchart from '@/component/admin/AdminDashboard/OrderBarchart';
+import OrderRevenueBarChart from '@/component/admin/AdminDashboard/OrderRevenueBarChart';
 import SortinfoDash from '@/component/admin/AdminDashboard/SortinfoDash'
 import React, { useState } from 'react'
 
@@ -18,7 +20,7 @@ const AdminHomePage = () => {
     toDate: formatDate(currentDate),
   });
 
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDateRange({
@@ -55,6 +57,14 @@ const AdminHomePage = () => {
       </div>
       <div>
         <SortinfoDash dateRange={dateRange} />
+      </div>
+      <div className='row'>
+        <div className='col-md-6'>
+          <OrderBarchart dateRange={dateRange} />
+        </div>
+        <div className='col-md-6'>
+          <OrderRevenueBarChart dateRange={dateRange} />
+        </div>
       </div>
     </>
   )
