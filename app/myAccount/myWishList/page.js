@@ -6,11 +6,24 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import Lottie from 'react-lottie';
+
+
+
 const WishList = () => {
   const [loading, setLoading] = useState(false);
   const [wishList, setWishList] = useState([]);
   const [btnLoading, setbtnLoading] = useState(false);
   const [romoveID, setRomoveID] = useState(null);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: require('../../../public/nowishlist.json'),
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -63,7 +76,7 @@ const WishList = () => {
             wishList?.length === 0 ? (
 
               <div style={{ height: "80vh" }} className="centerAllDiv">
-                <h2>No Item Found</h2>
+                <Lottie options={defaultOptions} height={400} width={400} />
               </div>
             ) : (
               <div>
