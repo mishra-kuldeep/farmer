@@ -20,7 +20,7 @@ export default class AuthService {
     const url = `${BASE_URL}/user/info`;
     return axios.get(url, {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+        Authorization: `Bearer ${token}`, 
       },
     });
   }

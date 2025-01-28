@@ -153,7 +153,7 @@ export default class CategoryServices {
   }
   static async addProductsFormer(data) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/productDtl/productsDtl`;
+    const url = `${BASE_URL}/productDtl/productsDtls`;
     return axios.post(url, data, {
       headers: {
         'Content-Type': 'multipart/form-data',

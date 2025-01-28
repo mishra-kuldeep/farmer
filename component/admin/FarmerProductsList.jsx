@@ -28,13 +28,13 @@ const FarmerProductsList = () => {
   });
 
   const FilterinitApi = async () => {
-    const farmerlist = await ProductFarmerServices.getfarmerlistforAdmin();
+    const farmerlist = await ProductFarmerServices?.getfarmerlistforAdmin();
     setFarmerList(farmerlist?.data?.userProfile);
-    const categoryList = await CategoryServices.getCategory();
+    const categoryList = await CategoryServices?.getCategory();
     setcategoryList(categoryList?.data?.data);
-    const subCategoryList = await CategoryServices.getSubCategory();
+    const subCategoryList = await CategoryServices?.getSubCategory();
     setsubCategoryList(subCategoryList?.data?.data);
-    const BrandList = await CategoryServices.getBrand();
+    const BrandList = await CategoryServices?.getBrand();
     setBrandList(BrandList?.data?.data);
   };
 

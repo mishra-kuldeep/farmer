@@ -8,9 +8,9 @@ import ProductFarmerServices from "@/services/ProductFarmerServices";
 import ProductgradeServices from "@/services/ProductgradeServices";
 import ProductUnitServices from "@/services/ProductUnitServices";
 
-import CountryServices from "@/services/CountryServices";
+// import CountryServices from "@/services/CountryServices";
 import { useSelector } from "react-redux";
-const specialCharRegex = /[^a-zA-Z0-9\s-]/;
+// const specialCharRegex = /[^a-zA-Z0-9\s-]/;
 
 const EditProductFarmer = ({ params }) => {
   const router = useRouter()
@@ -46,15 +46,9 @@ const EditProductFarmer = ({ params }) => {
     setSlugError("")
   };
 
-  const onSubmitHandler = async () => {
-    const specialCharRegex = /[^a-zA-Z0-9\s-]/;
-    const formattedSlug = values.slug.toLowerCase().replace(/['\s]+/g, "-");
-
-    if (!specialCharRegex.test(formattedSlug)) {
-      // Directly update the slug in the values object before calling the service
+  const onSubmitHandler = async () => { 
       const updatedValues = {
         ...values,
-        slug: formattedSlug,
         isEdit: true
       };
       try {
@@ -97,9 +91,6 @@ const EditProductFarmer = ({ params }) => {
         }, {});
         setErrors(errorObj);
       }
-    } else {
-      setSlugError("Do not contain any special characters in the slug field");
-    }
   };
 
   const initApi = () => {
@@ -306,7 +297,7 @@ const EditProductFarmer = ({ params }) => {
           onChange={onchangeHandeler}
         />
       </div>
-      <div className="col-md-4 mb-3">
+      {/* <div className="col-md-4 mb-3">
         <label className="adjustLabel">Meta Title</label>
         <input
           type="text"
@@ -315,8 +306,8 @@ const EditProductFarmer = ({ params }) => {
           value={values.metaTitle}
           onChange={onchangeHandeler}
         />
-      </div>
-      <div className="col-md-8 mb-3">
+      </div> */}
+      {/* <div className="col-md-8 mb-3">
         <label className="adjustLabel">Meta Description</label>
         <input
           type="text"
@@ -325,8 +316,8 @@ const EditProductFarmer = ({ params }) => {
           value={values.metaDescription}
           onChange={onchangeHandeler}
         />
-      </div>
-      <div className="col-md-4 mb-3">
+      </div> */}
+      {/* <div className="col-md-4 mb-3">
         <label className="adjustLabel">Slug *</label>
         <input
           type="text"
@@ -338,7 +329,7 @@ const EditProductFarmer = ({ params }) => {
         {errors.slug && <span className="error_input_text">{errors.slug}</span>}
         {slugError && <span className="error_input_text">{slugError}</span>}
 
-      </div>
+      </div> */}
       <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
         <div className="form-check">
           <input

@@ -44,9 +44,9 @@ const Category = () => {
               onClick={() =>
                 router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)
               }
-              className={`${
-                ele?.categoryId == subId && "activecat"
-              } cat_list hovercatlist d-flex justify-content-between pe-2 align-items-center cursor`}
+              key={i}
+              className={`${ele?.categoryId == subId && "activecat"
+                } cat_list hovercatlist d-flex justify-content-between pe-2 align-items-center cursor`}
               style={{ borderBottom: "0.1px solid rgb(175, 175, 175)" }}
               onMouseEnter={() => {
                 setSubCategoryList(ele?.SubCategories);
@@ -65,8 +65,9 @@ const Category = () => {
           ))}
         </div>
         <div style={{ width: "300px" }}>
-          {subCategoryList?.map((ele) => (
+          {subCategoryList?.map((ele, i) => (
             <p
+              key={i}
               className="cat_list catsublisthover text-dark"
               onClick={() =>
                 router.push(
@@ -81,8 +82,8 @@ const Category = () => {
       </div>
 
       <div className="d-md-none d-block">
-        {categoryList?.map((ele) => (
-          <div key={ele?.categoryName}>
+        {categoryList?.map((ele, i) => (
+          <div key={i} >
             <p className="cat_list  d-flex justify-content-between">
               <span
                 type="button"
@@ -110,12 +111,12 @@ const Category = () => {
             </p>
             {openCategory === ele?.categoryName && (
               <div>
-                {ele?.SubCategories?.map((val) => (
+                {ele?.SubCategories?.map((val, i) => (
                   <p
                     type="button"
                     data-bs-dismiss="offcanvas"
                     aria-label="Close"
-                    key={val?.subcategoryName}
+                    key={i}
                     className="cat_list cat_listsubtitle  ms-3"
                     onClick={() =>
                       router.push(

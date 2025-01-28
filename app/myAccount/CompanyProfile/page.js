@@ -431,7 +431,7 @@ const MyProfile = () => {
                 <span className="visually-hidden">Loading...</span>
               </div>
             )}
-            submit
+            Update
           </button>
         </div>
       </div>
