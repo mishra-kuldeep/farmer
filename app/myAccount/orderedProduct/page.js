@@ -1,29 +1,106 @@
 "use client";
+import Pagination from "@/component/reusableComponent/Pagination";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
 import { Image_URL } from "@/helper/common";
 import OrderService from "@/services/Orderservices";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-const statuses = ['Pending', 'Payment', 'Processing', 'Shipped'];
+const statuses = ['Pending', 'Payment', 'Processing', 'Shipped','Delivered'];
 const OrderedProduct = () => {
   const user = useSelector((state) => state.auth);
+  const [page, setPage] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [metaData, setMetaData] = useState({});
   const [loader, setLoader] = useState(false);
   const [orderedList, setOrderedList] = useState([]);
   useEffect(() => {
     if (user?.profile) {
       setLoader(true);
-      OrderService.getOrderedConfirmToSeller("Approved")
+      OrderService.getOrderedConfirmToSeller({status:"Approved",page,searchText})
         .then(({ data }) => {
           setOrderedList(data?.data);
+          setMetaData(data.meta)
           setLoader(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          setLoader(true);
+        });
     }
-  }, [user?.profile]);
+  }, [user?.profile,page,searchText]);
 
   return (
     <div className="">
-      {orderedList.length>0 ? orderedList?.map((elem, i) => {
+      <div className="w-100">
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          placeholdertext='Search by productDtl...'
+          List={orderedList}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
+      <div className="">
+        <div
+          className="d-flex gap-4 mb-md-3 p-md-0 p-2 w-100 overflow-auto"
+          // style={{ marginTop: !isMobile && "-40px" }}
+        >
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#fffb0e",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" }}>Pending</p>
+          </div>
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#ceff95",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" }}>Approved</p>
+          </div>
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#ffadad",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px" }}>Rejected</p>
+          </div>
+          <div className="d-flex gap-2">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "red",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+              }}
+            ></div>
+            <p style={{ color: "grey", fontSize: "12px", whiteSpace: "nowrap" }}>
+              Out Of Stock/Unavailable
+            </p>
+          </div>
+        </div>
+      </div>
+      {orderedList.length > 0 ? orderedList?.map((elem, i) => {
         if (statuses.includes(elem?.status))
           return (
             <div className="orderedWrapper" key={i}>
@@ -130,10 +207,10 @@ const OrderedProduct = () => {
               </div>
             </div>
           );
-      }):
-      <div className="w-100 d-flex align-items-center justify-content-center" style={{height:"80vh"}}>
-        <h6>No Ongoin Order Available</h6>
-      </div>
+      }) :
+        <div className="w-100 d-flex align-items-center justify-content-center" style={{ height: "80vh" }}>
+          <h6>No Ongoin Order Available</h6>
+        </div>
       }
     </div>
   );

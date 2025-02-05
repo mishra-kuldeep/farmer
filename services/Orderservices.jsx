@@ -76,9 +76,9 @@ export default class OrderService {
     });
   }
 
-  static async getOrderedConfirmToSeller(status) {
+  static async getOrderedConfirmToSeller(data) {
     const token = getCookie("token");
-    const url = `${BASE_URL}/order/orderfarmer/${status}`;
+    const url = `${BASE_URL}/order/orderfarmer/${data?.status}?page=${data?.page}&search=${data?.searchText}`;
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, 

@@ -34,7 +34,7 @@ const LeastOrderpickup = () => {
         <div>
             <div className="container mt-1 border rounded mt-3">
                 <div className='mt-4 mb-2 d-flex justify-content-between '>
-                    <h5 className="text-dark">Least Order Pickup</h5>
+                    <h5 className="text-dark">Latest Order Pickup</h5>
                     <Link href="myAccount/customerOrder">Seen More</Link>
                 </div>
                 <table className="table table-striped table-bordered">
