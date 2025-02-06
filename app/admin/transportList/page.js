@@ -158,8 +158,8 @@ const TransportList = () => {
                     <td className="text-center">{item?.driverName}</td>
                     <td className="text-center">{item?.driverContact}</td>
 
-                    <td className="text-center">
-                      <div className="d-flex gap-2 justify-content-center">
+                    <td className="text-center d-flex gap-2 justify-content-center">
+                      
                         {/* <IconButton>
                         <MdDelete color="red" size={20}/>
                       </IconButton> */}
@@ -185,7 +185,7 @@ const TransportList = () => {
                             </IconButton>
                           </>
                         )}
-                      </div>
+                    
                     </td>
                   </tr>
                   <tr key={i + 1 - i * 2}>

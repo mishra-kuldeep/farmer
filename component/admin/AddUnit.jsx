@@ -77,7 +77,7 @@ const AddUnit = ({ setState }) => {
   return (
     <div className="row  m-0 p-3">
       <div className="col-md-4 mb-3 ">
-        <label className="adjustLabel">Unit Name</label>
+        <label className="adjustLabel">Unit Name *</label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -91,7 +91,7 @@ const AddUnit = ({ setState }) => {
       </div>
 
       <div className="col-md-4">
-        <label className="adjustLabel">Country</label>
+        <label className="adjustLabel">Country *</label>
         <select
           className="form-select custom-select adjustLabel_input shadow-none"
           aria-label="Default select example"
@@ -100,8 +100,8 @@ const AddUnit = ({ setState }) => {
           name="countryId"
         >
           <option value={""}></option>
-          {countryList?.map((val) => (
-            <option value={val?.countryId}>{val?.countryName}</option>
+          {countryList?.map((val,i) => (
+            <option key={i} value={val?.countryId}>{val?.countryName}</option>
           ))}
         </select>
         {countryIderror && (

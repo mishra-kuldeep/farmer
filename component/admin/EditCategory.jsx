@@ -72,7 +72,7 @@ const EditCategory = ({ setState }) => {
   return (
     <div className="row  m-0 p-3">
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Category Name</label>
+        <label className="adjustLabel">Category Name *</label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"

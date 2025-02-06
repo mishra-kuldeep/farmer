@@ -7,9 +7,9 @@ import MiniLoader from "../reusableComponent/MiniLoader";
 
 const AddProduct = ({ setState }) => {
   const [categoryList, setcategoryList] = useState([]);
-  const [brandList, setBrandList] = useState([]);
+  // const [brandList, setBrandList] = useState([]);
   const [subCategoryList, setsubCategoryList] = useState([]);
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [errors, setErrors] = useState({}); 
   const [loader, setLoader] = useState(false);
   const [values, setValues] = useState({
     productName: "",
@@ -25,8 +25,8 @@ const AddProduct = ({ setState }) => {
     setcategoryList(categoryList?.data?.data);
     const subCategoryList = await CategoryServices.getSubCategory();
     setsubCategoryList(subCategoryList?.data?.data);
-    const BrandList = await CategoryServices.getBrand();
-    setBrandList(BrandList?.data?.data);
+    // const BrandList = await CategoryServices.getBrand();
+    // setBrandList(BrandList?.data?.data);
   };
 
   useEffect(() => {
@@ -63,7 +63,6 @@ const AddProduct = ({ setState }) => {
             color: "#fff",
           },
         });
-
         // Update state after successful service call
         setState("1");
       } catch (err) {
@@ -78,8 +77,6 @@ const AddProduct = ({ setState }) => {
       }
     } 
   
-
-
   return (
     <div className="row  m-0 p-3">
       <div className="col-md-4 mb-3 ">
@@ -96,7 +93,7 @@ const AddProduct = ({ setState }) => {
         )}
       </div>
       <div className="col-md-8 mb-3">
-        <label className="adjustLabel">Description *</label>
+        <label className="adjustLabel">Description </label>
         <input
           type="text"
           className="form-control p-2 adjustLabel_input"
@@ -129,7 +126,7 @@ const AddProduct = ({ setState }) => {
         )}
       </div>
       <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Subcategory *</label>
+        <label className="adjustLabel">Subcategory </label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
@@ -148,7 +145,7 @@ const AddProduct = ({ setState }) => {
           <span className="error_input_text">{errors?.subCategory}</span>
         )}
       </div>
-      <div className="col-md-4 mb-3">
+      {/* <div className="col-md-4 mb-3">
         <label className="adjustLabel">Brand </label>
         <select
           className="form-select custom-select adjustLabel_input"
@@ -167,7 +164,7 @@ const AddProduct = ({ setState }) => {
         {errors?.brand && (
           <span className="error_input_text">{errors?.brand}</span>
         )}
-      </div>
+      </div> */}
       <div className="col-md-3 my-3 d-flex align-items-center justify-content-center">
         <div className="form-check form-switch ">
           <input
