@@ -38,15 +38,40 @@
     justify-content: center;
   }
   .viewAllcartCol{
-    width: 300px;
+    width: 310px;
   }
   .showHideFilter{
     border: 1px solid gainsboro;
     width: 130px;
+    text-align: center;
     gap: 10px;
     display: flex;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
+  }
+  .paginationbtnarrow{
+    background-color: var(--mainColor);
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+  }
+  .paginationbtnarrowdisable{
+    background-color:#999;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
   }
   .filterContainerHeight{
     /* height: auto; */

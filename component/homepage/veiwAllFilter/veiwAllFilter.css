@@ -1,0 +1,30 @@
+.filterwrapper {
+  border: 1px solid #dadada;
+  padding: 10px;
+  background-color: #dadada;
+  position: sticky;
+  top: 100px;
+  width: 100%;
+}
+.singlefilterdiv {
+  border: 1px solid #dadada;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+.filtertitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 10px;
+}
+.filterHoverlable{
+    padding: 3px 10px;
+    cursor: pointer;
+}
+.filterHoverlable label {
+  font-size: 14px;
+  
+}
+.filterHoverlable:hover {
+  background-color: #f2f2f2;
+}

@@ -195,7 +195,7 @@ textarea:focus {
 .scrollThumbStyle::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
   height: 4px;
   width: 4px;
   background: rgb(223, 223, 223);
@@ -203,7 +203,7 @@ textarea:focus {
 ::-webkit-scrollbar-thumb:horizontal{
   background: #a1a1a1;
   border-radius: 10px;
-}
+} */
 @media only screen and (max-width: 600px) {
   .marginEveryPage {
     margin-top: 50px;
