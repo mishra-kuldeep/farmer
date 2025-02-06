@@ -10,6 +10,8 @@ import ProductUnitServices from "@/services/ProductUnitServices";
 
 // import CountryServices from "@/services/CountryServices";
 import { useSelector } from "react-redux";
+import AddProductSearch from "@/component/smallcompo/addProductSearch";
+import AuthService from "@/services/AuthServices";
 // const specialCharRegex = /[^a-zA-Z0-9\s-]/;
 
 const EditProductFarmer = ({ params }) => {
@@ -20,15 +22,16 @@ const EditProductFarmer = ({ params }) => {
   const [unitlist, setUnitlist] = useState([]);
   const [gradelist, setgradelist] = useState([])
   const user = useSelector((state) => state.auth);
-
+  const [Category, setCategory] = useState('')
+  const [SubCategory, setSubCategory] = useState('')
+  const [countrySymbol, setCountrySymbol] = useState([])
   const [values, setValues] = useState({
     productDtlName: "",
-    description: "",
+    productDtl: "",
     productId: "",
     price: "",
+    Brand: "",  
     discount: "",
-    discountType: "",
-    producType: "",
     gradeId: "",
     sku: "",
     metaTitle: "",
@@ -46,51 +49,49 @@ const EditProductFarmer = ({ params }) => {
     setSlugError("")
   };
 
-  const onSubmitHandler = async () => { 
-      const updatedValues = {
-        ...values,
+  const onSubmitHandler = async () => {
+    const updatedValues = {
+      ...values,
+      isEdit: true
+    };
+    try {
+      const dataa = await ProductFarmerServices.editProductsFormer(params?.id, updatedValues);
+      // Reset errors and form values after successful service call
+      setErrors({});
+      setValues({
+        productDtlName: "",
+        productDtl: "",
+        productId: "",
+        price: "",
+        discount: "",
+        sku: "",
+        metaTitle: "",
+        metaDescription: "",
+        quantity: "",
+        unitId: "",
+        slug: "",
+        gradeId: "",
+        available: false,
         isEdit: true
-      };
-      try {
-        const dataa = await ProductFarmerServices.editProductsFormer(params?.id, updatedValues);
-        // Reset errors and form values after successful service call
-        setErrors({});
-        setValues({
-          productDtlName: "",
-          productDtl: "",
-          productId: "",
-          price: "",
-          discount: "",
-          discountType: "",
-          sku: "",
-          metaTitle: "",
-          metaDescription: "",
-          quantity: "",
-          unitId: "",
-          slug: "",
-          producType: "",
-          gradeId: "",
-          available: false,
-          isEdit: true
-        });
-        toast(dataa?.data?.message, {
-          icon: "👏",
-          style: {
-            borderRadius: "10px",
-            background: "green",
-            color: "#fff",
-          },
-        });
-        router.push("/myAccount/listAddedProduct")
-      } catch (err) {
-        console.log(err);
-        const errorData = err?.response?.data?.errors || [];
-        const errorObj = errorData.reduce((acc, curr) => {
-          acc[curr.path] = curr.msg;
-          return acc;
-        }, {});
-        setErrors(errorObj);
-      }
+      });
+      toast(dataa?.data?.message, {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "green",
+          color: "#fff",
+        },
+      });
+      router.push("/myAccount/listAddedProduct")
+    } catch (err) {
+      console.log(err);
+      const errorData = err?.response?.data?.errors || [];
+      const errorObj = errorData.reduce((acc, curr) => {
+        acc[curr.path] = curr.msg;
+        return acc;
+      }, {});
+      setErrors(errorObj);
+    }
   };
 
   const initApi = () => {
@@ -105,6 +106,12 @@ const EditProductFarmer = ({ params }) => {
   }
 
   useEffect(() => {
+       AuthService.getCountryList().then(({ data }) => {
+          setCountrySymbol(data?.find((val) => val?.countryId == user.profile.country)?.currencySymbol);
+        })
+          .catch((err) => {
+            console.log(err);
+          });
     ProductUnitServices.getProductUnit(user?.profile?.country)
       .then(({ data }) => {
         setUnitlist(data);
@@ -124,38 +131,46 @@ const EditProductFarmer = ({ params }) => {
           productId: valuess?.productId,
           price: valuess?.price,
           discount: valuess?.discount,
-          discountType: valuess?.discountType,
           sku: valuess?.sku,
           metaTitle: valuess?.metaTitle,
           metaDescription: valuess?.metaDescription,
           quantity: valuess?.quantity,
           unitId: valuess?.unitId,
           slug: valuess?.slug,
-          producType: valuess?.productType,
           gradeId: valuess?.gradeId,
           available: valuess?.available,
         });
       }).catch((err) => console.log(err))
     }
   }, [params?.id]);
+
+
+  const handleDataFromChild = (data) => {
+    setCategory(data?.Category?.categoryName || ""),
+      setSubCategory(data?.SubCategory?.subcategoryName || ""),
+      setValues((prev) => ({
+        ...prev,
+        productId: data?.productId || "",
+        // productDtlName: data?.productName || "",
+        productDtl: data?.description || "",
+
+      }));
+
+  };
+
+
   return (
     <div className="row  m-0 px-3">
       <h4 className="text-secondary mb-3">Edit Product</h4>
       <hr />
-      <div className="col-md-4 mb-3 ">
-        <label className="adjustLabel">Product Name *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="productDtlName"
-          value={values.productDtlName}
-          onChange={onchangeHandeler}
-        />
-        {errors.productDtlName && (
-          <span className="error_input_text">{errors.productDtlName}</span>
+      {/* Form content */}
+      <div className="col-md-4 mb-3 ms-md-0 ms-2 position-relative">
+        <AddProductSearch sendDataToParent={handleDataFromChild} value={values.productDtlName} />
+        {errors.productId && (
+          <span className="error_input_text">{errors.productId}</span>
         )}
       </div>
-      <div className="col-md-8 mb-3">
+      <div className="col-md-8 mb-3 ms-md-0 ms-2">
         <label className="adjustLabel">Product Description *</label>
         <input
           type="text"
@@ -168,95 +183,56 @@ const EditProductFarmer = ({ params }) => {
           <span className="error_input_text">{errors.productDtl}</span>
         )}
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Product *</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="productId"
-          value={values.productId}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          {productList?.map((ele) => <option key={ele.productId} value={ele.productId}>{ele.productName}</option>)}
-        </select>
-        {errors.productId && <span className="error_input_text">{errors.productId}</span>}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Price *</label>
+
+      <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+        <label className="adjustLabel">Category *</label>
         <input
-          type="number"
+          type="text"
           className="form-control p-2 adjustLabel_input"
-          name="price"
-          value={values.price}
+          name="Category"
+          value={Category}
+          disabled
           onChange={onchangeHandeler}
         />
-        {errors.price && (
-          <span className="error_input_text">{errors.price}</span>
+        {errors.Category && (
+          <span className="error_input_text">
+            {errors.Category}
+          </span>
         )}
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Discount *</label>
+      <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+        <label className="adjustLabel">Sub Category *</label>
         <input
-          type="number"
+          type="text"
+          disabled
           className="form-control p-2 adjustLabel_input"
-          name="discount"
-          value={values.discount}
+          name="SubCategory"
+          value={SubCategory}
           onChange={onchangeHandeler}
         />
-        {errors.discount && (
-          <span className="error_input_text">{errors.discount}</span>
+        {errors.SubCategory && (
+          <span className="error_input_text">
+            {errors.SubCategory}
+          </span>
         )}
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Discount Type *</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="discountType"
-          value={values.discountType}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          <option value="fixed">fixed</option>
-          <option value="percentage">percentage</option>
-        </select>
-        {errors.discountType && (
-          <span className="error_input_text">{errors.discountType}</span>
-        )}
-      </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Quantity *</label>
+      <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+        <label className="adjustLabel">Brand</label>
         <input
-          type="number"
+          type="text"
           className="form-control p-2 adjustLabel_input"
-          name="quantity"
-          value={values.quantity}
+          name="Brand"
+          value={values.Brand}
           onChange={onchangeHandeler}
         />
-        {errors.quantity && (
-          <span className="error_input_text">{errors.quantity}</span>
+        {errors.Brand && (
+          <span className="error_input_text">
+            {errors.Brand}
+          </span>
         )}
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Unit *</label>
-        <select
-          className="form-select custom-select adjustLabel_input"
-          aria-label="Default select example"
-          name="unitId"
-          value={values.unitId}
-          onChange={onchangeHandeler}
-        >
-          <option value="" className="d-none"></option>
-          {unitlist?.map((ele) => (
-            <option key={ele?.unitId} value={ele?.unitId}>
-              {ele?.unitName}
-            </option>
-          ))}
-        </select>
-        {errors.unit && <span className="error_input_text">{errors.unit}</span>}
-      </div>
-      <div className="col-md-4 mb-3">
+
+      <div className="col-md-4 mb-3 ms-md-0 ms-2">
         <label className="adjustLabel">Product Grade </label>
         <select
           className="form-select custom-select adjustLabel_input"
@@ -273,63 +249,94 @@ const EditProductFarmer = ({ params }) => {
           ))}
         </select>
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Product Type </label>
+      <div className="col-md-4 mb-3 ms-md-0 ms-2"
+        style={{ position: "relative" }}
+      >
+        <label className="adjustLabel  ms-3">Price *</label>
+        <input
+          type="number"
+          className="form-control p-2 ps-4 adjustLabel_input"
+          name="price"
+          value={values.price}
+          onChange={onchangeHandeler}
+        />
+        <span
+          style={{
+            position: "absolute",
+            left: "3px",
+            top: "15px",
+            backgroundColor: "#dadada",
+            borderRadius: "5px 0px 0px 5px",
+          }}
+          className="fw-bold text-secondary p-2"
+        >
+          {countrySymbol}
+        </span>
+        {errors.price && (
+          <span className="error_input_text">{errors.price}</span>
+        )}
+      </div>
+      <div className="col-md-4 mb-3 ms-md-0 ms-2">
+        <label className="adjustLabel">Unit *</label>
         <select
           className="form-select custom-select adjustLabel_input"
           aria-label="Default select example"
-          name="producType"
-          value={values.producType}
+          name="unitId"
+          value={values.unitId}
           onChange={onchangeHandeler}
         >
           <option value="" className="d-none"></option>
-          <option value="Organic">Organic Product</option>
-          <option value="Inorganic">Inorganic Product</option>
+          {unitlist?.map((ele) => (
+            <option key={ele?.unitId} value={ele?.unitId}>
+              {ele?.unitName}
+            </option>
+          ))}
         </select>
+        {errors.unitId && (
+          <span className="error_input_text">{errors.unitId}</span>
+        )}
       </div>
-      <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Stock Keeping Unit</label>
+      <div className="col-md-4 mb-3 ms-md-0 ms-2">
+        <label className="adjustLabel">Quantity *</label>
         <input
           type="number"
           className="form-control p-2 adjustLabel_input"
-          name="sku"
-          value={values.sku}
+          name="quantity"
+          value={values.quantity}
           onChange={onchangeHandeler}
         />
+        {errors.quantity && (
+          <span className="error_input_text">{errors.quantity}</span>
+        )}
       </div>
-      {/* <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Meta Title</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="metaTitle"
-          value={values.metaTitle}
-          onChange={onchangeHandeler}
-        />
-      </div> */}
-      {/* <div className="col-md-8 mb-3">
-        <label className="adjustLabel">Meta Description</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="metaDescription"
-          value={values.metaDescription}
-          onChange={onchangeHandeler}
-        />
-      </div> */}
-      {/* <div className="col-md-4 mb-3">
-        <label className="adjustLabel">Slug *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="slug"
-          value={values.slug}
-          onChange={onchangeHandeler}
-        />
-        {errors.slug && <span className="error_input_text">{errors.slug}</span>}
-        {slugError && <span className="error_input_text">{slugError}</span>}
 
-      </div> */}
+      <div className="col-md-4 mb-3 ms-md-0 ms-2"
+        style={{ position: "relative" }}
+      >
+        <label className="adjustLabel">Discount</label>
+        <input
+          type="number"
+          className="form-control p-2 adjustLabel_input"
+          name="discount"
+          value={values.discount}
+          onChange={onchangeHandeler}
+        />
+        <span
+          style={{
+            position: "absolute",
+            right: "24px",
+            top: "14px",
+            backgroundColor: "#dadada",
+            borderRadius: "0px 5px 5px 0px",
+          }}
+          className="fw-bold text-secondary p-2"
+        >
+          %
+        </span>
+        {errors.discount && (
+          <span className="error_input_text">{errors.discount}</span>
+        )}
+      </div>
       <div className="col-md-2 my-3 d-flex align-items-center justify-content-center">
         <div className="form-check">
           <input

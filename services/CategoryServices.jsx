@@ -151,6 +151,24 @@ export default class CategoryServices {
       },
     });
   }
+  static async getSearchProducts(search = "") {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/product/search?search=${search}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async getSingleProduct(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/product/singleProduct/${id}`;
+    return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
   static async addProductsFormer(data) {
     const token = getCookie("token");
     const url = `${BASE_URL}/productDtl/productsDtls`;

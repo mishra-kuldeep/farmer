@@ -29,7 +29,7 @@ const LeastOrder = () => {
         <div>
             <div className="container mt-1 border rounded mt-3 ">
                 <div className='mt-4 mb-2 d-flex justify-content-between '>
-                    <h5 className='text-dark'>Least Order</h5>
+                    <h5 className='text-dark'>Latest Order</h5>
                     <Link href="myAccount/orderedProduct">Seen More</Link>
                     {/* <h5 className="cursor" onClick={() => router.push('myAccount/orderedProduct')}>Seen More</h5> */}
                 </div>

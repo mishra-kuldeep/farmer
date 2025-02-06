@@ -155,7 +155,7 @@ const Page = () => {
         <>
           {profile?.IsVerified && profile?.isUpdate ? (
             <div className="row  m-0 px-md-3 mb-4">
-              <h4 className="text-secondary mb-3">Add Farm Lands</h4>
+              <h4 className="text-secondary mb-3">Add Ads</h4>
               <hr />
               {/* Form content */}
               <div className="col-md-4 mb-3 ms-md-0 ms-2 ">

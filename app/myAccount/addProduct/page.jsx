@@ -9,6 +9,7 @@ import ProductUnitServices from "@/services/ProductUnitServices";
 import ProductgradeServices from "@/services/ProductgradeServices";
 import AuthService from "@/services/AuthServices";
 import { useSelector } from "react-redux";
+import AddProductSearch from "@/component/smallcompo/addProductSearch";
 
 const AddProductDtl = () => {
   const router = useRouter();
@@ -23,24 +24,23 @@ const AddProductDtl = () => {
   const [validImageNames, setValidImageNames] = useState([]);
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
-  const [countrySymbol,setCountrySymbol] = useState([])
+  const [countrySymbol, setCountrySymbol] = useState([])
+  const [Category, setCategory] = useState('')
+  const [SubCategory, setSubCategory] = useState('')
   const [values, setValues] = useState({
     productDtlName: "",
-
     productDtl: "",
     productId: "",
+    Brand: "",
     Product: [],
     price: "",
     discount: 0,
-    discountType: "fixed",
+    discountType: "Percentage",
     productType: "Inorganic",
-    gradeId:3,
+    gradeId: 3,
     sku: "",
-    // metaTitle: "",
-    // metaDescription: "",
     quantity: "",
     unitId: "",
-    // slug: "",
     available: true,
     isEdit: false,
   });
@@ -183,12 +183,12 @@ const AddProductDtl = () => {
 
   useEffect(() => initApi(), []);
   useEffect(() => {
-    AuthService.getCountryList() .then(({ data }) => {
-      setCountrySymbol(data?.find((val)=>val?.countryId ==user.profile.country)?.currencySymbol);
+    AuthService.getCountryList().then(({ data }) => {
+      setCountrySymbol(data?.find((val) => val?.countryId == user.profile.country)?.currencySymbol);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .catch((err) => {
+        console.log(err);
+      });
     ProductUnitServices.getProductUnit(user?.profile?.country)
       .then(({ data }) => {
         setUnitlist(data);
@@ -196,6 +196,21 @@ const AddProductDtl = () => {
       .catch((err) => console.log(err));
 
   }, [user?.profile?.country]);
+
+
+
+  const handleDataFromChild = (data) => {
+    setCategory(data?.Category?.categoryName || ""),
+      setSubCategory(data?.SubCategory?.subcategoryName || ""),
+      setValues((prev) => ({
+        ...prev,
+        productId: data?.productId || "",
+        productDtlName: data?.productName || "",
+        productDtl: data?.description || "",
+
+      }));
+
+  };
 
   return (
     <>
@@ -211,19 +226,10 @@ const AddProductDtl = () => {
               <h4 className="text-secondary mb-3">Add/Sell Product</h4>
               <hr />
               {/* Form content */}
-              <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
-                <label className="adjustLabel">Product Name *</label>
-                <input
-                  type="text"
-                  className="form-control p-2 adjustLabel_input"
-                  name="productDtlName"
-                  value={values.productDtlName}
-                  onChange={onchangeHandeler}
-                />
-                {errors.productDtlName && (
-                  <span className="error_input_text">
-                    {errors.productDtlName}
-                  </span>
+              <div className="col-md-4 mb-3 ms-md-0 ms-2 position-relative">
+                <AddProductSearch sendDataToParent={handleDataFromChild} />
+                {errors.productId && (
+                  <span className="error_input_text">{errors.productId}</span>
                 )}
               </div>
               <div className="col-md-8 mb-3 ms-md-0 ms-2">
@@ -239,26 +245,55 @@ const AddProductDtl = () => {
                   <span className="error_input_text">{errors.productDtl}</span>
                 )}
               </div>
-              <div className="col-md-4 mb-3 ms-md-0 ms-2">
-                <label className="adjustLabel">Product *</label>
-                <select
-                  className="form-select custom-select adjustLabel_input"
-                  aria-label="Default select example"
-                  name="productId"
-                  value={values.productId}
+
+              <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+                <label className="adjustLabel">Category *</label>
+                <input
+                  type="text"
+                  className="form-control p-2 adjustLabel_input"
+                  name="Category"
+                  value={Category}
+                  disabled
                   onChange={onchangeHandeler}
-                >
-                  <option value="" className="d-none"></option>
-                  {productList?.map((ele) => (
-                    <option key={ele.productId} value={ele.productId}>
-                      {ele.productName}
-                    </option>
-                  ))}
-                </select>
-                {errors.productId && (
-                  <span className="error_input_text">{errors.productId}</span>
+                />
+                {errors.Category && (
+                  <span className="error_input_text">
+                    {errors.Category}
+                  </span>
                 )}
               </div>
+              <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+                <label className="adjustLabel">Sub Category *</label>
+                <input
+                  type="text"
+                  disabled
+                  className="form-control p-2 adjustLabel_input"
+                  name="SubCategory"
+                  value={SubCategory}
+                  onChange={onchangeHandeler}
+                />
+                {errors.SubCategory && (
+                  <span className="error_input_text">
+                    {errors.SubCategory}
+                  </span>
+                )}
+              </div>
+              <div className="col-md-4 mb-3 ms-md-0 ms-2 ">
+                <label className="adjustLabel">Brand</label>
+                <input
+                  type="text"
+                  className="form-control p-2 adjustLabel_input"
+                  name="Brand"
+                  value={values.Brand}
+                  onChange={onchangeHandeler}
+                />
+                {errors.Brand && (
+                  <span className="error_input_text">
+                    {errors.Brand}
+                  </span>
+                )}
+              </div>
+              {/* 
               <div className="col-md-4 mb-3 ms-md-0 ms-2">
                 <label className="adjustLabel">Product Type </label>
                 <select
@@ -272,7 +307,7 @@ const AddProductDtl = () => {
                   <option value="Organic">Organic Product</option>
                   <option value="Inorganic">Inorganic Product</option>
                 </select>
-              </div>
+              </div> */}
               <div className="col-md-4 mb-3 ms-md-0 ms-2">
                 <label className="adjustLabel">Product Grade </label>
                 <select
@@ -291,7 +326,7 @@ const AddProductDtl = () => {
                 </select>
               </div>
               <div className="col-md-4 mb-3 ms-md-0 ms-2"
-              style={{ position: "relative" }}
+                style={{ position: "relative" }}
               >
                 <label className="adjustLabel  ms-3">Price *</label>
                 <input
@@ -301,7 +336,7 @@ const AddProductDtl = () => {
                   value={values.price}
                   onChange={onchangeHandeler}
                 />
-                 <span
+                <span
                   style={{
                     position: "absolute",
                     left: "3px",
@@ -351,7 +386,9 @@ const AddProductDtl = () => {
                 )}
               </div>
 
-              <div className="col-md-4 mb-3 ms-md-0 ms-2">
+              <div className="col-md-4 mb-3 ms-md-0 ms-2"
+                style={{ position: "relative" }}
+              >
                 <label className="adjustLabel">Discount</label>
                 <input
                   type="number"
@@ -360,85 +397,23 @@ const AddProductDtl = () => {
                   // value={values.discount}
                   onChange={onchangeHandeler}
                 />
+                <span
+                  style={{
+                    position: "absolute",
+                    right: "24px",
+                    top: "14px",
+                    backgroundColor: "#dadada",
+                    borderRadius: "0px 5px 5px 0px",
+                  }}
+                  className="fw-bold text-secondary p-2"
+                >
+                  %
+                </span>
                 {errors.discount && (
                   <span className="error_input_text">{errors.discount}</span>
                 )}
               </div>
-              <div className="col-md-4 mb-3 ms-md-0 ms-2">
-                <label className="adjustLabel">Discount Type</label>
-                <select
-                  className="form-select custom-select adjustLabel_input"
-                  aria-label="Default select example"
-                  name="discountType"
-                  // value={values.unitId}
-                  onChange={onchangeHandeler}
-                >
-                  <option value="" className="d-none"></option>
-                  <option value="fixed">Fixed</option>
-                  <option value="percentage">Percentage</option>
-                </select>
-                {/* {errors.unit && <span className="error_input_text">{errors.unit}</span>} */}
-              </div>
-
-              <div className="col-md-4 mb-3 ms-md-0 ms-2">
-                <label className="adjustLabel">Stock Keeping Unit</label>
-                <input
-                  type="number"
-                  className="form-control p-2 adjustLabel_input"
-                  name="sku"
-                  value={values.sku}
-                  onChange={onchangeHandeler}
-                />
-              </div>
-              {/* <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Slug *</label>
-        <input
-          type="text"
-          className="form-control p-2 adjustLabel_input"
-          name="slug"
-          value={values.slug}
-          onChange={onchangeHandeler}
-        />
-        {errors.slug && <span className="error_input_text">{errors.slug}</span>}
-        {slugError && <span className="error_input_text">{slugError}</span>}
-      </div> */}
-              {/* <div className="col-md-4 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Meta Title</label>
-        <textarea
-          type="text"
-          rows="3"
-          className="form-control p-2 adjustLabel_input"
-          name="metaTitle"
-          value={values.metaTitle}
-          onChange={onchangeHandeler}
-          placeholder={`Buy ${
-            values.productDtlName ? values.productDtlName : '"productname"'
-          } in ${
-            values.unit ? values.unit : '"unit"'
-          } Online At Best Price of Rs ${
-            values.price ? values.price : '"257.33"'
-          } - FarmerMarket`}
-        />
-      </div> */}
-              {/* <div className="col-md-8 mb-3 ms-md-0 ms-2">
-        <label className="adjustLabel">Meta Description</label>
-        <textarea
-          id="exampleFormControlTextarea1"
-          rows="3"
-          type="text"
-          className="form-control p-2 adjustLabel_input "
-          name="metaDescription"
-          value={values.metaDescription}
-          onChange={onchangeHandeler}
-          placeholder={`Buy ${
-            values.productDtlName ? values.productDtlName : '"productname"'
-          } Products online at FarmerMarket And Get Them Delivered At Your Doorstep. Best Quality Always Ensured Now available at Rs ${
-            values.price ? values.price : '"257.33"'
-          }`}
-        />
-      </div> */}
-
-              <div className="col-md-6 ms-md-0 ms-2">
+              <div className="col-md-4 ms-md-0 ms-2">
                 <label className="adjustLabel " style={{ marginLeft: "100px" }}>
                   Upload Images
                 </label>
