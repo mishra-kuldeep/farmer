@@ -304,20 +304,20 @@ function Header() {
         user?.profile?.role == 6 ||
         user?.profile?.role == 3 ||
         user?.profile?.role == 2,
-      subMenu: [...venderList, 
-        {
+      subMenu: [...venderList,
+      {
         id: 122,
         title: "Add Vender Services",
         goesTo: "/myAccount/addvenderServices",
         status: user?.profile?.role == 6,
       },
-        {
+      {
         id: 122,
         title: "List of added Services",
         goesTo: "/myAccount/listAddedServices",
         status: user?.profile?.role == 6,
       },
-        {
+      {
         id: 122,
         title: "Add ads",
         goesTo: "/myAccount/addFarmLands",
@@ -589,16 +589,17 @@ function Header() {
                               }}
                             >
                               {ele?.subMenu?.map((subEle, subIndex) => (
-                                <div
-                                  onClick={() => {
-                                    router.push(subEle?.goesTo);
-                                    toggleSubMenu(index);
-                                  }}
-                                  className="px-3 py-1 cursor submenu"
-                                  key={subIndex}
-                                >
-                                  {subEle?.status ? subEle?.title : ""}
-                                </div>
+                                subEle?.status && (
+                                  <div
+                                    onClick={() => {
+                                      router.push(subEle?.goesTo);
+                                      toggleSubMenu(index);
+                                    }}
+                                    className="px-3 py-1 cursor submenu"
+                                    key={subIndex}
+                                  >
+                                    {subEle?.title}
+                                  </div>)
                               ))}
                             </div>
                           )}
