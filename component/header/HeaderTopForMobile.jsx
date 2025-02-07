@@ -36,7 +36,7 @@ const HeaderTopForMobile = () => {
           id: service.VendorServicesMasterId,
           title: service.type,
           goesTo: `/vender/${service.VendorServicesMasterId}`,
-          status: user?.profile?.role === 4, // Assuming the role condition applies here
+          status: true, // Assuming the role condition applies here
         }));
         setVenderList(transformedData);
       })
@@ -48,7 +48,7 @@ const HeaderTopForMobile = () => {
           id: service.VendorServicesMasterId,
           title: service.type,
           goesTo: `/transporter/${service.vehicleId}`,
-          status: user?.profile?.role === 4, // Assuming the role condition applies here
+          status: true, // Assuming the role condition applies here
         }));
         setTransporterList(transformedData);
       })
@@ -61,29 +61,97 @@ const HeaderTopForMobile = () => {
     {
       id: 1,
       title: "Farmers",
-      // goesTo: "/myAccount/myProfile",
       status:
-        !user.isLoggedIn ||
-        (user?.profile?.role === 2 && user?.profile?.role !== 3),
-      // subMenu:[
-      //   {
-      //     id: 11,
-      //     title: "Vegitable and Fruit",
-      //     goesTo: "/myAccount/myProfile",
-      //     status: user?.profile?.role === 2,
-      //   },
-      //   {
-      //     id: 12,
-      //     title: "Plots",
-      //     goesTo: "/myAccount/myProfile",
-      //     status: user?.profile?.role === 2,
-      //   },
-      // ]
+        !user.isLoggedIn,
+    },
+    {
+      id: 11,
+      title: "Farmers",
+      status: user?.profile?.role === 2,
+      subMenu: [
+        {
+          id: 11,
+          title: "Sell product",
+          goesTo: "/myAccount/addProduct",
+          status: true,
+        },
+        {
+          id: 12,
+          title: "List of sell product",
+          goesTo: "/myAccount/listAddedProduct",
+          status: true,
+        },
+        {
+          id: 11,
+          title: "Ongoing Orders",
+          goesTo: "/myAccount/orderedProduct",
+          status: true,
+        },
+        {
+          id: 12,
+          title: "Completed Orders",
+          goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
+          status: true,
+        },
+        {
+          id: 122,
+          title: "Add FarmLand",
+          goesTo: "/myAccount/addFarmLands",
+          status: true,
+        },
+        {
+          id: 123,
+          title: "Farm Land List",
+          goesTo: "/myAccount/FarmLandList",
+          status: true,
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "Buyer",
+      status: !user.isLoggedIn,
+    },
+    {
+      id: 11,
+      title: "Buyer",
+      status: user?.profile?.role === 3,
+      subMenu: [
+        {
+          id: 11,
+          title: "My order",
+          goesTo: "/myAccount/myOrder",
+          status: true,
+        },
+        {
+          id: 12,
+          title: "My wishList",
+          goesTo: "/myAccount/myWishList",
+          status: true,
+        },
+        {
+          id: 11,
+          title: "Purchase History",
+          goesTo: "/myAccount/reports/buyerReports/totalPurchase",
+          status: true,
+        },
+        {
+          id: 122,
+          title: "Add ads",
+          goesTo: "/myAccount/addFarmLands",
+          status: true,
+        },
+        {
+          id: 123,
+          title: "List of added ads",
+          goesTo: "/myAccount/FarmLandList",
+          status: true,
+        },
+      ],
     },
     {
       id: 1,
       title: "Farm Lands",
-      // goesTo: "/myAccount/myProfile",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 2 ||
@@ -94,33 +162,39 @@ const HeaderTopForMobile = () => {
           id: 11,
           title: "Agricultural lands",
           goesTo: "/adverts/16",
-          status: user?.profile?.role === 2,
+          status: true,
         },
         {
           id: 12,
           title: "Plots",
           goesTo: "/adverts/17",
-          status: user?.profile?.role === 2,
+          status: true,
         },
         {
           id: 12,
           title: "Farm Lands",
           goesTo: "/adverts/18",
-          status: user?.profile?.role === 2,
+          status: true,
+        },
+        {
+          id: 122,
+          title: "Add ads",
+          goesTo: "/myAccount/addFarmLands",
+          status: user?.profile?.role == 2,
+        },
+        {
+          id: 123,
+          title: "List of added ads",
+          goesTo: "/myAccount/FarmLandList",
+          status: user?.profile?.role == 2,
         },
       ],
     },
-    {
-      id: 2,
-      title: "Buyer",
-      // goesTo: "/myAccount/addProduct",
-      status: !user.isLoggedIn || user?.profile?.role === 3,
-    },
+
 
     {
       id: 4,
       title: "Transportation",
-      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 4 ||
@@ -131,13 +205,36 @@ const HeaderTopForMobile = () => {
     {
       id: 5,
       title: "Vendor",
-      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 6 ||
         user?.profile?.role == 3 ||
         user?.profile?.role == 2,
-      subMenu: venderList,
+      subMenu: [...venderList,
+      {
+        id: 122,
+        title: "Add Vender Services",
+        goesTo: "/myAccount/addvenderServices",
+        status: user?.profile?.role == 6,
+      },
+      {
+        id: 122,
+        title: "List of added Services",
+        goesTo: "/myAccount/listAddedServices",
+        status: user?.profile?.role == 6,
+      },
+      {
+        id: 122,
+        title: "Add ads",
+        goesTo: "/myAccount/addFarmLands",
+        status: user?.profile?.role == 6,
+      },
+      {
+        id: 123,
+        title: "List of added ads",
+        goesTo: "/myAccount/FarmLandList",
+        status: user?.profile?.role == 6,
+      },]
     },
     {
       id: 6,
@@ -154,27 +251,46 @@ const HeaderTopForMobile = () => {
           id: 31,
           title: "Distributors(Bulk orders)",
           goesTo: "/fertilizers-pesticides/1",
-          status: user?.profile?.role == 4 || 3,
+          status: true,
         },
         {
           id: 32,
           title: "Dealers(Small Orders)",
           goesTo: "/fertilizers-pesticides/2",
-          status: user?.profile?.role == 4 || 3,
+          status: true,
         },
         {
           id: 33,
           title: "Retailer",
           goesTo: "/fertilizers-pesticides/3",
-          status: user?.profile?.role == 4 || 3,
+          status: true,
+        },
+
+        {
+          id: 1225,
+          title: " Add Fertilizers Pesticides",
+          goesTo: "/myAccount/addFertilizersPesticides",
+          status: user?.profile?.role == 9,
+        },
+        {
+          id: 1227,
+          title: "List of Fertilizers Pesticides",
+          goesTo: "/myAccount/FertilizersPesticidesList",
+          status: user?.profile?.role == 9,
+        },
+        {
+          id: 122,
+          title: "Add ads",
+          goesTo: "/myAccount/addFarmLands",
+          status: user?.profile?.role == 9,
+        },
+        {
+          id: 123,
+          title: "List of added ads",
+          goesTo: "/myAccount/FarmLandList",
+          status: user?.profile?.role == 9,
         },
       ],
-    },
-    {
-      id: 3,
-      title: "Ads",
-      goesTo: "/ads-category",
-      status: true,
     },
   ];
   return (
@@ -186,13 +302,13 @@ const HeaderTopForMobile = () => {
               <IoMenu size={20} />
             </div>
             <ul
-              className={`${
-                opennavs
-                  ? "headerdropdownmenusclose"
-                  : "headerdropdownmenusopen"
-              }`}
+              className={`${opennavs
+                ? "headerdropdownmenusclose"
+                : "headerdropdownmenusopen"
+                }`}
             >
               {HeaderMenu?.map((ele, index) => (
+                ele?.status && (
                 <div
                   key={index}
                   onClick={() => ele?.goesTo && router.push(ele?.goesTo)}
@@ -206,7 +322,7 @@ const HeaderTopForMobile = () => {
                     style={{
                       cursor: "pointer",
                       position: "relative",
-                      display: !ele?.status && "none",
+                      // display: !ele?.status && "none",
                     }}
                   >
                     {ele?.title}
@@ -222,38 +338,26 @@ const HeaderTopForMobile = () => {
                   </p>
                   {openMenuIndex === index && (
                     <div
-                      style={{ backgroundColor: "#f2f2f2", marginTop: "20px" }}
+                      style={{ backgroundColor: "#f2f2f2", marginTop: "15px" }}
                     >
                       {ele?.subMenu?.map((subEle, subIndex) => (
-                        <div
-                          onClick={() => {
-                            router.push(subEle?.goesTo);
-                            setopennavs(false);
-                          }}
-                          className="px-3 py-1 cursor"
-                          key={subIndex}
-                        >
-                          {subEle?.title}
-                        </div>
+                        subEle?.status && (
+                          <div
+                            onClick={() => {
+                              router.push(subEle?.goesTo);
+                              setopennavs(false);
+                            }}
+                            className="px-3 py-1 cursor"
+                            key={subIndex}
+                          >
+                            {subEle?.title}
+                          </div>
+                        )
                       ))}
                     </div>
                   )}
-                </div>
+                </div>)
               ))}
-              {/* {user?.profile?.role == 2 && (
-                <li className="dropdown-item">Farmers</li>
-              )}
-              {user?.profile?.role == 3 && (
-                <li className="dropdown-item">Buyers</li>
-              )}
-              {(user?.profile?.role == 2 || user?.profile?.role == 3) && (
-                <li className="dropdown-item">Farm Lands</li>
-              )}
-              <li className="dropdown-item">Transportation</li>
-              <li className="dropdown-item">Employee</li>
-              <li className="dropdown-item">Vendors</li>
-              <li className="dropdown-item">Educational Resources</li>
-              <li className="dropdown-item">Customer Care</li> */}
             </ul>
           </div>
         </div>
@@ -266,7 +370,6 @@ const HeaderTopForMobile = () => {
         </div>
         <div className="col-5 p-0">
           <div className="d-flex justify-content-end align-items-center gap-2">
-            {/* <button className="login_btn px-3">login / Signup</button> */}
             {user.profile === null ? (
               <Auth />
             ) : (
@@ -281,7 +384,6 @@ const HeaderTopForMobile = () => {
                 </div>
                 <ul
                   className="dropdown-menu p-0"
-                  // style={{ right: "0%", width: "auto", top: "10px" }}
                 >
                   <p
                     className="cat_list1"

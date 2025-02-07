@@ -93,7 +93,7 @@ function Header() {
           id: service.VendorServicesMasterId,
           title: service.type,
           goesTo: `/vender/${service.VendorServicesMasterId}`,
-          status: user?.profile?.role === 4, // Assuming the role condition applies here
+          status: true, // Assuming the role condition applies here
         }));
         setVenderList(transformedData);
       })
@@ -105,7 +105,7 @@ function Header() {
           id: service.VendorServicesMasterId,
           title: service.type,
           goesTo: `/transporter/${service.vehicleId}`,
-          status: user?.profile?.role === 4, // Assuming the role condition applies here
+          status: true, // Assuming the role condition applies here
         }));
         setTransporterList(transformedData);
       })
@@ -113,18 +113,16 @@ function Header() {
   };
 
   useEffect(() => initApi(), []);
-
+  console.log(user?.profile?.role)
   const HeaderMenu = [
     {
       id: 1,
       title: "Farmers",
-      // goesTo: "/myAccount/myProfile",
       status: !user.isLoggedIn,
     },
     {
       id: 11,
       title: "Farmers",
-      // goesTo: "/myAccount/listAddedProduct",
       status: user?.profile?.role === 2,
       subMenu: [
         {
@@ -169,13 +167,11 @@ function Header() {
     {
       id: 2,
       title: "Buyer",
-      // goesTo: "/myAccount/addProduct",
       status: !user.isLoggedIn,
     },
     {
       id: 11,
       title: "Buyer",
-      // goesTo: "/myAccount/listAddedProduct",
       status: user?.profile?.role === 3,
       subMenu: [
         {
@@ -213,7 +209,6 @@ function Header() {
     {
       id: 41,
       title: "Transporter",
-      // goesTo: "/myAccount/listAddedProduct",
       status: user?.profile?.role === 4,
       subMenu: [
         {
@@ -251,18 +246,17 @@ function Header() {
     {
       id: 4,
       title: "Transportation",
-      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role !== 4 ||
         user?.profile?.role == 3 ||
-        user?.profile?.role == 2,
+        user?.profile?.role == 2 ||
+        user?.profile?.role != 6,
       subMenu: transporterList,
     },
     {
       id: 1,
       title: "Farm Lands",
-      // goesTo: "/myAccount/myProfile",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 2 ||
@@ -273,31 +267,31 @@ function Header() {
           id: 11,
           title: "Agricultural lands",
           goesTo: "/adverts/16",
-          status: user?.profile?.role === 2,
+          status: true,
         },
         {
           id: 12,
           title: "Plots",
           goesTo: "/adverts/17",
-          status: user?.profile?.role === 2,
+          status: true,
         },
         {
           id: 12,
           title: "Farm Lands",
           goesTo: "/adverts/18",
-          status: user?.profile?.role === 2,
+          status: true,
         },
         {
           id: 122,
           title: "Add ads",
           goesTo: "/myAccount/addFarmLands",
-          status: true,
+          status: user?.profile?.role == 2,
         },
         {
           id: 123,
           title: "List of added ads",
           goesTo: "/myAccount/FarmLandList",
-          status: true,
+          status: user?.profile?.role == 2,
         },
       ],
     },
@@ -305,18 +299,40 @@ function Header() {
     {
       id: 5,
       title: "Vendor",
-      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 6 ||
         user?.profile?.role == 3 ||
         user?.profile?.role == 2,
-      subMenu: venderList,
+      subMenu: [...venderList, 
+        {
+        id: 122,
+        title: "Add Vender Services",
+        goesTo: "/myAccount/addvenderServices",
+        status: user?.profile?.role == 6,
+      },
+        {
+        id: 122,
+        title: "List of added Services",
+        goesTo: "/myAccount/listAddedServices",
+        status: user?.profile?.role == 6,
+      },
+        {
+        id: 122,
+        title: "Add ads",
+        goesTo: "/myAccount/addFarmLands",
+        status: user?.profile?.role == 6,
+      },
+      {
+        id: 123,
+        title: "List of added ads",
+        goesTo: "/myAccount/FarmLandList",
+        status: user?.profile?.role == 6,
+      },]
     },
     {
       id: 6,
       title: "Fertilizers & Pesticides",
-      // goesTo: "/myAccount/listAddedProduct",
       status:
         !user.isLoggedIn ||
         user?.profile?.role == 4 ||
@@ -328,41 +344,49 @@ function Header() {
           id: 31,
           title: "Distributors(Bulk orders)",
           goesTo: "/fertilizers-pesticides/1",
-          status: user?.profile?.role == 4 || 3,
+          status: true,
         },
         {
           id: 32,
           title: "Dealers(Small Orders)",
           goesTo: "/fertilizers-pesticides/2",
-          status: user?.profile?.role == 4 || 3,
+          status: true,
         },
         {
           id: 33,
           title: "Retailer",
           goesTo: "/fertilizers-pesticides/3",
-          status: user?.profile?.role == 4 || 3,
+          status: true,
+        },
+
+        {
+          id: 1225,
+          title: " Add Fertilizers Pesticides",
+          goesTo: "/myAccount/addFertilizersPesticides",
+          status: user?.profile?.role == 9,
+        },
+        {
+          id: 1227,
+          title: "List of Fertilizers Pesticides",
+          goesTo: "/myAccount/FertilizersPesticidesList",
+          status: user?.profile?.role == 9,
         },
         {
           id: 122,
           title: "Add ads",
           goesTo: "/myAccount/addFarmLands",
-          status: true,
+          status: user?.profile?.role == 9,
         },
         {
           id: 123,
           title: "List of added ads",
           goesTo: "/myAccount/FarmLandList",
-          status: true,
+          status: user?.profile?.role == 9,
         },
       ],
     },
-    // {
-    //   id: 3,
-    //   title: "Ads",
-    //   goesTo: "/ads-category",
-    //   status: true,
-    // },
   ];
+
   const cls = visible ? "visible" : "hidden";
   const cls2 = !visible ? "visible" : "hidden";
 
@@ -377,13 +401,13 @@ function Header() {
         setOpenMenuIndex(null); // Close the submenu if click is outside
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuRef]);
+
+
 
   return (
     <>
@@ -412,14 +436,7 @@ function Header() {
                         <Auth />
                       ) : (
                         <>
-                          {/* <button
-                              className="btn btn-secondary btn-sm dropdown-toggle px=2"
-                              type="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              shop by category &ensp; &ensp;
-                            </button> */}
+
                           <h6
                             className="mt-1"
                             style={{ textTransform: "capitalize" }}
@@ -435,7 +452,7 @@ function Header() {
                           </div>
                           <ul
                             className="dropdown-menu p-0"
-                            // style={{ right: "0px", width: "100px", top: "10px" ,inset: "0px 0 auto 0px"}}
+                          // style={{ right: "0px", width: "100px", top: "10px" ,inset: "0px 0 auto 0px"}}
                           >
                             <p className="cat_list_disable">
                               {user?.profile?.name}
@@ -539,9 +556,8 @@ function Header() {
                           }
                         >
                           <p
-                            className={`${
-                              openMenuIndex === index ? "activee" : ""
-                            }`}
+                            className={`${openMenuIndex === index ? "activee" : ""
+                              }`}
                             onClick={() => toggleSubMenu(index)}
                             style={{
                               cursor: "pointer",
@@ -581,27 +597,13 @@ function Header() {
                                   className="px-3 py-1 cursor submenu"
                                   key={subIndex}
                                 >
-                                  {subEle?.title}
+                                  {subEle?.status ? subEle?.title : ""}
                                 </div>
                               ))}
                             </div>
                           )}
                         </div>
                       ))}
-
-                      {/* {(user?.profile?.role == 2 ||
-                        user?.profile?.role == 4) && <p>Farmers</p>}
-                      {(user?.profile?.role == 3 ||
-                        user?.profile?.role == 4) && <p>Buyers</p>}
-                      {(user?.profile?.role == 2 ||
-                        user?.profile?.role == 3 ||
-                        user?.profile?.role == 4) && <p>Farm Lands</p>}
-                      {user?.profile?.role == 6 && <p>Cold Storage</p>}
-                      {user?.profile?.role == 6 && <p>Machinery</p>}
-                      <p>Transportation</p>
-                      {user?.profile?.role != 6 && <p>Vendors</p>}
-                      <p>Fertilizers & Pesticides</p>
-                      <p>Educational Resources</p> */}
                     </div>
                   </div>
                   <div className="col-md-1 p-0">
