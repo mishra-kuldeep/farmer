@@ -6,10 +6,50 @@ import { FaRegEdit } from "react-icons/fa";
 import IconButton from "../reusableComponent/IconButton";
 import { useRouter } from "next/navigation";
 import ProductgradeServices from "@/services/ProductgradeServices";
+import ConfirmModel from "../reusableComponent/ConfirmModel";
+import { MdDelete } from "react-icons/md";
+import toast from "react-hot-toast";
 
 const ListGrade = ({ setState }) => {
     const router = useRouter()
     const [GradeList, setGradeList] = useState([]);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [selectedId, setSelectedId] = useState("");
+    const [loader, setLoader] = useState(false);
+
+    const handleDelete = async () => {
+        setLoader(true)
+        await ProductgradeServices.deleteGrade(selectedId).then((data) => {
+            setGradeList(GradeList.filter((ele) => ele.gradeId !== selectedId));
+            setShowConfirm(false);
+            setLoader(false)
+            toast("category deleted successfully!", {
+                icon: "👏",
+                style: {
+                    borderRadius: "10px",
+                    background: "green",
+                    color: "#fff",
+                },
+            });
+        }).catch((err) => {
+            console.log(err)
+            setShowConfirm(false);
+            setLoader(false)
+            toast.error("This data is being used elsewhere and cannot be modified.", {
+                icon: "⚠️",
+                style: {
+                    borderRadius: "10px",
+                    background: "#ff4d4f",
+                    color: "#fff",
+                },
+                autoClose: 500,
+            });
+        });
+    };
+
+    const handleCancel = () => {
+        setShowConfirm(false);
+    };
 
 
     const initApi = async () => {
@@ -19,11 +59,11 @@ const ListGrade = ({ setState }) => {
     const updatestatus = async (id) => {
         try {
             const data = await ProductgradeServices.EditgradStatus(id);
-            setGradeList((prevUnits) => 
-                prevUnits.map(Grad => 
+            setGradeList((prevUnits) =>
+                prevUnits.map(Grad =>
                     Grad.gradeId === data?.data?.grade?.gradeId ? { ...Grad, ...data?.data?.grade } : Grad
                 )
-              );
+            );
         } catch (error) {
             console.log(error)
         }
@@ -37,6 +77,10 @@ const ListGrade = ({ setState }) => {
     const editHandeler = (id) => {
         setState("2");
         router.push(`/admin/addGrade?editId=${id}`);
+    };
+    const deleteHandeler = (id) => {
+        setSelectedId(id);
+        setShowConfirm(true);
     };
     return (
         <div className="p-3">
@@ -67,6 +111,11 @@ const ListGrade = ({ setState }) => {
                                     </td>
                                     <td className="text-center">
                                         <div className="d-flex gap-2 justify-content-center">
+                                            <IconButton
+                                                onClick={() => deleteHandeler(item.gradeId)}
+                                            >
+                                                <MdDelete color="red" size={20} />
+                                            </IconButton>
                                             <IconButton onClick={() => editHandeler(item?.gradeId)}>
                                                 <FaRegEdit color="green" size={20} />
                                             </IconButton>
@@ -78,6 +127,13 @@ const ListGrade = ({ setState }) => {
                     </tbody>
                 )}
             </table>
+            <ConfirmModel
+                show={showConfirm}
+                onConfirm={handleDelete}
+                onCancel={handleCancel}
+                message="Are you sure you want to delete this item?"
+                loading={loader}
+            />
         </div>
     );
 };

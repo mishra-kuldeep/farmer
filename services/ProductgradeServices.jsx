@@ -70,5 +70,15 @@ export default class ProductgradeServices {
 
 
 
+  static async deleteGrade(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/grade/gradeDelete/${id}`;
+    return axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+
 
 }
