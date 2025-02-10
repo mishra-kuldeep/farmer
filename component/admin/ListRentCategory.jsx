@@ -26,18 +26,32 @@ const ListRentCategory = ({ setState }) => {
 
     const handleDelete = async () => {
         setLoader(true)
-        await CategoryServices.deleteCategory(selectedId).then((data) => {
+        await RentServices.deleteRentCategory(selectedId).then((data) => {
             setCatList(catList.filter((ele) => ele.rentCategoryId !== selectedId));
-        });
-        setShowConfirm(false);
-        setLoader(false)
-        toast("category deleted successfully!", {
-            icon: "👏",
-            style: {
-                borderRadius: "10px",
-                background: "green",
-                color: "#fff",
-            },
+
+            setShowConfirm(false);
+            setLoader(false)
+            toast("Rent category deleted successfully!", {
+                icon: "👏",
+                style: {
+                    borderRadius: "10px",
+                    background: "green",
+                    color: "#fff",
+                },
+            });
+        }).catch((err) => {
+            console.log(err)
+            setShowConfirm(false);
+            setLoader(false)
+            toast.error("This data is being used elsewhere and cannot be modified.", {
+                icon: "⚠️",
+                style: {
+                    borderRadius: "10px",
+                    background: "#ff4d4f",
+                    color: "#fff",
+                },
+                autoClose: 500,
+            });
         });
     };
 
@@ -75,7 +89,7 @@ const ListRentCategory = ({ setState }) => {
 
     return (
         <div className="p-2 ">
-            <div className="paginationWrapper" style={{marginTop:"-60px"}}>
+            <div className="paginationWrapper" style={{ marginTop: "-60px" }}>
                 <h6>page ( {page} )</h6>
                 <div
                     className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
@@ -124,6 +138,11 @@ const ListRentCategory = ({ setState }) => {
                                         </td>
                                         <td>
                                             <div className="d-flex justify-content-center gap-2">
+                                                <IconButton
+                                                    onClick={() => deleteHandeler(item.rentCategoryId)}
+                                                >
+                                                    <MdDelete color="red" size={20} />
+                                                </IconButton>
                                                 <IconButton onClick={() => editHandeler(item.rentCategoryId)}>
                                                     <FaRegEdit color="green" size={20} />
                                                 </IconButton>

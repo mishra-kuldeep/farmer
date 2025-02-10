@@ -50,37 +50,14 @@ export default class RentServices {
         });
     }
 
-    // static async deleteTranspoterVehicle(id) {
-    //     const token = getCookie("token");
-    //     const url = `${BASE_URL}/transpoter/${id}`;
-    //     return axios.delete(url, {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`,
-    //         },
-    //     });
-    // }
+    static async deleteRentCategory(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/rentCategory/${id}`;
+        return axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
 
-
-    // static async selectTranspoterForOrderProduct(data) {
-    //     const token = getCookie("token");
-    //     const url = `${BASE_URL}/transpoterDelivery/`;
-    //     return axios.post(url, data, {
-    //         headers: {
-    //             // 'Content-Type': 'multipart/form-data',
-    //             Authorization: `Bearer ${token}`,
-    //         },
-    //     });
-
-    // }
-
-    // static async chengeTranspoterForOrderProduct(data) {
-    //     const token = getCookie("token");
-    //     const url = `${BASE_URL}/transpoterDelivery/`;
-    //     return axios.put(url, data, {
-    //         headers: {
-    //             // 'Content-Type': 'multipart/form-data',
-    //             Authorization: `Bearer ${token}`,
-    //         },
-    //     });
-    // }
 }
