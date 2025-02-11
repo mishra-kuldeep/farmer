@@ -237,7 +237,7 @@ const MyOrder = () => {
       console.log(err)
       setShowConfirm(false);
       setDLoader(false)
-      toast.error(err.response.data.message || "Order Cancellation is not possible Please connect Our Team.", {
+      toast.error(err.response.data.message || "Order Cancellation is not possible Please contact Our Team.", {
         icon: "⚠️",
         style: {
           borderRadius: "10px",
