@@ -145,6 +145,7 @@ const Product = () => {
           <span className="cursor">Home</span>
           <span>/</span>
           <span className="cursor">{singleProduct?.productDtlName}</span>
+
         </div>
       </div>
 
@@ -174,6 +175,8 @@ const Product = () => {
         </div>
         <div className="product_details">
           <h3 className="mb-3">{singleProduct?.productDtlName}</h3>
+          <div style={{margin:"-15px 0 0 2px",color:"gray",fontSize:"16px"}}>{singleProduct?.Brand}</div>
+
           <div className="rating_wrap">
             <p className="centerAllDiv rating">
               <span className="fw-bold">

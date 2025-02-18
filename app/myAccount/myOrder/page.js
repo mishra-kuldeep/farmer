@@ -221,8 +221,9 @@ const MyOrder = () => {
 
   const handleDelete = async () => {
     setDLoader(true)
-    await OrderService.deleteOrder(selectedId).then((data) => {
-      setOrderList(orderList.filter((ele) => ele.OrderId !== selectedId));
+    await OrderService.deleteOrder(selectedId).then((data) => {   
+      const orders = orderList.filter((ele) => ele.OrderId != selectedId)
+      setOrderList([...orders]);
       setShowConfirm(false);
       setDLoader(false)
       toast("Order deleted successfully!", {
@@ -249,6 +250,7 @@ const MyOrder = () => {
     });
 
   };
+
 
   return (
     <div className="orderPage">
