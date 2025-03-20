@@ -1,54 +1,57 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import "./section2Home.css";
 import { useRouter } from "next/navigation";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
 const cardArr = [
   {
     id: 1,
-    title: 'Farmer',
-    goesTo:"",
+    title: "Farmer",
+    goesTo: "",
 
     image:
-      'https://i.pinimg.com/474x/5e/7c/07/5e7c07a78fb76a9066bbfa410458b849.jpg',
+      "https://i.pinimg.com/474x/5e/7c/07/5e7c07a78fb76a9066bbfa410458b849.jpg",
   },
   {
     id: 2,
-    title: 'Farm Land',
-    goesTo:"/adverts/16",
+    title: "Farm Land",
+    goesTo: "/adverts/16",
 
     image:
-      'https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+      "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
     id: 3,
-    title: 'Buyer',
-    goesTo:"",
+    title: "Buyer",
+    goesTo: "",
 
     image:
-      'https://img.freepik.com/premium-photo/black-friday-banner-shopping-cart-with-paper-bags-pile-clothes-background-internet-buyer-final-sale-online-store-copy-space_1021941-3909.jpg',
+      "https://img.freepik.com/premium-photo/black-friday-banner-shopping-cart-with-paper-bags-pile-clothes-background-internet-buyer-final-sale-online-store-copy-space_1021941-3909.jpg",
   },
   {
     id: 4,
-    title: 'Vendor',
-    goesTo:"/vender/4",
+    title: "Vendor",
+    goesTo: "/vender/4",
 
     image:
-      'https://stockarea.io/blogs/wp-content/uploads/2021/07/5-1024x1024.png',
+      "https://stockarea.io/blogs/wp-content/uploads/2021/07/5-1024x1024.png",
   },
   {
     id: 5,
-    title: 'Transportation',
-    goesTo:"/transporter/1",
+    title: "Transportation",
+    goesTo: "/transporter/1",
 
     image:
-      'https://4.imimg.com/data4/KJ/BY/MY-14831048/john-deere-5050d-tractor.jpg',
+      "https://4.imimg.com/data4/KJ/BY/MY-14831048/john-deere-5050d-tractor.jpg",
   },
   {
     id: 6,
-    title: 'Fertilizers & Pesticides',
-    goesTo:"/fertilizers-pesticides/1",
+    title: "Fertilizers & Pesticides",
+    goesTo: "/fertilizers-pesticides/1",
     image:
-      'https://static.vecteezy.com/system/resources/previews/010/508/297/non_2x/old-farmers-spray-fertilizer-or-chemical-pesticides-in-the-rice-fields-chemical-fertilizers-free-photo.jpg',
+      "https://static.vecteezy.com/system/resources/previews/010/508/297/non_2x/old-farmers-spray-fertilizer-or-chemical-pesticides-in-the-rice-fields-chemical-fertilizers-free-photo.jpg",
   },
   // {
   //   id: 7,
@@ -60,26 +63,54 @@ const cardArr = [
 ];
 
 const Section2Home = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const boxRef = useRef([]);
+  const titleRef = useRef("");
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+    tl.from(titleRef.current, {
+      opacity: 0,
+      x: -50,
+      duration: 0.5
+    }).from(boxRef.current, {
+      opacity: 0,
+      y: -100,
+      duration: 0.5,
+      stagger: 0.2, // Delays each animation by 0.2s});
+    });
+  });
   return (
     <div className="container">
-      <div className="p-md-3 p-1 my-md-3 my-2" style={{ backgroundColor: "var(--light)" }}>
+      <div
+        className="p-md-3 p-1 my-md-3 my-2"
+        style={{ backgroundColor: "var(--light)" }}
+      >
         <div className="section2Heading">
-          <h5 className="mobilehome_title ms-2 mt-2">All Services</h5>
+          <h5 className="mobilehome_title ms-2 mt-2" ref={titleRef}>
+            All Services
+          </h5>
         </div>
-          <div className="row overflowhiddenbutscroll m-0">
-            {cardArr.map((ele, i) => (
-              <div className="col-md-2 col-5 p-md-3 p-1" key={ele.id} >
-                <div className="section2cardHome " onClick={()=>router.push(ele?.goesTo)}>
-                  <div className="image_div">
-                    <img src={ele.image} alt="product image" />
-                  </div>
-                  <div className="section2cartTitle">
-                    <span className="fw-bold">{ele.title}</span>
-                  </div>
+        <div className="row overflowhiddenbutscroll m-0">
+          {cardArr.map((ele, i) => (
+            <div
+              className="col-md-2 col-5 p-md-3 p-1"
+              key={ele.id}
+              ref={(el) => (boxRef.current[i] = el)}
+            >
+              <div
+                className="section2cardHome "
+                onClick={() => router.push(ele?.goesTo)}
+              >
+                <div className="image_div">
+                  <img src={ele.image} alt="product image" />
+                </div>
+                <div className="section2cartTitle">
+                  <span className="fw-bold">{ele.title}</span>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

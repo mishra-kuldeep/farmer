@@ -1,5 +1,9 @@
+"use client"
 import Link from "next/link";
-import React from "react";
+import React, { useRef } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const cardArr = [
   {
@@ -43,6 +47,37 @@ const cardArr2 = [
 ];
 
 const Section3Home = () => {
+  const boxRef1 = useRef([]);
+  const boxRef2 = useRef([]);
+
+  useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger); // Register ScrollTrigger
+
+    gsap.from(boxRef1.current, {
+      opacity: 0,
+      y: 100,
+      duration: 1,
+      stagger:0.2,
+      scrollTrigger: {
+        trigger: boxRef1.current, // Element that triggers the animation
+        start: "top 90%", // When the top of the element reaches 80% of the viewport
+        end: "top 50%", // When the top reaches 30% of the viewport
+        scrub: 1, // Smooth animation when scrolling
+      },
+    });
+    gsap.from(boxRef2.current, {
+      opacity: -1,
+      y: 100,
+      duration: 1,
+      stagger:0.2,
+      scrollTrigger: {
+        trigger: boxRef1.current, // Element that triggers the animation
+        start: "top 60%", // When the top of the element reaches 80% of the viewport
+        end: "top 50%", // When the top reaches 30% of the viewport
+        scrub: 1, // Smooth animation when scrolling
+      },
+    });
+  });
   return (
     <>
       <div className="container">
@@ -51,9 +86,9 @@ const Section3Home = () => {
           <div className="col-md-7 ">
             <div style={{ backgroundColor: "var(--light)" }} className=" mt-2 border p-3 pb-0">
               <h5 className="mobilehome_title">Farm Land Services</h5>
-              <div className="row overflowhiddenbutscroll " >
+              <div className="row overflowhiddenbutscroll " style={{overflowY:"hidden"}}>
                 {cardArr.map((ele, i) => (
-                  <div className="col-md-4 col-5  mb-3 px-2 px-md-3 " key={ele.id}>
+                  <div className="col-md-4 col-5  mb-3 px-2 px-md-3 " key={ele.id} ref={(e)=>(boxRef1.current[i]=e)}>
                     <Link href={`${ele.url}`} style={{ color: "inherit" }}>
                       <div className="section2cardHome">
                         <div className="image_div">
@@ -71,11 +106,11 @@ const Section3Home = () => {
           </div>
           {/* ////////////  vender service   ///////////////// */}
           <div className="col-md-5">
-            <div style={{ backgroundColor: "var(--light)" }} className=" mt-2 border p-3">
+            <div style={{ backgroundColor: "var(--light)" ,overflow:"hidden"}} className=" mt-2 border p-3">
               <h5 className="mobilehome_title">Vendor Services</h5>
-              <div className="row overflowhiddenbutscroll">
+              <div className="row overflowhiddenbutscroll" style={{overflow:"hidden"}}>
                 {cardArr2.map((ele, i) => (
-                  <div className="col-md-6 col-6 px-2 px-md-3" key={ele.id}>
+                  <div className="col-md-6 col-6 px-2 px-md-3" key={ele.id}  ref={(e)=>(boxRef2.current[i]=e)}>
                     <Link href={`${ele.url}`} style={{ color: "inherit" }}>
                       <div className="section2cardHome">
                         <div className="image_div">
