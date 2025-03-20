@@ -50,13 +50,13 @@ const cardArr = [
     image:
       'https://static.vecteezy.com/system/resources/previews/010/508/297/non_2x/old-farmers-spray-fertilizer-or-chemical-pesticides-in-the-rice-fields-chemical-fertilizers-free-photo.jpg',
   },
-  {
-    id: 7,
-    title: 'Ads',
-    goesTo:"/ads-category",
-    image:
-      'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y293c3xlbnwwfHwwfHx8MA%3D%3D',
-  },
+  // {
+  //   id: 7,
+  //   title: 'Ads',
+  //   goesTo:"/ads-category",
+  //   image:
+  //     'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y293c3xlbnwwfHwwfHx8MA%3D%3D',
+  // },
 ];
 
 const Section2Home = () => {

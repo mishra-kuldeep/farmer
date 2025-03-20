@@ -74,11 +74,30 @@
     align-items: center;
   }
   .filterContainerHeight{
-    /* height: auto; */
+    height: 75vh;
+    overflow: auto;
     position: sticky;
-    top: 0px;
+    top: 100px;
   }
-
+  .filterContainerHeight::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  .filterContainerHeight::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  .filterContainerHeight::-webkit-scrollbar-thumb {
+    background: #a3a3a3; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  .filterContainerHeight::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
   @media only screen and (max-width: 600px) {
     .viewAllcartCol{
   width: 280px;

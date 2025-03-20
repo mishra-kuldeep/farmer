@@ -3,7 +3,7 @@
   padding: 10px;
   background-color: #dadada;
   position: sticky;
-  top: 100px;
+  top: 0px;
   width: 100%;
 }
 .singlefilterdiv {
@@ -11,19 +11,42 @@
   margin-bottom: 10px;
   background-color: #fff;
 }
+.scrollsinglefilter {
+  max-height: 185px;
+  overflow: auto;
+}
+.scrollsinglefilter::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+.scrollsinglefilter::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.scrollsinglefilter::-webkit-scrollbar-thumb {
+  background: #bebebe;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.scrollsinglefilter::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .filtertitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 3px 10px;
 }
-.filterHoverlable{
-    padding: 3px 10px;
-    cursor: pointer;
+.filterHoverlable {
+  padding: 3px 10px;
+  cursor: pointer;
 }
 .filterHoverlable label {
   font-size: 14px;
-  
 }
 .filterHoverlable:hover {
   background-color: #f2f2f2;

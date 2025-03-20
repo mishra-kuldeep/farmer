@@ -33,6 +33,11 @@ export default class CategoryServices {
       },
     });
   }
+  static async getSubCategorybycategoryId(id) {
+    const url = `${BASE_URL}/subcategory/category/subcategories/${id}`;
+    return axios.get(url);
+  }
+  
   
   static async getSingeCategory(id) {
     const token = getCookie("token");

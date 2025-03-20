@@ -25,6 +25,7 @@ import { IoMdHeart } from "react-icons/io";
 import { useParams } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import VeiwAllFilter from "@/component/homepage/veiwAllFilter/VeiwAllFilter";
+import { isMobile } from "react-device-detect";
 
 const Page = () => {
   const { slug } = useParams();
@@ -53,10 +54,10 @@ const Page = () => {
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState(0);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
   const [showVerifiedModal, setShowVerifiedModal] = useState(false);
   const initApi = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({
         page: page,
@@ -68,7 +69,10 @@ const Page = () => {
           ? user?.profile?.country
           : country?.country?.countryId,
       });
-      setProducts((prevProducts) => [...prevProducts, ...searchResult?.data?.data||[]]);
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        ...(searchResult?.data?.data || []),
+      ]);
       // setProducts(searchResult?.data?.data || []);
       setLoading(false);
     } catch (error) {
@@ -85,15 +89,20 @@ const Page = () => {
       .catch((err) => console.log(err));
   };
   // Function to handle scroll event
-  const handleWheel = useCallback((event) => {
-    // Check if the user is scrolling down
-    if (event.deltaY > 0 && !loading) {
-      const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
-      if (bottom) {
-        setPage((prevPage) => prevPage + 1); // Increment page when reaching bottom
+  const handleWheel = useCallback(
+    (event) => {
+      // Check if the user is scrolling down
+      if (event.deltaY > 0 && !loading) {
+        const bottom =
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight;
+        if (bottom) {
+          setPage((prevPage) => prevPage + 1); // Increment page when reaching bottom
+        }
       }
-    }
-  }, [loading]);
+    },
+    [loading]
+  );
   // Add product to cart
   const addCartHandler = (id) => {
     if (!user?.isLoggedIn) {
@@ -249,18 +258,53 @@ const Page = () => {
   };
 
   return (
-    <div  onWheel={handleWheel}>
+    <div onWheel={handleWheel}>
       <div
         style={{
           position: "sticky",
-          top: "57px",
-          zIndex: 100,
+          top: isMobile ? "50px" : "55px",
+          // zIndex: 100,
           backgroundColor: "#fff",
           width: "100%",
+          zIndex: 10,
         }}
       >
         <div className="container d-flex justify-content-between align-items-center py-1">
-          <div className="showHideFilter " onClick={showHideFunction}>
+          <a
+            class="showHideFilter d-md-none d-block"
+            data-bs-toggle="offcanvas"
+            href="#offcanvasExample123"
+            role="button"
+            aria-controls="offcanvasExample123"
+            style={{textDecoration:"none",color:"#000"}}
+          >
+            <span>
+              <BiSolidShow /> Show Filter
+            </span>
+          </a>
+          <div
+            class="offcanvas offcanvas-start mt-5"
+            style={{ height: "87vh", width: "80%" }}
+            tabindex="-1"
+            id="offcanvasExample123"
+            aria-labelledby="offcanvasExample123Label"
+          >
+            <div class="offcanvas-header p-1 px-3">
+              <h5 class="offcanvas-title" id="offcanvasExample123Label">
+                Filter
+              </h5>
+              <button
+                type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body p-0">
+              <VeiwAllFilter />
+            </div>
+          </div>
+          <div className="showHideFilter d-md-block d-none" onClick={showHideFunction}>
             {showFilter ? (
               <span>
                 <BiSolidHide /> Hide Filter
@@ -271,41 +315,31 @@ const Page = () => {
               </span>
             )}
           </div>
-          <div className="d-flex gap-3 align-items-center">
-            <button className="paginationbtnarrowdisable">
-              <IoIosArrowBack className="" />
-            </button>
-            Page (1/3)
-            <button className="paginationbtnarrow">
-              <IoIosArrowForward />
-            </button>
-          </div>
+          <div className="d-flex gap-3 align-items-center"></div>
         </div>
       </div>
       <div className="container mt-1">
         <div className="row my-2 cartParentRow">
-          {showFilter && (
-            <div className="col-md-3  filterContainerHeight">
-              <VeiwAllFilter />
+          <div
+            className="col-md-3 d-md-block d-none  "
+           
+          >
+            <div className="filterContainerHeight" 
+             style={{ display: showFilter ? "block" : "none" }}>
+            <VeiwAllFilter />
             </div>
-          )}
+          </div>
 
           <div className={showFilter ? "col-md-9" : "col-md-12"}>
             <div
               className=" viewAllcartRow py-3 gap-2"
               style={{
-                overflowX: "auto", // Enable horizontal scrolling
-                overflowY: "hidden", // Hide the vertical scrollbar
-                whiteSpace: "nowrap", // Prevent wrapping of items
+                // whiteSpace: "nowrap", // Prevent wrapping of items
                 backgroundColor: "#dadada",
               }}
             >
-             
-              {Products.map((ele,i) => (
-                <div
-                  className="viewAllcartCol px-1 mb-2"
-                  key={i}
-                >
+              {Products.map((ele, i) => (
+                <div className="viewAllcartCol px-1 mb-2" key={i}>
                   <div className="bestseller_cards">
                     <div>
                       <div className="image_div">
@@ -442,7 +476,7 @@ const Page = () => {
                   </div>
                 </div>
               ))}
-               {loading && <div className="loader">Loading...</div>}
+              {loading && <div className="loader">Loading...</div>}
             </div>
           </div>
         </div>
