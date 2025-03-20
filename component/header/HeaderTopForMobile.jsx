@@ -361,7 +361,7 @@ const HeaderTopForMobile = () => {
             </ul>
           </div>
         </div>
-        <div className="col-6 d-flex align-items-center p-0">
+        <div className="col-6 d-flex align-items-center p-0" onClick={() => router.push("/")}>
           <img src={logo.src} alt="logo" className="logoImage" />
           <h6 className="logoImage_title">
             <span className="fs-4">F</span>armers

@@ -105,6 +105,15 @@ export default class CategoryServices {
       },
     });
   }
+  static async deleteSubCategory(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/subcategory/subcategories/${id}`;
+    return axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
   ////////////////////////////  brand  ///////////////////////////////
 

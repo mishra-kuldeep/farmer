@@ -9,12 +9,14 @@ import { Image_URL } from "@/helper/common";
 import Pagination from "@/component/reusableComponent/Pagination";
 import VehicleServices from "@/services/VehicleServices";
 import OrderTracker from "@/component/smallcompo/OrderTracker";
-import { MdOutlineLocationOn } from "react-icons/md";
+import { MdDelete, MdOutlineLocationOn } from "react-icons/md";
 import "../../myAccount/customerOrder/customerOrder.css";
 import { calculateDistance } from "@/helper/utils";
 import { isMobile } from "react-device-detect";
 import PaymentOrder from "@/component/reusableComponent/PaymentOrder";
 import Link from "next/link";
+import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
+import toast from "react-hot-toast";
 
 const MyOrder = () => {
   const [status, setStatus] = useState("All");
@@ -40,7 +42,11 @@ const MyOrder = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [totalProductChar, setTotalProductChar] = useState(null);
   const [showModal, setShowModal] = useState(false);
-const [CurrencyPrefix,setCurrencyPrefix] = useState('')
+  const [CurrencyPrefix, setCurrencyPrefix] = useState('')
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
+  const [Dloader, setDLoader] = useState(false);
+
   useEffect(() => {
     setloading(true);
     OrderService.BuyerOrderList(status, page)
@@ -203,6 +209,49 @@ const [CurrencyPrefix,setCurrencyPrefix] = useState('')
     setSelectedOrder(null);
   };
 
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
+
+  const hendledelete = (OrderId) => {
+    setSelectedId(OrderId);
+    setShowConfirm(true);
+  }
+
+  const handleDelete = async () => {
+    setDLoader(true)
+    await OrderService.deleteOrder(selectedId).then((data) => {   
+      const orders = orderList.filter((ele) => ele.OrderId != selectedId)
+      setOrderList([...orders]);
+      setShowConfirm(false);
+      setDLoader(false)
+      toast("Order deleted successfully!", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "green",
+          color: "#fff",
+        },
+      });
+    }).catch((err) => {
+      console.log(err)
+      setShowConfirm(false);
+      setDLoader(false)
+      toast.error(err.response.data.message || "Order Cancellation is not possible Please contact Our Team.", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#ff4d4f",
+          color: "#fff",
+        },
+        autoClose: 500,
+      });
+    });
+
+  };
+
+
   return (
     <div className="orderPage">
       <div className="d-md-flex">
@@ -341,7 +390,14 @@ const [CurrencyPrefix,setCurrencyPrefix] = useState('')
                           </span>
                         </p>
                       )}
-
+                      {(ele?.paymentStatus == "Pending" || ele?.paymentStatus == "Failed") && (
+                        <IconButton
+                          onClick={() =>
+                            hendledelete(ele?.orderId)
+                          }
+                        >
+                          <MdDelete color="red" size={20} />
+                        </IconButton>)}
                       <IconButton
                         onClick={() =>
                           toggleDiv(index, ele?.orderId, ele.adminReview)
@@ -353,6 +409,7 @@ const [CurrencyPrefix,setCurrencyPrefix] = useState('')
                           }}
                         />
                       </IconButton>
+
                     </div>
                   </div>
                 </div>
@@ -386,13 +443,13 @@ const [CurrencyPrefix,setCurrencyPrefix] = useState('')
                                       </h6>
                                       <h6 className="mt-2">
                                         <del>
-                                        {ele.productDetail.country?.currencySymbol}{ele?.productDetail?.price}/
+                                          {ele.productDetail.country?.currencySymbol}{ele?.productDetail?.price}/
                                           {
                                             ele?.productDetail?.ProductUnit
                                               ?.unitName
                                           }
                                         </del>{" "}
-                                      {ele.productDetail.country?.currencySymbol}{" "}
+                                        {ele.productDetail.country?.currencySymbol}{" "}
                                         {ele?.productDetail?.price -
                                           (ele?.productDetail?.discountType ===
                                             "fixed"
@@ -656,6 +713,13 @@ const [CurrencyPrefix,setCurrencyPrefix] = useState('')
               </div>
             );
           })}
+          <ConfirmModel
+            show={showConfirm}
+            onConfirm={handleDelete}
+            onCancel={handleCancel}
+            message="Are you sure you want to delete this item?"
+            loading={Dloader}
+          />
         </div>
       )}
       <div

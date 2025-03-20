@@ -24,17 +24,31 @@ const ListCategory = ({ setState }) => {
     setLoader(true)
     await CategoryServices.deleteCategory(selectedId).then((data) => {
       setCatList(catList.filter((ele) => ele.categoryId !== selectedId));
+      setShowConfirm(false);
+      setLoader(false)
+      toast("category deleted successfully!", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "green",
+          color: "#fff",
+        },
+      });
+    }).catch((err) => {
+      console.log(err)
+      setShowConfirm(false);
+      setLoader(false)
+      toast.error("This data is being used elsewhere and cannot be modified.", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#ff4d4f",
+          color: "#fff",
+        },
+        autoClose: 500,
+      });
     });
-    setShowConfirm(false);
-    setLoader(false)
-    toast("category deleted successfully!", {
-      icon: "👏",
-      style: {
-        borderRadius: "10px",
-        background: "green",
-        color: "#fff",
-      },
-    });
+
   };
 
   const handleCancel = () => {
@@ -69,7 +83,7 @@ const ListCategory = ({ setState }) => {
 
   return (
     <div className="p-2 ">
-      <div className="paginationWrapper"style={{ marginTop: "-60px" }}>
+      <div className="paginationWrapper" style={{ marginTop: "-60px" }}>
         <h6>page ( {page} )</h6>
         <div
           className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
@@ -113,11 +127,11 @@ const ListCategory = ({ setState }) => {
                   </td>
                   <td>
                     <div className="d-flex justify-content-center gap-2">
-                      {/* <IconButton
+                      <IconButton
                         onClick={() => deleteHandeler(item.categoryId)}
                       >
                         <MdDelete color="red" size={20} />
-                      </IconButton> */}
+                      </IconButton>
                       <IconButton onClick={() => editHandeler(item.categoryId)}>
                         <FaRegEdit color="green" size={20} />
                       </IconButton>

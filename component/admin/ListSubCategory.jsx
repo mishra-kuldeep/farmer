@@ -6,10 +6,16 @@ import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import IconButton from "../reusableComponent/IconButton";
 import { useRouter } from "next/navigation";
+import ConfirmModel from "../reusableComponent/ConfirmModel";
+import toast from "react-hot-toast";
 
-const ListSubCategory = ({setState}) => {
+const ListSubCategory = ({ setState }) => {
   const router = useRouter()
   const [catList, setCatList] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
+  const [loader, setLoader] = useState(false);
+
   const initApi = async () => {
     const catList = await CategoryServices.getSubCategory();
     setCatList(catList?.data?.data);
@@ -21,6 +27,46 @@ const ListSubCategory = ({setState}) => {
   const editHandeler = (id) => {
     setState("2");
     router.push(`/admin/addSubCategory?editId=${id}`);
+  };
+
+
+  const handleDelete = async () => {
+    setLoader(true)
+    await CategoryServices.deleteSubCategory(selectedId).then((data) => {
+      setCatList(catList.filter((ele) => ele.subcategoryId !== selectedId));
+      setShowConfirm(false);
+      setLoader(false)
+      toast("subcategory deleted successfully!", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "green",
+          color: "#fff",
+        },
+      });
+    }).catch((err) => {
+      console.log(err)
+      setShowConfirm(false);
+      setLoader(false)
+      toast.error("This data is being used elsewhere and cannot be modified.", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#ff4d4f",
+          color: "#fff",
+        },
+        autoClose: 500,
+      });
+    });
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
+
+  const deleteHandeler = (id) => {
+    setSelectedId(id);
+    setShowConfirm(true);
   };
   return (
     <div className="p-3">
@@ -51,16 +97,21 @@ const ListSubCategory = ({setState}) => {
                   <td className="d-flex justify-content-center">
                     <IconButton>
                       {item.status ? (
-                        <IoEye color="green" size={20}/>
+                        <IoEye color="green" size={20} />
                       ) : (
-                        <IoMdEyeOff color="red" size={20}/>
+                        <IoMdEyeOff color="red" size={20} />
                       )}
                     </IconButton>
                   </td>
                   <td className="text-center">
                     <div className="d-flex justify-content-center gap-2">
+                      <IconButton
+                        onClick={() => deleteHandeler(item.subcategoryId)}
+                      >
+                        <MdDelete color="red" size={20} />
+                      </IconButton>
                       <IconButton onClick={() => editHandeler(item.subcategoryId)}>
-                        <FaRegEdit color="green" size={20}/>
+                        <FaRegEdit color="green" size={20} />
                       </IconButton>
                     </div>
                   </td>
@@ -70,6 +121,13 @@ const ListSubCategory = ({setState}) => {
           </tbody>
         )}
       </table>
+      <ConfirmModel
+        show={showConfirm}
+        onConfirm={handleDelete}
+        onCancel={handleCancel}
+        message="Are you sure you want to delete this item?"
+        loading={loader}
+      />
     </div>
   );
 };

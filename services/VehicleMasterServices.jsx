@@ -41,6 +41,15 @@ export default class VehicleMasterServices {
             },
         });
     }
+    static async deleteVehicle(id) {
+        const token = getCookie("token");
+        const url = `${BASE_URL}/vehicle/${id}`;
+        return axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+            },
+        });
+    }
 
     static async addVehicle(data) {
         const token = getCookie("token");

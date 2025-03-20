@@ -128,6 +128,15 @@ export default class OrderService {
       },
     });
   }
+  static async deleteOrder(orderId) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/order/delete-order/${orderId}`;
+    return axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
 
 
 }

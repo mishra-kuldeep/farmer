@@ -271,6 +271,8 @@ const Section1Home = () => {
                     />
                   </div>
                   <h6 className="mt-2 mb-0">{ele.productDtlName}</h6>
+                  <div style={{margin:"-30px 0 0 2px",color:"gray",fontSize:"12px"}}>{ele?.Brand}</div>
+
                   {ele.productInspection && (
                     <div
                       className="verified-badge"
