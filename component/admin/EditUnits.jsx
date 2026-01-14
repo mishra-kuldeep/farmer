@@ -111,7 +111,7 @@ const EditUnits = ({ setState }) => {
         >
           <option value={""}></option>
           {countryList?.map((val) => (
-            <option value={val?.countryId}>{val?.countryName}</option>
+            <option value={val?.countryCode}>{val?.countryName}</option>
           ))}
         </select>
         {countryIderror && (

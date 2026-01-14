@@ -68,7 +68,7 @@ const AddGrade = ({ setState }) => {
                     type="text"
                     className="form-control p-2 adjustLabel_input"
                     name="gradeName"
-                    value={values.unitName}
+                    value={values.gradeName}
                     onChange={onChangeHandeler}
                 />
                 {errors.gradeName && (

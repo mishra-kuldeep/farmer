@@ -94,11 +94,11 @@ const Page = () => {
   };
 
   useEffect(() => {
-    if (user?.profile?.id) {
+    if (user?.profile?.UserCode) {
       setisLoading(true);
-      values.UserId = user?.profile?.id;
+      values.UserId = user?.profile?.UserCode;
       values.countryId = user.profile.country;
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         setprofile(data?.userProfile);
         setisLoading(false);
       });
@@ -119,7 +119,7 @@ const Page = () => {
   useEffect(() => {
     if (values.rentCategoryId) {
       const selectedCategory = rentCategorieslist.find(
-        (cat) => cat.rentCategoryId === parseInt(values.rentCategoryId)
+        (cat) => cat.rentCategoryId === values.rentCategoryId
       );
       if (selectedCategory && selectedCategory.otherDetails) {
         setDynamicFields(JSON.parse(selectedCategory.otherDetails));
@@ -142,7 +142,7 @@ const Page = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [user?.profile?.country]);
+  }, [user?.profile?.UserCode]);
 
   return (
     <>

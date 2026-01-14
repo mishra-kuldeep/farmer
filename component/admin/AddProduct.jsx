@@ -116,7 +116,7 @@ const AddProduct = ({ setState }) => {
         >
           <option value="" className="d-none"></option>
           {categoryList?.map((item) => (
-            <option value={item?.categoryId} key={item?.categoryId}>
+            <option value={item?.categoryCode} key={item?.categoryCode}>
               {item?.categoryName}
             </option>
           ))}
@@ -136,7 +136,7 @@ const AddProduct = ({ setState }) => {
         >
           <option value="" className="d-none"></option>
           {subCategoryList?.map((item) => (
-            <option value={item?.subcategoryId} key={item?.subcategoryId}>
+            <option value={item?.subcategoryCode} key={item?.subcategoryCode}>
               {item?.subcategoryName}
             </option>
           ))}

@@ -29,22 +29,20 @@ const RegisterPage = () => {
   const [RoleList, setRoleList] = useState([]);
   const phonecode = countryies?.find(
     (val) =>
-      val?.countryId == values?.CountryID 
+      val?.countryCode == values?.CountryID 
   )?.phoneCode;
   const phoneLength = countryies?.find(
     (val) =>
-      val?.countryId == values?.CountryID 
+      val?.countryCode == values?.CountryID 
   )?.phoneLength;
-console.log(phoneLength)
   useEffect(()=>{
-    if(country?.country?.countryId&&countryies?.length>0){
+    if(country?.country?.countryCode&&countryies?.length>0){
       setValues((prev) => ({
         ...prev,
-        ["CountryID"]: country?.country?.countryId,
+        ["CountryID"]: country?.country?.countryCode,
       }));
     }
-  },[country?.country?.countryId,countryies?.length>0])
-console.log(countryies)
+  },[country?.country?.countryCode,countryies?.length>0])
   const handleValues = (e) => {
     let { name, value } = e.target;
     // if(name =="Phone"){
@@ -123,14 +121,14 @@ console.log(countryies)
         >
           <option value={""}>select</option>
           {RoleList.map((val) => (
-            <option value={val?.RoleId}>{val?.RoleName}</option>
+            <option value={val?.roleCode}>{val?.RoleName}</option>
           ))}
         </select>
       </div>
-      {(values.Role == 3 ||
-        values.Role == 4 ||
-        values.Role == 6 ||
-        values.Role == 9) && (
+      {(values.Role == "RL0003" ||
+        values.Role == "RL0004" ||
+        values.Role == "RL0006" ||
+        values.Role == "RL0009") && (
         <div className="p-2 m20">
           <label className="adjustLabel">Company Name *</label>
           <input
@@ -141,10 +139,10 @@ console.log(countryies)
           />
         </div>
       )}
-      {(values.Role == 3 ||
-        values.Role == 4 ||
-        values.Role == 6 ||
-        values.Role == 9) && (
+      {(values.Role == "RL0003" ||
+        values.Role == "RL0004" ||
+        values.Role == "RL0006" ||
+        values.Role == "RL0009") && (
         <div className="p-2 m20">
           <label className="adjustLabel">Company Email *</label>
           <input
@@ -157,10 +155,10 @@ console.log(countryies)
       )}
       <div className="p-2 m20">
         <label className="adjustLabel">
-          {values.Role == 3 ||
-          values.Role == 4 ||
-          values.Role == 6 ||
-          values.Role == 9
+          {values.Role == "RL0003" ||
+          values.Role == "RL0004" ||
+          values.Role == "RL0006" ||
+          values.Role == "RL0009"
             ? "Contact Person Name"
             : "Firstname *"}{" "}
         </label>
@@ -172,10 +170,10 @@ console.log(countryies)
         />
       </div>
 
-      {values.Role != 3 &&
-        values.Role != 4 &&
-        values.Role != 6 &&
-        values.Role != 9 && (
+      {values.Role != "RL0003" &&
+        values.Role != "RL0004" &&
+        values.Role != "RL0006" &&
+        values.Role != "RL0009" && (
           <div className="p-2 m20">
             <label className="adjustLabel">LastName*</label>
             <input
@@ -197,14 +195,14 @@ console.log(countryies)
         >
           <option value={""}></option>
           {countryies?.map((val) => (
-            <option value={val?.countryId}>{val?.countryName}</option>
+            <option value={val?.countryCode}>{val?.countryName}</option>
           ))}
         </select>
       </div>
-      {values.Role != 3 &&
-        values.Role != 4 &&
-        values.Role != 6 &&
-        values.Role != 9 && (
+      {values.Role != "RL0003" &&
+        values.Role != "RL0004" &&
+        values.Role != "RL0006" &&
+        values.Role != "RL0009" && (
           <div className="p-2 m20" style={{ position: "relative" }}>
             <label className="adjustLabel" style={{ marginLeft: "30px" }}>
               Mobile No *
@@ -234,10 +232,10 @@ console.log(countryies)
             </span>
           </div>
         )}
-      {(values.Role == 3 ||
-        values.Role == 4 ||
-        values.Role == 6 ||
-        values.Role == 9) && (
+      {(values.Role == "RL0003" ||
+        values.Role == "RL0004" ||
+        values.Role == "RL0006" ||
+        values.Role == "RL0009") && (
         <div className="p-2 m20" style={{ position: "relative" }}>
           <label className="adjustLabel" style={{ marginLeft: "30px" }}>
             Mobile No *
@@ -270,10 +268,10 @@ console.log(countryies)
           </span>
         </div>
       )}
-      {values.Role != 3 &&
-        values.Role != 4 &&
-        values.Role != 6 &&
-        values.Role != 9 && (
+      {values.Role != "RL0003" &&
+        values.Role != "RL0004" &&
+        values.Role != "RL0006" &&
+        values.Role != "RL0009" && (
           <div className="p-2 m20">
             <label className="adjustLabel">Email *</label>
             <input

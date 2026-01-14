@@ -1,5 +1,5 @@
 "use client";
-import AuthService from "@/services/AuthServices";
+import RoleServices from "@/services/RoleServices";
 import React, { useEffect, useState, useCallback } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import styles from "./UsersListForAdmin.module.css";
@@ -10,10 +10,12 @@ import IconButton from "@/component/reusableComponent/IconButton";
 import ConfirmModal from "@/component/reusableComponent/ConfirmModel";
 import toast from "react-hot-toast";
 import Pagination from "@/component/reusableComponent/Pagination";
+import AuthService from "@/services/AuthServices";
 
 const UsersListForAdmin = () => {
   const [role, setRole] = useState("All");
   const [userList, setUserList] = useState([]);
+  const [rolesList, setRolesList] = useState([]); 
   const [openIndex, setOpenIndex] = useState(null);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
@@ -53,13 +55,24 @@ const UsersListForAdmin = () => {
     }
   }, []);
 
+  const fetchRoles = useCallback(async () => {
+    try {
+      const { data } = await RoleServices.getRoleListActive();
+      setRolesList(data);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch roles");
+    }
+  }, []);
+
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
   useEffect(() => {
     fetchCountries();
-  }, [fetchCountries]);
+    fetchRoles(); 
+  }, [fetchCountries, fetchRoles]);
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -71,7 +84,7 @@ const UsersListForAdmin = () => {
     setIsLoading(true);
     try {
       await AuthService.RejectedUser(selectedUser, { remark });
-      setUserList((prev) => prev.filter((val) => val?.UserId !== selectedUser));
+      setUserList((prev) => prev.filter((val) => val?.UserCode !== selectedUser));
       setIsRejectModalOpen(false);
       setErrors({});
       setIsRemarkInputOpen(false);
@@ -93,7 +106,7 @@ const UsersListForAdmin = () => {
     setIsLoading(true);
     try {
       await AuthService.ApproveUser(selectedUser);
-      setUserList((prev) => prev.filter((val) => val?.UserId !== selectedUser));
+      setUserList((prev) => prev.filter((val) => val?.UserCode !== selectedUser));
       setIsApproveModalOpen(false);
       toast.success("User approved successfully!");
     } catch (err) {
@@ -110,7 +123,6 @@ const UsersListForAdmin = () => {
   };
 
   const handleStatusChange = (id) => {
-    console.log("Selected Status:", id); // Debugging
     setStatus(id);
     setPage(1);
   };
@@ -118,23 +130,21 @@ const UsersListForAdmin = () => {
   return (
     <>
       <div className="row align-items-center shadow px-2 mb-3">
-        <div className="col-md-2 mb-3">
+        <div className="col-md-2 mb-3"  style={{zIndex:10}}>
           <label className="adjustLabel">Select Role *</label>
           <select
             className="form-select custom-select adjustLabel_input"
             aria-label="Default select example"
+           
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
             <option value="All">All</option>
-            <option value={2}>Farmers</option>
-            <option value={3}>Buyers</option>
-            <option value={4}>Transportation</option>
-            <option value={5}>Employee</option>
-            <option value={6}>Vendors</option>
-            <option value={7}>Educational Resources</option>
-            <option value={8}>Customer Care</option>
-            <option value={9}>Fertilizers & Pesticides</option>
+            {rolesList?.map((r) => (
+              <option key={r.roleCode} value={r.roleCode}>
+                {r.RoleName}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -153,8 +163,8 @@ const UsersListForAdmin = () => {
               <input
                 type="radio"
                 value="isApproved"
-                checked={status == "isApproved"} // Ensure strict comparison
-                onChange={() => handleStatusChange("isApproved")} // Update state
+                checked={status == "isApproved"} 
+                onChange={() => handleStatusChange("isApproved")}
               />
               <span className="m-1">Approved</span>
             </label>
@@ -162,8 +172,8 @@ const UsersListForAdmin = () => {
               <input
                 type="radio"
                 value="isPending"
-                checked={status == "isPending"} // Ensure strict comparison
-                onChange={() => handleStatusChange("isPending")} // Update state
+                checked={status == "isPending"}
+                onChange={() => handleStatusChange("isPending")}
               />
               <span className="m-1">Pending</span>
             </label>
@@ -171,8 +181,8 @@ const UsersListForAdmin = () => {
               <input
                 type="radio"
                 value="isRejected"
-                checked={status == "isRejected"} // Ensure strict comparison
-                onChange={() => handleStatusChange("isRejected")} // Update state
+                checked={status == "isRejected"} 
+                onChange={() => handleStatusChange("isRejected")} 
               />
               <span className="m-1">Rejected</span>
             </label>
@@ -196,7 +206,7 @@ const UsersListForAdmin = () => {
               <div
                 className={styles["accordion-item"]}
                 key={i}
-                style={{ display: ele.Role === 1 ? "none" : "block" }}
+                style={{ display: ele.Role === 'RL0001' ? "none" : "block" }}
               >
                 <h2
                   className={styles["accordion-header"]}
@@ -249,7 +259,7 @@ const UsersListForAdmin = () => {
                               tooltip="Approve"
                               onClick={() => {
                                 setIsApproveModalOpen(true);
-                                setSelectedUser(ele?.UserId);
+                                setSelectedUser(ele?.UserCode);
                               }}
                             >
                               <BsCheckLg color="green" fontSize={50} />
@@ -272,7 +282,7 @@ const UsersListForAdmin = () => {
                               { label: "Phone", value: ele?.Phone },
                               {
                                 label: "Country",
-                                value: countries.find((c) => c.countryId === ele?.CountryID)?.countryName,
+                                value: countries.find((c) => c.countryCode === ele?.CountryID)?.countryName,
                               },
                               { label: "Dob", value: ele?.userInfo?.Dob },
                               { label: "Gender", value: ele?.userInfo?.Gender },
@@ -313,7 +323,7 @@ const UsersListForAdmin = () => {
                                 className="admin_btn"
                                 onClick={() => {
                                   setIsRejectModalOpen(true);
-                                  setSelectedUser(ele?.UserId);
+                                  setSelectedUser(ele?.UserCode);
                                 }}
                               >
                                 Reject

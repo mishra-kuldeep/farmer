@@ -33,8 +33,8 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    if (user?.profile?.id) {
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+    if (user?.profile?.UserCode) {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         const mergedUserInfo = {
           ...data.userProfile,
           ...data.userProfile.userInfo,

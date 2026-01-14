@@ -10,11 +10,18 @@ const AddBrands = () => {
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
   const [state, setState] = useState(0);
-  useEffect(() => {
-    if (state <= 1) {
-      router.push(`/admin/addBrand`);
-    }
-  }, [state,router]);
+  // useEffect(() => {
+  //   if (editId) {
+  //     setState(2);
+  //   } else if (state <= 1) {
+  //     router.push(`/admin/addBrand`);
+  //   }
+  // }, [state, router, editId]);
+    useEffect(() => {
+      if (state <= 1) {
+        router.push(`/admin/addBrand`);
+      }
+    }, [state,router]);
   return (
     <div className="adminPaperWrap addproductwrap p-2">
       <div className="selectCat mb-2">

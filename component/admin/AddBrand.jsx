@@ -107,7 +107,7 @@ const AddBrand = ({ setState }) => {
         >
           <option value="" className="d-none"></option>
           {subCategoryList?.map((item) => (
-            <option value={item?.subcategoryId} key={item?.subcategoryId}>
+            <option value={item?.subcategoryCode} key={item?.subcategoryCode}>
               {item?.subcategoryName}
             </option>
           ))}

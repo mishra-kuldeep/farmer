@@ -107,7 +107,7 @@ const AddSubCategory = ({setState}) => {
           name="category"
         >
           <option value=""></option>
-          {categoryList?.map((elem)=><option key={elem.categoryId} value={elem.categoryId}>{elem.categoryName}</option>)}
+          {categoryList?.map((elem)=><option key={elem.categoryCode} value={elem.categoryCode}>{elem.categoryName}</option>)}
         </select>
         {errors.category && (
           <span className="error_input_text">{errors.category}</span>

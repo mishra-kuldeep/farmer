@@ -20,7 +20,7 @@ const AddProductDtl = () => {
   const [productList, setProductList] = useState([]);
   const [unitlist, setUnitlist] = useState([]);
   const [gradelist, setgradelist] = useState([]);
-  const [imageErrors, setImageErrors] = useState([]); // Array for storing invalid images with errors
+  const [imageErrors, setImageErrors] = useState([]); 
   const [validImageNames, setValidImageNames] = useState([]);
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
@@ -48,11 +48,10 @@ const AddProductDtl = () => {
     const { name, files } = e.target;
 
     if (name === "Product") {
-      const maxFileSize = 200 * 1024; // 100 KB
-      const maxImages = 5; // Maximum allowed images
+      const maxFileSize = 200 * 1024; 
+      const maxImages = 5; 
       const selectedFiles = Array.from(files);
 
-      // Check if more than 5 images are selected
       if (selectedFiles.length > maxImages) {
         setImageErrors([
           `You can only upload a maximum of ${maxImages} images.`,
@@ -65,23 +64,19 @@ const AddProductDtl = () => {
       const validFileNames = [];
       const invalidFiles = [];
 
-      // Validate each file
       selectedFiles.forEach((file) => {
         if (file.size <= maxFileSize) {
-          validFiles.push(file); // Only push valid files to the array
-          validFileNames.push(file.name); // Store valid file names
-        } else {
-          invalidFiles.push(`${file.name} is larger than 200KB`); // Store invalid file name with error
+          validFiles.push(file);
+          validFileNames.push(file.name); 
+          invalidFiles.push(`${file.name} is larger than 200KB`); 
         }
       });
 
-      // Update state with valid images and valid file names
       if (validFiles.length > 0) {
         setValues((prev) => ({ ...prev, Product: validFiles }));
-        setValidImageNames(validFileNames); // Store valid file names
+        setValidImageNames(validFileNames); 
       }
 
-      // Set error messages for invalid files
       setImageErrors(invalidFiles);
     } else {
       setValues((pre) => ({ ...pre, [name]: e.target.value }));
@@ -158,9 +153,9 @@ const AddProductDtl = () => {
   };
 
   useEffect(() => {
-    if (user?.profile?.id) {
+    if (user?.profile?.UserCode) {
       setisLoading(true);
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         setprofile(data?.userProfile);
         setisLoading(false);
       });
@@ -195,7 +190,7 @@ const AddProductDtl = () => {
       })
       .catch((err) => console.log(err));
 
-  }, [user?.profile?.country]);
+  }, [user?.profile?.UserCode]);
 
 
 
@@ -319,7 +314,7 @@ const AddProductDtl = () => {
                 >
                   <option value="" className="d-none"></option>
                   {gradelist?.map((ele) => (
-                    <option key={ele?.gradeId} value={ele?.gradeId}>
+                    <option key={ele?.GradCode} value={ele?.GradCode}>
                       {ele?.gradeName}
                     </option>
                   ))}
@@ -363,7 +358,7 @@ const AddProductDtl = () => {
                 >
                   <option value="" className="d-none"></option>
                   {unitlist?.map((ele) => (
-                    <option key={ele?.unitId} value={ele?.unitId}>
+                    <option key={ele?.unitCode} value={ele?.unitCode}>
                       {ele?.unitName}
                     </option>
                   ))}

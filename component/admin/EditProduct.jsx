@@ -120,7 +120,7 @@ const EditProduct = ({ setState }) => {
         >
           <option value="" className="d-none"></option>
           {categoryList?.map((item) => (
-            <option value={item.categoryId} key={item.categoryId}>
+            <option value={item.categoryCode} key={item.categoryCode}>
               {item.categoryName}
             </option>
           ))}
@@ -140,7 +140,7 @@ const EditProduct = ({ setState }) => {
         >
           <option value="" className="d-none"></option>
           {subCategoryList?.map((item) => (
-            <option value={item.subcategoryId} key={item.subcategoryId}>
+            <option value={item.subcategoryCode} key={item.subcategoryCode}>
               {item.subcategoryName}
             </option>
           ))}
@@ -160,7 +160,7 @@ const EditProduct = ({ setState }) => {
         >
           <option value="" className="d-none"></option>
           {brandList?.map((item) => (
-            <option value={item.brandId} key={item.brandId}>
+            <option value={item.brandCode} key={item.brandCode}>
               {item.brandName}
             </option>
           ))}

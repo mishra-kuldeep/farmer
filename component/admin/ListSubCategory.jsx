@@ -33,7 +33,7 @@ const ListSubCategory = ({ setState }) => {
   const handleDelete = async () => {
     setLoader(true)
     await CategoryServices.deleteSubCategory(selectedId).then((data) => {
-      setCatList(catList.filter((ele) => ele.subcategoryId !== selectedId));
+      setCatList(catList.filter((ele) => ele.subcategoryCode !== selectedId));
       setShowConfirm(false);
       setLoader(false)
       toast("subcategory deleted successfully!", {
@@ -62,6 +62,33 @@ const ListSubCategory = ({ setState }) => {
 
   const handleCancel = () => {
     setShowConfirm(false);
+  };
+
+  const statusHandeler = (id) => {
+    setLoader(true);
+    CategoryServices.updateSubCategoryStatus(id)
+      .then((res) => {
+        const newData = catList.map((item) => {
+          if (item.subcategoryCode === id) {
+            return { ...item, status: !item.status };
+          }
+          return item;
+        });
+        setCatList(newData);
+        toast("Status updated successfully!", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoader(false);
+      });
   };
 
   const deleteHandeler = (id) => {
@@ -95,7 +122,7 @@ const ListSubCategory = ({ setState }) => {
                     {item?.Category?.categoryName}
                   </td>
                   <td className="d-flex justify-content-center">
-                    <IconButton>
+                    <IconButton onClick={() => statusHandeler(item.subcategoryCode)}>
                       {item.status ? (
                         <IoEye color="green" size={20} />
                       ) : (
@@ -106,11 +133,11 @@ const ListSubCategory = ({ setState }) => {
                   <td className="text-center">
                     <div className="d-flex justify-content-center gap-2">
                       <IconButton
-                        onClick={() => deleteHandeler(item.subcategoryId)}
+                        onClick={() => deleteHandeler(item.subcategoryCode)}
                       >
                         <MdDelete color="red" size={20} />
                       </IconButton>
-                      <IconButton onClick={() => editHandeler(item.subcategoryId)}>
+                      <IconButton onClick={() => editHandeler(item.subcategoryCode)}>
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
                     </div>

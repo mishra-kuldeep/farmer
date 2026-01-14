@@ -73,7 +73,7 @@ export const authSlice = createSlice({
         // state.profile = action.payload.user;
         state.message = action.payload.msg;
         state.isLoggedIn = true;
-        state.isAdmin=action.payload.role ===1&&true;
+        state.isAdmin=action.payload.role ==="RL0001"&&true;
         setToken(action?.payload?.token);
       })
       .addCase(login.rejected, (state, action) => {

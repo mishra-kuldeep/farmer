@@ -49,9 +49,9 @@ const AddProductDtl = () => {
     setImages((prevImages) => [...prevImages, ...files]);
   };
   useEffect(() => {
-    if (user?.profile?.id) {
+    if (user?.profile?.UserCode) {
       setisLoading(true);
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         setprofile(data?.userProfile);
         setisLoading(false);
       });

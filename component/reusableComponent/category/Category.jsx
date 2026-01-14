@@ -42,15 +42,15 @@ const Category = () => {
           {categoryList?.map((ele, i) => (
             <div
               onClick={() =>
-                router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)
+                router.push(`/ViewAll/product?categotyId=${ele?.categoryCode}`)
               }
               key={i}
-              className={`${ele?.categoryId == subId && "activecat"
+              className={`${ele?.categoryCode == subId && "activecat"
                 } cat_list hovercatlist d-flex justify-content-between pe-2 align-items-center cursor`}
               style={{ borderBottom: "0.1px solid rgb(175, 175, 175)" }}
               onMouseEnter={() => {
                 setSubCategoryList(ele?.SubCategories);
-                setsubId(ele?.categoryId);
+                setsubId(ele?.categoryCode);
               }}
             >
               <p key={i} className=" text-white">
@@ -58,7 +58,7 @@ const Category = () => {
               </p>
               {!!ele.SubCategories.length && (
                 <IoMdArrowDropright
-                  className={`${ele?.categoryId !== subId && "iconcatlist"}`}
+                  className={`${ele?.categoryCode !== subId && "iconcatlist"}`}
                 />
               )}
             </div>
@@ -71,7 +71,7 @@ const Category = () => {
               className="cat_list catsublisthover text-dark"
               onClick={() =>
                 router.push(
-                  `/ViewAll/product?subcategotyId=${ele?.subcategoryId}`
+                  `/ViewAll/product?subcategotyId=${ele?.subcategoryCode}`
                 )
               }
             >
@@ -91,7 +91,7 @@ const Category = () => {
                 aria-label="Close"
                 style={{ width: "90%" }}
                 onClick={() =>
-                  router.push(`/ViewAll/product?categotyId=${ele?.categoryId}`)
+                  router.push(`/ViewAll/product?categotyId=${ele?.categoryCode}`)
                 }
               >
                 {ele?.categoryName}
@@ -120,7 +120,7 @@ const Category = () => {
                     className="cat_list cat_listsubtitle  ms-3"
                     onClick={() =>
                       router.push(
-                        `/ViewAll/product?subcategotyId=${val?.subcategoryId}`
+                        `/ViewAll/product?subcategotyId=${val?.subcategoryCode}`
                       )
                     }
                   >

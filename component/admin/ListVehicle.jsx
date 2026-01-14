@@ -20,7 +20,7 @@ const ListVehicle = ({ setState }) => {
   const handleDelete = async () => {
     setLoader(true)
     await VehicleMasterServices.deleteVehicle(selectedId).then((data) => {
-      setCatList(catList.filter((ele) => ele.vehicleId !== selectedId));
+      setCatList(catList.filter((ele) => ele.VehicleCode !== selectedId));
       setShowConfirm(false);
       setLoader(false)
       toast("Vehicle deleted successfully!", {
@@ -107,7 +107,7 @@ const ListVehicle = ({ setState }) => {
                   <td style={{ backgroundColor: "transparent" }}>
                     {item?.capacity}
                   </td>
-                  <td className="d-flex justify-content-center" onClick={() => changeStatus(item?.vehicleId)}>
+                  <td className="d-flex justify-content-center" onClick={() => changeStatus(item?.VehicleCode)}>
                     <IconButton>
                       {item.status ? (
                         <IoEye color="green" size={20} />
@@ -119,11 +119,11 @@ const ListVehicle = ({ setState }) => {
                   <td className="text-center">
                     <div className="d-flex gap-2 justify-content-center">
                       <IconButton
-                        onClick={() => deleteHandeler(item.vehicleId)}
+                        onClick={() => deleteHandeler(item.VehicleCode)}
                       >
                         <MdDelete color="red" size={20} />
                       </IconButton>
-                      <IconButton onClick={() => editHandeler(item?.vehicleId)}>
+                      <IconButton onClick={() => editHandeler(item?.VehicleCode)}>
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
                     </div>

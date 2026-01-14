@@ -60,7 +60,7 @@ const ListRole = ({ setState }) => {
                                     <td>{item.RoleName}</td>
                                     <td>{item.Description}</td>
                                     <td className="d-flex justify-content-center">
-                                        <IconButton onClick={() => updatestatus(item?.RoleId)}>
+                                        <IconButton onClick={() => updatestatus(item?.roleCode)}>
                                             {item.Status ? (
                                                 <IoEye color="green" size={20} />
                                             ) : (
@@ -70,7 +70,7 @@ const ListRole = ({ setState }) => {
                                     </td>
                                     <td className="text-center">
                                         <div className="d-flex gap-2 justify-content-center">
-                                            <IconButton onClick={() => editHandeler(item?.RoleId)}>
+                                            <IconButton onClick={() => editHandeler(item?.roleCode)}>
                                                 <FaRegEdit color="green" size={20} />
                                             </IconButton>
                                         </div>

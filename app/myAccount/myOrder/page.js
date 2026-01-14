@@ -800,8 +800,8 @@ const MyOrder = () => {
                     <IconButton
                       onClick={() =>
                         hendleSelectTranspot(
-                          Number(val?.transVehicalId),
-                          Number(val?.transporterId),
+                          val?.transVehicalId,
+                          val?.transporterId,
                           Number(val?.chargePerKm)
                         )
                       }

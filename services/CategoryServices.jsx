@@ -66,6 +66,15 @@ export default class CategoryServices {
       },
     });
   }
+  static async updateCategoryStatus(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/category/categoryStatus/${id}`;
+    return axios.put(url, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+  }
 
   ////////////////////////////  sub category  ///////////////////////////////
 
@@ -100,6 +109,15 @@ export default class CategoryServices {
     const token = getCookie("token");
     const url = `${BASE_URL}/subcategory/subcategories/${id}`;
     return axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async updateSubCategoryStatus(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/subcategory/subcategorieStatus/${id}`;
+    return axios.put(url, {}, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },
@@ -141,6 +159,15 @@ export default class CategoryServices {
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+      },
+    });
+  }
+  static async brandStatus(id) {
+    const token = getCookie("token");
+    const url = `${BASE_URL}/brand/brandStatus/${id}`;
+    return axios.put(url, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
       },
     });
   }

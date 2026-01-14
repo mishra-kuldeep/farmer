@@ -1,22 +1,8 @@
-// import React from 'react'
 
-// const ListVendor = () => {
-//   return (
-//     <div>
-//       fgdgdfgd
-//     </div>
-//   )
-// }
-
-// export default ListVendor
-
-import CategoryServices from "@/services/CategoryServices";
 import React, { useEffect, useState } from "react";
 import "../admin/adminpage.css";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import IconButton from "../reusableComponent/IconButton";
@@ -41,7 +27,7 @@ const ListVendor = ({ setState }) => {
   const handleDelete = async () => {
     await vendorMasterServices.deleteVendor(selectedId).then((data) => {
       setVendorList(
-        VendorList.filter((ele) => ele.VendorServicesMasterId !== selectedId)
+        VendorList.filter((ele) => ele.vendorServiceCode !== selectedId)
       );
       setShowConfirm(false);
       toast("vendor deleted successfully!", {
@@ -70,7 +56,7 @@ const ListVendor = ({ setState }) => {
     vendorMasterServices.EditStatus(id).then(({ data }) => {
       setVendorList((prev) =>
         prev.map((prev) =>
-          prev.VendorServicesMasterId === data?.vendor?.VendorServicesMasterId
+          prev.vendorServiceCode === data?.vendor?.vendorServiceCode
             ? { ...prev, ...data?.vendor }
             : prev
         )
@@ -109,7 +95,7 @@ const ListVendor = ({ setState }) => {
                     <td className="d-flex justify-content-center">
                       <IconButton
                         onClick={() =>
-                          statusUpdate(item.VendorServicesMasterId, item.status)
+                          statusUpdate(item.vendorServiceCode, item.status)
                         }
                       >
                         {item.status ? (
@@ -123,14 +109,14 @@ const ListVendor = ({ setState }) => {
                       <div className="d-flex gap-2 justify-content-center">
                         <IconButton
                           onClick={() =>
-                            deleteHandeler(item.VendorServicesMasterId)
+                            deleteHandeler(item.vendorServiceCode)
                           }
                         >
                           <MdDelete color="red" />
                         </IconButton>
                         <IconButton
                           onClick={() =>
-                            editHandeler(item.VendorServicesMasterId)
+                            editHandeler(item.vendorServiceCode)
                           }
                         >
                           <FaRegEdit color="green" />

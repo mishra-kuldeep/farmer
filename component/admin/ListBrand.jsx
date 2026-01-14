@@ -6,17 +6,45 @@ import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import IconButton from "../reusableComponent/IconButton";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const ListBrand = ({setState}) => {
   const router = useRouter()
   const [catList, setCatList] = useState([]);
+    const [loader, setLoader] = useState(false);
   const initApi = async () => {
+    setLoader(true);
     const catList = await CategoryServices.getBrand();
     setCatList(catList?.data?.data);
+    setLoader(false);
   };
   useEffect(() => {
     initApi();
   }, []);
+  const statusHandeler = (id) => {
+    setLoader(true);
+    CategoryServices.brandStatus(id)
+      .then((data) => {
+        const newData = catList.map((item) => {
+          if (item.brandCode === id) {
+            return { ...item, status: !item.status };
+          }
+          return item;
+        });
+        setCatList(newData);
+        toast("Status updated successfully!", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+        setLoader(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const editHandeler = (id) => {
     setState("2");
     router.push(`/admin/addBrand?editId=${id}`);
@@ -48,7 +76,7 @@ const ListBrand = ({setState}) => {
                     {item?.SubCategory?.subcategoryName}
                   </td>
                   <td className="d-flex justify-content-center">
-                    <IconButton>
+                    <IconButton onClick={() => statusHandeler(item.brandCode)} disabled={loader}>
                       {item.status ? (
                         <IoEye color="green" size={20}/>
                       ) : (
@@ -61,7 +89,7 @@ const ListBrand = ({setState}) => {
                       {/* <IconButton>
                         <MdDelete color="red" size={20}/>
                       </IconButton> */}
-                      <IconButton onClick={() => editHandeler(item.brandId)}>
+                      <IconButton onClick={() => editHandeler(item.brandCode)} disabled={loader}>
                         <FaRegEdit color="green" size={20}/>
                       </IconButton>
                     </div>

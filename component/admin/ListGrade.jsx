@@ -18,12 +18,11 @@ const ListGrade = ({ setState }) => {
     const [loader, setLoader] = useState(false);
 
     const handleDelete = async () => {
-        setLoader(true)
-        await ProductgradeServices.deleteGrade(selectedId).then((data) => {
-            setGradeList(GradeList.filter((ele) => ele.gradeId !== selectedId));
-            setShowConfirm(false);
-            setLoader(false)
-            toast("category deleted successfully!", {
+        setLoader(true);
+        try {
+            await ProductgradeServices.deleteGrade(selectedId);
+            setGradeList((prev) => (Array.isArray(prev) ? prev.filter((ele) => ele.GradCode !== selectedId) : []));
+            toast("Grade deleted successfully!", {
                 icon: "👏",
                 style: {
                     borderRadius: "10px",
@@ -31,10 +30,9 @@ const ListGrade = ({ setState }) => {
                     color: "#fff",
                 },
             });
-        }).catch((err) => {
-            console.log(err)
             setShowConfirm(false);
-            setLoader(false)
+        } catch (err) {
+            console.log(err);
             toast.error("This data is being used elsewhere and cannot be modified.", {
                 icon: "⚠️",
                 style: {
@@ -42,9 +40,12 @@ const ListGrade = ({ setState }) => {
                     background: "#ff4d4f",
                     color: "#fff",
                 },
-                autoClose: 500,
+                autoClose: 3000,
             });
-        });
+        } finally {
+            setLoader(false);
+            setShowConfirm(false);
+        }
     };
 
     const handleCancel = () => {
@@ -53,15 +54,19 @@ const ListGrade = ({ setState }) => {
 
 
     const initApi = async () => {
-        const UnitList = await ProductgradeServices.getGrade();
-        setGradeList(UnitList?.data);
+        try {
+            const UnitList = await ProductgradeServices.getGrade();
+            setGradeList(UnitList?.data || []);
+        } catch (error) {
+            console.log(error);
+        }
     };
     const updatestatus = async (id) => {
         try {
             const data = await ProductgradeServices.EditgradStatus(id);
             setGradeList((prevUnits) =>
                 prevUnits.map(Grad =>
-                    Grad.gradeId === data?.data?.grade?.gradeId ? { ...Grad, ...data?.data?.grade } : Grad
+                    Grad.GradCode === data?.data?.grade?.GradCode ? { ...Grad, ...data?.data?.grade } : Grad
                 )
             );
         } catch (error) {
@@ -101,7 +106,7 @@ const ListGrade = ({ setState }) => {
                                     <td>{i + 1}</td>
                                     <td>{item.gradeName}</td>
                                     <td className="d-flex justify-content-center">
-                                        <IconButton onClick={() => updatestatus(item?.gradeId)}>
+                                        <IconButton onClick={() => updatestatus(item?.GradCode)}>
                                             {item.status ? (
                                                 <IoEye color="green" size={20} />
                                             ) : (
@@ -112,11 +117,11 @@ const ListGrade = ({ setState }) => {
                                     <td className="text-center">
                                         <div className="d-flex gap-2 justify-content-center">
                                             <IconButton
-                                                onClick={() => deleteHandeler(item.gradeId)}
+                                                onClick={() => deleteHandeler(item.GradCode)}
                                             >
                                                 <MdDelete color="red" size={20} />
                                             </IconButton>
-                                            <IconButton onClick={() => editHandeler(item?.gradeId)}>
+                                            <IconButton onClick={() => editHandeler(item?.GradCode)}>
                                                 <FaRegEdit color="green" size={20} />
                                             </IconButton>
                                         </div>

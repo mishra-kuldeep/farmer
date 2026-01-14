@@ -40,7 +40,7 @@ const Basket = () => {
   useEffect(() => {
     if (user?.profile?.id) dispatch(getCart(user?.profile?.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.profile]);
+  }, [user?.profile?.id]);
   // Add product to cart
   const addCartHandler = (id) => {
     if (!user?.isLoggedIn) {
@@ -124,8 +124,8 @@ const Basket = () => {
   console.log(user);
 
   useEffect(() => {
-    if (user?.profile?.id) {
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+    if (user?.profile?.UserCode) {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         setprofile(data?.userProfile);
       });
     }

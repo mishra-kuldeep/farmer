@@ -73,10 +73,10 @@ function Header() {
       });
       // const data = await res.;
     } else if (user.isLoggedIn && user?.profile) {
-      dispatch(getCart(user?.profile?.id));
+      dispatch(getCart(user?.profile?.UserCode || user?.profile?.id));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.isLoggedIn, user?.profile]);
+  }, [user.isLoggedIn, user?.profile?.UserCode, user?.profile?.id]);
 
   const handleLogout = () => {
     deleteCookie("token");
@@ -123,7 +123,7 @@ function Header() {
     {
       id: 11,
       title: "Farmers",
-      status: user?.profile?.role === 2,
+      status: user?.profile?.role === 'RL0002' || user?.profile?.role == 2,
       subMenu: [
         {
           id: 11,
@@ -137,18 +137,18 @@ function Header() {
           goesTo: "/myAccount/listAddedProduct",
           status: true,
         },
-        {
-          id: 11,
-          title: "Ongoing Orders",
-          goesTo: "/myAccount/orderedProduct",
-          status: true,
-        },
-        {
-          id: 12,
-          title: "Completed Orders",
-          goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
-          status: true,
-        },
+        // {
+        //   id: 11,
+        //   title: "Ongoing Orders",
+        //   goesTo: "/myAccount/orderedProduct",
+        //   status: true,
+        // },
+        // {
+        //   id: 12,
+        //   title: "Completed Orders",
+        //   goesTo: "/myAccount/reports/farmarReports/totalSaleProduct",
+        //   status: true,
+        // },
         {
           id: 122,
           title: "Add FarmLand",
@@ -172,26 +172,26 @@ function Header() {
     {
       id: 11,
       title: "Buyer",
-      status: user?.profile?.role === 3,
+      status: user?.profile?.role === 'RL0003' || user?.profile?.role == 3,
       subMenu: [
-        {
-          id: 11,
-          title: "My order",
-          goesTo: "/myAccount/myOrder",
-          status: true,
-        },
-        {
-          id: 12,
-          title: "My wishList",
-          goesTo: "/myAccount/myWishList",
-          status: true,
-        },
-        {
-          id: 11,
-          title: "Purchase History",
-          goesTo: "/myAccount/reports/buyerReports/totalPurchase",
-          status: true,
-        },
+        // {
+        //   id: 11,
+        //   title: "My order",
+        //   goesTo: "/myAccount/myOrder",
+        //   status: true,
+        // },
+        // {
+        //   id: 12,
+        //   title: "My wishList",
+        //   goesTo: "/myAccount/myWishList",
+        //   status: true,
+        // },
+        // {
+        //   id: 11,
+        //   title: "Purchase History",
+        //   goesTo: "/myAccount/reports/buyerReports/totalPurchase",
+        //   status: true,
+        // },
         {
           id: 122,
           title: "Add ads",
@@ -209,7 +209,7 @@ function Header() {
     {
       id: 41,
       title: "Transporter",
-      status: user?.profile?.role === 4,
+      status: user?.profile?.role === 'RL0004' || user?.profile?.role == 4,
       subMenu: [
         {
           id: 42,
@@ -223,12 +223,12 @@ function Header() {
           goesTo: "/myAccount/vehicleList",
           status: true,
         },
-        {
-          id: 44,
-          title: "Customer Order",
-          goesTo: "/myAccount/customerOrder",
-          status: true,
-        },
+        // {
+        //   id: 44,
+        //   title: "Customer Order",
+        //   goesTo: "/myAccount/customerOrder",
+        //   status: true,
+        // },
         {
           id: 122,
           title: "Add ads",
@@ -248,10 +248,10 @@ function Header() {
       title: "Transportation",
       status:
         !user.isLoggedIn ||
-        user?.profile?.role !== 4 ||
-        user?.profile?.role == 3 ||
-        user?.profile?.role == 2 ||
-        user?.profile?.role != 6,
+        (user?.profile?.role !== 'RL0004' && user?.profile?.role != 4) ||
+        user?.profile?.role == 'RL0003' || user?.profile?.role == 3 ||
+        user?.profile?.role == 'RL0002' || user?.profile?.role == 2 ||
+        user?.profile?.role != 'RL0006' || user?.profile?.role != 6,
       subMenu: transporterList,
     },
     {
@@ -259,9 +259,9 @@ function Header() {
       title: "Farm Lands",
       status:
         !user.isLoggedIn ||
-        user?.profile?.role == 2 ||
-        user?.profile?.role == 3 ||
-        user?.profile?.role == 4,
+        user?.profile?.role == 'RL0002' || user?.profile?.role == 2 ||
+        user?.profile?.role == 'RL0003' || user?.profile?.role == 3 ||
+        user?.profile?.role == 'RL0004' || user?.profile?.role == 4,
       subMenu: [
         {
           id: 11,
@@ -285,13 +285,13 @@ function Header() {
           id: 122,
           title: "Add ads",
           goesTo: "/myAccount/addFarmLands",
-          status: user?.profile?.role == 2,
+          status: user?.profile?.role == 'RL0002' || user?.profile?.role == 2,
         },
         {
           id: 123,
           title: "List of added ads",
           goesTo: "/myAccount/FarmLandList",
-          status: user?.profile?.role == 2,
+          status: user?.profile?.role == 'RL0002' || user?.profile?.role == 2,
         },
       ],
     },
@@ -301,33 +301,33 @@ function Header() {
       title: "Vendor",
       status:
         !user.isLoggedIn ||
-        user?.profile?.role == 6 ||
-        user?.profile?.role == 3 ||
-        user?.profile?.role == 2,
+        user?.profile?.role == 'RL0006' || user?.profile?.role == 6 ||
+        user?.profile?.role == 'RL0003' || user?.profile?.role == 3 ||
+        user?.profile?.role == 'RL0002' || user?.profile?.role == 2,
       subMenu: [...venderList,
       {
         id: 122,
         title: "Add Vender Services",
         goesTo: "/myAccount/addvenderServices",
-        status: user?.profile?.role == 6,
+        status: user?.profile?.role == 'RL0006' || user?.profile?.role == 6,
       },
       {
         id: 122,
         title: "List of added Services",
         goesTo: "/myAccount/listAddedServices",
-        status: user?.profile?.role == 6,
+        status: user?.profile?.role == 'RL0006' || user?.profile?.role == 6,
       },
       {
         id: 122,
         title: "Add ads",
         goesTo: "/myAccount/addFarmLands",
-        status: user?.profile?.role == 6,
+        status: user?.profile?.role == 'RL0006' || user?.profile?.role == 6,
       },
       {
         id: 123,
         title: "List of added ads",
         goesTo: "/myAccount/FarmLandList",
-        status: user?.profile?.role == 6,
+        status: user?.profile?.role == 'RL0006' || user?.profile?.role == 6,
       },]
     },
     {
@@ -335,10 +335,10 @@ function Header() {
       title: "Fertilizers & Pesticides",
       status:
         !user.isLoggedIn ||
-        user?.profile?.role == 4 ||
-        user?.profile?.role == 3 ||
-        user?.profile?.role == 2 ||
-        user?.profile?.role == 9,
+        user?.profile?.role == 'RL0004' || user?.profile?.role == 4 ||
+        user?.profile?.role == 'RL0003' || user?.profile?.role == 3 ||
+        user?.profile?.role == 'RL0002' || user?.profile?.role == 2 ||
+        user?.profile?.role == 'RL0009' || user?.profile?.role == 9,
       subMenu: [
         {
           id: 31,
@@ -363,25 +363,25 @@ function Header() {
           id: 1225,
           title: " Add Fertilizers Pesticides",
           goesTo: "/myAccount/addFertilizersPesticides",
-          status: user?.profile?.role == 9,
+          status: user?.profile?.role == 'RL0009' || user?.profile?.role == 9,
         },
         {
           id: 1227,
           title: "List of Fertilizers Pesticides",
           goesTo: "/myAccount/FertilizersPesticidesList",
-          status: user?.profile?.role == 9,
+          status: user?.profile?.role == 'RL0009' || user?.profile?.role == 9,
         },
         {
           id: 122,
           title: "Add ads",
           goesTo: "/myAccount/addFarmLands",
-          status: user?.profile?.role == 9,
+          status: user?.profile?.role == 'RL0009' || user?.profile?.role == 9,
         },
         {
           id: 123,
           title: "List of added ads",
           goesTo: "/myAccount/FarmLandList",
-          status: user?.profile?.role == 9,
+          status: user?.profile?.role == 'RL0009' || user?.profile?.role == 9,
         },
       ],
     },
@@ -457,7 +457,7 @@ function Header() {
                             <p className="cat_list_disable">
                               {user?.profile?.name}
                             </p>
-                            {user?.profile?.role === 1 && (
+                            {user?.profile?.role === "RL0001" && (
                               <p
                                 className="cat_list"
                                 onClick={() => router.push("/admin")}
@@ -465,7 +465,7 @@ function Header() {
                                 Dashboard
                               </p>
                             )}
-                            {user?.isLoggedIn && user?.profile?.role !== 1 && (
+                            {user?.isLoggedIn && user?.profile?.role !== "RL0001" && (
                               <>
                                 <p
                                   className="cat_list"
@@ -477,7 +477,7 @@ function Header() {
                                   className="cat_list"
                                   onClick={() =>
                                     router.push(
-                                      user?.profile?.role != 2
+                                      user?.profile?.role != 'RL0002' && user?.profile?.role != 2
                                         ? "/myAccount/CompanyProfile"
                                         : "/myAccount/myProfile"
                                     )

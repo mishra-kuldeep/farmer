@@ -46,14 +46,14 @@ const AddFertilizersPesticides = () => {
   };
 
   useEffect(() => {
-    if (user?.profile?.id) {
+    if (user?.profile?.UserCode) {
       setisLoading(true);
       setValues((pre) => ({
         ...pre,
         ["vendorId"]: user?.profile?.id,
         ["countryId"]: user?.profile?.country,
       }));
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         setprofile(data?.userProfile);
         setisLoading(false);
       });

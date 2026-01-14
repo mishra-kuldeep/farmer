@@ -169,7 +169,7 @@ const TransportList = () => {
                               tooltip="Approve"
                               onClick={() => {
                                 setOpen(true),
-                                  setSelectedUser(item?.transVehicalId);
+                                  setSelectedUser(item?.transVehicleCode);
                               }}
                             >
                               <BsCheckLg color="green" fontSize={50} />
@@ -178,7 +178,7 @@ const TransportList = () => {
                               tooltip="Reject"
                               onClick={() => {
                                 setOpen2(true),
-                                  setSelectedUser(item?.transVehicalId);
+                                  setSelectedUser(item?.transVehicleCode);
                               }}
                             >
                               <RxCross2 color="red" fontSize={50} />

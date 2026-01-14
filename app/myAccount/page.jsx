@@ -16,19 +16,19 @@ const MyAccount = () => {
   const user = useSelector((state) => state.auth);
   return (
     <div className='dashboard-container m-0'>
-     { user?.profile?.role === 2 && <Sortinfo/>}
-     { user?.profile?.role === 3 && <BuyerSortInfo/>}
-     { user?.profile?.role === 4 && <TranspoterSortInfo/>}
+     {/* { user?.profile?.role === 'RL0002' && <Sortinfo/>}
+     { user?.profile?.role === 'RL0003' && <BuyerSortInfo/>}
+     { user?.profile?.role === 'RL0004' && <TranspoterSortInfo/>} */}
       <div className='row'>
           <div className='col-md-7'>
-          { user?.profile?.role === 2 &&  <BarChart />}
-          { user?.profile?.role === 3 &&  <BuyerBarChart />}
-          { user?.profile?.role === 4 &&  <TransporterBarChart />}
+          {/* { user?.profile?.role === 'RL0002' &&  <BarChart />}
+          { user?.profile?.role === 'RL0003' &&  <BuyerBarChart />}
+          { user?.profile?.role === 'RL0004' &&  <TransporterBarChart />} */}
           </div>
           <div className='col-md-5'>
-           { user?.profile?.role === 2 &&  <LeastOrder />}
-           { user?.profile?.role === 3 &&  <SelectedTransporter />}
-           { user?.profile?.role === 4 &&  <LeastOrderpickup />}
+           {/* { user?.profile?.role === 'RL0002' &&  <LeastOrder />}
+           { user?.profile?.role === 'RL0003' &&  <SelectedTransporter />}
+           { user?.profile?.role === 'RL0004' &&  <LeastOrderpickup />} */}
           </div>
         </div>
     </div>

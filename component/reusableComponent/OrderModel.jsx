@@ -693,8 +693,8 @@ const OrderModal = ({ modalData, setActionPerformed, isHide }) => {
                           <td className="text-center" style={{ paddingLeft: "40px" }}>  <IconButton
                             onClick={() =>
                               hendleSelectTranspot(
-                                Number(val?.transVehicalId),
-                                Number(val?.transporterId),
+                                val?.transVehicalId,
+                                val?.transporterId,
                                 Number(val?.chargePerKm)
                               )
                             }

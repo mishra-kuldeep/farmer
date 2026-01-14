@@ -83,8 +83,8 @@ const MyProfile = () => {
       })
       .catch((err) => console.log(err));
 
-    if (user?.profile?.id) {
-      AuthService.getUserProfile(user?.profile?.id).then(({ data }) => {
+    if (user?.profile?.UserCode) {
+      AuthService.getUserProfile(user?.profile?.UserCode).then(({ data }) => {
         setisLoading(false);
         setValues({
           FirstName: data?.userProfile?.FirstName,
@@ -115,7 +115,7 @@ const MyProfile = () => {
         setSelectedCity(data?.userProfile?.userInfo?.City);
       });
     }
-  }, [user?.profile?.id]);
+  }, [user?.profile?.UserCode]);
 
   useEffect(() => {
     if (countryList.length && values.CountryID) {

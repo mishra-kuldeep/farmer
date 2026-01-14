@@ -76,7 +76,7 @@ export default class ProductUnitServices {
   static async unitDelete( id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/unit/unitdelete/${id}`;
-    return axios.delete(url, "data", {
+    return axios.delete(url, {
       headers: {
         Authorization: `Bearer ${token}`, // Set the token in the Authorization header
       },

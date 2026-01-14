@@ -37,7 +37,7 @@ const ListProduct = ({ setState }) => {
   };
   const handleDelete = async () => {
     await CategoryServices.deleteProduct(selectedId).then((data) => {
-      setCatList(catList.filter((ele) => ele.productId !== selectedId));
+      setCatList(catList.filter((ele) => ele.productCode !== selectedId));
       setShowConfirm(false);
       toast("product deleted successfully!", {
         icon: "👏",
@@ -134,7 +134,7 @@ const ListProduct = ({ setState }) => {
                   </td>
                   <td className="d-flex justify-content-center">
                     <IconButton
-                      onClick={() => statusUpdate(item.productId, item.status)}
+                      onClick={() => statusUpdate(item.productCode, item.status)}
                     >
                       {item.status ? (
                         <IoEye color="green" />
@@ -146,11 +146,11 @@ const ListProduct = ({ setState }) => {
                   <td>
                     <div className="d-flex gap-2 justify-content-center">
                       <IconButton
-                        onClick={() => deleteHandeler(item.productId)}
+                        onClick={() => deleteHandeler(item.productCode)}
                       >
                         <MdDelete color="red" />
                       </IconButton>
-                      <IconButton onClick={() => editHandeler(item.productId)}>
+                      <IconButton onClick={() => editHandeler(item.productCode)}>
                         <FaRegEdit color="green" />
                       </IconButton>
                     </div>

@@ -40,13 +40,14 @@ const EditBrand = ({setState}) => {
       .then((data) => {
         setErrors({});
         setLoader(false);
+         setState("1")
         setValues({
           brandName: "",
           description: "",
           subCategory:"",
           status: false,
         });
-        setState("1")
+       
         toast("brand added successfully!", {
           icon: "👏",
           style: {
@@ -70,12 +71,12 @@ const EditBrand = ({setState}) => {
   useEffect(() => {
     if (editId) {
       CategoryServices.getSingeBrand(editId).then(({ data }) => {
-        setValues({
-          brandName: data.brandName,
-          description: data.description,
-          subCategory:data?.subCategory,
-          status: data.status,
-        });
+                setValues({
+                    brandName: data.brandName,
+                    description: data.description,
+                    subCategory:data?.subCategory,
+                    status: data.status,
+                });
       }).catch((err)=>console.log(err))
     }
   }, [editId]);
@@ -123,7 +124,7 @@ const EditBrand = ({setState}) => {
         >
           <option value="" className="d-none"></option>
           {subCategoryList?.map((item) => (
-            <option value={item?.subcategoryId} key={item?.subcategoryId}>
+            <option value={item?.subcategoryCode} key={item?.subcategoryCode}>
               {item?.subcategoryName}
             </option>
           ))}

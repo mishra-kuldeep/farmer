@@ -28,6 +28,7 @@ const Pagination = ({
         <input
           type="search"
           className="form-control categorySearch w-50"
+          style={{zIndex:10}}
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);

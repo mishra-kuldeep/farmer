@@ -27,7 +27,7 @@ const ListRentCategory = ({ setState }) => {
     const handleDelete = async () => {
         setLoader(true)
         await RentServices.deleteRentCategory(selectedId).then((data) => {
-            setCatList(catList.filter((ele) => ele.rentCategoryId !== selectedId));
+            setCatList(catList.filter((ele) => ele.rentCategoryCode !== selectedId));
 
             setShowConfirm(false);
             setLoader(false)
@@ -139,11 +139,11 @@ const ListRentCategory = ({ setState }) => {
                                         <td>
                                             <div className="d-flex justify-content-center gap-2">
                                                 <IconButton
-                                                    onClick={() => deleteHandeler(item.rentCategoryId)}
+                                                    onClick={() => deleteHandeler(item.rentCategoryCode)}
                                                 >
                                                     <MdDelete color="red" size={20} />
                                                 </IconButton>
-                                                <IconButton onClick={() => editHandeler(item.rentCategoryId)}>
+                                                <IconButton onClick={() => editHandeler(item.rentCategoryCode)}>
                                                     <FaRegEdit color="green" size={20} />
                                                 </IconButton>
                                             </div>

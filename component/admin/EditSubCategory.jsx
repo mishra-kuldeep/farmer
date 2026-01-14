@@ -111,7 +111,7 @@ const EditSubCategory = ({ setState }) => {
           name="category"
         >
           {categoryList?.map((elem) => (
-            <option value={elem.categoryId} key={elem.categoryId}>{elem.categoryName}</option>
+            <option value={elem.categoryCode} key={elem.categoryCode}>{elem.categoryName}</option>
           ))}
         </select>
         {errors.category && (

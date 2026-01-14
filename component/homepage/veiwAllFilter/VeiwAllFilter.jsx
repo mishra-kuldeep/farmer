@@ -53,12 +53,12 @@ const VeiwAllFilter = () => {
           {categoryList?.map((ele) => (
             <div
               className="filterHoverlable"
-              onClick={() => setcategoryId(ele?.categoryId)}
+              onClick={() => setcategoryId(ele?.categoryCode)}
             >
               <VscCircleLargeFilled
                 size={18}
                 color={
-                  categoryId == ele?.categoryId ? "var(--mainColor)" : "#dadada"
+                  categoryId == ele?.categoryCode ? "var(--mainColor)" : "#dadada"
                 }
               />
               <label className="ms-2">{ele?.categoryName}</label>
@@ -83,12 +83,12 @@ const VeiwAllFilter = () => {
                 {subCategoryList?.map((ele) => (
                   <div
                     className="filterHoverlable"
-                    onClick={() => setcategoryId(ele?.subcategoryId)}
+                    onClick={() => setcategoryId(ele?.subcategoryCode)}
                   >
                     <VscCircleLargeFilled
                       size={18}
                       color={
-                        subcategoryId == ele?.subcategoryId
+                        subcategoryId == ele?.subcategoryCode
                           ? "var(--mainColor)"
                           : "#dadada"
                       }

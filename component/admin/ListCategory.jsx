@@ -23,7 +23,7 @@ const ListCategory = ({ setState }) => {
   const handleDelete = async () => {
     setLoader(true)
     await CategoryServices.deleteCategory(selectedId).then((data) => {
-      setCatList(catList.filter((ele) => ele.categoryId !== selectedId));
+      setCatList(catList.filter((ele) => ele.categoryCode !== selectedId));
       setShowConfirm(false);
       setLoader(false)
       toast("category deleted successfully!", {
@@ -71,6 +71,33 @@ const ListCategory = ({ setState }) => {
     }
   };
 
+  const statusHandeler = (id) => {
+    setLoader(true);
+    CategoryServices.updateCategoryStatus(id)
+      .then((res) => {
+        const newData = catList.map((item) => {
+          if (item.categoryCode === id) {
+            return { ...item, status: !item.status };
+          }
+          return item;
+        });
+        setCatList(newData);
+        toast("Status updated successfully!", {
+          icon: "👏",
+          style: {
+            borderRadius: "10px",
+            background: "green",
+            color: "#fff",
+          },
+        });
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoader(false);
+      });
+  };
+
   const deleteHandeler = (id) => {
     setSelectedId(id);
     setShowConfirm(true);
@@ -83,7 +110,7 @@ const ListCategory = ({ setState }) => {
 
   return (
     <div className="p-2 ">
-      <div className="paginationWrapper" style={{ marginTop: "-60px" }}>
+      <div className="paginationWrapper">
         <h6>page ( {page} )</h6>
         <div
           className={`${page == 1 ? "arrwleftdisable" : "arrwleft"}`}
@@ -117,7 +144,7 @@ const ListCategory = ({ setState }) => {
                   <td>{item.categoryName}</td>
                   <td>{item.description}</td>
                   <td className="d-flex justify-content-center">
-                    <IconButton>
+                    <IconButton onClick={() => statusHandeler(item.categoryCode)}>
                       {item.status ? (
                         <IoEye color="green" size={20} />
                       ) : (
@@ -128,11 +155,11 @@ const ListCategory = ({ setState }) => {
                   <td>
                     <div className="d-flex justify-content-center gap-2">
                       <IconButton
-                        onClick={() => deleteHandeler(item.categoryId)}
+                        onClick={() => deleteHandeler(item.categoryCode)}
                       >
                         <MdDelete color="red" size={20} />
                       </IconButton>
-                      <IconButton onClick={() => editHandeler(item.categoryId)}>
+                      <IconButton onClick={() => editHandeler(item.categoryCode)}>
                         <FaRegEdit color="green" size={20} />
                       </IconButton>
                     </div>
