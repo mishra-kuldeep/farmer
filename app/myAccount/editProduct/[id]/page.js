@@ -125,6 +125,8 @@ const EditProductFarmer = ({ params }) => {
     if (params?.id) {
       ProductFarmerServices.getSingleProductsFarmer(params?.id).then(({ data }) => {
         const valuess = data?.product
+        setCategory(valuess?.Product?.category || "");
+        setSubCategory(valuess?.Product?.subCategory || "");
         setValues({
           productDtlName: valuess?.productDtlName,
           productDtl: valuess?.productDtl,
@@ -139,6 +141,7 @@ const EditProductFarmer = ({ params }) => {
           slug: valuess?.slug,
           gradeId: valuess?.gradeId,
           available: valuess?.available,
+          Brand: valuess?.Brand,
         });
       }).catch((err) => console.log(err))
     }
@@ -243,7 +246,7 @@ const EditProductFarmer = ({ params }) => {
         >
           <option value="" className="d-none"></option>
           {gradelist?.map((ele) => (
-            <option key={ele?.gradeId} value={ele?.gradeId}>
+            <option key={ele?.gradeId} value={ele?.GradCode}>
               {ele?.gradeName}
             </option>
           ))}
@@ -287,7 +290,7 @@ const EditProductFarmer = ({ params }) => {
         >
           <option value="" className="d-none"></option>
           {unitlist?.map((ele) => (
-            <option key={ele?.unitId} value={ele?.unitId}>
+            <option key={ele?.unitCode} value={ele?.unitCode}>
               {ele?.unitName}
             </option>
           ))}

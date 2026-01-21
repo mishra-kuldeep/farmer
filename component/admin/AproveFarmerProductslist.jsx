@@ -178,14 +178,14 @@ const AproveFarmerProductslist = () => {
                   <td className="text-center">
                     {
                       brandList.filter(
-                        (elem) => elem.brandId == item?.Product?.brand
+                        (elem) => elem.brandCode == item?.Product?.brand
                       )[0]?.brandName
                     }
                   </td>
                   <td className="text-center">
                     {
                       categoryList.filter(
-                        (elem) => elem.categoryId == item?.Product?.category
+                        (elem) => elem.categoryCode == item?.Product?.category
                       )[0]?.categoryName
                     }
                   </td>
@@ -193,7 +193,7 @@ const AproveFarmerProductslist = () => {
                     {
                       subCategoryList.filter(
                         (elem) =>
-                          elem.subcategoryId == item?.Product?.subCategory
+                          elem.subcategoryCode == item?.Product?.subCategory
                       )[0]?.subcategoryName
                     }
                   </td>

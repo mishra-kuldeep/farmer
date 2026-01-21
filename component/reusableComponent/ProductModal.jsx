@@ -95,7 +95,7 @@ const ProductModal = ({
           formData.append(key, Inspectiondata[key]);
         }
       }
-      ProductFarmerServices.approveProductsFarmer(modalData?.productDtlId, data)
+      ProductFarmerServices.approveProductsFarmer(modalData?.productDtlCode, data)
         .then((data) => {
           setloading(false);
           setConfirm(false);
@@ -143,7 +143,7 @@ const ProductModal = ({
         );
       }
       setloading(true);
-      ProductFarmerServices.rejectProductsFarmer(modalData?.productDtlId, data)
+      ProductFarmerServices.rejectProductsFarmer(modalData?.productDtlCode, data)
         .then(({ data }) => {
           toast(data?.message, {
             icon: "👏",
@@ -172,29 +172,32 @@ const ProductModal = ({
 
   useEffect(() => {
     setImageList([]);
-    if (modalData?.productDtlId) {
-      ProductFarmerServices.getAllImage(modalData?.productDtlId).then(
+    if (modalData?.productDtlCode) {
+      setSlug(modalData.slug);
+      setmetaTitle(modalData.metaTitle);
+      setmetaDescription(modalData.metaDescription);
+      ProductFarmerServices.getAllImage(modalData?.productDtlCode).then(
         ({ data }) => {
           setImageList(data?.images);
         }
       ).catch((err)=>console.log(err));
-      ProductUnitServices.getProductUnit(modalData?.unitId).then(({ data }) => {
+      ProductUnitServices.getProductUnit(modalData?.countryId).then(({ data }) => {
         setUnitTitle(
-          data.filter((data) => data?.unitId == modalData?.unitId)[0]?.unitName
+          data.filter((data) => data?.unitCode == modalData?.unitId)[0]?.unitName
         );
       }).catch((err)=>console.log(err));
     }
     setInspectiondata((prevData) => ({
       ...prevData,
-      ["productDtlId"]: modalData?.productDtlId,
+      ["productDtlId"]: modalData?.productDtlCode,
     }));
-  }, [modalData?.productDtlId]);
+  }, [modalData?.productDtlCode]);
 
 
   useEffect(() => {
     setInspectiondata((prevData) => ({
       ...prevData,
-      ["productDtlId"]: modalData?.productDtlId,
+      ["productDtlId"]: modalData?.productDtlCode,
     }));
   }, [NextPage]);
 
@@ -329,12 +332,12 @@ const ProductModal = ({
                             </td>
                             <td>{unitTitle}</td>
                           </tr>
-                          {/* <tr>
+                          <tr>
                           <td>
                             <h6>Slug</h6>
                           </td>
                           <td>{modalData?.slug}</td>
-                        </tr> */}
+                        </tr>
                           <tr>
                             <td>
                               <h6>Brand</h6>
@@ -343,7 +346,7 @@ const ProductModal = ({
                               {
                                 brandList.filter(
                                   (elem) =>
-                                    elem.brandId == modalData?.Product?.brand
+                                    elem.brandCode == modalData?.Product?.brand
                                 )[0]?.brandName
                               }
                             </td>
@@ -356,7 +359,7 @@ const ProductModal = ({
                               {
                                 categoryList.filter(
                                   (elem) =>
-                                    elem.categoryId ==
+                                    elem.categoryCode ==
                                     modalData?.Product?.category
                                 )[0]?.categoryName
                               }
@@ -370,7 +373,7 @@ const ProductModal = ({
                               {
                                 subCategoryList.filter(
                                   (elem) =>
-                                    elem.subcategoryId ==
+                                    elem.subcategoryCode ==
                                     modalData?.Product?.subCategory
                                 )[0]?.subcategoryName
                               }

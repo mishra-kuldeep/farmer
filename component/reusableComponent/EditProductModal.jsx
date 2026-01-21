@@ -96,7 +96,7 @@ const EditProductModal = ({
           formData.append(key, Inspectiondata[key]);
         }
       }
-      ProductFarmerServices.approveProductsFarmer(modalData?.productDtlId, data)
+      ProductFarmerServices.approveProductsFarmer(modalData?.productDtlCode, data)
         .then((data) => {
           setloading(false);
           setConfirm(false);
@@ -145,7 +145,7 @@ const EditProductModal = ({
         );
       }
       setloading(true);
-      ProductFarmerServices.rejectProductsFarmer(modalData?.productDtlId, data)
+      ProductFarmerServices.rejectProductsFarmer(modalData?.productDtlCode, data)
         .then(({ data }) => {
           toast(data?.message, {
             icon: "👏",
@@ -174,68 +174,72 @@ const EditProductModal = ({
 
   useEffect(() => {
     setImageList([]);
-    if (modalData?.productDtlId) {
+    if (modalData?.productDtlCode) {
       setSlug(modalData.slug);
-      setreview(modalData?.review);
+      setreview(modalData?.adminReviewMsg);
       setmetaTitle(modalData.metaTitle);
       setmetaDescription(modalData.metaDescription);
-      ProductFarmerServices.getAllImage(modalData?.productDtlId).then(
+      ProductFarmerServices.getAllImage(modalData?.productDtlCode).then(
         ({ data }) => {
           setImageList(data?.images);
         }
       );
 
-      ProductUnitServices.getProductUnit(modalData?.unitId).then(({ data }) => {
+      ProductUnitServices.getProductUnit(modalData?.countryId).then(({ data }) => {
         setUnitTitle(
-          data.filter((data) => data?.unitId == modalData?.unitId)[0]?.unitName
+          data.filter((data) => data?.unitCode == modalData?.unitId)[0]?.unitName
         );
       });
     }
     setInspectiondata((prevData) => ({
       ...prevData,
-      ["productDtlId"]: modalData?.productDtlId,
+      ["productDtlId"]: modalData?.productDtlCode,
     }));
-  }, [modalData?.productDtlId, NextPage]);
+  }, [modalData?.productDtlCode, NextPage]);
 
   useEffect(() => {
     setInspectiondata((prevData) => ({
       ...prevData,
-      ["productDtlId"]: modalData?.productDtlId,
+      ["productDtlId"]: modalData?.productDtlCode,
     }));
   }, [NextPage]);
 
   useEffect(() => {
-    ProductFarmerServices.getSingleProductInspection(modalData?.productDtlId)
-      .then(({ data }) => {
-        setInspectionId(data.inspectionId);
-        setInspectiondata({
-          inspectionDate: data.inspectionDate?.split("T")[0],
-          inspectionStatus: data.inspectionStatus,
-          productDtlId: data.productDtlId,
-          remarks: data.remarks,
-          url: data.url,
-          complianceLevel: data.complianceLevel,
-          nextInspectionDue: data.nextInspectionDue,
-          inspectedQuantity: data.inspectedQuantity,
-          issuesFound: data.issuesFound,
-          resolutionDate: data.resolutionDate,
+    if (modalData?.productDtlCode) {
+      ProductFarmerServices.getSingleProductInspection(
+        modalData?.productDtlCode
+      )
+        .then(({ data }) => {
+          setInspectionId(data.inspectionId);
+          setInspectiondata({
+            inspectionDate: data.inspectionDate?.split("T")[0],
+            inspectionStatus: data.inspectionStatus,
+            productDtlId: data.productDtlId,
+            remarks: data.remarks,
+            url: data.url,
+            complianceLevel: data.complianceLevel,
+            nextInspectionDue: data.nextInspectionDue,
+            inspectedQuantity: data.inspectedQuantity,
+            issuesFound: data.issuesFound,
+            resolutionDate: data.resolutionDate,
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          setInspectiondata({
+            inspectionDate: "",
+            inspectionStatus: "",
+            remarks: "",
+            url: "",
+            complianceLevel: "",
+            nextInspectionDue: "",
+            inspectedQuantity: "",
+            issuesFound: "",
+            resolutionDate: "",
+          });
         });
-      })
-      .catch((e) => {
-        console.log(e);
-        setInspectiondata({
-          inspectionDate: "",
-          inspectionStatus: "",
-          remarks: "",
-          url: "",
-          complianceLevel: "",
-          nextInspectionDue: "",
-          inspectedQuantity: "",
-          issuesFound: "",
-          resolutionDate: "",
-        });
-      });
-  }, [modalData?.productDtlId && NextPage]);
+    }
+  }, [modalData?.productDtlCode, NextPage]);
 
   const clearerrors = () => {
     setslugerror("");
@@ -382,7 +386,7 @@ const EditProductModal = ({
                               {
                                 brandList.filter(
                                   (elem) =>
-                                    elem.brandId == modalData?.Product?.brand
+                                    elem.brandCode == modalData?.Product?.brand
                                 )[0]?.brandName
                               }
                             </td>
@@ -395,7 +399,7 @@ const EditProductModal = ({
                               {
                                 categoryList.filter(
                                   (elem) =>
-                                    elem.categoryId ==
+                                    elem.categoryCode ==
                                     modalData?.Product?.category
                                 )[0]?.categoryName
                               }
@@ -409,7 +413,7 @@ const EditProductModal = ({
                               {
                                 subCategoryList.filter(
                                   (elem) =>
-                                    elem.subcategoryId ==
+                                    elem.subcategoryCode ==
                                     modalData?.Product?.subCategory
                                 )[0]?.subcategoryName
                               }

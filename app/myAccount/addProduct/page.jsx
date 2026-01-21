@@ -37,7 +37,7 @@ const AddProductDtl = () => {
     discount: 0,
     discountType: "Percentage",
     productType: "Inorganic",
-    gradeId: 3,
+    gradeId: "",
     sku: "",
     quantity: "",
     unitId: "",
@@ -199,7 +199,7 @@ const AddProductDtl = () => {
       setSubCategory(data?.SubCategory?.subcategoryName || ""),
       setValues((prev) => ({
         ...prev,
-        productId: data?.productId || "",
+        productId: data?.productCode || "",
         productDtlName: data?.productName || "",
         productDtl: data?.description || "",
 

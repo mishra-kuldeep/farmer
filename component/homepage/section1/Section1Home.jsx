@@ -41,6 +41,10 @@ const Section1Home = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  console.log(user);
+  console.log(country);
+
+  
   const initApi = async () => {
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({
@@ -51,7 +55,7 @@ const Section1Home = () => {
         brand: "",
         countryId: user?.profile?.country
           ? user?.profile?.country
-          : country?.country?.countryId,
+          : country?.country?.countryCode,
       });
       setProducts(searchResult?.data?.data || []);
     } catch (error) {

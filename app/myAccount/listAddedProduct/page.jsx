@@ -36,7 +36,7 @@ const ListAddedProduct = () => {
     await ProductFarmerServices.deleteProductsFarmer(selectedId)
       .then(({ data }) => {
         setProductList(
-          productList.filter((ele) => ele.productDtlId !== selectedId)
+          productList.filter((ele) => ele.productDtlCode !== selectedId)
         );
         setShowConfirm(false);
         toast(data.message, {
@@ -51,9 +51,11 @@ const ListAddedProduct = () => {
       .catch((err) => console.log(err));
   };
 
-  const addStockHandeler = () => {
-    // setShowConfirm(false);
+  const addStockHandeler = (id) => {
+    // Redirect to edit page for adding stock
+    router.push(`/myAccount/editProduct/${id}`);
   };
+
   const handleCancel = () => {
     setShowConfirm(false);
   };
@@ -236,14 +238,14 @@ const ListAddedProduct = () => {
 
                           <IconButton
                             tooltip="edit"
-                            onClick={() => editHandeler(item?.productDtlId)}
+                            onClick={() => editHandeler(item?.productDtlCode)}
                           >
                             <FaRegEdit color="green" size={20} />
                           </IconButton>
                           {!item?.isVerify ? (
                             <IconButton
                               tooltip="delete"
-                              onClick={() => deleteHandeler(item.productDtlId)}
+                              onClick={() => deleteHandeler(item.productDtlCode)}
                             >
                               <MdDelete color="red" size={20} />
                             </IconButton>
@@ -253,7 +255,7 @@ const ListAddedProduct = () => {
                                 <IconButton
                                   tooltip="add stock"
                                   onClick={() =>
-                                    addStockHandeler(item.productDtlId)
+                                    addStockHandeler(item.productDtlCode)
                                   }
                                 >
                                   <RiApps2AddFill color="green" size={20} />
