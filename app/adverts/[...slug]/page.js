@@ -69,7 +69,7 @@ const AdvertsCart = () => {
       searchText: searchTerm,
       countryId: user?.profile?.country
         ? user?.profile?.country
-        : country?.country?.countryId,
+        : country?.country?.countryCode,
       rentCategoryId: selectedCategory || slug[0],
     };
 
@@ -84,7 +84,6 @@ const AdvertsCart = () => {
         console.log(e);
       });
   };
-
   useEffect(() => {
     if (user?.profile?.country || country?.country?.countryId) {
       ApiCall();
@@ -138,15 +137,15 @@ const AdvertsCart = () => {
                       <div
                         key={index}
                         className={`${
-                          selectedCategory == category?.rentCategoryId &&
+                          selectedCategory == category?.rentCategoryCode &&
                           "filterSELECTED"
                         } filterHover mb-1 p-1`}
                         onClick={() => {
-                          handleCategoryChange(category?.rentCategoryId);
+                          handleCategoryChange(category?.rentCategoryCode);
                           isMobile&&setCategoryFilter(false);
                         }}
                       >
-                        {selectedCategory == category?.rentCategoryId ? (
+                        {selectedCategory == category?.rentCategoryCode ? (
                           <VscCircleLargeFilled
                             size={22}
                             color="var(--mainColor)"

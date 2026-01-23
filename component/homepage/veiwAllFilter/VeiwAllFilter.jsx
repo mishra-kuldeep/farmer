@@ -4,11 +4,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { VscCircleLargeFilled } from "react-icons/vsc";
 import ProductgradeServices from "@/services/ProductgradeServices";
 import CategoryServices from "@/services/CategoryServices";
+import { useRouter, useSearchParams } from "next/navigation";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 
 const VeiwAllFilter = () => {
   const [categoryList, setcategoryList] = useState([]);
   const [subCategoryList, setsubCategoryList] = useState([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [categoryId, setcategoryId] = useState("");
   const [subcategoryId, setSubcategoryId] = useState("");
@@ -53,12 +56,22 @@ const VeiwAllFilter = () => {
           {categoryList?.map((ele) => (
             <div
               className="filterHoverlable"
-              onClick={() => setcategoryId(ele?.categoryCode)}
+              onClick={() => {
+                console.log("DEBUG: Clicked Category:", ele);
+                setcategoryId(ele?.categoryCode);
+                router.push(
+                  `/ViewAll/Product?categoryId=${ele?.categoryName}&search=${
+                    searchParams.get("search") || ""
+                  }`
+                );
+              }}
             >
               <VscCircleLargeFilled
                 size={18}
                 color={
-                  categoryId == ele?.categoryCode ? "var(--mainColor)" : "#dadada"
+                  categoryId == ele?.categoryCode
+                    ? "var(--mainColor)"
+                    : "#dadada"
                 }
               />
               <label className="ms-2">{ele?.categoryName}</label>

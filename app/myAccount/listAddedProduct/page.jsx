@@ -91,17 +91,17 @@ const ListAddedProduct = () => {
   }, [user?.profile?.country]);
   return (
     <div>
-     <div className="w-100">
-     <Pagination
-        page={page}
-        setPage={setPage}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        List={productList}
-        metaData={metaData}
-        searchShow={true}
-      />
-     </div>
+      <div className="w-100">
+        <Pagination
+          page={page}
+          setPage={setPage}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          List={productList}
+          metaData={metaData}
+          searchShow={true}
+        />
+      </div>
       <div className="">
         <div
           className="d-flex gap-4 mb-md-3 p-md-0 p-2 w-100 overflow-auto"
@@ -153,7 +153,7 @@ const ListAddedProduct = () => {
                 borderRadius: "5px",
               }}
             ></div>
-            <p style={{ color: "grey", fontSize: "12px" ,whiteSpace:"nowrap"}}>
+            <p style={{ color: "grey", fontSize: "12px", whiteSpace: "nowrap" }}>
               Out Of Stock/Unavailable
             </p>
           </div>
@@ -180,15 +180,14 @@ const ListAddedProduct = () => {
                   return (
                     <tr key={item?.productDtlId}>
                       <td
-                        className={`${
-                          !item?.isVerify && !item?.rejected
+                        className={`${!item?.isVerify && !item?.rejected
                             ? "bgwarning"
                             : item?.isVerify
-                            ? "bgsuccess"
-                            : item?.rejected
-                            ? "bgdanger"
-                            : ""
-                        }`}
+                              ? "bgsuccess"
+                              : item?.rejected
+                                ? "bgdanger"
+                                : ""
+                          }`}
                       >
                         {i + 1}
                       </td>
@@ -216,9 +215,8 @@ const ListAddedProduct = () => {
                         {item?.discountType == "percentage" && "%"}
                       </td>
                       <td
-                        className={`text-center ${
-                          item.available ? "" : "bg-danger"
-                        }`}
+                        className={`text-center ${item.available ? "" : "bg-danger"
+                          }`}
                       >
                         {item?.quantity}-{item?.ProductUnit?.unitName}
                       </td>
@@ -229,7 +227,7 @@ const ListAddedProduct = () => {
                             data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"
-                            onClick={() => getImage(item?.productDtlId)}
+                            onClick={() => getImage(item?.productDtlCode)}
                           >
                             <IconButton tooltip="view images">
                               <FaRegImages color="darkblue" size={20} />

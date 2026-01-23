@@ -32,7 +32,7 @@ const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const subcategotyId = searchParams.get("subcategotyId");
-  const categotyId = searchParams.get("categotyId");
+  const categotyId = searchParams.get("categoryId");
 
   console.log("categotyId = ", categotyId);
   console.log("subcategotyId = ", subcategotyId);
@@ -61,19 +61,22 @@ const Page = () => {
     try {
       const searchResult = await ProductsDtlServices.getProductsDtl({
         page: page,
-        search: "",
+        search: searchParams.get("search") || "",
         category: categotyId == null ? "" : categotyId,
         subCategory: subcategotyId == null ? "" : subcategotyId,
         brand: "",
         countryId: user?.profile?.country
           ? user?.profile?.country
-          : country?.country?.countryId,
+          : country?.country?.countryCode,
       });
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        ...(searchResult?.data?.data || []),
-      ]);
-      // setProducts(searchResult?.data?.data || []);
+      if (page === 1) {
+        setProducts(searchResult?.data?.data || []);
+      } else {
+        setProducts((prevProducts) => [
+          ...prevProducts,
+          ...(searchResult?.data?.data || []),
+        ]);
+      }
       setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -412,67 +415,13 @@ const Page = () => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
+                      {/* Save for Later Removed */}
                       <button
-                        className="bookmark_btn"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Save for Later"
-                        onClick={() => saveforLater(ele.productDtlId)}
+                        className="addtoCart_btn"
+                        onClick={() => router.push(`/product/${ele?.slug}`)}
                       >
-                        {savelaterLoader &&
-                        ele.productDtlId === saveforlaterId ? (
-                          <MiniLoader />
-                        ) : wishList.includes(ele.productDtlId) ? (
-                          <IoMdHeart size={20} color="red" />
-                        ) : (
-                          <FiHeart size={20} color="grey" />
-                        )}
+                        View Details
                       </button>
-                      {cart?.cart?.find(
-                        (item) => item.productDtlId === ele.productDtlId
-                      ) ? (
-                        <button className="quantitywrap p-0">
-                          <span
-                            className="minus"
-                            onClick={() => decreaseQuantity(ele.productDtlId)}
-                          >
-                            {loadingProductId === ele.productDtlId &&
-                            loadingAction === "decrement" ? (
-                              <MiniLoader />
-                            ) : (
-                              <FaMinus size={15} />
-                            )}
-                          </span>
-                          <span>
-                            {
-                              cart?.cart?.find(
-                                (item) => item.productDtlId === ele.productDtlId
-                              )?.quantity
-                            }
-                          </span>
-                          <span
-                            className="plus"
-                            onClick={() => increaseQuantity(ele.productDtlId)}
-                          >
-                            {loadingProductId === ele.productDtlId &&
-                            loadingAction === "increment" ? (
-                              <MiniLoader />
-                            ) : (
-                              <FaPlus size={15} />
-                            )}
-                          </span>
-                        </button>
-                      ) : (
-                        <button
-                          className="addtoCart_btn"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="Add to Cart"
-                          onClick={() => addCartHandler(ele.productDtlId)}
-                        >
-                          Add
-                        </button>
-                      )}
                     </div>
                   </div>
                 </div>

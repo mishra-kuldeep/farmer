@@ -42,7 +42,7 @@ const Category = () => {
           {categoryList?.map((ele, i) => (
             <div
               onClick={() =>
-                router.push(`/ViewAll/product?categotyId=${ele?.categoryCode}`)
+                router.push(`/ViewAll/product?categoryId=${ele?.categoryName}`)
               }
               key={i}
               className={`${ele?.categoryCode == subId && "activecat"
@@ -71,7 +71,7 @@ const Category = () => {
               className="cat_list catsublisthover text-dark"
               onClick={() =>
                 router.push(
-                  `/ViewAll/product?subcategotyId=${ele?.subcategoryCode}`
+                  `/ViewAll/product?subCategoryId=${ele?.subcategoryName}`
                 )
               }
             >
@@ -91,7 +91,7 @@ const Category = () => {
                 aria-label="Close"
                 style={{ width: "90%" }}
                 onClick={() =>
-                  router.push(`/ViewAll/product?categotyId=${ele?.categoryCode}`)
+                  router.push(`/ViewAll/product?categoryId=${ele?.categoryName}`)
                 }
               >
                 {ele?.categoryName}
@@ -120,7 +120,7 @@ const Category = () => {
                     className="cat_list cat_listsubtitle  ms-3"
                     onClick={() =>
                       router.push(
-                        `/ViewAll/product?subcategotyId=${val?.subcategoryCode}`
+                        `/ViewAll/product?subCategoryId=${val?.subcategoryName}`
                       )
                     }
                   >

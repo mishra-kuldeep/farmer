@@ -73,7 +73,7 @@ const Page = () => {
               <div
                 className="adsCategory"
                 key={index}
-                onClick={() => goNextPage(category?.rentCategoryId)}
+                onClick={() => goNextPage(category?.rentCategoryCode)}
               >
                 <div className="imageWrapperAdd">
                   <img

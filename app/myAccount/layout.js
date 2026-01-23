@@ -33,7 +33,7 @@ const AccountLayout = ({ children }) => {
       title: "Dashboard",
       icon: <AiTwotoneDashboard size={22} />,
       goesTo: "/myAccount",
-      status: true,
+      status: user?.profile?.role !== 'RL0003',
     },
     {
       id: 0,

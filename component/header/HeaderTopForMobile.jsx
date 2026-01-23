@@ -403,12 +403,7 @@ const HeaderTopForMobile = () => {
                   >
                     My Profile
                   </p>
-                  <p
-                    className="cat_list1"
-                    onClick={() => router.push("/basket")}
-                  >
-                    My Basket (0) item
-                  </p>
+                  {/* My Basket link removed */}
                   <p className="cat_list1" onClick={handleLogout}>
                     logout
                   </p>

@@ -51,10 +51,12 @@ const MyProfile = () => {
     CompanyName: "",
     GSTNo: "",
     Cultivating: "",
+    isEmailPublic: false,
+    isMobilePublic: false,
   });
 
   const phonecode = countryList?.find(
-    (val) => val?.countryId == values?.CountryID
+    (val) => val?.countryCode == values?.CountryID
   )?.phoneCode;
 
   useEffect(() => {
@@ -109,7 +111,10 @@ const MyProfile = () => {
           Zip: data?.userProfile?.userInfo?.Zip,
           CompanyName: data?.userProfile?.userInfo?.CompanyName,
           GSTNo: data?.userProfile?.userInfo?.GSTNo,
+          GSTNo: data?.userProfile?.userInfo?.GSTNo,
           Cultivating: data?.userProfile?.userInfo?.Cultivating,
+          isEmailPublic: data?.userProfile?.isEmailPublic,
+          isMobilePublic: data?.userProfile?.isMobilePublic,
         });
         setSelectedState(data?.userProfile?.userInfo?.State);
         setSelectedCity(data?.userProfile?.userInfo?.City);
@@ -120,7 +125,7 @@ const MyProfile = () => {
   useEffect(() => {
     if (countryList.length && values.CountryID) {
       setSelectedCountry(
-        countryList.find((country) => country.countryId == values.CountryID)
+        countryList.find((country) => country.countryCode == values.CountryID)
           ?.countryCode
       );
     }
@@ -170,6 +175,11 @@ const MyProfile = () => {
       });
   };
 
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setValues((prev) => ({ ...prev, [name]: checked }));
+  };
+
   const handleChange = (event) => {
     let { name, value } = event.target;
     if (name == "CountryID") {
@@ -189,7 +199,8 @@ const MyProfile = () => {
       Cultivating: val,
     });
   };
-
+console.log(countryList);
+console.log(user)
   return (
     <>
       <div className="row m-0">
@@ -229,6 +240,19 @@ const MyProfile = () => {
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none p-2"
           />
+           <div className="form-check mt-2">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="isEmailPublic"
+              checked={values.isEmailPublic}
+              onChange={handleCheckboxChange}
+              id="isEmailPublic"
+            />
+            <label className="form-check-label" htmlFor="isEmailPublic">
+              Make Email Public
+            </label>
+          </div>
         </div>
         <div className="col-md-4 pe-0 pe-md-3">
           <label className="adjustLabel">Country</label>
@@ -250,7 +274,7 @@ const MyProfile = () => {
           >
             <option value={""}></option>
             {countryList?.map((val, i) => (
-              <option key={i} value={val?.countryId}>
+              <option key={i} value={val?.countryCode}>
                 {val?.countryName}
               </option>
             ))}
@@ -268,14 +292,15 @@ const MyProfile = () => {
             Phone No
           </label>
           <input
-            type="text"
-            id="phone"
+            type="number"
+            // disabled
             name="Phone"
             value={values.Phone}
             onChange={handleChange}
             className="form-control adjustLabel_input shadow-none"
-            style={{ padding: `9px ${phonecode?.length * 16}px ` }}
+            style={{ padding: `9px ${phonecode?.length* 15}px ` }}
           />
+
           {countryList.length > 0 && (
             <span
               style={{
@@ -290,6 +315,19 @@ const MyProfile = () => {
               {phonecode}
             </span>
           )}
+          <div className="form-check mt-2">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="isMobilePublic"
+              checked={values.isMobilePublic}
+              onChange={handleCheckboxChange}
+              id="isMobilePublic"
+            />
+            <label className="form-check-label" htmlFor="isMobilePublic">
+              Make Phone Public
+            </label>
+          </div>
         </div>
 
         <div className="col-md-4 pe-0 pe-md-3">
@@ -437,7 +475,7 @@ const MyProfile = () => {
               onChange={(e) => {
                 handleChange(e);
                 setSelectedState(e.target.value);
-                setSelectedCity(""); // Reset city when state changes
+                setSelectedCity("");
               }}
               disabled={!selectedCountry}
             >

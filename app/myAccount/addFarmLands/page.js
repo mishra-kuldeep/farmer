@@ -17,6 +17,7 @@ const Page = () => {
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
   const [dynamicFields, setDynamicFields] = useState({});
+  const [countrySymbol, setCountrySymbol] = useState("");
   const [images, setImages] = useState([]);
   const [values, setValues] = useState({
     countryId: "",
@@ -119,7 +120,7 @@ const Page = () => {
   useEffect(() => {
     if (values.rentCategoryId) {
       const selectedCategory = rentCategorieslist.find(
-        (cat) => cat.rentCategoryId === values.rentCategoryId
+        (cat) => cat.rentCategoryCode === values.rentCategoryId
       );
       if (selectedCategory && selectedCategory.otherDetails) {
         setDynamicFields(JSON.parse(selectedCategory.otherDetails));
@@ -135,7 +136,7 @@ const Page = () => {
     AuthService.getCountryList()
       .then(({ data }) => {
         setCountrySymbol(
-          data?.find((val) => val?.countryId == user.profile.country)
+          data?.find((val) => val?.countryCode == user.profile.country)
             ?.currencySymbol
         );
       })
@@ -223,7 +224,7 @@ const Page = () => {
                 >
                   <option value="" className="d-none"></option>
                   {rentCategorieslist?.map((ele) => (
-                    <option key={ele.rentCategoryId} value={ele.rentCategoryId}>
+                    <option key={ele.rentCategoryCode} value={ele.rentCategoryCode}>
                       {ele.name}
                     </option>
                   ))}

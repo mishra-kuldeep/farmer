@@ -485,22 +485,7 @@ function Header() {
                                 >
                                   My Profile
                                 </p>
-                                {user?.isLoggedIn && (
-                                  <p
-                                    className="cat_list"
-                                    onClick={() =>
-                                      router.push("/myAccount/myWishList")
-                                    }
-                                  >
-                                    My Wishlist
-                                  </p>
-                                )}
-                                <p
-                                  className="cat_list"
-                                  onClick={() => router.push("/basket")}
-                                >
-                                  My Basket ({cart?.cart?.length}) item
-                                </p>
+                                 {/* Removed My Basket and My Wishlist for Contact Platform transition */}
                               </>
                             )}
                             <p className="cat_list" onClick={handleLogout}>
@@ -509,19 +494,7 @@ function Header() {
                           </ul>
                         </>
                       )}
-                      <button
-                        className="cart_login_btn "
-                        onClick={() => router.push("/basket")}
-                      >
-                        <FaShoppingCart size={18} />
-                        {cart?.cart?.length > 0 ? (
-                          <span className="cart-count">
-                            {cart?.cart?.length}
-                          </span>
-                        ) : (
-                          <span className="cart-count">0</span>
-                        )}
-                      </button>
+                      {/* Cart button removed */}
                     </div>
                   </div>
                 </div>
@@ -651,18 +624,7 @@ function Header() {
                   <Search />
                 </div>
                 <div className="col-md-1 p-0">
-                  <button
-                    className="cart_login_btn w-100"
-                    onClick={() => router.push("/basket")}
-                  >
-                    <FaShoppingCart size={18} className="me-2" />
-                    {cart?.cart?.length > 0 ? (
-                      <span className="">{cart?.cart?.length}</span>
-                    ) : (
-                      0
-                    )}{" "}
-                    items
-                  </button>
+                  {/* Cart button removed */}
                 </div>
               </div>
             </div>

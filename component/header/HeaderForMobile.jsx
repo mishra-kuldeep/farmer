@@ -50,17 +50,7 @@ const HeaderForMobile = () => {
               <p>All Ads</p>
             </div>
           </div>
-          <div className="tabsMobile position-relative" onClick={() => router.push("/basket")}>
-            <div>
-              {cart?.cart?.length > 0 ? (
-                <span className="cart-count-for-mobile">{cart?.cart?.length}</span>
-              ) : (
-                <span className="cart-count-for-mobile">0</span>
-              )}
-              <FaShoppingCart size={20} color="var(--mainColor)" />
-              <p>Cart</p>
-            </div>
-          </div>
+          {/* Cart Tab Removed */}
         </div>
       </div>
       {/* ////////////////////////////// category list ///////////////////////////////// */}

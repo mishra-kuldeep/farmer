@@ -20,7 +20,7 @@ const AddProductDtl = () => {
   const [productList, setProductList] = useState([]);
   const [unitlist, setUnitlist] = useState([]);
   const [gradelist, setgradelist] = useState([]);
-  const [imageErrors, setImageErrors] = useState([]); 
+  const [imageErrors, setImageErrors] = useState([]);
   const [validImageNames, setValidImageNames] = useState([]);
   const [loader, setLoader] = useState(false);
   const [profile, setprofile] = useState([]);
@@ -32,7 +32,7 @@ const AddProductDtl = () => {
     productDtl: "",
     productId: "",
     Brand: "",
-    Product: [],
+    images: [],
     price: "",
     discount: 0,
     discountType: "Percentage",
@@ -47,16 +47,18 @@ const AddProductDtl = () => {
   const onchangeHandeler = (e) => {
     const { name, files } = e.target;
 
-    if (name === "Product") {
-      const maxFileSize = 200 * 1024; 
-      const maxImages = 5; 
-      const selectedFiles = Array.from(files);
 
+    if (name == "images") {
+      const maxFileSize = 200 * 1024;
+      const maxImages = 5;
+      const selectedFiles = Array.from(files);
+      console.log(selectedFiles, "files");
       if (selectedFiles.length > maxImages) {
         setImageErrors([
           `You can only upload a maximum of ${maxImages} images.`,
         ]);
         setValidImageNames([]);
+        e.target.value = "";
         return;
       }
 
@@ -67,17 +69,18 @@ const AddProductDtl = () => {
       selectedFiles.forEach((file) => {
         if (file.size <= maxFileSize) {
           validFiles.push(file);
-          validFileNames.push(file.name); 
-          invalidFiles.push(`${file.name} is larger than 200KB`); 
+          validFileNames.push(file.name);
+        } else {
+          invalidFiles.push(`${file.name} is larger than 200KB`);
         }
       });
-
-      if (validFiles.length > 0) {
-        setValues((prev) => ({ ...prev, Product: validFiles }));
-        setValidImageNames(validFileNames); 
-      }
-
+      setValidImageNames(validFileNames);
       setImageErrors(invalidFiles);
+      if (validFiles.length !== 0) {
+        setValues((prev) => ({ ...prev, images: validFiles }));
+      } else {
+        setValues((prev) => ({ ...prev, images: [] }));
+      }
     } else {
       setValues((pre) => ({ ...pre, [name]: e.target.value }));
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
@@ -93,19 +96,22 @@ const AddProductDtl = () => {
     // if (!specialCharRegex.test(formattedSlug)) {
     // Prepare form data
     const formData = new FormData();
+    console.log(values);
 
     for (let key in values) {
-      if (key !== "Product") {
+      if (key !== "images") {
         formData.append(key, values[key]);
       }
     }
 
     // Append the images to the form data
-    values.Product.forEach((file, index) => {
-      formData.append(`Product`, file);
+    values.images.forEach((file, index) => {
+      formData.append(`images`, file);
     });
 
     try {
+      console.log(formData, "dfdfd");
+
       await CategoryServices.addProductsFormer(formData);
 
       setErrors({});
@@ -114,7 +120,7 @@ const AddProductDtl = () => {
         productDtl: "",
         productId: "",
         price: "",
-        Product: [],
+        images: [],
         discount: "",
         discountType: "",
         sku: "",
@@ -179,7 +185,7 @@ const AddProductDtl = () => {
   useEffect(() => initApi(), []);
   useEffect(() => {
     AuthService.getCountryList().then(({ data }) => {
-      setCountrySymbol(data?.find((val) => val?.countryId == user.profile.country)?.currencySymbol);
+      setCountrySymbol(data?.find((val) => val?.countryCode == user.profile.country)?.currencySymbol);
     })
       .catch((err) => {
         console.log(err);
@@ -415,7 +421,7 @@ const AddProductDtl = () => {
                 <input
                   type="file"
                   className="form-control p-2 adjustLabel_input"
-                  name="Product"
+                  name="images"
                   multiple
                   onChange={onchangeHandeler}
                 />

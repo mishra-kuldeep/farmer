@@ -107,7 +107,7 @@ const EditProductFarmer = ({ params }) => {
 
   useEffect(() => {
        AuthService.getCountryList().then(({ data }) => {
-          setCountrySymbol(data?.find((val) => val?.countryId == user.profile.country)?.currencySymbol);
+          setCountrySymbol(data?.find((val) => val?.countryCode == user.profile.country)?.currencySymbol);
         })
           .catch((err) => {
             console.log(err);
@@ -124,11 +124,13 @@ const EditProductFarmer = ({ params }) => {
   useEffect(() => {
     if (params?.id) {
       ProductFarmerServices.getSingleProductsFarmer(params?.id).then(({ data }) => {
+        console.log(data);
+        
         const valuess = data?.product
         setCategory(valuess?.Product?.category || "");
         setSubCategory(valuess?.Product?.subCategory || "");
         setValues({
-          productDtlName: valuess?.productDtlName,
+          productDtlName: valuess?.Product.productName,
           productDtl: valuess?.productDtl,
           productId: valuess?.productId,
           price: valuess?.price,

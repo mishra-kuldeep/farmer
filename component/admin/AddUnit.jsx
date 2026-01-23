@@ -43,7 +43,7 @@ const AddUnit = ({ setState }) => {
           unitName: "",
           status: false,
         });
-        toast("brand added successfully!", {
+        toast("Unit added successfully!", {
           icon: "👏",
           style: {
             borderRadius: "10px",

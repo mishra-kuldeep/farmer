@@ -268,6 +268,7 @@ const Section1Home = () => {
               <div className="bestseller_cards">
                 <div>
                   <div className="image_div">
+                    {console.log("Image Debug:", ele.productDtlName, `${Image_URL}/products/${ele.ProductsImages[0]?.url}`)}
                     <img
                       src={`${Image_URL}/products/${ele.ProductsImages[0]?.url}`}
                       alt="product image"
@@ -334,68 +335,13 @@ const Section1Home = () => {
                     </p>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-center align-items-center mt-2">
                   <button
-                    className="bookmark_btn"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Save for Later"
-                    onClick={() => saveforLater(ele.productDtlId)}
+                    className="addtoCart_btn w-100"
+                    onClick={() => router.push(`/product/${ele.slug}`)}
                   >
-                    {savelaterLoader && ele.productDtlId === saveforlaterId ? (
-                      <MiniLoader />
-                    ) : wishList.includes(ele.productDtlId) ? (
-                      <IoMdHeart size={20} color="red" />
-                    ) : (
-                      <FiHeart size={20} color="grey" />
-                    )}
+                    View Details
                   </button>
-                  {cart?.cart?.find(
-                    (item) => item.productDtlId === ele.productDtlId
-                  ) ? (
-                    <button className="quantitywrap p-0">
-                      <span
-                        className="minus"
-                        onClick={() => decreaseQuantity(ele.productDtlId)}
-                      >
-                        {loadingProductId === ele.productDtlId &&
-                        loadingAction === "decrement" ? (
-                          <MiniLoader />
-                        ) : (
-                          <FaMinus size={15} />
-                        )}
-                      </span>
-                      <span>
-                        {
-                          cart?.cart?.find(
-                            (item) => item.productDtlId === ele.productDtlId
-                          )?.quantity
-                        }
-                      </span>
-                      <span
-                        className="plus"
-                        onClick={() => increaseQuantity(ele.productDtlId)}
-                      >
-                        {loadingProductId === ele.productDtlId &&
-                        loadingAction === "increment" ? (
-                          <MiniLoader />
-                        ) : (
-                          <FaPlus size={15} />
-                        )}
-                      </span>
-                    </button>
-                  ) : (
-                    <button
-                      className="addtoCart_btn"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      title="Add to Cart"
-                      disabled={!ele?.available}
-                      onClick={() => addCartHandler(ele.productDtlId)}
-                    >
-                      {ele?.available ? "Add" : "out of stock"}
-                    </button>
-                  )}
                 </div>
               </div>
             </div>

@@ -37,8 +37,8 @@ export default class CategoryServices {
     const url = `${BASE_URL}/subcategory/category/subcategories/${id}`;
     return axios.get(url);
   }
-  
-  
+
+
   static async getSingeCategory(id) {
     const token = getCookie("token");
     const url = `${BASE_URL}/category/categories/${id}`;
@@ -71,7 +71,7 @@ export default class CategoryServices {
     const url = `${BASE_URL}/category/categoryStatus/${id}`;
     return axios.put(url, {}, {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     });
   }
@@ -136,7 +136,7 @@ export default class CategoryServices {
   ////////////////////////////  brand  ///////////////////////////////
 
   static async addBrand(data) {
-     const token = getCookie("token");
+    const token = getCookie("token");
     const url = `${BASE_URL}/brand/brand`;
     return axios.post(url, data, {
       headers: {
@@ -145,7 +145,7 @@ export default class CategoryServices {
     });
   }
   static async getBrand() {
-     const token = getCookie("token");
+    const token = getCookie("token");
     const url = `${BASE_URL}/brand/brand`;
     return axios.get(url, {
       headers: {
@@ -154,7 +154,7 @@ export default class CategoryServices {
     });
   }
   static async getSingeBrand(id) {
-     const token = getCookie("token");
+    const token = getCookie("token");
     const url = `${BASE_URL}/brand/brand/${id}`;
     return axios.get(url, {
       headers: {
@@ -167,12 +167,12 @@ export default class CategoryServices {
     const url = `${BASE_URL}/brand/brandStatus/${id}`;
     return axios.put(url, {}, {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     });
   }
   static async editBrand(data, id) {
-     const token = getCookie("token");
+    const token = getCookie("token");
     const url = `${BASE_URL}/brand/brand/${id}`;
     return axios.put(url, data, {
       headers: {

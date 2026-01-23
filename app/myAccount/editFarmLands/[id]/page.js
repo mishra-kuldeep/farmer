@@ -142,7 +142,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     if (values.rentCategoryId) {
       const selectedCategory = rentCategorieslist.find(
-        (cat) => cat.rentCategoryId === values.rentCategoryId
+        (cat) => cat.rentCategoryCode === values.rentCategoryId
       );
       if (selectedCategory && selectedCategory.otherDetails) {
         setDynamicFields(JSON.parse(selectedCategory.otherDetails));
@@ -247,7 +247,7 @@ const Page = ({ params }) => {
                 >
                   <option value="" className="d-none"></option>
                   {rentCategorieslist?.map((ele) => (
-                    <option key={ele.rentCategoryId} value={ele.rentCategoryId}>
+                    <option key={ele.rentCategoryCode} value={ele.rentCategoryCode}>
                       {ele.name}
                     </option>
                   ))}

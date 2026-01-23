@@ -2,7 +2,9 @@
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "./productPage.css";
-import { FaHome, FaMinus, FaPlus, FaStar } from "react-icons/fa";
+import { FaHome, FaStar, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import SellerContactServices from "@/services/SellerContactServices";
 import WhyProducthoose from "@/component/productCompo/WhyProducthoose";
 import AboutTheProduct from "@/component/productCompo/AboutTheProduct";
 import ProductsDtlServices from "@/services/ProductsDtlServices";
@@ -11,27 +13,25 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { IoIosPerson } from "react-icons/io";
 import { MdOutlineLocationOn } from "react-icons/md";
-import {
-  addToCart,
-  deleteCart,
-  getCart,
-  updateCart,
-} from "@/redux/cart/cartSlice";
 import MiniLoader from "@/component/reusableComponent/MiniLoader";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import ProductRating from "@/component/productCompo/ProductRating";
 
 const Product = () => {
   const user = useSelector((state) => state.auth);
-  const cart = useSelector((state) => state.cart);
+  // const cart = useSelector((state) => state.cart); // Removed cart
   const { slug } = useParams();
   const [singleProduct, setSingleProduct] = useState({});
   const [index, setIndex] = useState(0);
-  const [loadingProductId, setLoadingProductId] = useState(null);
-  const [loadingAction, setLoadingAction] = useState(null);
-  const dispatch = useDispatch();
-  // Access messages and errors from the Redux store
-  const { message, error } = useSelector((state) => state.cart);
+  
+  // Contact State
+  const [loadingContact, setLoadingContact] = useState({ mobile: false, email: false });
+  const [contactInfo, setContactInfo] = useState({ mobile: null, email: null });
+  const [showWhatsapp, setShowWhatsapp] = useState(false);
+
+  // const dispatch = useDispatch(); // Not needed if no cart actions? User might need it? 
+  // keeping dispatch just in case or removing if unused
+  
   // Fetch product details
   const handleGetProduct = async () => {
     try {
@@ -44,88 +44,85 @@ const Product = () => {
     }
   };
 
-  // Fetch cart data when user is logged in
-  useEffect(() => {
-    if (user?.isLoggedIn && user?.profile) {
-      dispatch(getCart(user?.profile?.id));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.isLoggedIn, user?.profile]);
-
-  // Add product to cart
-  const addCartHandler = () => {
+  const handleShowContact = (type) => {
     if (!user?.isLoggedIn) {
-      toast("Please login to add products to the cart!", {
-        icon: "😢",
+      toast("Please login to view contact details!", {
+        icon: "🔒",
         style: { borderRadius: "10px", background: "red", color: "#fff" },
       });
-    } else {
-      const cartObj = {
-        buyerId: user?.profile?.id,
-        productDtlId: singleProduct?.productDtlId,
-        quantity: 1,
-      };
-      dispatch(addToCart(cartObj));
+      return;
     }
+    
+    // Check if already fetched
+    if (type === 'Mobile' && contactInfo.mobile) return;
+    if (type === 'Email' && contactInfo.email) return;
+
+    setLoadingContact(prev => ({ ...prev, [type.toLowerCase()]: true }));
+
+    SellerContactServices.getSellerContact({
+      sellerId: singleProduct?.User?.UserCode,
+      type: type 
+    }).then(({ data }) => {
+        if (data?.success) {
+            setContactInfo(prev => ({ ...prev, [type.toLowerCase()]: data.contact }));
+            if (type === 'Mobile') setShowWhatsapp(true);
+        } else {
+             toast("Could not fetch details", { icon: "❌" });
+        }
+    }).catch(err => {
+        if (err?.response?.status === 403) {
+             toast("This contact info is private.", { icon: "🔒" });
+        } else {
+             toast("Error fetching details", { icon: "❌" });
+        }
+    }).finally(() => {
+        setLoadingContact(prev => ({ ...prev, [type.toLowerCase()]: false }));
+    });
   };
-  // Show messages or errors using toast
-  useEffect(() => {
-    if (message) {
-      toast.success(message);
-    }
-    if (error) {
-      toast.error(error);
-    }
-  }, [message, error]);
-  // Update product quantity in the cart
-  const updateCartQuantity = (productDtlId, newQuantity, action) => {
-    const cartItem = cart?.cart?.find(
-      (item) => item.productDtlId === productDtlId
-    );
-    if (cartItem) {
-      const updatedCart = {
-        buyerId: user?.profile?.id,
-        quantity: newQuantity,
-        productDtlId,
-      };
-      setLoadingProductId(productDtlId);
-      setLoadingAction(action);
-      dispatch(
-        updateCart({ cartId: cartItem.cartId, data: updatedCart })
-      ).finally(() => {
-        setLoadingProductId(null);
-        setLoadingAction(null);
+
+  const openWhatsapp = async () => {
+    if (!user?.isLoggedIn) {
+      toast("Please login to chat!", {
+        icon: "🔒",
+        style: { borderRadius: "10px", background: "red", color: "#fff" },
       });
+      return;
     }
-  };
 
-  // Handle quantity increase
-  const increaseQuantity = () => {
-    const cartItem = cart?.cart?.find(
-      (item) => item.productDtlId === singleProduct?.productDtlId
-    );
-    if (cartItem) {
-      updateCartQuantity(
-        singleProduct?.productDtlId,
-        cartItem.quantity + 1,
-        "increment"
-      );
+    let mobile = contactInfo.mobile;
+
+    if (!mobile) {
+        setLoadingContact(prev => ({ ...prev, mobile: true }));
+        try {
+            const { data } = await SellerContactServices.getSellerContact({ 
+                sellerId: singleProduct?.User?.UserCode, 
+                type: 'Mobile' 
+            });
+            
+            if (data?.success) {
+                mobile = data.contact;
+                setContactInfo(prev => ({ ...prev, mobile: data.contact }));
+                setShowWhatsapp(true);
+            } else {
+                 toast("Could not fetch contact for chat.", { icon: "❌" });
+                 return;
+            }
+        } catch (err) {
+            if (err?.response?.status === 403) {
+                 toast("This contact info is private.", { icon: "🔒" });
+            } else {
+                 toast("Error fetching details", { icon: "❌" });
+            }
+            return;
+        } finally {
+            setLoadingContact(prev => ({ ...prev, mobile: false }));
+        }
     }
-  };
 
-  // Handle quantity decrease
-  const decreaseQuantity = () => {
-    const cartItem = cart?.cart?.find(
-      (item) => item.productDtlId === singleProduct?.productDtlId
-    );
-    if (cartItem && cartItem.quantity > 1) {
-      updateCartQuantity(
-        singleProduct?.productDtlId,
-        cartItem.quantity - 1,
-        "decrement"
-      );
-    } else if (cartItem.quantity == 1) {
-      dispatch(deleteCart(cartItem?.cartId));
+    if (mobile) {
+        const cleanNumber = mobile.replace(/\D/g, ''); 
+        const message = `Hi, I am interested in your product: ${singleProduct?.productDtlName}`;
+        window.open(`https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`, '_blank');
     }
   };
 
@@ -133,10 +130,6 @@ const Product = () => {
     handleGetProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
-
-  const cartItem = cart?.cart?.find(
-    (item) => item.productDtlId === singleProduct?.productDtlId
-  );
   return (
     <div className="container">
       <div className="w-100 overflow-auto">
@@ -203,11 +196,13 @@ const Product = () => {
             /{singleProduct?.ProductUnit?.unitName}
             {/* <sub>(₹{singleProduct?.price}/{singleProduct?.ProductUnit?.unitName})</sub> */}
           </h6>
-          <h6 className="fw-bold text-success">
-            You Save : {singleProduct?.discountType === "fixed" && "₹"}
-            {singleProduct?.discount}
-            {singleProduct?.discountType === "percentage" && "%"} OFF
-          </h6>
+          {singleProduct?.discount > 0 && (
+            <h6 className="fw-bold text-success">
+              You Save : {singleProduct?.discountType === "fixed" && "₹"}
+              {singleProduct?.discount}
+              {singleProduct?.discountType === "percentage" && "%"} OFF
+            </h6>
+          )}
           <p className="text-secondary mb-3">(inclusive of all taxes)</p>
           <p>
             <IoIosPerson size={15} />
@@ -223,56 +218,96 @@ const Product = () => {
           </p>
           <p>{singleProduct?.ProductGrade?.gradeName} Grade</p>
 
-          <div className="d-flex my-md-5 d-none d-md-flex w-100">
-            {cartItem ? (
-              <button className="quantitywrap w-50">
-                <span className="minus" onClick={decreaseQuantity}>
-                  {loadingProductId === singleProduct?.productDtlId &&
-                  loadingAction === "decrement" ? (
-                    <MiniLoader />
-                  ) : (
-                    <FaMinus size={15} />
-                  )}
-                </span>
-                <span>{cartItem?.quantity}</span>
-                <span className="plus" onClick={increaseQuantity}>
-                  {loadingProductId === singleProduct?.productDtlId &&
-                  loadingAction === "increment" ? (
-                    <MiniLoader />
-                  ) : (
-                    <FaPlus size={15} />
-                  )}
-                </span>
-              </button>
-            ) : (
-              <button
-                className="addtocartProductBtn w-50"
-                onClick={addCartHandler}
-                disabled={!singleProduct?.available}
-              >
-                {singleProduct?.available ? "Add to basket" : "Out of stock"}
-              </button>
-            )}
-            <button
-              className="saveforLaterProductBtn w-50"
-              disabled={!singleProduct}
-            >
-              Save for Later
-            </button>
-          </div>
+          <div className="d-flex flex-wrap gap-2 w-100 mt-3 d-none d-md-flex">
+                 {!contactInfo.mobile ? (
+                    <button 
+                        className="btn btn-outline-primary flex-grow-1 d-flex align-items-center justify-content-center gap-2"
+                        onClick={() => handleShowContact('Mobile')}
+                        disabled={loadingContact.mobile}
+                    >
+                        {loadingContact.mobile ? <MiniLoader /> : <FaPhoneAlt />}
+                        Show Mobile
+                    </button>
+                 ) : (
+                    <div className="flex-grow-1 p-2 border rounded d-flex align-items-center justify-content-center gap-2 bg-light text-success fw-bold">
+                        <FaPhoneAlt /> {contactInfo.mobile}
+                    </div>
+                 )}
+                 
+                 {/* WhatsApp */}
+                 <button 
+                    className="btn btn-success flex-grow-1 d-flex align-items-center justify-content-center gap-2"
+                    onClick={openWhatsapp}
+                    disabled={loadingContact.mobile}
+                 >
+                    {loadingContact.mobile ? <MiniLoader /> : <FaWhatsapp size={20} />} Chat
+                 </button>
+
+                 {/* Email Contact */}
+                 {!contactInfo.email ? (
+                    <button 
+                         className="btn btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2"
+                         onClick={() => handleShowContact('Email')}
+                         disabled={loadingContact.email}
+                    >
+                        {loadingContact.email ? <MiniLoader /> : <MdEmail />}
+                        Show Email
+                    </button>
+                 ) : (
+                    <div className="flex-grow-1 p-2 border rounded d-flex align-items-center justify-content-center gap-2 bg-light text-primary fw-bold">
+                        <MdEmail /> {contactInfo.email}
+                    </div>
+                 )}
+           </div>
         </div>
       </div>
-      <div className="d-flex my-3 addandlaterbuttonfixed d-block d-md-none">
-        <button className="addtocartProductBtn" onClick={addCartHandler}>
-          {singleProduct?.available ? "Add to basket" : "Out of stock"}
-        </button>
-        <button className="saveforLaterProductBtn">Save for Later</button>
+      <div className="d-flex flex-column gap-2 p-2 bg-white shadow-lg addandlaterbuttonfixed d-block d-md-none" style={{zIndex: 1000}}>
+         <div className="d-flex gap-2 w-100">
+             {!contactInfo.mobile ? (
+                <button 
+                    className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-2"
+                    onClick={() => handleShowContact('Mobile')}
+                    disabled={loadingContact.mobile}
+                >
+                    {loadingContact.mobile ? <MiniLoader /> : <FaPhoneAlt />} Show Mobile
+                </button>
+             ) : (
+                 <div className="w-100 p-2 border rounded d-flex align-items-center justify-content-center gap-2 bg-light text-success fw-bold">
+                    <FaPhoneAlt /> {contactInfo.mobile}
+                 </div>
+             )}
+             {(contactInfo.mobile || showWhatsapp) && (
+                 <button 
+                    className="btn btn-success w-50 d-flex align-items-center justify-content-center gap-2"
+                    onClick={openWhatsapp}
+                 >
+                    <FaWhatsapp />
+                 </button>
+             )}
+         </div>
+         <div className="w-100">
+            {!contactInfo.email ? (
+                <button 
+                     className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                     onClick={() => handleShowContact('Email')}
+                     disabled={loadingContact.email}
+                >
+                    {loadingContact.email ? <MiniLoader /> : <MdEmail />} Show Email
+                </button>
+            ) : (
+                 <div className="w-100 p-2 border rounded d-flex align-items-center justify-content-center gap-2 bg-light text-primary fw-bold">
+                    <MdEmail /> {contactInfo.email}
+                 </div>
+            )}
+         </div>
       </div>
-      <hr />
+
+         <AboutTheProduct about={singleProduct?.productDtl} />
+               <hr />
       <ProductRating data={singleProduct} />
       <h6 className="mt-3">{slug[1]}</h6>
-      <AboutTheProduct about={singleProduct?.productDtl} />
-      <WhyProducthoose />
+   
+      {/* <WhyProducthoose /> */}
 
     </div>
   );

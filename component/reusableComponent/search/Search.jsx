@@ -21,16 +21,16 @@ const Search = () => {
   const user = useSelector((state) => state.auth);
   const country = useSelector((state) => state.country);
   const dispatch = useDispatch();
-  const handleSearch = (e) => {
-    const query = e.target.value;
-    setquery(query);
-    if (query.length > 2) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-      // setquery('');
-    }
-  };
+const handleSearch = (e) => {
+  const value = e.target.value;
+  setquery(value);
+  if (value.length > 2) {
+    setOpen(true);
+  } else {
+    setOpen(false);
+    setSearchProduct([]); 
+  }
+};
 
   const handleGetProduct = async (val) => {
     try {
@@ -42,7 +42,7 @@ const Search = () => {
         brand: "",
         countryId: user?.profile?.country
           ? user?.profile?.country
-          : country?.country?.countryId,
+          : country?.country?.countryCode,
       });
       setSearchProduct(searchResult?.data?.data || []);
     } catch (error) {
@@ -58,9 +58,17 @@ const Search = () => {
     setquery("");
   };
 
-  useEffect(() => {
+useEffect(() => {
+  if (queryes.length <= 2) {
+    setSearchProduct([]);
+    return;
+  }
+  const getData = setTimeout(() => {
     handleGetProduct(queryes);
-  }, [queryes]);
+  }, 500);
+
+  return () => clearTimeout(getData); 
+}, [queryes]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,7 +80,6 @@ const Search = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  // Add product to cart
   const addCartHandler = (id) => {
     if (!user?.isLoggedIn) {
       toast("Please login to add products to the cart!", {
@@ -127,9 +134,15 @@ const Search = () => {
       dispatch(deleteCart(cartItem?.cartId));
     }
   };
+
+  // console.log("Fetching for:", queryes, "Country:", user?.profile?.country || country?.country?.countryId);
   return (
     <div className="w-100 position-relative">
-      <form autoComplete="off">
+      <form autoComplete="off" onSubmit={(e) => {
+        e.preventDefault();
+        router.push(`/ViewAll/Product?search=${queryes}`);
+        setOpen(false);
+      }}>
         <input type="text" name="dummy" style={{ display: "none" }} />
         <input
           type="search"
@@ -137,9 +150,9 @@ const Search = () => {
           value={queryes}
           onChange={handleSearch}
           placeholder="Search for Products ..."
-          name="searchQuery"
           autoComplete="off"
         />
+        <button type="submit" style={{ display: "none" }}></button>
       </form>
       {open && (
         <div className="search_list_wrapper">
@@ -184,51 +197,12 @@ const Search = () => {
                   </span>
                 </div>
                 <div>
-                  {cart?.cart?.find(
-                    (item) => item.productDtlId === ele.productDtlId
-                  ) ? (
-                    <button className="searchDeatailaddBtn d-flex justify-content-around ">
-                      <div
-                        className="minus"
-                        onClick={() => decreaseQuantity(ele.productDtlId)}
-                      >
-                        {loadingProductId === ele.productDtlId &&
-                          loadingAction === "decrement" ? (
-                          <MiniLoader />
-                        ) : (
-                          <FaMinus size={12} />
-                        )}
-                      </div>
-                      <div className="fw-bold">
-                        {
-                          cart?.cart?.find(
-                            (item) => item.productDtlId === ele.productDtlId
-                          )?.quantity
-                        }
-                      </div>
-                      <div
-                        className="plus"
-                        onClick={() => increaseQuantity(ele.productDtlId)}
-                      >
-                        {loadingProductId === ele.productDtlId &&
-                          loadingAction === "increment" ? (
-                          <MiniLoader />
-                        ) : (
-                          <FaPlus size={12} />
-                        )}
-                      </div>
-                    </button>
-                  ) : (
                     <button
                       className="searchDeatailaddBtn"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      title="Add"
-                      onClick={() => addCartHandler(ele.productDtlId)}
+                      onClick={() => handlegoSingleProduct(ele?.slug)}
                     >
-                      Add
+                      View
                     </button>
-                  )}
                   {/* <button className="searchDeatailaddBtn">Add</button> */}
                 </div>
               </div>

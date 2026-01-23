@@ -6,8 +6,6 @@ import ConfirmModel from "@/component/reusableComponent/ConfirmModel";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import "../../admin/addProduct/addProduct.css";
-import { useSelector } from "react-redux";
-import vendorMasterServices from "@/services/vendorMasterServices";
 import RentProductsServices from "@/services/RentProductServices";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
@@ -231,8 +229,8 @@ const Page = () => {
                           </div>
                           <div className="col-md-1 text-center p-2">
                             <div>
-                              <FaEdit color="green" size={26} onClick={()=>editHandeler(item?.rentProductId)}  />
-                              <MdDelete color="red" size={30} onClick={()=>deleteHandeler(item?.rentProductId)}/>
+                              <FaEdit color="green" size={26} onClick={()=>editHandeler(item?.rentProductCode)}  />
+                              <MdDelete color="red" size={30} onClick={()=>deleteHandeler(item?.rentProductCode)}/>
                             </div>
                           </div>
                         </div>

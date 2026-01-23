@@ -114,20 +114,16 @@ const MyProfile = () => {
   const updateProfileHandeler = () => {
     setLoading(true);
     if (
-      !values?.CompanyName ||
       !values?.Address1 ||
       !values?.City ||
-      !values?.Zip ||
-      !values?.GSTNo
+      !values?.Zip
     ) {
-      setCompanyError(!values?.CompanyName ? "company name is required" : "");
       setErrors((prevErrors) => ({
         ...prevErrors,
         Address1: !values?.Address1 ? "Address1 is required" : "",
         City: !values?.City ? "City is required" : "",
         // State: !values?.State ? "State is required" : "",
         ["Zip"]: !values?.Zip ? "Zip is required" : "",
-        GSTNo: !values?.GSTNo ? "GSTNo is required" : "",
       }));
       setLoading(false);
       return;
@@ -182,7 +178,7 @@ const MyProfile = () => {
         <hr />
         <>
           <div className="col-md-4 ">
-            <label className="adjustLabel">CompanyName *</label>
+            <label className="adjustLabel">CompanyName</label>
             <input
               type="text"
               name="CompanyName"
@@ -196,7 +192,7 @@ const MyProfile = () => {
           </div>
 
           <div className="col-md-4 ">
-            <label className="adjustLabel">GSTNo* </label>
+            <label className="adjustLabel">GSTNo </label>
             <input
               type="text"
               name="GSTNo"
