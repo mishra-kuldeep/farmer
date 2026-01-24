@@ -52,7 +52,7 @@ const Product = () => {
       });
       return;
     }
-    
+
     // Check if already fetched
     if (type === 'Mobile' && contactInfo.mobile) return;
     if (type === 'Email' && contactInfo.email) return;

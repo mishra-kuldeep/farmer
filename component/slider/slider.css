@@ -1,11 +1,11 @@
 .sliderImage{
-    height: 450px;
+    height: 350px;
     width: 100%;
     object-fit: cover;
 }
 @media only screen and (max-width: 600px) {
     .sliderImage{
-        height: 180px;
+        height: 160px;
         width: 100%;
         object-fit: cover;
     }

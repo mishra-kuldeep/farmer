@@ -50,7 +50,7 @@ const MyProfile = () => {
     GSTNo: "",
   });
   const phonecode = countryList?.find(
-    (val) => val?.countryId == values?.CountryID
+    (val) => val?.countryCode == values?.CountryID
   )?.phoneCode;
   useEffect(() => {
     setisLoading(true);
@@ -103,7 +103,7 @@ const MyProfile = () => {
   useEffect(() => {
     if (countryList.length && values.CountryID) {
       setSelectedCountry(
-        countryList.find((country) => country.countryId == values.CountryID)
+        countryList.find((country) => country.countryCode == values.CountryID)
           ?.countryCode
       );
     }
@@ -163,7 +163,7 @@ const MyProfile = () => {
     const { name, value } = event.target;
     if (name == "CountryID") {
       setSelectedCountry(
-        countryList.find((country) => country.countryId == value)?.countryCode
+        countryList.find((country) => country.countryCode == value)?.countryCode
       );
     }
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -264,7 +264,7 @@ const MyProfile = () => {
           >
             <option value={""}></option>
             {countryList?.map((val,i) => (
-              <option key={i} value={val?.countryId}>{val?.countryName}</option>
+              <option key={i} value={val?.countryCode}>{val?.countryName}</option>
             ))}
           </select>
           {Errors.CountryID && (
