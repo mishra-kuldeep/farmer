@@ -1,7 +1,7 @@
 import { Image_URL } from "@/helper/common";
 import AuthService from "@/services/AuthServices";
 import React, { useEffect, useRef, useState } from "react";
-import noImge from "../../public/header/noimage.jpg";
+import noImge from "../../public/header/noImage.jpg";
 import { useSelector } from "react-redux";
 import { MdEdit } from "react-icons/md";
 
