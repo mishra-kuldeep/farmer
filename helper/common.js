@@ -1,5 +1,5 @@
-export const BASE_URL = "http://localhost:5002/api"
-// export const BASE_URL = "https://fmapi-444910.de.r.appspot.com/api"
+// export const BASE_URL = "http://localhost:5002/api"
+export const BASE_URL = "https://farmer-api-gwc7cshgfgfkbnab.centralindia-01.azurewebsites.net/api"
 export const Image_URL = BASE_URL.replace('/api', '/uploads');
 
 export function getCookie(cookiename) {
